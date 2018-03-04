@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
     private Rigidbody body;
     private float distanceToGround;
     private RaycastHit hit;
+    private int hp = 10;
     float x;
     float z;
     float h;

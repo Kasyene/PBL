@@ -23,9 +23,8 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "MainWeapon")
-        {
-            this.hp = this.hp - 1;
+        if (collision.collider.tag == "MainWeapon") {
+            this.hp = this.hp - collision.gameObject.GetComponentInChildren<MainWeapon>().dmg;
         }
     }
 }
