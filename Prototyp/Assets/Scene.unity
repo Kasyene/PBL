@@ -364,6 +364,7 @@ GameObject:
   - component: {fileID: 515404082}
   - component: {fileID: 515404081}
   - component: {fileID: 515404080}
+  - component: {fileID: 515404084}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Enemy
@@ -435,6 +436,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &515404084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 515404079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7effe33abf7932347868662fc12291ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &518901329
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,9 +689,10 @@ GameObject:
   - component: {fileID: 1149601406}
   - component: {fileID: 1149601405}
   - component: {fileID: 1149601404}
+  - component: {fileID: 1149601407}
   m_Layer: 0
   m_Name: Club
-  m_TagString: Untagged
+  m_TagString: MainWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -748,6 +761,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1149601402}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1149601407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1149601402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8dae1d15d1cae841a5486e84f88db8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1302836110
 GameObject:
   m_ObjectHideFlags: 0
@@ -1033,6 +1057,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1948394929}
+  - component: {fileID: 1948394930}
   m_Layer: 0
   m_Name: MainWeapon
   m_TagString: MainWeapon
@@ -1054,3 +1079,14 @@ Transform:
   m_Father: {fileID: 1302836115}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+--- !u!114 &1948394930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1948394928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8dae1d15d1cae841a5486e84f88db8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
