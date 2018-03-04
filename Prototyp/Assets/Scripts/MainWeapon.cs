@@ -6,8 +6,8 @@ using UnityEngine;
 public class MainWeapon : MonoBehaviour
 {
     private Vector3 basePosition;
-    private int firstAttack = 0;
-    private int secondAttack = 0;
+    public int firstAttack = 0;
+    public int secondAttack = 0;
     public int dmg = 2;
 
     // Use this for initialization

@@ -23,8 +23,7 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.tag == "MainWeapon" && (collider.gameObject.GetComponentInChildren<MainWeapon>().firstAttack == 1 
-                                             || collider.gameObject.GetComponentInChildren<MainWeapon>().firstAttack == 2))
+        if (collider.tag == "MainWeapon")
         {
             this.hp = this.hp - collider.gameObject.GetComponentInChildren<MainWeapon>().dmg;
             Debug.Log("HIT");
