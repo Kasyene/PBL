@@ -21,10 +21,13 @@ public class Enemy : MonoBehaviour
 	    }
 	}
 
-    private void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider collider)
     {
-        if (collision.collider.tag == "MainWeapon") {
-            this.hp = this.hp - collision.gameObject.GetComponentInChildren<MainWeapon>().dmg;
+        if (collider.tag == "MainWeapon" && (collider.gameObject.GetComponentInChildren<MainWeapon>().firstAttack == 1 
+                                             || collider.gameObject.GetComponentInChildren<MainWeapon>().firstAttack == 2))
+        {
+            this.hp = this.hp - collider.gameObject.GetComponentInChildren<MainWeapon>().dmg;
+            Debug.Log("HIT");
         }
     }
 }
