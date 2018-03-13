@@ -8,7 +8,6 @@ public class Player : MonoBehaviour {
     private float distanceToGround;
     private RaycastHit hit;
     private int hp = 10;
-    public Animator animator;
     float x;
     float z;
     float h;
@@ -17,7 +16,6 @@ public class Player : MonoBehaviour {
     {
         body = GetComponentInChildren<Rigidbody>();
         distanceToGround = GetComponentInChildren<CapsuleCollider>().bounds.extents.y;
-        animator = GetComponentInChildren<Animator>();
     }
 	
 	// Update is called once per frame
@@ -31,16 +29,6 @@ public class Player : MonoBehaviour {
         {
             body.velocity += new Vector3(0f, 5.0f, 0f);
         }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            animator.SetBool("isAttacking", true);
-        }
-        else
-        {
-            animator.SetBool("isAttacking", false);
-        }
-
     }
 
     bool IsGrounded()
