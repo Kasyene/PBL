@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 public class Player : MonoBehaviour {
 
@@ -9,9 +10,14 @@ public class Player : MonoBehaviour {
     private RaycastHit hit;
     private int hp = 10;
     public Animator animator;
+    public HS_Attack_Trigger AttackTrigger;
     float x;
     float z;
     float h;
+    
+
+    
+
     // Use this for initialization
     void Start ()
     {
@@ -41,10 +47,32 @@ public class Player : MonoBehaviour {
             animator.SetBool("isAttacking", false);
         }
 
+        if (AttackTrigger != null)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("BasicAttack"))
+            {
+                AttackTrigger.SetAttackMode(true);
+                //Debug.Log("ATTACK!");
+            }
+            else
+            {
+                AttackTrigger.SetAttackMode(false);
+            }
+        }
     }
 
     bool IsGrounded()
     {
         return Physics.Raycast(body.transform.position, -Vector3.up, distanceToGround + 0.1f);
+    }
+    bool AnimatorIsPlaying()
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).length >
+               animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+    }
+
+    bool AnimatorIsPlaying(string stateName)
+    {
+        return AnimatorIsPlaying() && animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
     }
 }
