@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
+using UnityEngineInternal;
 using Mathf = UnityEngine.Mathf;
 
 public class Player : MonoBehaviour {
@@ -51,15 +52,13 @@ public class Player : MonoBehaviour {
             body.velocity += new Vector3(0f, 5.0f, 0f);
         }
 
-
-
         // ataki
         if (Input.GetMouseButtonDown(0))
         {
             basicAttack();
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && !IsAnyAttackBoolTrue())
         {
             animator.SetBool("rangedAttack", true);
         }
@@ -100,6 +99,16 @@ public class Player : MonoBehaviour {
     {
         return animator.GetCurrentAnimatorStateInfo(0).length >
                animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+    }
+
+    bool IsAnyAttackBoolTrue()
+    {
+        if (animator.GetBool("basicAttack1") || animator.GetBool("basicAttack2")
+            || animator.GetBool("basicAttack3") || animator.GetBool("rangedAttack"))
+        {
+            return true;
+        }
+        return false;
     }
 
     bool AnimatorIsPlaying(string stateName)
