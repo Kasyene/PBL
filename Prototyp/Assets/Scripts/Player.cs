@@ -40,11 +40,20 @@ public class Player : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(0))
         {
-            animator.SetBool("isAttacking", true);
+            animator.SetBool("basicAttack1", true);
         }
         else
         {
-            animator.SetBool("isAttacking", false);
+            animator.SetBool("basicAttack1", false);
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            animator.SetBool("rangedAttack", true);
+        }
+        else
+        {
+            animator.SetBool("rangedAttack", false);
         }
 
         if (AttackTrigger != null)
