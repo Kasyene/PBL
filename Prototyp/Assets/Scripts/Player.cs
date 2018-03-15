@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
+using Mathf = UnityEngine.Mathf;
 
 public class Player : MonoBehaviour {
 
@@ -11,12 +12,16 @@ public class Player : MonoBehaviour {
     private int hp = 10;
     public Animator animator;
     public HS_Attack_Trigger AttackTrigger;
+    public static int numberOfClicks = 0;
+    private  float lastClickedTime = 0.0f;
+    private  float maxComboDelay = 1.5f;
+    private float minComboDelay = 0.2f;
     float x;
     float z;
     float h;
-    
 
-    
+
+
 
     // Use this for initialization
     void Start ()
@@ -29,33 +34,40 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        Debug.Log(animator.GetBool("basicAttack1") + " " + animator.GetBool("basicAttack2")
+                  + " " + animator.GetBool("basicAttack3") + " " + animator.GetBool("rangedAttack"));
+        if ((Time.time - lastClickedTime > maxComboDelay))
+        {
+            numberOfClicks = 0;
+        }
+
+
+        // poruszanie i kamera
         transform.Rotate(0f, Input.GetAxis("Mouse X") * Time.deltaTime * 50f, 0f);
         transform.position += transform.right * Input.GetAxis("Horizontal") * Time.deltaTime * 5f;
         transform.position += transform.forward * Input.GetAxis("Vertical") * Time.deltaTime * 5f;
 
+        // skok
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
             body.velocity += new Vector3(0f, 5.0f, 0f);
         }
 
+
+
+        // ataki
         if (Input.GetMouseButtonDown(0))
         {
-            animator.SetBool("basicAttack1", true);
-        }
-        else
-        {
-            animator.SetBool("basicAttack1", false);
+            basicAttack();
         }
 
         if (Input.GetMouseButtonDown(1))
         {
             animator.SetBool("rangedAttack", true);
         }
-        else
-        {
-            animator.SetBool("rangedAttack", false);
-        }
 
+
+        //triggery ataków
         if (AttackTrigger != null)
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("BasicAttack"))
@@ -68,6 +80,17 @@ public class Player : MonoBehaviour {
                 AttackTrigger.SetAttackMode(false);
             }
         }
+    }
+
+    void basicAttack()
+    {
+        lastClickedTime = Time.time;
+        numberOfClicks++;
+        if (numberOfClicks == 1)
+        {
+            animator.SetBool("basicAttack1", true);
+        }
+        numberOfClicks = Mathf.Clamp(numberOfClicks, 0, 3);
     }
 
     bool IsGrounded()
