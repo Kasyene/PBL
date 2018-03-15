@@ -34,8 +34,6 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        Debug.Log(animator.GetBool("basicAttack1") + " " + animator.GetBool("basicAttack2")
-                  + " " + animator.GetBool("basicAttack3") + " " + animator.GetBool("rangedAttack"));
         if ((Time.time - lastClickedTime > maxComboDelay))
         {
             numberOfClicks = 0;
@@ -86,6 +84,7 @@ public class Player : MonoBehaviour {
     {
         lastClickedTime = Time.time;
         numberOfClicks++;
+
         if (numberOfClicks == 1)
         {
             animator.SetBool("basicAttack1", true);
