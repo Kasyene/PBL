@@ -12,7 +12,7 @@ public class Player : MonoBehaviour {
     private RaycastHit hit;
     private int hp = 10;
     public Animator animator;
-    public HS_Attack_Trigger AttackTrigger;
+    public HitManager Manager;
     public static int numberOfClicks = 0;
     private  float lastClickedTime = 0.0f;
     private  float maxComboDelay = 1.5f;
@@ -33,9 +33,9 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        Debug.Log(animator.GetBool("basicAttack1") + " " + animator.GetBool("basicAttack2")
-                   +" " + animator.GetBool("basicAttack3") + " " + animator.GetBool("rangedAttack")
-        +" " + animator.GetBool("jumpAttack1") + " " + animator.GetBool("jumpAttack2"));
+        //Debug.Log(animator.GetBool("basicAttack1") + " " + animator.GetBool("basicAttack2")
+        //           +" " + animator.GetBool("basicAttack3") + " " + animator.GetBool("rangedAttack")
+        //+" " + animator.GetBool("jumpAttack1") + " " + animator.GetBool("jumpAttack2"));
         if ((Time.time - lastClickedTime > maxComboDelay))
         {
             numberOfClicks = 0;
@@ -85,18 +85,10 @@ public class Player : MonoBehaviour {
         }
 
 
-        //triggery ataków
-        if (AttackTrigger != null)
+        // Attack system manager
+        if (Manager != null)
         {
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("BasicAttack"))
-            {
-                AttackTrigger.SetAttackMode(true);
-                //Debug.Log("ATTACK!");
-            }
-            else
-            {
-                AttackTrigger.SetAttackMode(false);
-            }
+            
         }
     }
 
