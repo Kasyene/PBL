@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     public Animator animator;
     protected Player player;
     public float range;
+    public float wakeUpDistance;
 
     // Use this for initialization
     protected void Start () {

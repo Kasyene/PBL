@@ -12,13 +12,16 @@ public class RangedEnemy : Enemy
         distance = Vector3.Distance(player.transform.position, transform.position);
         Vector3 playerPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
         transform.LookAt(playerPosition);
-        if (distance < range && distance > 5 && !animator.GetBool("isAttacking"))
+        if(distance < wakeUpDistance)
         {
-            Attack();
-        }
-        else if (distance > range || distance < 5)
-        {
-            Movement();
+            if (distance < range && distance > 5 && !animator.GetBool("isAttacking"))
+            {
+                Attack();
+            }
+            else if (distance > range || distance < 5)
+            {
+                Movement();
+            }
         }
     }
 
