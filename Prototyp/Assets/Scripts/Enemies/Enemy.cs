@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour
 {
     public int hp = 10;
+    public Animator animator;
     protected Player player;
 
     // Use this for initialization
