@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeEnemy : Enemy
+public class RangedEnemy : Enemy
 {
     protected override void EnemyBehaviour()
     {
+        Vector3 playerPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
+        transform.LookAt(playerPosition);
         float distance = Vector3.Distance(player.transform.position, transform.position);
-        if(distance < range)
+        if (distance < range)
         {
             Attack();
         }
@@ -19,8 +21,6 @@ public class MeleeEnemy : Enemy
 
     protected override void Movement()
     {
-        Vector3 playerPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
-        transform.LookAt(playerPosition);
         transform.position += transform.forward * Time.deltaTime * 4f;
     }
 
