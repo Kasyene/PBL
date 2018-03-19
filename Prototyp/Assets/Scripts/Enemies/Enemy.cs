@@ -6,15 +6,15 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour
 {
     public int hp = 10;
-    private Player player;
+    protected Player player;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    protected void Start () {
 	    player = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
 	
 	// Update is called once per frame
-	void Update () {
+	protected void Update () {
         CheckIfDead();
 	    if (!player.timeStop)
 	    {
@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
 	    }
 	}
 
-    void EnemyBehaviour()
+    protected virtual void EnemyBehaviour()
     {
         if (true)
         {
@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void CheckIfDead()
+    protected void CheckIfDead()
     {
         if (this.hp == 0)
         {
@@ -42,12 +42,12 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void Movement()
+    protected virtual void Movement()
     {
         // to do
     }
 
-    void Attack()
+    protected virtual void Attack()
     {
         // to do
     }
