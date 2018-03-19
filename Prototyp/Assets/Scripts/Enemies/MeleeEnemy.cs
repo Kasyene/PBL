@@ -26,7 +26,10 @@ public class MeleeEnemy : Enemy
 
     protected override void Attack()
     {
-        animator.SetBool("isAttacking", true);
+        if(!animator.GetBool("isAttacking"))
+        {
+            animator.SetBool("isAttacking", true);
+        }
     }
 
 
