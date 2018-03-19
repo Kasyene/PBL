@@ -18,6 +18,9 @@ public class Player : MonoBehaviour {
     private  float maxComboDelay = 1.5f;
     private float minComboDelay = 0.2f;
     private float lastJumpTime = 0.0f;
+    private bool turnBackInTime = false;
+    public bool timeStop = false;
+
 
 
 
