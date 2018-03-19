@@ -14,6 +14,13 @@ public class HitBox : MonoBehaviour {
 		
 	}
 
+    //DAMAGE METHOD GOES HERE!
+    void Damage()
+    {
+        Debug.Log("Player has hit an Enemy");
+        this.GetComponent<Enemy>().Damage();
+    }
+
     void OnTriggerStay(Collider other)
     {
 
@@ -35,7 +42,10 @@ public class HitBox : MonoBehaviour {
                 if (!isListed)
                 {
                     hitTrigger.HitBoxs.Add(this);
-                    Debug.Log("Player has hit an Enemy");
+
+                    // Do damage stuff
+                    Damage();
+
                     if (hitTrigger.MAX_HITS - hitTrigger.HitBoxs.Count == 0)
                     {
                         hitTrigger.IsActive = false;
