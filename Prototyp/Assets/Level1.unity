@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.574817, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -157,6 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 806f9852869489641a4a2e4433ca8a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectSide: 0
 --- !u!23 &13335263
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3702,6 +3703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 806f9852869489641a4a2e4433ca8a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectSide: 0
 --- !u!23 &1140666932
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4737,6 +4739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 806f9852869489641a4a2e4433ca8a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectSide: 0
 --- !u!23 &1542402524
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5846,6 +5849,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HitBoxs: []
   MAX_HITS: 5
+  ObjectSide: 1
 --- !u!65 &1799928324
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6767,6 +6771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 806f9852869489641a4a2e4433ca8a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectSide: 0
 --- !u!23 &1953059752
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6916,7 +6921,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 10
   animator: {fileID: 1962920092}
-  range: 3
+  range: 0
 --- !u!95 &1962920092 stripped
 Animator:
   m_PrefabParentObject: {fileID: 9500000, guid: 721b1443a31ad8e469bc330f806ca417,
