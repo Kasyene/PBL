@@ -5,6 +5,8 @@ using UnityEngine;
 public class RangedEnemy : Enemy
 {
     private float distance;
+    public GameObject bulletPrefab;
+    public Transform bulletSpawn;
     protected override void EnemyBehaviour()
     {
         distance = Vector3.Distance(player.transform.position, transform.position);
@@ -36,6 +38,15 @@ public class RangedEnemy : Enemy
     protected override void Attack()
     {
         animator.SetBool("isAttacking", true);
+        var bullet = (GameObject)Instantiate(
+            bulletPrefab,
+            new Vector3(this.transform.position.x, this.transform.position.y + 2.0f, this.transform.position.z),
+            this.transform.rotation);
+        bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * range;
+
+        // Destroy the bullet after 2 seconds
+        Destroy(bullet, 1.0f);
+
     }
 
 

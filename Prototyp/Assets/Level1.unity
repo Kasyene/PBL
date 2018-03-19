@@ -1264,6 +1264,9 @@ MonoBehaviour:
   hp: 6
   animator: {fileID: 385360764}
   range: 14
+  bulletPrefab: {fileID: 1671896422599224, guid: 6d973264b1ed559479b23358bd09c219,
+    type: 2}
+  bulletSpawn: {fileID: 0}
 --- !u!95 &385360764 stripped
 Animator:
   m_PrefabParentObject: {fileID: 9500000, guid: 4cb3560a8cdb5c14d9e8bb67b97432c6,
@@ -6294,6 +6297,10 @@ Prefab:
     - target: {fileID: 9500000, guid: 12e52ab2b53d2e544b5657b1d29311d6, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100026, guid: 12e52ab2b53d2e544b5657b1d29311d6, type: 3}
+      propertyPath: m_TagString
+      value: MainWeapon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 12e52ab2b53d2e544b5657b1d29311d6, type: 3}

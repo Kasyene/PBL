@@ -59,12 +59,5 @@ public class Enemy : MonoBehaviour
         // to do
     }
 
-  /*  void OnTriggerEnter(Collider collider)
-    {
-        if (collider.tag == "MainWeapon")
-        {
-            this.hp = this.hp - collider.gameObject.GetComponent<MainWeapon>().dmg;
-            Debug.Log("HIT");
-        }
-    }*/
+
 }
