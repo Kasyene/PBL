@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class RangedEnemy : Enemy
 {
+    private float distance;
     protected override void EnemyBehaviour()
     {
+        distance = Vector3.Distance(player.transform.position, transform.position);
         Vector3 playerPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
         transform.LookAt(playerPosition);
-        float distance = Vector3.Distance(player.transform.position, transform.position);
-        if (distance < range)
+        if (distance < range && distance > 5 && !animator.GetBool("isAttacking"))
         {
             Attack();
         }
-        else
+        else if (distance > range || distance < 5)
         {
             Movement();
         }
@@ -21,7 +22,15 @@ public class RangedEnemy : Enemy
 
     protected override void Movement()
     {
-        transform.position += transform.forward * Time.deltaTime * 4f;
+        if (distance > range)
+        {
+            transform.position += transform.forward * Time.deltaTime * 4f;
+        }
+        else if (distance < 5)
+        {
+            transform.position += -transform.forward * Time.deltaTime * 4f;
+        }
+
     }
 
     protected override void Attack()
