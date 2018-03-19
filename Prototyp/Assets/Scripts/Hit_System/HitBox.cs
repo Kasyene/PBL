@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class HitBox : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    public Side ObjectSide;
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -28,7 +30,7 @@ public class HitBox : MonoBehaviour {
         {
             var hitTrigger = other.gameObject.GetComponent<HitTrigger>();
 
-            if (hitTrigger.IsActive && (hitTrigger.HitBoxs.Count < hitTrigger.MAX_HITS - 1))
+            if (hitTrigger.IsActive && (hitTrigger.HitBoxs.Count < hitTrigger.MAX_HITS - 1) && hitTrigger.ObjectSide != this.ObjectSide)
             {
                 bool isListed = false;
 

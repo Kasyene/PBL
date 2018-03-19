@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Side { Enemy, Player, Other };
+
 public class HitManager : MonoBehaviour
 {
     public HitTrigger HitTrigger;
