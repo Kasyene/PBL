@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     public int hp = 10;
     public Animator animator;
     protected Player player;
+    public float range;
 
     // Use this for initialization
     protected void Start () {
