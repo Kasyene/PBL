@@ -19,11 +19,30 @@ public class HitBox : MonoBehaviour {
 
         if (other.gameObject.GetComponent<HitTrigger>() != null)
         {
-            var temp = other.gameObject.GetComponent<HitTrigger>();
-            if (temp.IsActive)
+            var hitTrigger = other.gameObject.GetComponent<HitTrigger>();
+
+            if (hitTrigger.IsActive && (hitTrigger.HitBoxs.Count < hitTrigger.MAX_HITS - 1))
             {
-                Debug.Log("Player has hit an Enemy");
-                temp.IsActive = false;
+                bool isListed = false;
+
+                foreach (var VARIABLE in hitTrigger.HitBoxs)
+                {
+                    if (VARIABLE.Equals(this))
+                    {
+                        isListed = true;
+                    }
+                }
+                if (!isListed)
+                {
+                    hitTrigger.HitBoxs.Add(this);
+                    Debug.Log("Player has hit an Enemy");
+                    if (hitTrigger.MAX_HITS - hitTrigger.HitBoxs.Count == 0)
+                    {
+                        hitTrigger.IsActive = false;
+                    }
+                  
+                }
+                
             }
             else
             {

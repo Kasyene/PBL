@@ -7,14 +7,23 @@ public class HitTrigger : MonoBehaviour
     [HideInInspector]
     public bool IsActive { get; set; }
 
-    
+    [HideInInspector]
+    public List<HitBox> HitBoxs;
 
-	// Use this for initialization
-	void Start ()
+    public int MAX_HITS = 5;
+
+    // Use this for initialization
+    void Start ()
 	{
 	    IsActive = false;
+        HitBoxs = new List<HitBox>();
 	}
-	
+
+    public void ClearBoxList()
+    {
+        HitBoxs.Clear();
+    }
+
 	// Update is called once per frame
 	void Update () {
 		

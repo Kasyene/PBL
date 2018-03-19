@@ -19,6 +19,7 @@ public class HitManager : MonoBehaviour
     public void StopAttack()
     {
         HitTrigger.IsActive = false;
+        HitTrigger.ClearBoxList();
     }
 
 	// Use this for initialization
