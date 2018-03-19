@@ -23,6 +23,11 @@ public class Enemy : MonoBehaviour
 	        EnemyBehaviour();
 	    }
 	}
+    // Method for dealing damage to our enemy
+    public void Damage()
+    {
+        hp -= 1;
+    }
 
     protected virtual void EnemyBehaviour()
     {
