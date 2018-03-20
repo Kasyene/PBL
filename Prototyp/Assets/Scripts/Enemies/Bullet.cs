@@ -19,6 +19,8 @@ public class Bullet : MonoBehaviour {
       if (collider.tag == "Player")
       {
             Destroy(gameObject);
-      }
+            collider.gameObject.GetComponentInChildren<Pawn>().Damage();
+            Debug.Log("Bullet Hit!");
+        }
     }
 }
