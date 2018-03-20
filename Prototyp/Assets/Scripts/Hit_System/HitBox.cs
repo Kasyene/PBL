@@ -20,7 +20,7 @@ public class HitBox : MonoBehaviour {
     void Damage()
     {
         Debug.Log("Player has hit an Enemy");
-        this.GetComponent<Enemy>().Damage();
+        this.GetComponent<Pawn>().Damage();
     }
 
     void OnTriggerStay(Collider other)

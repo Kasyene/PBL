@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Pawn
 {
-    public int hp = 10;
     public Animator animator;
     protected Player player;
     public float range;
@@ -24,11 +23,7 @@ public class Enemy : MonoBehaviour
 	        EnemyBehaviour();
 	    }
 	}
-    // Method for dealing damage to our enemy
-    public void Damage()
-    {
-        hp -= 1;
-    }
+
 
     protected virtual void EnemyBehaviour()
     {
