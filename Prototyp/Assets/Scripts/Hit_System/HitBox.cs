@@ -19,7 +19,7 @@ public class HitBox : MonoBehaviour {
     //DAMAGE METHOD GOES HERE!
     void Damage()
     {
-        Debug.Log("Player has hit an Enemy");
+        Debug.Log("HIT!");
         this.GetComponent<Pawn>().Damage();
     }
 
