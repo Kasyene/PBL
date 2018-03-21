@@ -56,6 +56,15 @@ public class Player : MonoBehaviour {
             body.velocity += new Vector3(0f, 5.0f, 0f);
         }
 
+        if(IsGrounded())
+        {
+            animator.SetBool("isGrounded", true);
+        }
+        else
+        {
+            animator.SetBool("isGrounded", false);
+        }
+
         // basic attack + basic attack jump combo
         if (Input.GetMouseButtonDown(0))
         {
@@ -119,7 +128,7 @@ public class Player : MonoBehaviour {
 
     bool IsGrounded()
     {
-        return Physics.Raycast(body.transform.position, -Vector3.up, distanceToGround + 0.1f);
+        return Physics.Raycast(body.transform.position, -Vector3.up, distanceToGround + 0.01f);
     }
 
     bool AnimatorIsPlaying()
