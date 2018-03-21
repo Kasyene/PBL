@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngineInternal;
 using Mathf = UnityEngine.Mathf;
 
@@ -20,6 +22,8 @@ public class Player : Pawn {
     public bool timeStop = false;
     private int timeEnergy = 10;
     private bool timeEnergyRegeneration = false;
+    private float timeToGameRestart = 3f;
+    public GameObject ui_gameStatusInfo;
 
 
 
@@ -36,95 +40,122 @@ public class Player : Pawn {
 	// Update is called once per frame
 	void Update ()
     {
-        Debug.Log(this.hp);
-        if ((Time.time - lastClickedTime > maxComboDelay))
+        // if player dead
+        if (this.hp <= 0)
         {
-            numberOfClicks = 0;
-        }
+            timeToGameRestart -= Time.deltaTime;
+            int timetoRestartDelta = (int)timeToGameRestart;
 
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                timeToGameRestart = -1;
+            }
 
-        // poruszanie i kamera
-        transform.Rotate(0f, Input.GetAxis("Mouse X") * Time.deltaTime * 50f, 0f);
-        transform.position += transform.right * Input.GetAxis("Horizontal") * Time.deltaTime * 5f;
-        transform.position += transform.forward * Input.GetAxis("Vertical") * Time.deltaTime * 5f;
+            StartCoroutine(ShowMessage("Press \"r\" for restart. \n Auto restart in " + (timetoRestartDelta + 1)));
 
-        // skok
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
-        {
-            lastJumpTime = Time.time;
-            body.velocity += new Vector3(0f, 5.0f, 0f);
-        }
-
-        if(IsGrounded())
-        {
-            animator.SetBool("isGrounded", true);
+            if (timeToGameRestart < 0)
+            {
+                timeToGameRestart = 3;
+                RestartGame();
+            }
+            else
+            {
+                return;
+            }
         }
         else
         {
-            animator.SetBool("isGrounded", false);
-        }
-
-        // basic attack + basic attack jump combo
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (Time.time - lastJumpTime < 0.5f)
+            // number of click for attack chain
+            if ((Time.time - lastClickedTime > maxComboDelay))
             {
-                if (!IsAnyAttackBoolTrue())
+                numberOfClicks = 0;
+            }
+
+
+            // poruszanie i kamera
+            transform.Rotate(0f, Input.GetAxis("Mouse X") * Time.deltaTime * 50f, 0f);
+            transform.position += transform.right * Input.GetAxis("Horizontal") * Time.deltaTime * 5f;
+            transform.position += transform.forward * Input.GetAxis("Vertical") * Time.deltaTime * 5f;
+
+            // skok
+            if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+            {
+                lastJumpTime = Time.time;
+                body.velocity += new Vector3(0f, 5.0f, 0f);
+            }
+
+            if (IsGrounded())
+            {
+                animator.SetBool("isGrounded", true);
+            }
+            else
+            {
+                animator.SetBool("isGrounded", false);
+            }
+
+            // basic attack + basic attack jump combo
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (Time.time - lastJumpTime < 0.5f)
                 {
-                    animator.SetBool("jumpAttack1", true);
+                    if (!IsAnyAttackBoolTrue())
+                    {
+                        animator.SetBool("jumpAttack1", true);
+                    }
+                }
+                else
+                {
+                    basicAttack();
+                }
+
+            }
+
+            // ranged attack + ranged attack jump combo
+            if (Input.GetMouseButtonDown(1) && !IsAnyAttackBoolTrue())
+            {
+                if (Time.time - lastJumpTime < 0.5f)
+                {
+                    animator.SetBool("jumpAttack2", true);
+                }
+                else
+                {
+                    animator.SetBool("rangedAttack", true);
                 }
             }
-            else
-            {
-                basicAttack();
-            }
-           
-        }
 
-        // ranged attack + ranged attack jump combo
-        if (Input.GetMouseButtonDown(1) && !IsAnyAttackBoolTrue())
-        {
-            if (Time.time - lastJumpTime < 0.5f)
-            {
-                animator.SetBool("jumpAttack2", true);
-            }
-            else
-            {
-                animator.SetBool("rangedAttack", true);
-            } 
-        }
-
-        //special abilities energy management
-        if (timeEnergy == 0)
-        {
-            timeStop = false;
-        }
-        if (!timeStop && !timeEnergyRegeneration && timeEnergy < 10)
-        {
-            timeEnergyRegeneration = true;
-            StartCoroutine(RegenerateTimeEnergy());
-        }
-
-        // special abilities
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            if (timeStop || timeEnergy == 0)
+            //special abilities energy management
+            if (timeEnergy == 0)
             {
                 timeStop = false;
-            } 
-            else if (!timeStop && timeEnergy > 1)
+            }
+            if (!timeStop && !timeEnergyRegeneration && timeEnergy < 10)
             {
-                timeStop = true;
-                StartCoroutine(TimeIsStopped());
+                timeEnergyRegeneration = true;
+                StartCoroutine(RegenerateTimeEnergy());
+            }
+
+            // special abilities
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                if (timeStop || timeEnergy == 0)
+                {
+                    timeStop = false;
+                }
+                else if (!timeStop && timeEnergy > 1)
+                {
+                    timeStop = true;
+                    StartCoroutine(TimeIsStopped());
+                }
+            }
+
+
+            // Attack system manager
+            if (Manager != null)
+            {
+
             }
         }
 
-
-        // Attack system manager
-        if (Manager != null)
-        {
-            
-        }
     }
 
     IEnumerator TimeIsStopped()
@@ -183,5 +214,18 @@ public class Player : Pawn {
     bool AnimatorIsPlaying(string stateName)
     {
         return AnimatorIsPlaying() && animator.GetCurrentAnimatorStateInfo(0).IsName(stateName);
+    }
+
+    IEnumerator ShowMessage(string msg)
+    {
+        ui_gameStatusInfo.GetComponent<Text>().text = msg;
+        ui_gameStatusInfo.SetActive(true);
+        yield return new WaitForSeconds(3.0f);
+        ui_gameStatusInfo.SetActive(false);
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
     }
 }
