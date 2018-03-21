@@ -807,7 +807,7 @@ RectTransform:
   m_GameObject: {fileID: 276285372}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 7.2372675, y: 13.170843, z: 1}
+  m_LocalScale: {x: 6.961198, y: 13.170843, z: 1}
   m_Children: []
   m_Father: {fileID: 226730709}
   m_RootOrder: 0
@@ -1658,6 +1658,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8fbf6a17319ce4081201f3faa1340b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fillAmount: 0
+  fillImage: {fileID: 276285374}
 --- !u!1 &556402514
 GameObject:
   m_ObjectHideFlags: 0
@@ -4540,7 +4542,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1247856192}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.7362366, y: 34.349365, z: 0}
+  m_LocalPosition: {x: -0.7362366, y: 34.34935, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1464233773}
@@ -4548,7 +4550,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.73623705, y: -189.5}
+  m_AnchoredPosition: {x: -0.73623705, y: -189.50002}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1247856194
@@ -6790,11 +6792,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d088a58313f4294ba44224b2d38dcca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 20
+  hp: 10
   animator: {fileID: 1110554493}
   Manager: {fileID: 1110554494}
   timeStop: 0
   ui_gameStatusInfo: {fileID: 1247856192}
+  HPBar: {fileID: 1938951584}
+  TimeBar: {fileID: 508879570}
 --- !u!54 &1855089177
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7233,7 +7237,7 @@ RectTransform:
   m_GameObject: {fileID: 1926504926}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 7.2372675, y: 13.170843, z: 1}
+  m_LocalScale: {x: 6.9649734, y: 13.170843, z: 1}
   m_Children: []
   m_Father: {fileID: 1038634781}
   m_RootOrder: 0
@@ -7373,7 +7377,7 @@ GameObject:
   - component: {fileID: 1938951584}
   m_Layer: 5
   m_Name: HealthBar
-  m_TagString: Untagged
+  m_TagString: HealthBar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7442,6 +7446,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8fbf6a17319ce4081201f3faa1340b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fillAmount: 0
+  fillImage: {fileID: 1926504928}
 --- !u!1 &1960798526
 GameObject:
   m_ObjectHideFlags: 0

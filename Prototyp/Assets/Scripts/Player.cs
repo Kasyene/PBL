@@ -26,7 +26,8 @@ public class Player : Pawn {
     public GameObject ui_gameStatusInfo;
 
 
-
+    public ResourceBar HPBar;
+    public ResourceBar TimeBar;
 
 
     // Use this for initialization
@@ -35,11 +36,15 @@ public class Player : Pawn {
         body = GetComponentInChildren<Rigidbody>();
         distanceToGround = GetComponentInChildren<CapsuleCollider>().bounds.extents.y;
         animator = GetComponentInChildren<Animator>();
+        HPBar.maxValue = 10f;
+        TimeBar.maxValue = 10f;
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
+        HPBar.value = hp;
+        TimeBar.value = timeEnergy;
         // if player dead
         if (this.hp <= 0)
         {
