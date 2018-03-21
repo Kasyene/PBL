@@ -19,6 +19,8 @@ public class Player : MonoBehaviour {
     private float lastJumpTime = 0.0f;
     private bool turnBackInTime = false;
     public bool timeStop = false;
+    private int timeEnergy = 10;
+    private bool timeEnergyRegeneration = false;
 
 
 
@@ -95,11 +97,55 @@ public class Player : MonoBehaviour {
             } 
         }
 
+        //special abilities energy management
+        if (timeEnergy == 0)
+        {
+            timeStop = false;
+        }
+        if (!timeStop && !timeEnergyRegeneration && timeEnergy < 10)
+        {
+            timeEnergyRegeneration = true;
+            StartCoroutine(RegenerateTimeEnergy());
+        }
+
+        // special abilities
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (timeStop || timeEnergy == 0)
+            {
+                timeStop = false;
+            } 
+            else if (!timeStop && timeEnergy > 1)
+            {
+                timeStop = true;
+                StartCoroutine(TimeIsStopped());
+            }
+        }
+
 
         // Attack system manager
         if (Manager != null)
         {
             
+        }
+    }
+
+    IEnumerator TimeIsStopped()
+    {
+       while (timeStop)
+       {
+           timeEnergyRegeneration = false;
+           timeEnergy -= 1;
+           yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    IEnumerator RegenerateTimeEnergy()
+    {
+        while (timeEnergyRegeneration && timeEnergy < 10)
+        {
+            timeEnergy += 1;
+            yield return new WaitForSeconds(2f);
         }
     }
 
