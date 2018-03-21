@@ -9,7 +9,7 @@ public class Idle : StateMachineBehaviour
     {
         animator.SetBool("jumpAttack1", false);
         animator.SetBool("jumpAttack2", false);
-        animator.SetBool("basicAttack1", false);
+        //animator.SetBool("basicAttack1", false);
         animator.SetBool("basicAttack2", false);
         animator.SetBool("basicAttack3", false);
         animator.SetBool("rangedAttack", false);
