@@ -27,14 +27,7 @@ public class Enemy : Pawn
 
     protected virtual void EnemyBehaviour()
     {
-        if (true)
-        {
-            Movement();
-        }
-        else
-        {
-            Attack();
-        }
+        // to override
     }
 
     protected void CheckIfDead()
@@ -47,12 +40,12 @@ public class Enemy : Pawn
 
     protected virtual void Movement()
     {
-        // to do
+        // to override
     }
 
     protected virtual void Attack()
     {
-        // to do
+        // to override
     }
 
 

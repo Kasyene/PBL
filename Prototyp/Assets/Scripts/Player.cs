@@ -16,7 +16,7 @@ public class Player : Pawn {
     private  float lastClickedTime = 0.0f;
     private  float maxComboDelay = 1.5f;
     private float lastJumpTime = 0.0f;
-  //  private bool turnBackInTime = false;
+    private bool turnBackInTime = false;
     public bool timeStop = false;
     private int timeEnergy = 10;
     private bool timeEnergyRegeneration = false;

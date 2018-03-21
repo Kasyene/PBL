@@ -6,7 +6,6 @@ public class RangedEnemy : Enemy
 {
     private float distance;
     public GameObject bulletPrefab;
-    public Transform bulletSpawn;
     protected override void EnemyBehaviour()
     {
         distance = Vector3.Distance(player.transform.position, transform.position);
