@@ -5,19 +5,18 @@ using UnityEngine.Assertions.Must;
 using UnityEngineInternal;
 using Mathf = UnityEngine.Mathf;
 
-public class Player : MonoBehaviour {
+public class Player : Pawn {
 
     private Rigidbody body;
     private float distanceToGround;
     private RaycastHit hit;
-    private int hp = 10;
     public Animator animator;
     public HitManager Manager;
     public static int numberOfClicks = 0;
     private  float lastClickedTime = 0.0f;
     private  float maxComboDelay = 1.5f;
     private float lastJumpTime = 0.0f;
-    private bool turnBackInTime = false;
+  //  private bool turnBackInTime = false;
     public bool timeStop = false;
     private int timeEnergy = 10;
     private bool timeEnergyRegeneration = false;
@@ -37,9 +36,7 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        //Debug.Log(animator.GetBool("basicAttack1") + " " + animator.GetBool("basicAttack2")
-        //           +" " + animator.GetBool("basicAttack3") + " " + animator.GetBool("rangedAttack")
-        //+" " + animator.GetBool("jumpAttack1") + " " + animator.GetBool("jumpAttack2"));
+        Debug.Log(this.hp);
         if ((Time.time - lastClickedTime > maxComboDelay))
         {
             numberOfClicks = 0;
