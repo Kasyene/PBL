@@ -6766,7 +6766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d088a58313f4294ba44224b2d38dcca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 25
+  hp: 10
   animator: {fileID: 1110554493}
   Manager: {fileID: 0}
   timeStop: 0
