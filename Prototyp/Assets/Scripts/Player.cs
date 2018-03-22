@@ -29,6 +29,9 @@ public class Player : Pawn {
     public ResourceBar HPBar;
     public ResourceBar TimeBar;
 
+    public List<Vector3> LastPositions;
+    public List<int> lastHPs;
+
 
     // Use this for initialization
     void Start ()
@@ -38,6 +41,17 @@ public class Player : Pawn {
         animator = GetComponentInChildren<Animator>();
         HPBar.maxValue = 10f;
         TimeBar.maxValue = 10f;
+
+        
+
+        for(int x = 0; x < 8; x++)
+        {
+            LastPositions.Add(transform.position);
+            lastHPs.Add(hp);
+
+        }
+        StartCoroutine(SaveLastPos());
+
     }
 	
 	// Update is called once per frame
@@ -151,7 +165,20 @@ public class Player : Pawn {
                     timeStop = true;
                     StartCoroutine(TimeIsStopped());
                 }
+
+
             }
+
+            if (Input.GetKeyDown(KeyCode.E) && timeEnergy > 5)
+                {
+                timeEnergy -= 5;
+                transform.position = LastPositions[LastPositions.Count/2];
+                hp = lastHPs[lastHPs.Count/2];
+                ReLocateIndicies(LastPositions);
+                ReLocateIndicies(lastHPs);
+
+            }
+
 
 
             // Attack system manager
@@ -160,7 +187,19 @@ public class Player : Pawn {
 
             }
         }
+    }
 
+
+    IEnumerator SaveLastPos()
+    {
+        while (true)
+        {
+            LastPositions.RemoveAt(0);
+            LastPositions.Add(transform.position);
+            lastHPs.RemoveAt(0);
+            lastHPs.Add(hp);
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 
     IEnumerator TimeIsStopped()
@@ -232,5 +271,14 @@ public class Player : Pawn {
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+    }
+
+
+    private void ReLocateIndicies <T> (List<T> list)
+    {
+        for (int x = 0; x<= list.Count / 2 - 1; x++)
+        {
+            list[list.Count / 2 + x] = list[x];
+        }
     }
 }
