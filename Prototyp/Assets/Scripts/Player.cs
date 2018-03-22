@@ -170,7 +170,7 @@ public class Player : Pawn {
 
             }
 
-            if (Input.GetKeyDown(KeyCode.E) && timeEnergy > 5)
+            if (Input.GetKeyDown(KeyCode.E) && timeEnergy >= 5)
                 {
                 timeEnergy -= 5;
                 transform.position = LastPositions[LastPositions.Count/2];
