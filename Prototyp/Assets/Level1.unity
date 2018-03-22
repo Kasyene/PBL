@@ -3969,6 +3969,18 @@ Animator:
   m_PrefabParentObject: {fileID: 9500000, guid: 12e52ab2b53d2e544b5657b1d29311d6,
     type: 3}
   m_PrefabInternal: {fileID: 1846365934}
+--- !u!114 &1110554494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1110554492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4874f59d4b8a62449ebbc03091feb87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HitTrigger: {fileID: 1799928323}
 --- !u!136 &1110554495
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6745,7 +6757,6 @@ GameObject:
   - component: {fileID: 1855089178}
   - component: {fileID: 1855089177}
   - component: {fileID: 1855089176}
-  - component: {fileID: 1855089183}
   - component: {fileID: 1855089182}
   - component: {fileID: 1855089180}
   m_Layer: 0
@@ -6877,18 +6888,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectSide: 1
---- !u!114 &1855089183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1855089175}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4874f59d4b8a62449ebbc03091feb87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HitTrigger: {fileID: 1799928323}
 --- !u!1 &1855304281
 GameObject:
   m_ObjectHideFlags: 0
