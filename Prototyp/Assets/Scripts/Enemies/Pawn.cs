@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Pawn : MonoBehaviour {
 
-    public int hp = 10;
+    public int hp = 25;
 
     // Method for receiving damage
     public virtual void Damage()

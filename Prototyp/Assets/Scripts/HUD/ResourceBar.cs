@@ -12,8 +12,10 @@ public class ResourceBar : MonoBehaviour {
     [SerializeField]
     private Image fillImage;
 
+    [SerializeField]
     public float maxValue { get; set; }
 
+    [SerializeField]
     public float value
     {
         set
