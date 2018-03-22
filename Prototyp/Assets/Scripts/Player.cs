@@ -93,7 +93,7 @@ public class Player : Pawn {
 
 
             // poruszanie i kamera
-            transform.Rotate(0f, Input.GetAxis("Mouse X") * Time.deltaTime * 125f, 0f);
+            transform.Rotate(0f, Input.GetAxis("Mouse X") * Time.deltaTime * 225f, 0f);
             transform.position += transform.right * Input.GetAxis("Horizontal") * Time.deltaTime * 5f;
             transform.position += transform.forward * Input.GetAxis("Vertical") * Time.deltaTime * 5f;
 
@@ -152,6 +152,7 @@ public class Player : Pawn {
             {
                 timeEnergyRegeneration = true;
                 StartCoroutine(RegenerateTimeEnergy());
+                
             }
 
             // special abilities
@@ -220,6 +221,7 @@ public class Player : Pawn {
             timeEnergy += 1;
             yield return new WaitForSeconds(2f);
         }
+        timeEnergyRegeneration = false;
     }
 
     void basicAttack()
