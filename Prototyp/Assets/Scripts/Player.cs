@@ -36,6 +36,7 @@ public class Player : Pawn {
     // Use this for initialization
     void Start ()
     {
+        Cursor.visible = false;
         body = GetComponentInChildren<Rigidbody>();
         distanceToGround = GetComponentInChildren<CapsuleCollider>().bounds.extents.y;
         animator = GetComponentInChildren<Animator>();
