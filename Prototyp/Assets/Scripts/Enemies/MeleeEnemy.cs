@@ -6,10 +6,8 @@ public class MeleeEnemy : Enemy
 {
     protected override void EnemyBehaviour()
     {
-        Vector3 playerPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
-        transform.LookAt(playerPosition);
-        float distance = Vector3.Distance(player.transform.position, transform.position);
-        if (distance < wakeUpDistance)
+        base.EnemyBehaviour();
+        if (distance < wakeUpDistance && heightDifference < 2.0f)
         {
             if (distance < range)
             {

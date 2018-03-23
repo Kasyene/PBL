@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class RangedEnemy : Enemy
 {
-    private float distance;
     public GameObject bulletPrefab;
     protected override void EnemyBehaviour()
     {
-        distance = Vector3.Distance(player.transform.position, transform.position);
-        Vector3 playerPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
-        transform.LookAt(playerPosition);
-        if(distance < wakeUpDistance)
+        base.EnemyBehaviour();
+        if (distance < wakeUpDistance && heightDifference < 2.0f)
         {
             if (distance < range && distance > 5 && !animator.GetBool("isAttacking"))
             {

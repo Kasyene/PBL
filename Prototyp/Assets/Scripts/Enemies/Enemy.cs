@@ -9,6 +9,8 @@ public class Enemy : Pawn
     protected Player player;
     public float range;
     public float wakeUpDistance;
+    protected float distance;
+    protected float heightDifference;
 
     // Use this for initialization
     protected void Start () {
@@ -27,7 +29,10 @@ public class Enemy : Pawn
 
     protected virtual void EnemyBehaviour()
     {
-        // to override
+        Vector3 playerPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
+        transform.LookAt(playerPosition);
+        distance = Vector3.Distance(player.transform.position, transform.position);
+        heightDifference = System.Math.Abs(player.transform.position.y - transform.position.y);
     }
 
     protected void CheckIfDead()
