@@ -7,6 +7,7 @@ public class Enemy : Pawn
 {
     public Animator animator;
     protected Player player;
+    public GameObject DmgInfoPrefab;
     public float range;
     public float wakeUpDistance;
     protected float distance;
@@ -53,5 +54,20 @@ public class Enemy : Pawn
         // to override
     }
 
+    protected void SpawnDMGinfo()
+    {
+        GameObject info = Instantiate(DmgInfoPrefab) as GameObject;
+        RectTransform infoRect = info.GetComponent<RectTransform>();
+        info.transform.SetParent(transform.FindChild("Canvas"));
+        infoRect.transform.localPosition = DmgInfoPrefab.transform.localPosition;
+        infoRect.transform.localScale = DmgInfoPrefab.transform.localScale;
+        Destroy(info, 2);
+    }
+
+    public override void Damage()
+    {
+        base.Damage();
+        SpawnDMGinfo();
+    }
 
 }
