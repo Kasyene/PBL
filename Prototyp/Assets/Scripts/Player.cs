@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.SceneManagement;
@@ -7,7 +8,8 @@ using UnityEngine.UI;
 using UnityEngineInternal;
 using Mathf = UnityEngine.Mathf;
 
-public class Player : Pawn {
+public class Player : Pawn
+{
 
     private Rigidbody body;
     private float distanceToGround;
@@ -15,14 +17,16 @@ public class Player : Pawn {
     public Animator animator;
     public HitManager Manager;
     public static int numberOfClicks = 0;
-    private  float lastClickedTime = 0.0f;
-    private  float maxComboDelay = 1.5f;
+    private float lastClickedTime = 0.0f;
+    private float maxComboDelay = 1.5f;
     private float lastJumpTime = 0.0f;
     public bool timeStop = false;
     private int timeEnergy = 10;
     private bool timeEnergyRegeneration = false;
     private float timeToGameRestart = 3f;
     public GameObject ui_gameStatusInfo;
+    [HideInInspector]
+    public int maxHpValue;
 
 
     public ResourceBar HPBar;
@@ -33,8 +37,9 @@ public class Player : Pawn {
 
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
+        maxHpValue = this.hp;
         Cursor.visible = false;
         body = GetComponentInChildren<Rigidbody>();
         distanceToGround = GetComponentInChildren<CapsuleCollider>().bounds.extents.y;
@@ -42,9 +47,9 @@ public class Player : Pawn {
         HPBar.maxValue = hp;
         TimeBar.maxValue = 10f;
 
-        
 
-        for(int x = 0; x < 8; x++)
+
+        for (int x = 0; x < 8; x++)
         {
             LastPositions.Add(transform.position);
             lastHPs.Add(hp);
@@ -53,9 +58,9 @@ public class Player : Pawn {
         StartCoroutine(SaveLastPos());
 
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update()
     {
         HPBar.value = hp;
         TimeBar.value = timeEnergy;
@@ -151,7 +156,7 @@ public class Player : Pawn {
             {
                 timeEnergyRegeneration = true;
                 StartCoroutine(RegenerateTimeEnergy());
-                
+
             }
 
             // special abilities
@@ -171,10 +176,10 @@ public class Player : Pawn {
             }
 
             if (Input.GetKeyDown(KeyCode.E) && timeEnergy >= 5)
-                {
+            {
                 timeEnergy -= 5;
-                transform.position = LastPositions[LastPositions.Count/2];
-                hp = lastHPs[lastHPs.Count/2];
+                transform.position = LastPositions[LastPositions.Count / 2];
+                hp = lastHPs[lastHPs.Count / 2];
                 ReLocateIndicies(LastPositions);
                 ReLocateIndicies(lastHPs);
 
@@ -187,6 +192,25 @@ public class Player : Pawn {
             {
 
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "PickUp")
+        {
+            if (this.hp != maxHpValue)
+            {
+                if (this.hp + other.GetComponent<HpPickUp>().hpValue <= maxHpValue)
+                {
+                    this.hp += other.GetComponent<HpPickUp>().hpValue;
+                }
+                else
+                {
+                    this.hp = maxHpValue;
+                }
+            }
+
         }
     }
 
@@ -205,11 +229,11 @@ public class Player : Pawn {
 
     IEnumerator TimeIsStopped()
     {
-       while (timeStop)
-       {
-           timeEnergyRegeneration = false;
-           timeEnergy -= 1;
-           yield return new WaitForSeconds(0.5f);
+        while (timeStop)
+        {
+            timeEnergyRegeneration = false;
+            timeEnergy -= 1;
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
@@ -276,9 +300,9 @@ public class Player : Pawn {
     }
 
 
-    private void ReLocateIndicies <T> (List<T> list)
+    private void ReLocateIndicies<T>(List<T> list)
     {
-        for (int x = 0; x<= list.Count / 2 - 1; x++)
+        for (int x = 0; x <= list.Count / 2 - 1; x++)
         {
             list[list.Count / 2 + x] = list[x];
         }

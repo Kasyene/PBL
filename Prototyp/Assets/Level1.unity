@@ -8098,6 +8098,12 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 03883b3294769e347992f0080ea15e9b, type: 2}
+    - target: {fileID: 114198936483895650, guid: 4a07252f4071d224291782bb605494a4,
+        type: 2}
+      propertyPath: hpDropPrefab
+      value: 
+      objectReference: {fileID: 1015690635202828, guid: 8ea9b524246c0744baf0b8c029a04f6b,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4a07252f4071d224291782bb605494a4, type: 2}
   m_IsPrefabParent: 0
@@ -8772,6 +8778,7 @@ MonoBehaviour:
   Manager: {fileID: 0}
   timeStop: 0
   ui_gameStatusInfo: {fileID: 1247856192}
+  maxHpValue: 0
   HPBar: {fileID: 1938951584}
   TimeBar: {fileID: 508879570}
   LastPositions: []

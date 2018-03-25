@@ -15,18 +15,20 @@ public class Enemy : Pawn
     protected float heightDifference;
 
     // Use this for initialization
-    protected void Start () {
-	    player = GameObject.FindWithTag("Player").GetComponent<Player>();
+    protected void Start()
+    {
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
     }
-	
-	// Update is called once per frame
-	protected void Update () {
+
+    // Update is called once per frame
+    protected void Update()
+    {
         CheckIfDead();
-	    if (!player.timeStop)
-	    {
-	        EnemyBehaviour();
-	    }
-	}
+        if (!player.timeStop)
+        {
+            EnemyBehaviour();
+        }
+    }
 
 
     protected virtual void EnemyBehaviour()
@@ -48,7 +50,14 @@ public class Enemy : Pawn
 
     protected void RollForHpPickUp()
     {
-
+        var a = Random.Range(0, 6);
+       // if (a == 0 || a == 5)
+        {
+            var hpPickUp = (GameObject)Instantiate(
+                hpDropPrefab,
+                new Vector3(this.transform.position.x, this.transform.position.y + 0.25f, this.transform.position.z),
+                this.transform.rotation);
+        }
     }
 
     protected virtual void Movement()

@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HpPickUp : MonoBehaviour {
+public class HpPickUp : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public int hpValue = 3;
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.tag == "Player" && collider.GetComponent<Player>().hp != collider.GetComponent<Player>().maxHpValue)
+        {
+            Destroy(gameObject);
+        }
+    }
 }
