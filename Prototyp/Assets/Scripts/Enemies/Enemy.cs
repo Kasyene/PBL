@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Enemy : Pawn
 {
+    public GameObject hpDropPrefab;
     public Animator animator;
     protected Player player;
     public GameObject DmgInfoPrefab;
@@ -40,8 +41,14 @@ public class Enemy : Pawn
     {
         if (this.hp == 0)
         {
+            RollForHpPickUp();
             Destroy(gameObject);
         }
+    }
+
+    protected void RollForHpPickUp()
+    {
+
     }
 
     protected virtual void Movement()
@@ -58,7 +65,7 @@ public class Enemy : Pawn
     {
         GameObject info = Instantiate(DmgInfoPrefab) as GameObject;
         RectTransform infoRect = info.GetComponent<RectTransform>();
-        info.transform.SetParent(transform.FindChild("Canvas"));
+        info.transform.SetParent(transform.Find("Canvas"));
         infoRect.transform.localPosition = DmgInfoPrefab.transform.localPosition;
         infoRect.transform.localScale = DmgInfoPrefab.transform.localScale;
         Destroy(info, 2);
