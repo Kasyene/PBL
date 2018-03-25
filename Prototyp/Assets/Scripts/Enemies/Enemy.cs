@@ -51,7 +51,7 @@ public class Enemy : Pawn
     protected void RollForHpPickUp()
     {
         var a = Random.Range(0, 6);
-       // if (a == 0 || a == 5)
+        if (a == 0 || a == 5)
         {
             var hpPickUp = (GameObject)Instantiate(
                 hpDropPrefab,
