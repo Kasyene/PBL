@@ -15,9 +15,16 @@ public class Enemy : Pawn
     protected float heightDifference;
     private Color basicColor;
 
+    [HideInInspector]
+    public int maxHpValue;
+
+    public ResourceBar HPBar;
+
     // Use this for initialization
     protected void Start()
     {
+        maxHpValue = this.hp;
+        HPBar.maxValue = maxHpValue;
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
         basicColor = GetComponentInChildren<SkinnedMeshRenderer>().materials[0].color;
     }
@@ -25,6 +32,7 @@ public class Enemy : Pawn
     // Update is called once per frame
     protected void Update()
     {
+        HPBar.value = hp;
         CheckIfDead();
         if (!player.timeStop)
         {
