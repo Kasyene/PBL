@@ -11,6 +11,10 @@ namespace PBLGame
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        private VertexPositionTexture[] floorVerts;
+
+        BasicEffect effect;
+        Texture2D checkerboardTexture;
 
         public ShroomGame()
         {
@@ -27,6 +31,23 @@ namespace PBLGame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            floorVerts = new VertexPositionTexture[6];
+            floorVerts[0].Position = new Vector3(-20, -20, 0);
+            floorVerts[1].Position = new Vector3(-20, 20, 0);
+            floorVerts[2].Position = new Vector3(20, -20, 0);
+            floorVerts[3].Position = floorVerts[1].Position;
+            floorVerts[4].Position = new Vector3(20, 20, 0);
+            floorVerts[5].Position = floorVerts[2].Position;
+
+            floorVerts[0].TextureCoordinate = new Vector2(0, 0);
+            floorVerts[1].TextureCoordinate = new Vector2(0, 1);
+            floorVerts[2].TextureCoordinate = new Vector2(1, 0);
+
+            floorVerts[3].TextureCoordinate = floorVerts[1].TextureCoordinate;
+            floorVerts[4].TextureCoordinate = new Vector2(1, 1);
+            floorVerts[5].TextureCoordinate = floorVerts[2].TextureCoordinate;
+
+            effect = new BasicEffect(graphics.GraphicsDevice);
 
             base.Initialize();
         }
@@ -41,6 +62,18 @@ namespace PBLGame
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+
+            // Notice that loading a model is very similar
+            // to loading any other XNB (like a Texture2D).
+            // The only difference is the generic type.
+            //model = Content.Load<Model>("robot");
+
+            // We aren't using the content pipeline, so we need
+            // to access the stream directly:
+            using (var stream = TitleContainer.OpenStream("Content/checkerboard.png"))
+            {
+                checkerboardTexture = Texture2D.FromStream(this.GraphicsDevice, stream);
+            }
         }
 
         /// <summary>
@@ -76,8 +109,45 @@ namespace PBLGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            DrawGround();
 
             base.Draw(gameTime);
+        }
+
+        void DrawGround()
+        {
+            // The assignment of effect.View and effect.Projection
+            // are nearly identical to the code in the Model drawing code.
+            var cameraPosition = new Vector3(0, 40, 20);
+            var cameraLookAtVector = Vector3.Zero;
+            var cameraUpVector = Vector3.UnitZ;
+
+            effect.View = Matrix.CreateLookAt(
+                cameraPosition, cameraLookAtVector, cameraUpVector);
+
+            float aspectRatio =
+                graphics.PreferredBackBufferWidth / (float)graphics.PreferredBackBufferHeight;
+            float fieldOfView = Microsoft.Xna.Framework.MathHelper.PiOver4;
+            float nearClipPlane = 1;
+            float farClipPlane = 200;
+
+            effect.Projection = Matrix.CreatePerspectiveFieldOfView(
+                fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
+
+            // new code:
+            effect.TextureEnabled = true;
+            effect.Texture = checkerboardTexture;
+
+            foreach (var pass in effect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+
+                graphics.GraphicsDevice.DrawUserPrimitives(
+                    PrimitiveType.TriangleList,
+                    floorVerts,
+                    0,
+                    2);
+            }
         }
     }
 }

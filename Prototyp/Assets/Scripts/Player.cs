@@ -44,7 +44,7 @@ public class Player : Pawn
         body = GetComponentInChildren<Rigidbody>();
         distanceToGround = GetComponentInChildren<CapsuleCollider>().bounds.extents.y;
         animator = GetComponentInChildren<Animator>();
-        HPBar.maxValue = hp;
+        HPBar.maxValue = maxHpValue;
         TimeBar.maxValue = 10f;
 
 
