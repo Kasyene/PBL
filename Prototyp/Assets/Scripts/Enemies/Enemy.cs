@@ -13,11 +13,13 @@ public class Enemy : Pawn
     public float wakeUpDistance;
     protected float distance;
     protected float heightDifference;
+    private Color basicColor;
 
     // Use this for initialization
     protected void Start()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        basicColor = GetComponentInChildren<SkinnedMeshRenderer>().materials[0].color;
     }
 
     // Update is called once per frame
@@ -78,6 +80,15 @@ public class Enemy : Pawn
         infoRect.transform.localPosition = DmgInfoPrefab.transform.localPosition;
         infoRect.transform.localScale = DmgInfoPrefab.transform.localScale;
         Destroy(info, 2);
+        StopCoroutine(FlashOnHit());
+        GetComponentInChildren<SkinnedMeshRenderer>().materials[0].color = Color.red;
+        StartCoroutine(FlashOnHit());
+    }
+
+    private IEnumerator FlashOnHit()
+    {
+        yield return new WaitForSeconds(0.25f);
+        GetComponentInChildren<SkinnedMeshRenderer>().materials[0].color = basicColor;
     }
 
     public override void Damage()
