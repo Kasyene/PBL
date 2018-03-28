@@ -20,9 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4911312534221414}
   - component: {fileID: 33833342188915012}
-  - component: {fileID: 135799628585414710}
   - component: {fileID: 23928208666187416}
-  - component: {fileID: 114286678588191032}
+  - component: {fileID: 95914580001858052}
+  - component: {fileID: 114211376268108008}
+  - component: {fileID: 135013507866996210}
   m_Layer: 0
   m_Name: HpPickUp
   m_TagString: PickUp
@@ -36,9 +37,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1015690635202828}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -8.611967, y: 2.424, z: 21.143}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -57,7 +58,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 561345184fb972145af3e544b0c762bb, type: 2}
+  - {fileID: 2100000, guid: 4a413007bdc28e145a9e08f677806e6b, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -65,7 +66,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_PreserveUVs: 1
+  m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 0
@@ -83,8 +84,25 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1015690635202828}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114286678588191032
+  m_Mesh: {fileID: 4300000, guid: 4a413007bdc28e145a9e08f677806e6b, type: 3}
+--- !u!95 &95914580001858052
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1015690635202828}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 4a413007bdc28e145a9e08f677806e6b, type: 3}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114211376268108008
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -95,7 +113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0871c44d20d4f64499dfce2db46a9895, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &135799628585414710
+  hpValue: 3
+--- !u!135 &135013507866996210
 SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
