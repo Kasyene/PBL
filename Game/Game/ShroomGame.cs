@@ -15,6 +15,7 @@ namespace PBLGame
 
         BasicEffect effect;
         Texture2D checkerboardTexture;
+        float rotation = 0.0f;
 
         public ShroomGame()
         {
@@ -96,7 +97,6 @@ namespace PBLGame
                 Exit();
 
             // TODO: Add your update logic here
-
             base.Update(gameTime);
         }
 
@@ -118,7 +118,9 @@ namespace PBLGame
         {
             // The assignment of effect.View and effect.Projection
             // are nearly identical to the code in the Model drawing code.
-            var cameraPosition = new Vector3(0, 40, 20);
+            rotation += 0.01f; 
+            effect.World = Matrix.CreateRotationZ(rotation);
+            var cameraPosition = new Vector3(0, 40, 30);
             var cameraLookAtVector = Vector3.Zero;
             var cameraUpVector = Vector3.UnitZ;
 
@@ -138,6 +140,7 @@ namespace PBLGame
             effect.TextureEnabled = true;
             effect.Texture = checkerboardTexture;
 
+            Matrix.CreateRotationY(1.0f);
             foreach (var pass in effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
