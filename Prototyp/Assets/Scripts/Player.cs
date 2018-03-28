@@ -185,6 +185,15 @@ public class Player : Pawn
 
             }
 
+            if (Input.GetKeyDown(KeyCode.R) && timeEnergy >= 8)
+            {
+                timeEnergy -= 8;
+                transform.position = transform.Find("Player Model").Find("unityNieOgarnia").position;
+                transform.Find("Player Model").GetComponent<Animator>().enabled = false;
+                transform.Find("Player Model").GetComponent<Animator>().enabled = true;
+                transform.Find("Player Model").GetComponent<Animator>().Play("Idle");
+            }
+
 
 
             // Attack system manager
