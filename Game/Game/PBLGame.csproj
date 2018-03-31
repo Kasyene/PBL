@@ -41,6 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="SceneGraph\Entity.cs" />
     <Compile Include="SceneGraph\SceneNode.cs" />
     <Compile Include="SceneGraph\Transformation.cs" />
     <Compile Include="ShroomGame.cs" />
