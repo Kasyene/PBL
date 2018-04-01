@@ -2,17 +2,12 @@
 
 namespace PBLGame.SceneGraph
 {
-    public class Entity
+    public interface Entity
     {
-        public void Draw(SceneNode parent, Matrix localTransformations, Matrix worldTransformations)
-        {
+        void Draw(SceneNode parent, Matrix localTransformations, Matrix worldTransformations);
 
-        }
+        BoundingBox GetBoundingBox(SceneNode parent, Matrix localTransformations, Matrix worldTransformations);
 
-        public BoundingBox GetBoundingBox(SceneNode parent, Matrix localTransformations, Matrix worldTransformations)
-        {
-            return new BoundingBox();
-        }
-        public bool Visible { get; set; }
+        bool Visible { get; set; }
     }
 }

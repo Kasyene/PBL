@@ -15,6 +15,7 @@ namespace PBLGame
 
         BasicEffect effect;
         Texture2D checkerboardTexture;
+        Model borowik;
         float rotation = 0.0f;
 
         public ShroomGame()
@@ -68,6 +69,7 @@ namespace PBLGame
             // to loading any other XNB (like a Texture2D).
             // The only difference is the generic type.
             //model = Content.Load<Model>("robot");
+            //borowik = Content.Load<Model>("borowikIdle");
 
             // We aren't using the content pipeline, so we need
             // to access the stream directly:
