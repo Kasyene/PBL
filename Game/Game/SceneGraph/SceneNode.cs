@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
-namespace Game.SceneGraph
+namespace PBLGame.SceneGraph
 {
     public delegate void NodeEventCallback(SceneNode node);
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace Game.SceneGraph
+namespace PBLGame.SceneGraph
 {
     public class Entity
     {

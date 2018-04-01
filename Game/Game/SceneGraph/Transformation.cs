@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Game.SceneGraph
+namespace PBLGame.SceneGraph
 {
     public enum TransformationOrder
     {
@@ -36,14 +36,14 @@ namespace Game.SceneGraph
         {
             position = Vector3.Zero;
             rotation = Vector3.Zero;
-            scl = Vector3.One;
+            scale = Vector3.One;
         }
 
         public Transformation(Transformation other)
         {
             position = other.position;
             rotation = other.rotation;
-            scl = other.scl;
+            scale = other.scale;
             transformOrder = other.transformOrder;
             rotationOrder = other.rotationOrder;
         }
@@ -106,6 +106,4 @@ namespace Game.SceneGraph
             }
         }
     }
-}
-
 }
