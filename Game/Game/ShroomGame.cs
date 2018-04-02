@@ -15,7 +15,9 @@ namespace PBLGame
 
         BasicEffect effect;
         Texture2D checkerboardTexture;
-        Model borowik;
+        SceneGraph.SceneNode root;
+        SceneGraph.SceneNode node;
+        SceneGraph.SceneNode node2;
         float rotation = 0.0f;
 
         public ShroomGame()
@@ -33,23 +35,6 @@ namespace PBLGame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            floorVerts = new VertexPositionTexture[6];
-            floorVerts[0].Position = new Vector3(-20, -20, 0);
-            floorVerts[1].Position = new Vector3(-20, 20, 0);
-            floorVerts[2].Position = new Vector3(20, -20, 0);
-            floorVerts[3].Position = floorVerts[1].Position;
-            floorVerts[4].Position = new Vector3(20, 20, 0);
-            floorVerts[5].Position = floorVerts[2].Position;
-
-            floorVerts[0].TextureCoordinate = new Vector2(0, 0);
-            floorVerts[1].TextureCoordinate = new Vector2(0, 1);
-            floorVerts[2].TextureCoordinate = new Vector2(1, 0);
-
-            floorVerts[3].TextureCoordinate = floorVerts[1].TextureCoordinate;
-            floorVerts[4].TextureCoordinate = new Vector2(1, 1);
-            floorVerts[5].TextureCoordinate = floorVerts[2].TextureCoordinate;
-
-            effect = new BasicEffect(graphics.GraphicsDevice);
 
             base.Initialize();
         }
@@ -65,11 +50,19 @@ namespace PBLGame
 
             // TODO: use this.Content to load your game content here
 
+            root = new SceneGraph.SceneNode();
+            node = new SceneGraph.SceneNode();
+            node2 = new SceneGraph.SceneNode();
+
+            root.AddChildNode(node);
+            root.AddChildNode(node2);
+            Model model = Content.Load<Model>("apteczka");
+            node.AddEntity(new SceneGraph.ModelEntity(model));
+            node2.AddEntity(new SceneGraph.ModelEntity(model));
             // Notice that loading a model is very similar
             // to loading any other XNB (like a Texture2D).
             // The only difference is the generic type.
             //model = Content.Load<Model>("robot");
-            //borowik = Content.Load<Model>("borowikIdle");
 
             // We aren't using the content pipeline, so we need
             // to access the stream directly:
@@ -111,48 +104,16 @@ namespace PBLGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            DrawGround();
+            //DrawGround();
+            root.Draw();
+            node.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
+            node.PositionY = 15.0f;
+            node.RotationX = node.RotationX + 0.01f;
+            node.Scale = new Vector3(0.2f);
+            node2.RotationZ = node2.RotationZ + 0.01f; ;
+            node2.Scale = new Vector3(0.4f);
 
             base.Draw(gameTime);
-        }
-
-        void DrawGround()
-        {
-            // The assignment of effect.View and effect.Projection
-            // are nearly identical to the code in the Model drawing code.
-            rotation += 0.01f; 
-            effect.World = Matrix.CreateRotationZ(rotation);
-            var cameraPosition = new Vector3(0, 40, 30);
-            var cameraLookAtVector = Vector3.Zero;
-            var cameraUpVector = Vector3.UnitZ;
-
-            effect.View = Matrix.CreateLookAt(
-                cameraPosition, cameraLookAtVector, cameraUpVector);
-
-            float aspectRatio =
-                graphics.PreferredBackBufferWidth / (float)graphics.PreferredBackBufferHeight;
-            float fieldOfView = Microsoft.Xna.Framework.MathHelper.PiOver4;
-            float nearClipPlane = 1;
-            float farClipPlane = 200;
-
-            effect.Projection = Matrix.CreatePerspectiveFieldOfView(
-                fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
-
-            // new code:
-            effect.TextureEnabled = true;
-            effect.Texture = checkerboardTexture;
-
-            Matrix.CreateRotationY(1.0f);
-            foreach (var pass in effect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-
-                graphics.GraphicsDevice.DrawUserPrimitives(
-                    PrimitiveType.TriangleList,
-                    floorVerts,
-                    0,
-                    2);
-            }
         }
     }
 }

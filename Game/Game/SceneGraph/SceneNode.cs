@@ -9,7 +9,7 @@ namespace PBLGame.SceneGraph
     {
         private SceneNode parent = null;
         public SceneNode Parent { get { return parent; } }
-        public static NodeEventCallback onTransformaUpdate;
+        public static NodeEventCallback onTransformUpdate;
         public static NodeEventCallback onDraw;
         private Transformation transform = new Transformation();
         public virtual bool visible { get; set; }
@@ -94,7 +94,7 @@ namespace PBLGame.SceneGraph
         protected virtual void OnWorldMatrixChange()
         {
             transformVersion++;
-            onTransformaUpdate?.Invoke(this);
+            onTransformUpdate?.Invoke(this);
             if (parent != null)
             {
                 parent.OnChildWorldMatrixChange(this);
