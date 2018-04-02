@@ -2,16 +2,18 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
+using Game.Input;
 
 namespace PBLGame
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class ShroomGame : Game
+    public class ShroomGame : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        InputManager inputManager;
 
         BasicEffect effect;
         Texture2D checkerboardTexture;
@@ -23,6 +25,7 @@ namespace PBLGame
         public ShroomGame()
         {
             graphics = new GraphicsDeviceManager(this);
+            inputManager = new InputManager();
             Content.RootDirectory = "Content";
         }
 
@@ -64,11 +67,14 @@ namespace PBLGame
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
             // TODO: Add your update logic here
             base.Update(gameTime);
+            inputManager.Update();
+
+            if (inputManager.Keyboard[Keys.Escape])
+            {
+                Exit();
+            }
         }
 
         protected override void Draw(GameTime gameTime)

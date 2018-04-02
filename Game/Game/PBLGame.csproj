@@ -42,6 +42,14 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Input\Devices\KeyboardInput.cs" />
+    <Compile Include="Input\Devices\KeyboardKey.cs" />
+    <Compile Include="Input\Devices\SupportedMouseButtons.cs" />
+    <Compile Include="Input\Devices\MouseInput.cs" />
+    <Compile Include="Input\Devices\MouseKey.cs" />
+    <Compile Include="Input\IInput.cs" />
+    <Compile Include="Input\InputKey.cs" />
+    <Compile Include="Input\InputManager.cs" />
     <Compile Include="SceneGraph\Camera.cs" />
     <Compile Include="SceneGraph\Entity.cs" />
     <Compile Include="SceneGraph\ModelEntity.cs" />
