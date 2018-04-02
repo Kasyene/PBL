@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace PBLGame
 {
@@ -42,6 +43,7 @@ namespace PBLGame
 
             root.AddChildNode(node);
             root.AddChildNode(node2);
+            root.AddChildNode(camera);
             Model model = Content.Load<Model>("apteczka");
             Model budda = Content.Load<Model>("Knuckles");
             node.AddEntity(new SceneGraph.ModelEntity(model));
@@ -73,9 +75,10 @@ namespace PBLGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            camera.Position = new Vector3(0f, 20f, 50f);
             root.Draw(camera);
-            root.PositionX = 10.0f;
+            root.PositionX += 1.0f;
+            root.RotationZ += 0.1f;
+            Debug.WriteLine(root.PositionX);
             node.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
             node.PositionY = 15.0f;
             node.RotationX = node.RotationX + 0.01f;

@@ -11,12 +11,14 @@ namespace PBLGame.SceneGraph
         public Camera()
         {
             visible = false;
+            Position = new Vector3(0f, 20f, 50f);
         }
 
         public Matrix ViewMatrix
         {
             get
             {
+                isDirty = true;
                 Vector3 lookAtVector;
                 if (cameraTarget != null)
                 {
@@ -28,7 +30,7 @@ namespace PBLGame.SceneGraph
                 }
                 Vector3 cameraUpVector = Vector3.UnitY;
 
-                return Matrix.CreateLookAt(transform.position, lookAtVector, cameraUpVector);
+                return Matrix.CreateLookAt(WorldTransformations.Translation, lookAtVector, cameraUpVector);
             }
         }
 
@@ -47,6 +49,11 @@ namespace PBLGame.SceneGraph
         public void SetCameraTarget(SceneNode target)
         {
             cameraTarget = target;
+        }
+
+        public SceneNode GetCameraTarget()
+        {
+            return cameraTarget;
         }
     }
 }
