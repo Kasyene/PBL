@@ -6,6 +6,7 @@ namespace PBLGame.SceneGraph
     public class Camera : SceneNode
     {
         GraphicsDevice graphicsDevice;
+        SceneNode cameraTarget;
 
         public Camera()
         {
@@ -16,7 +17,15 @@ namespace PBLGame.SceneGraph
         {
             get
             {
-                Vector3 lookAtVector = Vector3.Zero;
+                Vector3 lookAtVector;
+                if (cameraTarget != null)
+                {
+                    lookAtVector = cameraTarget.Position;
+                }
+                else
+                {
+                    lookAtVector = Vector3.Zero;
+                }
                 Vector3 cameraUpVector = Vector3.UnitY;
 
                 return Matrix.CreateLookAt(transform.position, lookAtVector, cameraUpVector);
@@ -33,6 +42,11 @@ namespace PBLGame.SceneGraph
                 float farClipPlane = 200;
                 return Matrix.CreatePerspectiveFieldOfView(fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
             }
+        }
+
+        public void SetCameraTarget(SceneNode target)
+        {
+            cameraTarget = target;
         }
     }
 }

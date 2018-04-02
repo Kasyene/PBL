@@ -31,7 +31,6 @@ namespace PBLGame.SceneGraph
         {
             foreach (var mesh in model.Meshes)
             {
-                // iterate effect in mesh
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     // set world matrix
@@ -43,8 +42,6 @@ namespace PBLGame.SceneGraph
                     // set projection matrix
                     effect.Projection = camera.ProjectionMatrix;
                 }
-
-                // draw current mesh
                 mesh.Draw();
             }
         }

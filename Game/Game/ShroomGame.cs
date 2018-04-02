@@ -11,7 +11,6 @@ namespace PBLGame
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        private VertexPositionTexture[] floorVerts;
 
         BasicEffect effect;
         Texture2D checkerboardTexture;
@@ -19,7 +18,6 @@ namespace PBLGame
         SceneGraph.SceneNode node;
         SceneGraph.SceneNode node2;
         SceneGraph.Camera camera;
-        float rotation = 0.0f;
 
         public ShroomGame()
         {
@@ -27,44 +25,26 @@ namespace PBLGame
             Content.RootDirectory = "Content";
         }
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
 
             root = new SceneGraph.SceneNode();
             node = new SceneGraph.SceneNode();
             node2 = new SceneGraph.SceneNode();
             camera = new SceneGraph.Camera();
+            camera.SetCameraTarget(root);
 
             root.AddChildNode(node);
             root.AddChildNode(node2);
             Model model = Content.Load<Model>("apteczka");
             node.AddEntity(new SceneGraph.ModelEntity(model));
             node2.AddEntity(new SceneGraph.ModelEntity(model));
-            // Notice that loading a model is very similar
-            // to loading any other XNB (like a Texture2D).
-            // The only difference is the generic type.
-            //model = Content.Load<Model>("robot");
 
             // We aren't using the content pipeline, so we need
             // to access the stream directly:
@@ -74,20 +54,11 @@ namespace PBLGame
             }
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// game-specific content.
-        /// </summary>
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
         }
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -97,18 +68,13 @@ namespace PBLGame
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
-            //DrawGround();
             camera.Position = new Vector3(0f, 20f, 50f);
             root.Draw(camera);
+            root.PositionX = 10.0f;
             node.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
             node.PositionY = 15.0f;
             node.RotationX = node.RotationX + 0.01f;
