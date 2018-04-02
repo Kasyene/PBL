@@ -43,8 +43,9 @@ namespace PBLGame
             root.AddChildNode(node);
             root.AddChildNode(node2);
             Model model = Content.Load<Model>("apteczka");
+            Model budda = Content.Load<Model>("Knuckles");
             node.AddEntity(new SceneGraph.ModelEntity(model));
-            node2.AddEntity(new SceneGraph.ModelEntity(model));
+            node2.AddEntity(new SceneGraph.ModelEntity(budda));
 
             // We aren't using the content pipeline, so we need
             // to access the stream directly:
@@ -80,7 +81,8 @@ namespace PBLGame
             node.RotationX = node.RotationX + 0.01f;
             node.Scale = new Vector3(0.2f);
             node2.RotationZ = node2.RotationZ + 0.01f; ;
-            node2.Scale = new Vector3(0.4f);
+            node2.RotationY = -2.0f;
+            node2.Scale = new Vector3(1.4f);
 
             base.Draw(gameTime);
         }
