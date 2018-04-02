@@ -9,27 +9,9 @@ namespace PBLGame.SceneGraph
     {
         public Model model;
 
-        public Matrix Projection;
-
-        public Matrix View;
-
-
         public ModelEntity(Model loadedeModel)
         {
             model = loadedeModel;
-
-            float aspectRatio = 1f;
-            float fieldOfView = Microsoft.Xna.Framework.MathHelper.PiOver4;
-            float nearClipPlane = 1;
-            float farClipPlane = 200;
-            Projection = Matrix.CreatePerspectiveFieldOfView(
-                    fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
-
-            // Create default View matrix (camera)
-            var cameraPosition = new Vector3(0, 0, 50);
-            var cameraLookAtVector = Vector3.Zero;
-            var cameraUpVector = Vector3.UnitY;
-            View = Matrix.CreateLookAt(cameraPosition, cameraLookAtVector, cameraUpVector);
         }
 
         public bool Visible
@@ -45,7 +27,7 @@ namespace PBLGame.SceneGraph
             }
         }
 
-        public void Draw(SceneNode parent, Matrix localTransformations, Matrix worldTransformations)
+        public void Draw(SceneNode parent, Camera camera, Matrix localTransformations, Matrix worldTransformations)
         {
             foreach (var mesh in model.Meshes)
             {
@@ -56,10 +38,10 @@ namespace PBLGame.SceneGraph
                     effect.World = worldTransformations;
 
                     // set view matrix
-                    effect.View = View;
+                    effect.View = camera.ViewMatrix;
 
                     // set projection matrix
-                    effect.Projection = Projection;
+                    effect.Projection = camera.ProjectionMatrix;
                 }
 
                 // draw current mesh

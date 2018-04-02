@@ -7,30 +7,30 @@ namespace PBLGame.SceneGraph
 
     public class SceneNode
     {
-        private SceneNode parent = null;
+        protected SceneNode parent = null;
         public SceneNode Parent { get { return parent; } }
         public static NodeEventCallback onTransformUpdate;
         public static NodeEventCallback onDraw;
-        private Transformation transform = new Transformation();
+        protected Transformation transform = new Transformation();
         public virtual bool visible { get; set; }
-        private static readonly BoundingBox EmptyBoundingBox = new BoundingBox();
-        private Matrix localTransform = Matrix.Identity;
-        private Matrix worldTransform = Matrix.Identity;
+        protected static readonly BoundingBox EmptyBoundingBox = new BoundingBox();
+        protected Matrix localTransform = Matrix.Identity;
+        protected Matrix worldTransform = Matrix.Identity;
 
-        private List<SceneNode> childs = new List<SceneNode>();
-        private List<Entity> childEntities = new List<Entity>();
-        private bool isDirty = true;
+        protected List<SceneNode> childs = new List<SceneNode>();
+        protected List<Entity> childEntities = new List<Entity>();
+        protected bool isDirty = true;
 
-        private uint transformVersion = 0;
+        protected uint transformVersion = 0;
         public uint TransformVersion { get { return transformVersion; } }
-        private uint parentTransformVersion = 0;
+        protected uint parentTransformVersion = 0;
 
         public SceneNode()
         {
             visible = true;
         }
 
-        public virtual void Draw()
+        public virtual void Draw(Camera camera)
         {
             if (!visible)
             {
@@ -41,14 +41,14 @@ namespace PBLGame.SceneGraph
 
             foreach (SceneNode node in childs)
             {
-                node.Draw();
+                node.Draw(camera);
             }
 
             onDraw?.Invoke(this);
 
             foreach (Entity entity in childEntities)
             {
-                entity.Draw(this, localTransform, worldTransform);
+                entity.Draw(this, camera, localTransform, worldTransform);
             }
         }
 

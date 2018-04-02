@@ -23,7 +23,7 @@ namespace PBLGame.SceneGraph
         RotateZYX,
     }
 
-    class Transformation
+    public class Transformation
     {
         public Vector3 position;
         public Vector3 rotation;

@@ -18,6 +18,7 @@ namespace PBLGame
         SceneGraph.SceneNode root;
         SceneGraph.SceneNode node;
         SceneGraph.SceneNode node2;
+        SceneGraph.Camera camera;
         float rotation = 0.0f;
 
         public ShroomGame()
@@ -53,6 +54,7 @@ namespace PBLGame
             root = new SceneGraph.SceneNode();
             node = new SceneGraph.SceneNode();
             node2 = new SceneGraph.SceneNode();
+            camera = new SceneGraph.Camera();
 
             root.AddChildNode(node);
             root.AddChildNode(node2);
@@ -105,7 +107,8 @@ namespace PBLGame
 
             // TODO: Add your drawing code here
             //DrawGround();
-            root.Draw();
+            camera.Position = new Vector3(0f, 20f, 50f);
+            root.Draw(camera);
             node.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
             node.PositionY = 15.0f;
             node.RotationX = node.RotationX + 0.01f;
