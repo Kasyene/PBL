@@ -18,6 +18,7 @@ namespace PBLGame
         Texture2D checkerboardTexture;
         SceneGraph.SceneNode root;
         SceneGraph.SceneNode node;
+        SceneGraph.SceneNode player;
         SceneGraph.SceneNode node2;
         SceneGraph.Camera camera;
 
@@ -40,12 +41,14 @@ namespace PBLGame
             root = new SceneGraph.SceneNode();
             node = new SceneGraph.SceneNode();
             node2 = new SceneGraph.SceneNode();
+            player = new SceneGraph.SceneNode();
             camera = new SceneGraph.Camera();
             camera.SetCameraTarget(root);
 
             root.AddChildNode(node);
-            root.AddChildNode(node2);
-            root.AddChildNode(camera);
+            root.AddChildNode(player);
+            player.AddChildNode(camera);
+            player.AddChildNode(node2);
             Model model = Content.Load<Model>("apteczka");
             Model budda = Content.Load<Model>("Knuckles");
             node.AddEntity(new SceneGraph.ModelEntity(model));
@@ -69,6 +72,7 @@ namespace PBLGame
             // TODO: Add your update logic here
             base.Update(gameTime);
             inputManager.Update();
+            camera.CameraUpdate(inputManager);
 
             if (inputManager.Keyboard[Keys.Escape])
             {
@@ -82,14 +86,13 @@ namespace PBLGame
 
             root.Draw(camera);
             root.PositionX += 1.0f;
-            Debug.WriteLine(root.PositionX);
+            //Debug.WriteLine(root.PositionX);
             node.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
             node.PositionY = 15.0f;
             node.RotationX += 0.01f;
             node.Scale = new Vector3(0.2f);
             node2.RotationY = -MathHelper.PiOver2;
             node2.Scale = new Vector3(1.4f);
-            //camera.RotationZ += 0.01f; 
 
             base.Draw(gameTime);
         }

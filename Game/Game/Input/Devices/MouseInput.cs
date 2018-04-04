@@ -60,7 +60,7 @@ namespace PBLGame.Input.Devices
             this._lastState = this._state;
             this._state = Mouse.GetState();
 
-            if (this._lastState.X != this._state.X || this._lastState.Y != this._state.Y)
+            //if (this._lastState.X != this._state.X || this._lastState.Y != this._state.Y)
             {
                 this._lastPosition = _currentPosition;
                 this._currentPosition = new Vector2(this._state.X, this._state.Y);

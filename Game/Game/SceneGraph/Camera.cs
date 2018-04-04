@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using PBLGame.Input;
 
 namespace PBLGame.SceneGraph
 {
     public class Camera : SceneNode
     {
-        PBLGame.Input.Devices.MouseInput input;
         SceneNode cameraTarget;
 
         public Camera()
@@ -57,9 +57,15 @@ namespace PBLGame.SceneGraph
             return cameraTarget;
         }
 
-        public void CameraInput()
+        public void CameraUpdate(InputManager inputManager)
         {
-
+            RotationZ += inputManager.Mouse.PositionsDelta.X * 0.01f;
+            float rotY = RotationY + inputManager.Mouse.PositionsDelta.Y * 0.01f;
+            if(rotY < 0.0f && rotY > -1.0f)
+            {
+                RotationY = rotY;
+            }
+            System.Diagnostics.Debug.WriteLine(Rotation);
         }
     }
 }
