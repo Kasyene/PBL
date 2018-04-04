@@ -28,6 +28,11 @@ public class Player : Pawn
     [HideInInspector]
     public int maxHpValue;
 
+    public float angleVertical = 0.0f;
+    public float angleHorizontal = 0.0f;
+    public bool aim;
+    public bool aimAnglesSetCorrectly;
+
 
     public ResourceBar HPBar;
     public ResourceBar TimeBar;
@@ -97,9 +102,27 @@ public class Player : Pawn
 
 
             // poruszanie i kamera
-            transform.Rotate(0f, Input.GetAxis("Mouse X") * Time.deltaTime * 225f, 0f);
-            transform.position += transform.right * Input.GetAxis("Horizontal") * Time.deltaTime * 5f;
-            transform.position += transform.forward * Input.GetAxis("Vertical") * Time.deltaTime * 5f;
+            if (!aim)
+            {
+                transform.Rotate(0f, Input.GetAxis("Mouse X") * Time.deltaTime * 225f, 0f);
+                transform.position += transform.right * Input.GetAxis("Horizontal") * Time.deltaTime * 5f;
+                transform.position += transform.forward * Input.GetAxis("Vertical") * Time.deltaTime * 5f;
+            }
+            else
+            {
+                if (!aimAnglesSetCorrectly)
+                {
+                    angleVertical = transform.eulerAngles.x;
+                    angleHorizontal = transform.eulerAngles.y;
+                    aimAnglesSetCorrectly = true;
+                }
+
+                angleVertical += Input.GetAxis("Mouse Y") * Time.deltaTime * 225f;
+                angleVertical = Mathf.Clamp(angleVertical, -35, 20);
+
+                angleHorizontal += Input.GetAxis("Mouse X") * Time.deltaTime * 225f;
+                transform.localEulerAngles = new Vector3(angleVertical, angleHorizontal, 0.0f);
+            }
 
             // skok
             if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
@@ -192,6 +215,16 @@ public class Player : Pawn
                 transform.Find("Player Model").GetComponent<Animator>().enabled = false;
                 transform.Find("Player Model").GetComponent<Animator>().enabled = true;
                 transform.Find("Player Model").GetComponent<Animator>().Play("Idle");
+            }
+
+            if (Input.GetKeyDown(KeyCode.F))
+            {      
+                aim = !aim;
+                if (!aim)
+                {
+                    transform.eulerAngles = new Vector3(0.0f, transform.eulerAngles.y, transform.eulerAngles.z);
+                }
+                aimAnglesSetCorrectly = false;
             }
 
 
