@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -26,8 +27,13 @@ namespace PBLGame.Input.Devices
         }
 
         public delegate void MouseKeyEvent(MouseKey key);
+        public delegate void MouseScrollEvent(int ammount);
         public event MouseKeyEvent WasPressed;
         public event MouseKeyEvent WasReleased;
+        public event MouseScrollEvent Scroll;
+        public int ScrollTotal { get; internal set; }
+        public int ScrollValue { get; internal set; }
+
 
         public Vector2 PositionsDelta => (this._lastPosition - this._currentPosition);
 
@@ -60,10 +66,17 @@ namespace PBLGame.Input.Devices
             this._lastState = this._state;
             this._state = Mouse.GetState();
 
-            //if (this._lastState.X != this._state.X || this._lastState.Y != this._state.Y)
+            if (this._lastState.X != this._state.X || this._lastState.Y != this._state.Y)
             {
                 this._lastPosition = _currentPosition;
                 this._currentPosition = new Vector2(this._state.X, this._state.Y);
+            }
+
+            this.ScrollTotal = this._state.ScrollWheelValue;
+            this.ScrollValue = this._state.ScrollWheelValue - this._lastState.ScrollWheelValue;
+            if (this.ScrollValue != 0)
+            {
+                Scroll?.Invoke(this.ScrollValue);
             }
 
 
@@ -74,7 +87,7 @@ namespace PBLGame.Input.Devices
                     case SupportedMouseButtons.Left:
                         this[key].Update(this._state.LeftButton == ButtonState.Pressed);
                         break;
-                  
+
                     case SupportedMouseButtons.Right:
                         this[key].Update(this._state.RightButton == ButtonState.Pressed);
                         break;
