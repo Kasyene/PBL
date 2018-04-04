@@ -2,6 +2,6 @@
 {
     public enum SupportedMouseButtons
     {
-        Right, Left
+        Right, Left, Middle
     }
 }

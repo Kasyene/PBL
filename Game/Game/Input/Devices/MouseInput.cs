@@ -92,6 +92,10 @@ namespace PBLGame.Input.Devices
                         this[key].Update(this._state.RightButton == ButtonState.Pressed);
                         break;
 
+                    case SupportedMouseButtons.Middle:
+                        this[key].Update(this._state.MiddleButton == ButtonState.Pressed);
+                        break;
+
                     default:
                         break;
                 }
