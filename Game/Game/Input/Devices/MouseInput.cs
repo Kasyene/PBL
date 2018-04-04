@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace Game.Input.Devices
+namespace PBLGame.Input.Devices
 {
     public class MouseInput : IInput
     {
@@ -33,7 +33,10 @@ namespace Game.Input.Devices
 
         public Vector2 Position
         {
-            get => this._currentPosition;
+            get
+            {
+               return this._currentPosition;
+            }
             set
             {
                 this._currentPosition = value;
@@ -45,8 +48,11 @@ namespace Game.Input.Devices
         // indexer, gets the key state for the mouse key specified in dictionary
         public MouseKey this[SupportedMouseButtons key]
         {
-            get => this._keys[key];
-            internal set => this._keys[key] = value;
+            get{ return this._keys[key];}
+            internal set
+            {
+                this._keys[key] = value;
+            }
         }
 
         public void Update()

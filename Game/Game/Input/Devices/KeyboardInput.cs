@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 
-namespace Game.Input.Devices
+namespace PBLGame.Input.Devices
 {
     public class KeyboardInput : IInput
     {
@@ -26,8 +26,15 @@ namespace Game.Input.Devices
         // indexer, gets the key state for the keyboard key specified in dictionary
         public KeyboardKey this[Keys key]
         {
-            get => this._keys[key];
-            internal set => this._keys[key] = value;
+            get
+            {
+               return this._keys[key];
+            }
+            internal set
+            {
+                this._keys[key] = value;
+            }
+
         }
 
         public void Update()

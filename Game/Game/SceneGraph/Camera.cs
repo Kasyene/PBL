@@ -5,13 +5,14 @@ namespace PBLGame.SceneGraph
 {
     public class Camera : SceneNode
     {
-        GraphicsDevice graphicsDevice;
+        PBLGame.Input.Devices.MouseInput input;
         SceneNode cameraTarget;
 
         public Camera()
         {
             visible = false;
             Position = new Vector3(0f, 20f, 50f);
+            TransformationsOrder = TransformationOrder.ScalePositionRotation;
         }
 
         public Matrix ViewMatrix
@@ -54,6 +55,11 @@ namespace PBLGame.SceneGraph
         public SceneNode GetCameraTarget()
         {
             return cameraTarget;
+        }
+
+        public void CameraInput()
+        {
+
         }
     }
 }

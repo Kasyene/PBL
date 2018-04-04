@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Game.Input.Devices;
+using PBLGame.Input.Devices;
 using Microsoft.Xna.Framework.Input;
 
-namespace Game.Input
+namespace PBLGame.Input
 {
     public class InputManager
     {

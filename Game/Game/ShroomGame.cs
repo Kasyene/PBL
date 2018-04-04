@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
-using Game.Input;
+using PBLGame.Input;
 
 namespace PBLGame
 {
@@ -15,7 +15,6 @@ namespace PBLGame
         SpriteBatch spriteBatch;
         InputManager inputManager;
 
-        BasicEffect effect;
         Texture2D checkerboardTexture;
         SceneGraph.SceneNode root;
         SceneGraph.SceneNode node;
@@ -83,15 +82,14 @@ namespace PBLGame
 
             root.Draw(camera);
             root.PositionX += 1.0f;
-            root.RotationZ += 0.1f;
             Debug.WriteLine(root.PositionX);
             node.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
             node.PositionY = 15.0f;
-            node.RotationX = node.RotationX + 0.01f;
+            node.RotationX += 0.01f;
             node.Scale = new Vector3(0.2f);
-            node2.RotationZ = node2.RotationZ + 0.01f; ;
-            node2.RotationY = -2.0f;
+            node2.RotationY = -MathHelper.PiOver2;
             node2.Scale = new Vector3(1.4f);
+            //camera.RotationZ += 0.01f; 
 
             base.Draw(gameTime);
         }

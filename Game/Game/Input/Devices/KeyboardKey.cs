@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Input;
 
-namespace Game.Input.Devices
+namespace PBLGame.Input.Devices
 {
     public class KeyboardKey : InputKey
     {

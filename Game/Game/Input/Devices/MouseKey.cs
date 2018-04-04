@@ -1,4 +1,4 @@
-﻿namespace Game.Input.Devices
+﻿namespace PBLGame.Input.Devices
 {
     public class MouseKey : InputKey
     {
