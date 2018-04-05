@@ -15,5 +15,9 @@ namespace PBLGame.MainGame
             this.Hp -= 1;
         }
 
+        public override void Update()
+        {
+            base.Update();
+        }
     }
 }

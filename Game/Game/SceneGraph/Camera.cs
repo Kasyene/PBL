@@ -11,13 +11,13 @@ namespace PBLGame.SceneGraph
         public float maxZoom = 60f;
         public float minYRotation = -1.0f;
         public float maxYRotation = 0.0f;
-        private InputManager inputManager;
+        private readonly InputManager inputManager;
 
         public Camera()
         {
             inputManager = InputManager.Instance;
             visible = false;
-            Position = new Vector3(0f, 0f, 50f);
+            Position = new Vector3(0f, 0f, -50f);
             TransformationsOrder = TransformationOrder.ScalePositionRotation;
         }
 

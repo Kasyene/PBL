@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 using PBLGame.Input;
+using PBLGame.MainGame;
 
 namespace PBLGame
 {
@@ -13,13 +14,13 @@ namespace PBLGame
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        InputManager inputManager;
+        private readonly InputManager inputManager;
 
         Texture2D checkerboardTexture;
         SceneGraph.GameObject root;
-        SceneGraph.GameObject node;
-        SceneGraph.GameObject player;
-        SceneGraph.GameObject node2;
+        SceneGraph.GameObject heart;
+        Player player;
+        SceneGraph.GameObject playerModel;
         SceneGraph.Camera camera;
 
         public ShroomGame()
@@ -39,23 +40,26 @@ namespace PBLGame
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             root = new SceneGraph.GameObject();
-            node = new SceneGraph.GameObject();
-            node2 = new SceneGraph.GameObject();
-            player = new SceneGraph.GameObject();
+            heart = new SceneGraph.GameObject();
+            playerModel = new SceneGraph.GameObject();
+            player = new Player();
             camera = new SceneGraph.Camera();
             camera.SetCameraTarget(root);
 
-            root.AddChildNode(node);
-            root.AddChildNode(player);
-            player.AddChildNode(camera);
-            player.AddChildNode(node2);
-            Model model = Content.Load<Model>("apteczka");
+            Model apteczka = Content.Load<Model>("apteczka");
             Model budda = Content.Load<Model>("Knuckles");
-            node.AddEntity(new SceneGraph.ModelComponent(model));
-            node2.AddEntity(new SceneGraph.ModelComponent(budda));
 
-            // We aren't using the content pipeline, so we need
-            // to access the stream directly:
+            heart.AddEntity(new SceneGraph.ModelComponent(apteczka));
+            playerModel.AddEntity(new SceneGraph.ModelComponent(budda));
+
+            root.AddChildNode(heart);
+            root.AddChildNode(player);
+            player.AddChildNode(playerModel);
+            player.AddChildNode(camera);
+
+
+
+            // We aren't using the content pipeline, so we need to access the stream directly:
             using (var stream = TitleContainer.OpenStream("Content/checkerboard.png"))
             {
                 checkerboardTexture = Texture2D.FromStream(this.GraphicsDevice, stream);
@@ -69,7 +73,6 @@ namespace PBLGame
 
         protected override void Update(GameTime gameTime)
         {
-            // TODO: Add your update logic here
             base.Update(gameTime);
             inputManager.Update();
             camera.Update();
@@ -83,16 +86,12 @@ namespace PBLGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
             root.Draw(camera);
-            root.PositionX += 1.0f;
-            //Debug.WriteLine(root.PositionX);
-            node.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
-            node.PositionY = 15.0f;
-            node.RotationX += 0.01f;
-            node.Scale = new Vector3(0.2f);
-            node2.RotationY = -MathHelper.PiOver2;
-            node2.Scale = new Vector3(1.4f);
+            heart.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
+            heart.PositionY = 15.0f;
+            heart.Scale = new Vector3(0.2f);
+            playerModel.RotationY = -MathHelper.PiOver2;
+            playerModel.Scale = new Vector3(1.4f);
 
             base.Draw(gameTime);
         }
