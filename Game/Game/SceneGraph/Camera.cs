@@ -7,6 +7,10 @@ namespace PBLGame.SceneGraph
     public class Camera : SceneNode
     {
         SceneNode cameraTarget;
+        public float minZoom = 15f;
+        public float maxZoom = 60f;
+        public float minYRotation = -1.0f;
+        public float maxYRotation = 0.0f;
 
         public Camera()
         {
@@ -62,11 +66,11 @@ namespace PBLGame.SceneGraph
             RotationZ += inputManager.Mouse.PositionsDelta.X * 0.01f;
             float rotY = RotationY + inputManager.Mouse.PositionsDelta.Y * 0.01f;
             float posZ = PositionZ - inputManager.Mouse.ScrollValue * 0.01f;
-            if(posZ > 20f && posZ <  60f)
+            if(posZ > minZoom && posZ <  maxZoom)
             {
                 PositionZ = posZ;
             }
-            if(rotY < 0.0f && rotY > -1.0f)
+            if(rotY < maxYRotation && rotY > minYRotation)
             {
                 RotationY = rotY;
             }

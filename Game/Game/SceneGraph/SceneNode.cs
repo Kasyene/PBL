@@ -11,6 +11,7 @@ namespace PBLGame.SceneGraph
         public SceneNode Parent { get { return parent; } }
         public static NodeEventCallback onTransformUpdate;
         public static NodeEventCallback onDraw;
+        public string name;
         protected Transformation transform = new Transformation();
         public virtual bool visible { get; set; }
         protected static readonly BoundingBox EmptyBoundingBox = new BoundingBox();
@@ -30,7 +31,7 @@ namespace PBLGame.SceneGraph
             visible = true;
         }
 
-        public virtual void Draw(Camera camera)
+        public virtual void Draw(Camera camera, string newName = "Node")
         {
             if (!visible)
             {
