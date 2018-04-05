@@ -44,7 +44,7 @@ namespace PBLGame
             playerModel = new SceneGraph.GameObject();
             player = new Player();
             camera = new SceneGraph.Camera();
-            camera.SetCameraTarget(root);
+            camera.SetCameraTarget(player);
 
             Model apteczka = Content.Load<Model>("apteczka");
             Model budda = Content.Load<Model>("Knuckles");
@@ -55,7 +55,7 @@ namespace PBLGame
             root.AddChildNode(heart);
             root.AddChildNode(player);
             player.AddChildNode(playerModel);
-            player.AddChildNode(camera);
+            //player.AddChildNode(camera);
 
 
 
@@ -75,7 +75,7 @@ namespace PBLGame
         {
             base.Update(gameTime);
             inputManager.Update();
-            camera.Update();
+            //camera.Update();
             player.Update();
 
             if (inputManager.Keyboard[Keys.Escape])

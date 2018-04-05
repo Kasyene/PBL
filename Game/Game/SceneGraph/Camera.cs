@@ -9,8 +9,8 @@ namespace PBLGame.SceneGraph
         GameObject cameraTarget;
         public float minZoom = 15f;
         public float maxZoom = 60f;
-        public float minYRotation = -1.0f;
-        public float maxYRotation = 0.0f;
+        public float minYRotation = 0f;
+        public float maxYRotation = 1f;
         private readonly InputManager inputManager;
 
         public Camera()

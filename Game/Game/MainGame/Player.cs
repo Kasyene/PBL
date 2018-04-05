@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PBLGame.Input;
+using PBLGame.SceneGraph;
 
 namespace PBLGame.MainGame
 {
@@ -13,6 +14,7 @@ namespace PBLGame.MainGame
 
         public Player() : base()
         {
+            this.transform.transformOrder = TransformationOrder.ScalePositionRotation;
             inputManager = InputManager.Instance;
             playerSpeed = 0.5f;
         }
@@ -36,11 +38,11 @@ namespace PBLGame.MainGame
             }
             if (inputManager.Keyboard[Keys.A])
             {
-                this.Translate(new Vector3(playerSpeed, 0f, 0f));
+                this.Rotation  = new Vector3(this.RotationX, this.RotationY, this.RotationZ + playerSpeed/5);
             }
             if (inputManager.Keyboard[Keys.D])
             {
-                this.Translate(new Vector3(-playerSpeed, 0f, 0f));
+                this.Rotation = new Vector3(this.RotationX, this.RotationY, this.RotationZ - playerSpeed/5);
             }
         }
     }
