@@ -76,6 +76,7 @@ namespace PBLGame
             base.Update(gameTime);
             inputManager.Update();
             camera.Update();
+            player.Update();
 
             if (inputManager.Keyboard[Keys.Escape])
             {
@@ -88,7 +89,7 @@ namespace PBLGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
             root.Draw(camera);
             heart.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
-            heart.PositionY = 15.0f;
+            heart.PositionX = 15.0f;
             heart.Scale = new Vector3(0.2f);
             playerModel.RotationY = -MathHelper.PiOver2;
             playerModel.Scale = new Vector3(1.4f);

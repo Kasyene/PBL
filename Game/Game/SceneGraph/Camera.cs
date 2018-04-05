@@ -63,8 +63,9 @@ namespace PBLGame.SceneGraph
             return cameraTarget;
         }
 
-        public void Update()
+        public override void Update()
         {
+            base.Update();
             RotationZ += inputManager.Mouse.PositionsDelta.X * 0.01f;
             float rotY = RotationY + inputManager.Mouse.PositionsDelta.Y * 0.01f;
             float posZ = PositionZ - inputManager.Mouse.ScrollValue * 0.01f;
