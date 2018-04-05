@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace PBLGame.SceneGraph
 {
-    public delegate void NodeEventCallback(SceneNode node);
+    public delegate void NodeEventCallback(GameObject node);
 
-    public class SceneNode
+    public class GameObject
     {
-        protected SceneNode parent = null;
-        public SceneNode Parent { get { return parent; } }
+        protected GameObject parent = null;
+        public GameObject Parent { get { return parent; } }
         public static NodeEventCallback onTransformUpdate;
         public static NodeEventCallback onDraw;
         public string name;
@@ -18,15 +18,15 @@ namespace PBLGame.SceneGraph
         protected Matrix localTransform = Matrix.Identity;
         protected Matrix worldTransform = Matrix.Identity;
 
-        protected List<SceneNode> childs = new List<SceneNode>();
-        protected List<Entity> childEntities = new List<Entity>();
+        protected List<GameObject> childs = new List<GameObject>();
+        protected List<Component> childEntities = new List<Component>();
         protected bool isDirty = true;
 
         protected uint transformVersion = 0;
         public uint TransformVersion { get { return transformVersion; } }
         protected uint parentTransformVersion = 0;
 
-        public SceneNode()
+        public GameObject()
         {
             visible = true;
         }
@@ -40,30 +40,30 @@ namespace PBLGame.SceneGraph
 
             UpdateTransformations();
 
-            foreach (SceneNode node in childs)
+            foreach (GameObject node in childs)
             {
                 node.Draw(camera);
             }
 
             onDraw?.Invoke(this);
 
-            foreach (Entity entity in childEntities)
+            foreach (Component entity in childEntities)
             {
                 entity.Draw(this, camera, localTransform, worldTransform);
             }
         }
 
-        public void AddEntity(Entity entity)
+        public void AddEntity(Component entity)
         {
             childEntities.Add(entity);
         }
 
-        public void RemoveEntity(Entity entity)
+        public void RemoveEntity(Component entity)
         {
             childEntities.Remove(entity);
         }
 
-        public void AddChildNode(SceneNode node)
+        public void AddChildNode(GameObject node)
         {
             if (node.parent != null)
             {
@@ -73,7 +73,7 @@ namespace PBLGame.SceneGraph
             node.SetParent(this);
         }
 
-        public void RemoveChildNode(SceneNode node)
+        public void RemoveChildNode(GameObject node)
         {
             if (node.parent != this)
             {
@@ -107,7 +107,7 @@ namespace PBLGame.SceneGraph
             isDirty = true;
         }
 
-        protected virtual void SetParent(SceneNode newParent)
+        protected virtual void SetParent(GameObject newParent)
         {
             parent = newParent;
             parentTransformVersion = newParent != null ? newParent.transformVersion - 1 : 1;
@@ -157,7 +157,7 @@ namespace PBLGame.SceneGraph
 
             if (recursive)
             {
-                foreach (SceneNode node in childs)
+                foreach (GameObject node in childs)
                 {
                     node.ForceUpdate(recursive);
                 }
@@ -260,7 +260,7 @@ namespace PBLGame.SceneGraph
             OnTransformationsSet();
         }
 
-        public virtual void OnChildWorldMatrixChange(SceneNode node)
+        public virtual void OnChildWorldMatrixChange(GameObject node)
         {
         }
 
@@ -285,7 +285,7 @@ namespace PBLGame.SceneGraph
 
             if (includeChildNodes)
             {
-                foreach (SceneNode child in childs)
+                foreach (GameObject child in childs)
                 {
                     if (!child.visible)
                     {
@@ -301,7 +301,7 @@ namespace PBLGame.SceneGraph
                 }
             }
 
-            foreach (Entity entity in childEntities)
+            foreach (Component entity in childEntities)
             {
                 if (!entity.Visible)
                 {

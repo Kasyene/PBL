@@ -16,10 +16,10 @@ namespace PBLGame
         InputManager inputManager;
 
         Texture2D checkerboardTexture;
-        SceneGraph.SceneNode root;
-        SceneGraph.SceneNode node;
-        SceneGraph.SceneNode player;
-        SceneGraph.SceneNode node2;
+        SceneGraph.GameObject root;
+        SceneGraph.GameObject node;
+        SceneGraph.GameObject player;
+        SceneGraph.GameObject node2;
         SceneGraph.Camera camera;
 
         public ShroomGame()
@@ -38,10 +38,10 @@ namespace PBLGame
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            root = new SceneGraph.SceneNode();
-            node = new SceneGraph.SceneNode();
-            node2 = new SceneGraph.SceneNode();
-            player = new SceneGraph.SceneNode();
+            root = new SceneGraph.GameObject();
+            node = new SceneGraph.GameObject();
+            node2 = new SceneGraph.GameObject();
+            player = new SceneGraph.GameObject();
             camera = new SceneGraph.Camera();
             camera.SetCameraTarget(root);
 
@@ -51,8 +51,8 @@ namespace PBLGame
             player.AddChildNode(node2);
             Model model = Content.Load<Model>("apteczka");
             Model budda = Content.Load<Model>("Knuckles");
-            node.AddEntity(new SceneGraph.ModelEntity(model));
-            node2.AddEntity(new SceneGraph.ModelEntity(budda));
+            node.AddEntity(new SceneGraph.ModelComponent(model));
+            node2.AddEntity(new SceneGraph.ModelComponent(budda));
 
             // We aren't using the content pipeline, so we need
             // to access the stream directly:

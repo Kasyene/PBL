@@ -1,0 +1,187 @@
+fileFormatVersion: 2
+guid: 8c644a3fa3ae15249aa7dee7b827a4fc
+timeCreated: 1522914194
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: brama
+    100002: bramasufit
+    100004: //RootNode
+    100006: most
+    100008: platforma
+    100010: schodek1
+    100012: schodek2
+    100014: schodek3
+    100016: schodek4
+    100018: schodek5
+    100020: schodek6
+    100022: schodek7
+    100024: schodek8
+    100026: schody
+    100028: sciany
+    100030: sciany 1
+    100032: scianysrodek
+    100034: Strefa1
+    100036: Strefa2
+    100038: wieza
+    400000: brama
+    400002: bramasufit
+    400004: //RootNode
+    400006: most
+    400008: platforma
+    400010: schodek1
+    400012: schodek2
+    400014: schodek3
+    400016: schodek4
+    400018: schodek5
+    400020: schodek6
+    400022: schodek7
+    400024: schodek8
+    400026: schody
+    400028: sciany
+    400030: sciany 1
+    400032: scianysrodek
+    400034: Strefa1
+    400036: Strefa2
+    400038: wieza
+    2100000: 02 - Default
+    2100002: 03 - Default
+    2300000: brama
+    2300002: bramasufit
+    2300004: most
+    2300006: platforma
+    2300008: schodek1
+    2300010: schodek2
+    2300012: schodek3
+    2300014: schodek4
+    2300016: schodek5
+    2300018: schodek6
+    2300020: schodek7
+    2300022: schodek8
+    2300024: schody
+    2300026: sciany
+    2300028: sciany 1
+    2300030: scianysrodek
+    2300032: Strefa1
+    2300034: Strefa2
+    2300036: wieza
+    3300000: brama
+    3300002: bramasufit
+    3300004: most
+    3300006: platforma
+    3300008: schodek1
+    3300010: schodek2
+    3300012: schodek3
+    3300014: schodek4
+    3300016: schodek5
+    3300018: schodek6
+    3300020: schodek7
+    3300022: schodek8
+    3300024: schody
+    3300026: sciany
+    3300028: sciany 1
+    3300030: scianysrodek
+    3300032: Strefa1
+    3300034: Strefa2
+    3300036: wieza
+    4300000: Strefa1
+    4300002: sciany
+    4300004: scianysrodek
+    4300006: schodek8
+    4300008: schodek7
+    4300010: schodek6
+    4300012: schodek5
+    4300014: schodek4
+    4300016: schodek3
+    4300018: schodek2
+    4300020: schodek1
+    4300022: brama
+    4300024: bramasufit
+    4300026: Strefa2
+    4300028: sciany
+    4300030: platforma
+    4300032: wieza
+    4300034: most
+    4300036: schody
+    9500000: //RootNode
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

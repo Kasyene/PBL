@@ -53,9 +53,9 @@
     <Compile Include="Input\InputKey.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="SceneGraph\Camera.cs" />
-    <Compile Include="SceneGraph\Entity.cs" />
-    <Compile Include="SceneGraph\ModelEntity.cs" />
-    <Compile Include="SceneGraph\SceneNode.cs" />
+    <Compile Include="SceneGraph\Component.cs" />
+    <Compile Include="SceneGraph\ModelComponent.cs" />
+    <Compile Include="SceneGraph\GameObject.cs" />
     <Compile Include="SceneGraph\Transformation.cs" />
     <Compile Include="ShroomGame.cs" />
     <Compile Include="Program.cs" />

@@ -3,9 +3,9 @@ using PBLGame.SceneGraph;
 
 namespace PBLGame.MainGame
 {
-    class Pawn : ModelEntity
+    class Pawn : GameObject
     {
-        public Pawn(Model loadedeModel) : base(loadedeModel)
+        public Pawn() : base()
         {
             //TODO, too sleepy right now :P
         }

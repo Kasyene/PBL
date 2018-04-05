@@ -4,9 +4,9 @@ using PBLGame.Input;
 
 namespace PBLGame.SceneGraph
 {
-    public class Camera : SceneNode
+    public class Camera : GameObject
     {
-        SceneNode cameraTarget;
+        GameObject cameraTarget;
         public float minZoom = 15f;
         public float maxZoom = 60f;
         public float minYRotation = -1.0f;
@@ -51,12 +51,12 @@ namespace PBLGame.SceneGraph
             }
         }
 
-        public void SetCameraTarget(SceneNode target)
+        public void SetCameraTarget(GameObject target)
         {
             cameraTarget = target;
         }
 
-        public SceneNode GetCameraTarget()
+        public GameObject GetCameraTarget()
         {
             return cameraTarget;
         }

@@ -5,11 +5,11 @@ using System;
 
 namespace PBLGame.SceneGraph
 {
-    class ModelEntity : Entity
+    class ModelComponent : Component
     {
         public Model model;
 
-        public ModelEntity(Model loadedeModel)
+        public ModelComponent(Model loadedeModel)
         {
             model = loadedeModel;
         }
@@ -27,7 +27,7 @@ namespace PBLGame.SceneGraph
             }
         }
 
-        public void Draw(SceneNode parent, Camera camera, Matrix localTransformations, Matrix worldTransformations)
+        public override void Draw(GameObject parent, Camera camera, Matrix localTransformations, Matrix worldTransformations)
         {
             foreach (var mesh in model.Meshes)
             {
@@ -46,7 +46,7 @@ namespace PBLGame.SceneGraph
             }
         }
 
-        public BoundingBox GetBoundingBox(SceneNode parent, Matrix localTransformations, Matrix worldTransformations)
+        public override BoundingBox GetBoundingBox(GameObject parent, Matrix localTransformations, Matrix worldTransformations)
         {
             Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
             Vector3 max = new Vector3(float.MinValue, float.MinValue, float.MinValue);

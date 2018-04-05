@@ -4,7 +4,7 @@ namespace PBLGame.MainGame
 {
     class Player : Pawn
     {
-        public Player(Model loadedeModel) : base(loadedeModel)
+        public Player() : base()
         {
             //TODO, too sleepy right now :P
         }
