@@ -53,6 +53,14 @@ namespace PBLGame.SceneGraph
             }
         }
 
+        public virtual void Update()
+        {
+            foreach(GameObject node in childs)
+            {
+                node.Update();
+            }
+        }
+
         public void AddEntity(Component entity)
         {
             childEntities.Add(entity);
