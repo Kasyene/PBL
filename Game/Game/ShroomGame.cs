@@ -19,6 +19,7 @@ namespace PBLGame
         Texture2D checkerboardTexture;
         SceneGraph.GameObject root;
         SceneGraph.GameObject heart;
+        SceneGraph.GameObject heart2;
         Player player;
         SceneGraph.GameObject playerModel;
         SceneGraph.Camera camera;
@@ -41,6 +42,7 @@ namespace PBLGame
 
             root = new SceneGraph.GameObject();
             heart = new SceneGraph.GameObject();
+            heart2 = new SceneGraph.GameObject();
             playerModel = new SceneGraph.GameObject();
             player = new Player();
             camera = new SceneGraph.Camera();
@@ -50,12 +52,14 @@ namespace PBLGame
             Model budda = Content.Load<Model>("Knuckles");
 
             heart.AddEntity(new SceneGraph.ModelComponent(apteczka));
+            heart2.AddEntity(new SceneGraph.ModelComponent(apteczka));
             playerModel.AddEntity(new SceneGraph.ModelComponent(budda));
 
             root.AddChildNode(heart);
+            root.AddChildNode(heart2);
             root.AddChildNode(player);
             player.AddChildNode(playerModel);
-            //player.AddChildNode(camera);
+            player.AddChildNode(camera);
 
 
 
@@ -75,7 +79,7 @@ namespace PBLGame
         {
             base.Update(gameTime);
             inputManager.Update();
-            //camera.Update();
+            camera.Update();
             player.Update();
 
             if (inputManager.Keyboard[Keys.Escape])
@@ -89,8 +93,11 @@ namespace PBLGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
             root.Draw(camera);
             heart.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
+            heart2.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
             heart.PositionX = 15.0f;
+            heart2.PositionX = 30f;
             heart.Scale = new Vector3(0.2f);
+            heart2.Scale = new Vector3(0.2f);
             playerModel.RotationY = -MathHelper.PiOver2;
             playerModel.Scale = new Vector3(1.4f);
 

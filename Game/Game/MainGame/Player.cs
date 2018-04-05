@@ -14,7 +14,6 @@ namespace PBLGame.MainGame
 
         public Player() : base()
         {
-            this.transform.transformOrder = TransformationOrder.ScalePositionRotation;
             inputManager = InputManager.Instance;
             playerSpeed = 0.5f;
         }
@@ -23,18 +22,19 @@ namespace PBLGame.MainGame
         {
             base.Update();
             PlayerMovement();
-
+            //Debug.WriteLine("Position " + Position);
+            //Debug.WriteLine("Rotation " + Rotation);        
         }
 
         private void PlayerMovement()
         {
             if (inputManager.Keyboard[Keys.W])
             {
-                this.Translate(new Vector3(0f, 0f, playerSpeed));
+                MoveForward(playerSpeed);              
             }
             if (inputManager.Keyboard[Keys.S])
             {
-                this.Translate(new Vector3(0f, 0f, -playerSpeed));
+                MoveBack(playerSpeed);
             }
             if (inputManager.Keyboard[Keys.A])
             {
