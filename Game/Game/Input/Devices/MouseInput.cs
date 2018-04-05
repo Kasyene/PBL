@@ -66,7 +66,8 @@ namespace PBLGame.Input.Devices
             this._lastState = this._state;
             this._state = Mouse.GetState();
 
-            if (this._lastState.X != this._state.X || this._lastState.Y != this._state.Y)
+            //if (this._lastState.X != this._state.X || this._lastState.Y != this._state.Y) 
+            ///To musi mieć możliwość się wyzerować bo inaczej kamera nigdy się nie zatrzyma
             {
                 this._lastPosition = _currentPosition;
                 this._currentPosition = new Vector2(this._state.X, this._state.Y);
@@ -74,7 +75,8 @@ namespace PBLGame.Input.Devices
 
             this.ScrollTotal = this._state.ScrollWheelValue;
             this.ScrollValue = this._state.ScrollWheelValue - this._lastState.ScrollWheelValue;
-            if (this.ScrollValue != 0)
+            //if (this.ScrollValue != 0)
+            //To podobnie jak wyżej
             {
                 Scroll?.Invoke(this.ScrollValue);
             }

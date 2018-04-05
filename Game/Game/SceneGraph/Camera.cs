@@ -11,7 +11,7 @@ namespace PBLGame.SceneGraph
         public Camera()
         {
             visible = false;
-            Position = new Vector3(0f, 20f, 50f);
+            Position = new Vector3(0f, 0f, 50f);
             TransformationsOrder = TransformationOrder.ScalePositionRotation;
         }
 
@@ -61,11 +61,16 @@ namespace PBLGame.SceneGraph
         {
             RotationZ += inputManager.Mouse.PositionsDelta.X * 0.01f;
             float rotY = RotationY + inputManager.Mouse.PositionsDelta.Y * 0.01f;
+            float posZ = PositionZ - inputManager.Mouse.ScrollValue * 0.01f;
+            if(posZ > 20f && posZ <  60f)
+            {
+                PositionZ = posZ;
+            }
             if(rotY < 0.0f && rotY > -1.0f)
             {
                 RotationY = rotY;
             }
-            System.Diagnostics.Debug.WriteLine(Rotation);
+            System.Diagnostics.Debug.WriteLine(posZ);
         }
     }
 }
