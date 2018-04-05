@@ -10,6 +10,20 @@ namespace PBLGame.Input
 {
     public class InputManager
     {
+        private static InputManager instance;
+
+        public static InputManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new InputManager();
+                }
+                return instance;
+            }
+        }
+
         private readonly List<IInput> _devices;
         internal InputManager()
         {
