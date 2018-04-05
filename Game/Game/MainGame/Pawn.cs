@@ -5,9 +5,15 @@ namespace PBLGame.MainGame
 {
     class Pawn : GameObject
     {
+        public int Hp { get; internal set; }
         public Pawn() : base()
         {
-            //TODO, too sleepy right now :P
+
         }
+        public virtual void Damage()
+        {
+            this.Hp -= 1;
+        }
+
     }
 }

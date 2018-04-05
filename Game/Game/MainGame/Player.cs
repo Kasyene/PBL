@@ -6,7 +6,12 @@ namespace PBLGame.MainGame
     {
         public Player() : base()
         {
-            //TODO, too sleepy right now :P
+
+        }
+
+        public void Update()
+        {
+
         }
     }
 }

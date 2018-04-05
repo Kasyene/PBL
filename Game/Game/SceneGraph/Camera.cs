@@ -11,9 +11,11 @@ namespace PBLGame.SceneGraph
         public float maxZoom = 60f;
         public float minYRotation = -1.0f;
         public float maxYRotation = 0.0f;
+        private InputManager inputManager;
 
         public Camera()
         {
+            inputManager = InputManager.Instance;
             visible = false;
             Position = new Vector3(0f, 0f, 50f);
             TransformationsOrder = TransformationOrder.ScalePositionRotation;
@@ -61,7 +63,7 @@ namespace PBLGame.SceneGraph
             return cameraTarget;
         }
 
-        public void CameraUpdate(InputManager inputManager)
+        public void Update()
         {
             RotationZ += inputManager.Mouse.PositionsDelta.X * 0.01f;
             float rotY = RotationY + inputManager.Mouse.PositionsDelta.Y * 0.01f;
@@ -74,7 +76,7 @@ namespace PBLGame.SceneGraph
             {
                 RotationY = rotY;
             }
-            System.Diagnostics.Debug.WriteLine(posZ);
+            //System.Diagnostics.Debug.WriteLine(posZ);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace PBLGame
         public ShroomGame()
         {
             graphics = new GraphicsDeviceManager(this);
-            inputManager = new InputManager();
+            inputManager = InputManager.Instance;
             Content.RootDirectory = "Content";
         }
 
@@ -72,7 +72,7 @@ namespace PBLGame
             // TODO: Add your update logic here
             base.Update(gameTime);
             inputManager.Update();
-            camera.CameraUpdate(inputManager);
+            camera.Update();
 
             if (inputManager.Keyboard[Keys.Escape])
             {
