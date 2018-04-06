@@ -4,6 +4,8 @@ namespace PBLGame.SceneGraph
 {
     public class Component
     {
+        protected bool visible;
+
         public virtual void Draw(GameObject parent, Camera camera, Matrix localTransformations, Matrix worldTransformations)
         {
         }
@@ -13,6 +15,17 @@ namespace PBLGame.SceneGraph
             return new BoundingBox();
         }
 
-        public bool Visible { get; set; }
+        public bool Visible
+        {
+            get
+            {
+                return visible;
+            }
+
+            set
+            {
+                visible = value;
+            }
+        }
     }
 }

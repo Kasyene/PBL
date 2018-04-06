@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace PBLGame.SceneGraph
 {
@@ -327,7 +328,6 @@ namespace PBLGame.SceneGraph
             {
                 return EmptyBoundingBox;
             }
-
             return BoundingBox.CreateFromPoints(corners);
         }
     }

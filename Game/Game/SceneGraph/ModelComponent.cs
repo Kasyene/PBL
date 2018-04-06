@@ -12,19 +12,7 @@ namespace PBLGame.SceneGraph
         public ModelComponent(Model loadedeModel)
         {
             model = loadedeModel;
-        }
-
-        public bool Visible
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
+            Visible = true;
         }
 
         public override void Draw(GameObject parent, Camera camera, Matrix localTransformations, Matrix worldTransformations)

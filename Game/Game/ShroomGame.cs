@@ -81,6 +81,8 @@ namespace PBLGame
             inputManager.Update();
             camera.Update();
             player.Update();
+            BoundingBox box = player.GetBoundingBox();
+            //System.Diagnostics.Debug.WriteLine(box);
 
             if (inputManager.Keyboard[Keys.Escape])
             {

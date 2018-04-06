@@ -77,7 +77,6 @@ namespace PBLGame.SceneGraph
             {
                 RotationY = rotY;
             }
-            //System.Diagnostics.Debug.WriteLine(posZ);
         }
     }
 }

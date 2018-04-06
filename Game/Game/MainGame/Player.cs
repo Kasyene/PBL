@@ -21,9 +21,7 @@ namespace PBLGame.MainGame
         public override void Update()
         {
             base.Update();
-            PlayerMovement();
-            //Debug.WriteLine("Position " + Position);
-            //Debug.WriteLine("Rotation " + Rotation);        
+            PlayerMovement();     
         }
 
         private void PlayerMovement()
