@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace PBLGame.SceneGraph
 {
@@ -330,5 +331,36 @@ namespace PBLGame.SceneGraph
             }
             return BoundingBox.CreateFromPoints(corners);
         }
+        private ModelComponent GetModelComponent()
+        {
+            if (this.HaveEntities)
+            {
+                foreach (var component in childEntities)
+                {
+                    if (component.GetType() == typeof(ModelComponent))
+                    {
+                        return component as ModelComponent;
+                    }
+                }
+                throw new System.Exception("GameObj doesn't have ModelComponent");
+            }
+            else
+            {
+                throw new System.Exception("GameObj doesn't have any Components");
+            }
+        }
+
+        public virtual ModelMesh GetMeshWithMeshNameEqualTo(string name)
+        {
+            foreach (var mesh in this.GetModelComponent().model.Meshes)
+            {
+                if (mesh.Name == name)
+                {
+                    return mesh;
+                }
+            }
+            throw new System.Exception("There is no mesh with such name");
+        }
+
     }
 }
