@@ -53,6 +53,7 @@
     <Compile Include="Input\InputKey.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="SceneGraph\Camera.cs" />
+    <Compile Include="SceneGraph\Collider.cs" />
     <Compile Include="SceneGraph\Component.cs" />
     <Compile Include="SceneGraph\ModelComponent.cs" />
     <Compile Include="SceneGraph\GameObject.cs" />
