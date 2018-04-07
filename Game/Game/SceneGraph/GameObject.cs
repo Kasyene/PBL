@@ -22,6 +22,7 @@ namespace PBLGame.SceneGraph
 
         protected List<GameObject> childs = new List<GameObject>();
         protected List<Component> childEntities = new List<Component>();
+        protected List<Collider> colliders = new List<Collider>();
         protected bool isDirty = true;
 
         protected uint transformVersion = 0;
@@ -142,6 +143,7 @@ namespace PBLGame.SceneGraph
                     parentTransformVersion = 0;
                 }
                 OnWorldMatrixChange();
+                UpdateColliders();
             }
             isDirty = false;
         }
@@ -339,8 +341,7 @@ namespace PBLGame.SceneGraph
                 if(entity.GetType() == typeof(ModelComponent))
                 {
                     BoundingBox currBox = entity.GetBoundingBox(this, localTransform, worldTransform);
-                    childEntities.Add(new Collider(currBox));
-                    //Debug.WriteLine("Collider");
+                    colliders.Add(new Collider(currBox, entity));
                     break;
                 }
             }
@@ -348,6 +349,17 @@ namespace PBLGame.SceneGraph
             foreach (GameObject child in childs)
             {
                 child.CreateColliders();
+            }
+        }
+
+        public void UpdateColliders()
+        {
+            foreach (Collider col in colliders)
+            {
+                    BoundingBox currBox = col.Component.GetBoundingBox(this, localTransform, worldTransform);
+                    col.BoundingBox = currBox;
+                    Debug.WriteLine("Collider");
+                    Debug.WriteLine(currBox);
             }
         }
 

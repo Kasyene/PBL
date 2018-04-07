@@ -60,8 +60,9 @@ namespace PBLGame
             root.AddChildNode(player);
             player.AddChildNode(playerModel);
             player.AddChildNode(camera);
-
             root.CreateColliders();
+
+            // root.CreateColliders();
 
             // We aren't using the content pipeline, so we need to access the stream directly:
             using (var stream = TitleContainer.OpenStream("Content/checkerboard.png"))
@@ -81,8 +82,6 @@ namespace PBLGame
             inputManager.Update();
             camera.Update();
             player.Update();
-            BoundingBox box = player.GetBoundingBox();
-            //System.Diagnostics.Debug.WriteLine(box);
 
             if (inputManager.Keyboard[Keys.Escape])
             {

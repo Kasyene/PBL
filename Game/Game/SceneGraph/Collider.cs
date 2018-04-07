@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace PBLGame.SceneGraph
 {
-    class Collider : Component
+    public class Collider : Component
     {
+        private Component component;
         protected BoundingBox boundingBox;
         public bool isTrigger;
 
-        protected BoundingBox BoundingBox
+        public BoundingBox BoundingBox
         {
             get
             {
@@ -25,8 +26,17 @@ namespace PBLGame.SceneGraph
             }
         }
 
-        public Collider(BoundingBox bounding)
+        public Component Component
         {
+            get
+            {
+                return component;
+            }
+        }
+
+        public Collider(BoundingBox bounding, Component comp)
+        {
+            component = comp;
             boundingBox = bounding;
         }
 
