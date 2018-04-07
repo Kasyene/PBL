@@ -9,6 +9,7 @@ namespace PBLGame.SceneGraph
 {
     public class Collider : Component
     {
+        private static List<Collider> collidersList;
         private Component component;
         protected BoundingBox boundingBox;
         public bool isTrigger;
@@ -36,14 +37,35 @@ namespace PBLGame.SceneGraph
 
         public Collider(BoundingBox bounding, Component comp)
         {
+            if(collidersList == null)
+            {
+                collidersList = new List<Collider>();
+            }
             component = comp;
             boundingBox = bounding;
+            collidersList.Add(this);
+            //System.Diagnostics.Debug.WriteLine("Add to colliders list");
         }
 
         public bool IsCollision(BoundingBox other)
         {
-            if (boundingBox.Intersects(other)) return true;
+            if (boundingBox.Intersects(other))
+            {
+                System.Diagnostics.Debug.WriteLine("Collision");
+                return true;
+            }
             return false;
+        }
+
+        public void CollisionUpdate()
+        {
+            foreach(Collider col in collidersList)
+            {
+                if (col != this)
+                {
+                    IsCollision(col.BoundingBox);
+                }
+            }
         }
     }
 }
