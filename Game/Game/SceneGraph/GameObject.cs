@@ -358,8 +358,8 @@ namespace PBLGame.SceneGraph
             {
                     BoundingBox currBox = col.Component.GetBoundingBox(this, localTransform, worldTransform);
                     col.BoundingBox = currBox;
-                    Debug.WriteLine("Collider");
-                    Debug.WriteLine(currBox);
+                    //Debug.WriteLine("Collider");
+                    //Debug.WriteLine(currBox);
             }
         }
 
