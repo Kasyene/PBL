@@ -331,6 +331,26 @@ namespace PBLGame.SceneGraph
             }
             return BoundingBox.CreateFromPoints(corners);
         }
+
+        public void CreateColliders()
+        {
+            foreach (Component entity in childEntities)
+            {
+                if(entity.GetType() == typeof(ModelComponent))
+                {
+                    BoundingBox currBox = entity.GetBoundingBox(this, localTransform, worldTransform);
+                    childEntities.Add(new Collider(currBox));
+                    //Debug.WriteLine("Collider");
+                    break;
+                }
+            }
+
+            foreach (GameObject child in childs)
+            {
+                child.CreateColliders();
+            }
+        }
+
         private ModelComponent GetModelComponent()
         {
             if (this.HaveEntities)

@@ -61,7 +61,7 @@ namespace PBLGame
             player.AddChildNode(playerModel);
             player.AddChildNode(camera);
 
-
+            root.CreateColliders();
 
             // We aren't using the content pipeline, so we need to access the stream directly:
             using (var stream = TitleContainer.OpenStream("Content/checkerboard.png"))
