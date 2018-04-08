@@ -54,10 +54,11 @@
     <Compile Include="Input\IInput.cs" />
     <Compile Include="Input\InputKey.cs" />
     <Compile Include="Input\InputManager.cs" />
+    <Compile Include="Components\ModelAnimComponent.cs" />
     <Compile Include="SceneGraph\Camera.cs" />
-    <Compile Include="SceneGraph\Collider.cs" />
-    <Compile Include="SceneGraph\Component.cs" />
-    <Compile Include="SceneGraph\ModelComponent.cs" />
+    <Compile Include="Components\Collider.cs" />
+    <Compile Include="Components\Component.cs" />
+    <Compile Include="Components\ModelComponent.cs" />
     <Compile Include="SceneGraph\GameObject.cs" />
     <Compile Include="SceneGraph\Transformation.cs" />
     <Compile Include="ShroomGame.cs" />

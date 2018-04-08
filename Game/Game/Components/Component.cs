@@ -15,6 +15,8 @@ namespace PBLGame.SceneGraph
             return new BoundingBox();
         }
 
+        public virtual void Update(GameTime gameTime) { }
+
         public bool Visible
         {
             get

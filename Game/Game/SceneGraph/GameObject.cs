@@ -64,7 +64,15 @@ namespace PBLGame.SceneGraph
             }
         }
 
-        public void AddEntity(Component entity)
+        public virtual void Update(GameTime gameTime)
+        {
+            foreach (GameObject node in childs)
+            {
+                node.Update(gameTime);
+            }
+        }
+
+        public void AddComponent(Component entity)
         {
             childEntities.Add(entity);
         }
@@ -404,6 +412,5 @@ namespace PBLGame.SceneGraph
             }
             throw new System.Exception("There is no mesh with such name");
         }
-
     }
 }

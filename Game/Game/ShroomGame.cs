@@ -26,8 +26,6 @@ namespace PBLGame
         SceneGraph.GameObject playerModel;
         SceneGraph.Camera camera;
 
-        private AnimationPlayer animationPlayer;
-
         public ShroomGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -53,22 +51,24 @@ namespace PBLGame
             camera.SetCameraTarget(player);
 
             Model apteczka = Content.Load<Model>("apteczka");
+            //Model budda2 = Content.Load<Model>("dude/dude");
             Model budda = Content.Load<Model>("Knuckles");
 
-            // Anim Load
+            // Anim Load for player
             SkinningData skinningData = budda.Tag as SkinningData;
 
             if(skinningData == null)
                 throw new InvalidOperationException("This model does not contain a SkinningData tag.");
+           
 
-            // Create animation player and decode an animation clip
-            animationPlayer = new AnimationPlayer(skinningData);
+            // Create animation player and decode an animation clip 
+            playerModel.AddComponent(new SceneGraph.ModelAnimComponent(budda, new AnimationPlayer(skinningData), skinningData.AnimationClips["Armature|ArmatureAction"]));
 
-            AnimationClip clip = skinningData.AnimationClips["Take 001"];
 
-            heart.AddEntity(new SceneGraph.ModelComponent(apteczka));
-            heart2.AddEntity(new SceneGraph.ModelComponent(apteczka));
-            playerModel.AddEntity(new SceneGraph.ModelComponent(budda));
+            // Add static models
+            heart.AddComponent(new SceneGraph.ModelComponent(apteczka));
+            heart2.AddComponent(new SceneGraph.ModelComponent(apteczka));
+            
 
             root.AddChildNode(heart);
             root.AddChildNode(heart2);
@@ -97,21 +97,26 @@ namespace PBLGame
 
         protected override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
             inputManager.Update();
             camera.Update();
+            // Player update
             player.Update();
-
+            // Anim update
+            playerModel.Update(gameTime);
+            //
             if (inputManager.Keyboard[Keys.Escape])
             {
                 Exit();
             }
+            base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            
             root.Draw(camera);
+
             playerModel.RotationY = -MathHelper.PiOver2;
             playerModel.Scale = new Vector3(1.4f);
 
