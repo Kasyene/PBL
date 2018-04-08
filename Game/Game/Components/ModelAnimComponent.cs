@@ -6,21 +6,21 @@ namespace PBLGame.SceneGraph
 {
     public class ModelAnimComponent : ModelComponent
     {
-        private AnimationPlayer animationPlayer;
-        private AnimationClip animationClip;
+        private AnimationPlayer _animationPlayer;
+        private AnimationClip _animationClip;
         private Matrix[] bones;
-        public ModelAnimComponent(Model loadedeModel, AnimationPlayer animationPlayer, AnimationClip animationClip) : base(loadedeModel)
+        public ModelAnimComponent(Model model, AnimationPlayer animationPlayer, AnimationClip animationClip) : base(model)
         {
-            this.animationPlayer = animationPlayer;
-            this.animationClip = animationClip;
-            animationPlayer.StartClip(animationClip);
+            _animationPlayer = animationPlayer;
+            _animationClip = animationClip;
+            animationPlayer.StartClip(_animationClip);
         }
 
         public override void Draw(GameObject parent, Camera camera, Matrix localTransformations, Matrix worldTransformations)
         {
             foreach (ModelMesh mesh in model.Meshes)
             {
-                bones = animationPlayer.GetBoneTransforms();
+                bones = _animationPlayer.GetBoneTransforms();
                 foreach (SkinnedEffect effect in mesh.Effects)
                 {
                     // set bone transforms
@@ -44,9 +44,9 @@ namespace PBLGame.SceneGraph
         }
 
         public override void Update(GameTime gameTime)
-        {
+        {         
+            _animationPlayer.Update(gameTime.ElapsedGameTime, true, Matrix.Identity);
             base.Update(gameTime);
-            animationPlayer.Update(gameTime.ElapsedGameTime, true, Matrix.Identity);
         }
     }
 }

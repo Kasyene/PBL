@@ -12,9 +12,9 @@ namespace PBLGame.SceneGraph
         public Model model;
 
 
-        public ModelComponent(Model loadedeModel)
+        public ModelComponent(Model _model)
         {
-            model = loadedeModel;
+            model = _model;
             Visible = true;
         }
 
