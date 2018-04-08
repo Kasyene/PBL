@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System;
 using System.CodeDom;
+using Microsoft.Xna.Framework.Content;
 using SkinnedModel;
 
 namespace PBLGame.SceneGraph
@@ -10,7 +11,7 @@ namespace PBLGame.SceneGraph
     public class ModelComponent : Component
     {
         public Model model;
-
+        
 
         public ModelComponent(Model _model)
         {
@@ -67,6 +68,11 @@ namespace PBLGame.SceneGraph
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+        }
+
+        public override void LoadContent(ContentManager contentManager)
+        {
+            base.LoadContent(contentManager);
         }
     }
 }

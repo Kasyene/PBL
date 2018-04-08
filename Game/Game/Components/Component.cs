@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace PBLGame.SceneGraph
 {
@@ -16,6 +17,8 @@ namespace PBLGame.SceneGraph
         }
 
         public virtual void Update(GameTime gameTime) { }
+
+        public virtual void LoadContent(ContentManager contentManager) { }
 
         public bool Visible
         {

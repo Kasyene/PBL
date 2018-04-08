@@ -39,10 +39,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimationClip.cs" />
-    <Compile Include="AnimationPlayer.cs" />
-    <Compile Include="Keyframe.cs" />
+    <Compile Include="AnimationClipReader.cs" />
+    <Compile Include="ModelExtra.cs" />
+    <Compile Include="ModelExtraReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SkinningData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,57 +1,92 @@
-#region File Description
-//-----------------------------------------------------------------------------
-// AnimationClip.cs
-//
-// Microsoft XNA Community Game Platform
-// Copyright (C) Microsoft Corporation. All rights reserved.
-//-----------------------------------------------------------------------------
-#endregion
-
-#region Using Statements
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Content;
-#endregion
+using System.Linq;
+using System.Text;
+using Microsoft.Xna.Framework;
 
-namespace SkinnedModel
+namespace AnimationAux
 {
     /// <summary>
-    /// An animation clip is the runtime equivalent of the
-    /// Microsoft.Xna.Framework.Content.Pipeline.Graphics.AnimationContent type.
-    /// It holds all the keyframes needed to describe a single animation.
+    /// An animation clip is a set of keyframes with associated bones.
     /// </summary>
     public class AnimationClip
     {
+        #region Keyframe and Bone nested class
+
         /// <summary>
-        /// Constructs a new animation clip object.
+        /// An Keyframe is a rotation and translation for a moment in time.
+        /// It would be easy to extend this to include scaling as well.
         /// </summary>
-        public AnimationClip(TimeSpan duration, List<Keyframe> keyframes)
+        public class Keyframe
         {
-            Duration = duration;
-            Keyframes = keyframes;
+            public double Time;             // The keyframe time
+            public Quaternion Rotation;     // The rotation for the bone
+            public Vector3 Translation;     // The translation for the bone
+
+            public Matrix Transform
+            {
+                get
+                {
+                    return Matrix.CreateFromQuaternion(Rotation) * Matrix.CreateTranslation(Translation);
+                }
+                set
+                {
+                    Matrix transform = value;
+                    transform.Right = Vector3.Normalize(transform.Right);
+                    transform.Up = Vector3.Normalize(transform.Up);
+                    transform.Backward = Vector3.Normalize(transform.Backward);
+                    Rotation = Quaternion.CreateFromRotationMatrix(transform);
+                    Translation = transform.Translation;
+                }
+            }
         }
 
-
         /// <summary>
-        /// Private constructor for use by the XNB deserializer.
+        /// Keyframes are grouped per bone for an animation clip
         /// </summary>
-        private AnimationClip()
+        public class Bone
         {
+            /// <summary>
+            /// Each bone has a name so we can associate it with a runtime model
+            /// </summary>
+            private string name = "";
+
+            /// <summary>
+            /// The keyframes for this bone
+            /// </summary>
+            private List<Keyframe> keyframes = new List<Keyframe>();
+
+            /// <summary>
+            /// The bone name for these keyframes
+            /// </summary>
+            public string Name { get { return name; } set { name = value; } }
+
+            /// <summary>
+            /// The keyframes for this bone
+            /// </summary>
+            public List<Keyframe> Keyframes { get { return keyframes; } }
         }
 
+        #endregion
 
         /// <summary>
-        /// Gets the total length of the animation.
+        /// The bones for this animation
         /// </summary>
-        [ContentSerializer]
-        public TimeSpan Duration { get; private set; }
-
+        private List<Bone> bones = new List<Bone>();
 
         /// <summary>
-        /// Gets a combined list containing all the keyframes for all bones,
-        /// sorted by time.
+        /// Name of the animation clip
         /// </summary>
-        [ContentSerializer]
-        public List<Keyframe> Keyframes { get; private set; }
+        public string Name;
+
+        /// <summary>
+        /// Duration of the animation clip
+        /// </summary>
+        public double Duration;
+
+        /// <summary>
+        /// The bones for this animation clip with their keyframes
+        /// </summary>
+        public List<Bone> Bones { get { return bones; } }
     }
 }

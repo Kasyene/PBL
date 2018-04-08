@@ -42,8 +42,10 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimationClipWriter.cs" />
+    <Compile Include="AnimationProcessor.cs" />
+    <Compile Include="ModelExtraWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SkinnedModelProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,10 +1,11 @@
 ﻿using System;
+using AnimationAux;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PBLGame.Input;
 using PBLGame.MainGame;
-using SkinnedModel;
+using PBLGame.Misc;
 
 namespace PBLGame
 {
@@ -23,6 +24,7 @@ namespace PBLGame
         SceneGraph.GameObject heart2;
         Player player;
         SceneGraph.GameObject playerModel;
+        private SceneGraph.GameObject playerDance;
         SceneGraph.Camera camera;
 
         public ShroomGame()
@@ -53,16 +55,11 @@ namespace PBLGame
             //Model budda2 = Content.Load<Model>("dude/dude");
             Model budda = Content.Load<Model>("Knuckles");
 
-            // Anim Load for player
-            SkinningData skinningData = budda.Tag as SkinningData;
+            // Load anim model
+            playerModel.AddComponent(new SceneGraph.ModelAnimatedComponent("Victoria-hat-tpose",Content));
+            playerDance.AddComponent(new SceneGraph.ModelAnimatedComponent("Victoria-hat-dance", Content));
 
-            if(skinningData == null)
-                throw new InvalidOperationException("This model does not contain a SkinningData tag.");
-           
-
-            // Create animation player and decode an animation clip 
-            playerModel.AddComponent(new SceneGraph.ModelAnimComponent(budda, new AnimationPlayer(skinningData), skinningData.AnimationClips["Armature|ArmatureAction"]));
-
+            AnimationClip animationClip = playerDance.GetModelAnimatedComponent();
 
             // Add static models
             heart.AddComponent(new SceneGraph.ModelComponent(apteczka));

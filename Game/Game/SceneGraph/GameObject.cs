@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.CodeDom;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,7 +23,7 @@ namespace PBLGame.SceneGraph
         protected Matrix worldTransform = Matrix.Identity;
 
         protected List<GameObject> childs = new List<GameObject>();
-        protected List<Component> childEntities = new List<Component>();
+        protected List<Component> components = new List<Component>();
         protected List<Collider> colliders = new List<Collider>();
         protected bool isDirty = true;
 
@@ -50,7 +52,7 @@ namespace PBLGame.SceneGraph
 
             onDraw?.Invoke(this);
 
-            foreach (Component entity in childEntities)
+            foreach (Component entity in components)
             {
                 entity.Draw(this, camera, localTransform, worldTransform);
             }
@@ -74,12 +76,12 @@ namespace PBLGame.SceneGraph
 
         public void AddComponent(Component entity)
         {
-            childEntities.Add(entity);
+            components.Add(entity);
         }
 
-        public void RemoveEntity(Component entity)
+        public void RemoveComponent(Component entity)
         {
-            childEntities.Remove(entity);
+            components.Remove(entity);
         }
 
         public void AddChildNode(GameObject node)
@@ -286,12 +288,12 @@ namespace PBLGame.SceneGraph
 
         public bool Empty
         {
-            get { return childEntities.Count == 0 && childs.Count == 0; }
+            get { return components.Count == 0 && childs.Count == 0; }
         }
 
-        public bool HaveEntities
+        public bool HaveComponents
         {
-            get { return childEntities.Count != 0; }
+            get { return components.Count != 0; }
         }
 
         public virtual BoundingBox GetBoundingBox(bool includeChildNodes = true)
@@ -321,14 +323,14 @@ namespace PBLGame.SceneGraph
                 }
             }
 
-            foreach (Component entity in childEntities)
+            foreach (Component component in components)
             {
-                if (!entity.Visible)
+                if (!component.Visible)
                 {
                     continue;
                 }
 
-                BoundingBox currBox = entity.GetBoundingBox(this, localTransform, worldTransform);
+                BoundingBox currBox = component.GetBoundingBox(this, localTransform, worldTransform);
                 if (currBox.Min != currBox.Max)
                 {
                     corners.Add(currBox.Min);
@@ -344,12 +346,12 @@ namespace PBLGame.SceneGraph
 
         public void CreateColliders()
         {
-            foreach (Component entity in childEntities)
+            foreach (Component component in components)
             {
-                if(entity.GetType() == typeof(ModelComponent))
+                if(component.GetType() == typeof(ModelComponent))
                 {
-                    BoundingBox currBox = entity.GetBoundingBox(this, localTransform, worldTransform);
-                    colliders.Add(new Collider(currBox, entity));
+                    BoundingBox currBox = component.GetBoundingBox(this, localTransform, worldTransform);
+                    colliders.Add(new Collider(currBox, component));
                     break;
                 }
             }
@@ -382,15 +384,34 @@ namespace PBLGame.SceneGraph
             }
         }
 
-        private ModelComponent GetModelComponent()
+        public ModelComponent GetModelComponent()
         {
-            if (this.HaveEntities)
+            if (this.HaveComponents)
             {
-                foreach (var component in childEntities)
+                foreach (var component in components)
                 {
                     if (component.GetType() == typeof(ModelComponent))
                     {
                         return component as ModelComponent;
+                    }
+                }
+                throw new System.Exception("GameObj doesn't have ModelComponent");
+            }
+            else
+            {
+                throw new System.Exception("GameObj doesn't have any Components");
+            }
+        }
+
+        public ModelAnimatedComponent GetModelAnimatedComponent()
+        {
+            if (this.HaveComponents)
+            {
+                foreach (var component in components)
+                {
+                    if (component.GetType() == typeof(ModelAnimatedComponent))
+                    {
+                        return component as ModelAnimatedComponent;
                     }
                 }
                 throw new System.Exception("GameObj doesn't have ModelComponent");
