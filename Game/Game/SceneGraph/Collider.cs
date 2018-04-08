@@ -59,7 +59,7 @@ namespace PBLGame.SceneGraph
 
         public void CollisionUpdate()
         {
-            foreach(Collider col in collidersList)
+            foreach (Collider col in collidersList)
             {
                 if (col != this)
                 {

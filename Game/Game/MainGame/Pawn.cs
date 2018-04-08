@@ -19,6 +19,7 @@ namespace PBLGame.MainGame
         public override void Update()
         {
             base.Update();
+            CollisionUpdate();
         }
 
         protected void MoveForward(float speed)

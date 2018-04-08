@@ -60,9 +60,13 @@ namespace PBLGame
             root.AddChildNode(player);
             player.AddChildNode(playerModel);
             player.AddChildNode(camera);
+            heart.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
+            heart2.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
+            heart.PositionX = 15.0f;
+            heart2.PositionX = 30f;
+            heart.Scale = new Vector3(0.2f);
+            heart2.Scale = new Vector3(0.2f);
             root.CreateColliders();
-
-            // root.CreateColliders();
 
             // We aren't using the content pipeline, so we need to access the stream directly:
             using (var stream = TitleContainer.OpenStream("Content/checkerboard.png"))
@@ -93,12 +97,6 @@ namespace PBLGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             root.Draw(camera);
-            heart.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
-            heart2.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
-            heart.PositionX = 15.0f;
-            heart2.PositionX = 30f;
-            heart.Scale = new Vector3(0.2f);
-            heart2.Scale = new Vector3(0.2f);
             playerModel.RotationY = -MathHelper.PiOver2;
             playerModel.Scale = new Vector3(1.4f);
 

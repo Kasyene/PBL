@@ -363,6 +363,17 @@ namespace PBLGame.SceneGraph
             }
         }
 
+        public void CollisionUpdate()
+        {
+            foreach (GameObject child in childs)
+            {
+                foreach (Collider col in child.colliders)
+                {
+                    col.CollisionUpdate();
+                }
+            }
+        }
+
         private ModelComponent GetModelComponent()
         {
             if (this.HaveEntities)
