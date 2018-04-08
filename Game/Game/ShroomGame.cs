@@ -1,9 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 using PBLGame.Input;
 using PBLGame.MainGame;
+using SkinnedModel;
 
 namespace PBLGame
 {
@@ -23,6 +25,8 @@ namespace PBLGame
         Player player;
         SceneGraph.GameObject playerModel;
         SceneGraph.Camera camera;
+
+        private AnimationPlayer animationPlayer;
 
         public ShroomGame()
         {
@@ -50,6 +54,17 @@ namespace PBLGame
 
             Model apteczka = Content.Load<Model>("apteczka");
             Model budda = Content.Load<Model>("Knuckles");
+
+            // Anim Load
+            SkinningData skinningData = budda.Tag as SkinningData;
+
+            if(skinningData == null)
+                throw new InvalidOperationException("This model does not contain a SkinningData tag.");
+
+            // Create animation player and decode an animation clip
+            animationPlayer = new AnimationPlayer(skinningData);
+
+            AnimationClip clip = skinningData.AnimationClips["Take 001"];
 
             heart.AddEntity(new SceneGraph.ModelComponent(apteczka));
             heart2.AddEntity(new SceneGraph.ModelComponent(apteczka));

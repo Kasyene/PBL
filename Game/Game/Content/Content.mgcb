@@ -10,6 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:..\..\SkinnedModelPipeline\bin\Debug\SkinnedModelPipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -56,10 +57,10 @@
 
 #begin Knuckles.fbx
 /importer:FbxImporter
-/processor:ModelProcessor
+/processor:SkinnedModelProcessor
+/processorParam:DefaultEffect=SkinnedEffect
 /processorParam:ColorKeyColor=0,0,0,0
 /processorParam:ColorKeyEnabled=True
-/processorParam:DefaultEffect=BasicEffect
 /processorParam:GenerateMipmaps=True
 /processorParam:GenerateTangentFrames=False
 /processorParam:PremultiplyTextureAlpha=True
