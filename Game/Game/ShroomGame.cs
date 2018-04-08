@@ -1,9 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 using PBLGame.Input;
 using PBLGame.MainGame;
+using PBLGame.SceneGraph;
 
 namespace PBLGame
 {
@@ -20,6 +22,8 @@ namespace PBLGame
         SceneGraph.GameObject root;
         SceneGraph.GameObject heart;
         SceneGraph.GameObject heart2;
+        List<SceneGraph.GameObject> walls;
+
         Player player;
         SceneGraph.GameObject playerModel;
         SceneGraph.Camera camera;
@@ -50,22 +54,26 @@ namespace PBLGame
 
             Model apteczka = Content.Load<Model>("apteczka");
             Model budda = Content.Load<Model>("Knuckles");
+            Model wall = Content.Load<Model>("wall");
 
             heart.AddEntity(new SceneGraph.ModelComponent(apteczka));
             heart2.AddEntity(new SceneGraph.ModelComponent(apteczka));
             playerModel.AddEntity(new SceneGraph.ModelComponent(budda));
 
             root.AddChildNode(heart);
-            root.AddChildNode(heart2);
+            root.AddChildNode(heart2);       
             root.AddChildNode(player);
             player.AddChildNode(playerModel);
             player.AddChildNode(camera);
             heart.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
             heart2.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
-            heart.PositionX = 15.0f;
-            heart2.PositionX = 30f;
+            heart.Position = new Vector3(15.0f, 1.0f, -10.0f);
+            heart2.Position = new Vector3(-15.0f, 1.0f, -10.0f);
             heart.Scale = new Vector3(0.2f);
             heart2.Scale = new Vector3(0.2f);
+
+            createLevel();
+
             root.CreateColliders();
 
             // We aren't using the content pipeline, so we need to access the stream directly:
@@ -101,6 +109,27 @@ namespace PBLGame
             playerModel.Scale = new Vector3(1.4f);
 
             base.Draw(gameTime);
+        }
+
+        private void createLevel()
+        {
+            Model sciana = Content.Load<Model>("wall");
+            walls = new List<SceneGraph.GameObject>();
+            for (int i = 0; i < 5; i++)
+            {
+                walls.Add(new SceneGraph.GameObject());
+            }
+
+            foreach (var wall in walls)
+            {
+                wall.AddEntity(new SceneGraph.ModelComponent(sciana));
+                root.AddChildNode(wall);
+            }
+            walls[0].Position = new Vector3(0.0f, 4.0f, 0.0f);
+            walls[1].Position = new Vector3(0.0f, -6.0f, -10.0f);
+            walls[2].Position = new Vector3(0.0f, -6.0f, -20.0f);
+            walls[3].Position = new Vector3(0.0f, -6.0f, -30.0f);
+            walls[4].Position = new Vector3(0.0f, 4.0f, -40.0f);
         }
     }
 }
