@@ -354,7 +354,7 @@ namespace PBLGame.SceneGraph
         {
             foreach (Component component in components)
             {
-                if(component.GetType() == typeof(ModelComponent))
+                if(component.GetType() == typeof(ModelComponent) || component.GetType() == typeof(ModelAnimatedComponent))
                 {
                     BoundingBox currBox = component.GetBoundingBox(this, localTransform, worldTransform);
                     colliders.Add(new Collider(currBox, component));
