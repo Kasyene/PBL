@@ -44,5 +44,10 @@ namespace PBLGame.MainGame
             Vector2 direction = new Vector2((float)System.Math.Cos(RotationZ), (float)System.Math.Sin(RotationZ));
             this.Translate(new Vector3(direction.X * speed, 0f, -direction.Y * speed));
         }
+
+        protected void Rotate(float angle)
+        {
+            RotationZ += angle;
+        }
     }
 }

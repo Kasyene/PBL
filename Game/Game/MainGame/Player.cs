@@ -42,6 +42,7 @@ namespace PBLGame.MainGame
             {
                 MoveLeft(playerSpeed);
             }
+            Rotate(inputManager.Mouse.PositionsDelta.X * 0.01f);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace PBLGame.SceneGraph
     {
         GameObject cameraTarget;
         public float minZoom = -60f;
-        public float maxZoom = -15f;
+        public float maxZoom = -25f;
         public float minYRotation = 0f;
         public float maxYRotation = 1f;
         private readonly InputManager inputManager;
@@ -67,7 +67,7 @@ namespace PBLGame.SceneGraph
         public override void Update()
         {
             base.Update();
-            RotationZ += inputManager.Mouse.PositionsDelta.X * 0.01f;
+            //RotationZ += inputManager.Mouse.PositionsDelta.X * 0.01f;
             float rotY = RotationY + inputManager.Mouse.PositionsDelta.Y * 0.01f;
             float posZ = PositionZ + inputManager.Mouse.ScrollValue * 0.01f;
             if(posZ > minZoom && posZ <  maxZoom)
