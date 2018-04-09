@@ -58,7 +58,7 @@ namespace PBLGame
             box = new SceneGraph.GameObject();
             sphere = new SceneGraph.GameObject();
             cone = new SceneGraph.GameObject();
-            playerModel = new SceneGraph.GameObject();
+            //playerModel = new SceneGraph.GameObject();
             levelOne = new SceneGraph.GameObject();
             player = new Player();
             camera = new SceneGraph.Camera();
@@ -70,7 +70,7 @@ namespace PBLGame
             //Model budda = Content.Load<Model>("Knuckles");
 
             // Load anim model
-            playerModel.AddComponent(new SceneGraph.ModelAnimatedComponent("Knuckles", Content));
+            player.AddComponent(new SceneGraph.ModelAnimatedComponent("Knuckles", Content));
             List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia);
             CreateHierarchyOfLevel(hiererchyList, levelOne);
 
@@ -79,8 +79,8 @@ namespace PBLGame
 
 
             // TODO: ANIM LOAD SYSTEM / SELECTOR
-            AnimationClip animationClip = playerModel.GetModelAnimatedComponent().AnimationClips[0];
-            AnimationPlayer animationPlayer = playerModel.GetModelAnimatedComponent().PlayClip(animationClip);
+            AnimationClip animationClip = player.GetModelAnimatedComponent().AnimationClips[0];
+            AnimationPlayer animationPlayer = player.GetModelAnimatedComponent().PlayClip(animationClip);
             animationPlayer.Looping = true;
 
             // Add static models
@@ -95,7 +95,7 @@ namespace PBLGame
             root.AddChildNode(levelOne);
             box.AddChildNode(sphere);
             sphere.AddChildNode(cone);
-            player.AddChildNode(playerModel);
+            //player.AddChildNode(playerModel);
             player.AddChildNode(camera);
             heart.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
             heart2.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
@@ -103,8 +103,8 @@ namespace PBLGame
             heart2.Position = new Vector3(-15.0f, 1.0f, -10.0f);
             heart.Scale = new Vector3(0.2f);
             heart2.Scale = new Vector3(0.2f);
-            playerModel.RotationY = -MathHelper.PiOver2;
-            playerModel.Scale = new Vector3(0.5f);
+            //player.RotationY = -MathHelper.PiOver2;
+           // player.Scale = new Vector3(0.5f);
 
             //createLevel();
 
@@ -128,10 +128,11 @@ namespace PBLGame
             camera.Update();
             // Player update
             player.Update();
+            player.Update(gameTime);
             // Anim update
-            playerModel.Update(gameTime);
+            //playerModel.Update(gameTime);
             // TODO: AUTOMATIC COMPONENT UPDATE REWORK!!!!!
-            playerModel.GetModelAnimatedComponent().Update(gameTime);
+            player.GetModelAnimatedComponent().Update(gameTime);
             //
             if (inputManager.Keyboard[Keys.Escape])
             {
@@ -147,8 +148,8 @@ namespace PBLGame
 
             root.Draw(camera);
 
-            playerModel.RotationY = MathHelper.PiOver2;
-            playerModel.Scale = new Vector3(0.03f);
+            player.RotationY = MathHelper.PiOver2;
+            //player.Scale = new Vector3(0.03f);
 
             base.Draw(gameTime);
         }
