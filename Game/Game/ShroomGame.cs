@@ -184,7 +184,7 @@ namespace PBLGame
                 {
                     List<ModelBone> bones = new List<ModelBone>();
                     List<ModelMesh> meshes = new List<ModelMesh>();
-                    bones.Add(bigModel.Bones[i]);
+                    bones.Add(bigModel.Meshes[i].ParentBone);
                     meshes.Add(bigModel.Meshes[i]);
                     ModelComponent newModel = new ModelComponent(new Model(GraphicsDevice, bones, meshes));
                     GameObject newObj = new GameObject();
