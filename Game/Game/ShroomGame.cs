@@ -103,8 +103,8 @@ namespace PBLGame
             heart2.Position = new Vector3(-15.0f, 1.0f, -10.0f);
             heart.Scale = new Vector3(0.2f);
             heart2.Scale = new Vector3(0.2f);
-            //player.RotationY = -MathHelper.PiOver2;
-           // player.Scale = new Vector3(0.5f);
+            player.RotationY = MathHelper.PiOver2;
+            player.Scale = new Vector3(0.01f);
 
             //createLevel();
 
@@ -147,9 +147,6 @@ namespace PBLGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             root.Draw(camera);
-
-            player.RotationY = MathHelper.PiOver2;
-            //player.Scale = new Vector3(0.03f);
 
             base.Draw(gameTime);
         }
