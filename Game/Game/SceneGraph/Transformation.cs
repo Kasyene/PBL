@@ -25,6 +25,8 @@ namespace PBLGame.SceneGraph
 
     public class Transformation
     {
+        public bool useModelQuat = false;
+        public Quaternion modelQuat;
         public Vector3 position;
         public Vector3 rotation;
         public Vector3 scale;
@@ -34,6 +36,7 @@ namespace PBLGame.SceneGraph
 
         public Transformation()
         {
+            modelQuat = Quaternion.Identity;
             position = Vector3.Zero;
             rotation = Vector3.Zero;
             scale = Vector3.One;
@@ -50,28 +53,35 @@ namespace PBLGame.SceneGraph
 
         public Matrix CreateRotationMatrix()
         {
-            switch (rotationOrder)
+            if (!useModelQuat)
             {
-                case RotationOrder.RotateXYZ:
-                    return Matrix.CreateRotationX(rotation.X) * Matrix.CreateRotationY(rotation.Y) * Matrix.CreateRotationZ(rotation.Z);
+                switch (rotationOrder)
+                {
+                    case RotationOrder.RotateXYZ:
+                        return Matrix.CreateRotationX(rotation.X) * Matrix.CreateRotationY(rotation.Y) * Matrix.CreateRotationZ(rotation.Z);
 
-                case RotationOrder.RotateXZY:
-                    return Matrix.CreateRotationX(rotation.X) * Matrix.CreateRotationZ(rotation.Z) * Matrix.CreateRotationY(rotation.Y);
+                    case RotationOrder.RotateXZY:
+                        return Matrix.CreateRotationX(rotation.X) * Matrix.CreateRotationZ(rotation.Z) * Matrix.CreateRotationY(rotation.Y);
 
-                case RotationOrder.RotateYXZ:
-                    return Matrix.CreateRotationX(rotation.Y) * Matrix.CreateRotationZ(rotation.X) * Matrix.CreateRotationY(rotation.Z);
+                    case RotationOrder.RotateYXZ:
+                        return Matrix.CreateRotationX(rotation.Y) * Matrix.CreateRotationZ(rotation.X) * Matrix.CreateRotationY(rotation.Z);
 
-                case RotationOrder.RotateYZX:
-                    return Matrix.CreateRotationY(rotation.Y) * Matrix.CreateRotationZ(rotation.Z) * Matrix.CreateRotationX(rotation.X);
+                    case RotationOrder.RotateYZX:
+                        return Matrix.CreateRotationY(rotation.Y) * Matrix.CreateRotationZ(rotation.Z) * Matrix.CreateRotationX(rotation.X);
 
-                case RotationOrder.RotateZXY:
-                    return Matrix.CreateRotationZ(rotation.Z) * Matrix.CreateRotationX(rotation.X) * Matrix.CreateRotationY(rotation.Y);
+                    case RotationOrder.RotateZXY:
+                        return Matrix.CreateRotationZ(rotation.Z) * Matrix.CreateRotationX(rotation.X) * Matrix.CreateRotationY(rotation.Y);
 
-                case RotationOrder.RotateZYX:
-                    return Matrix.CreateRotationZ(rotation.Z) * Matrix.CreateRotationY(rotation.Y) * Matrix.CreateRotationX(rotation.X);
+                    case RotationOrder.RotateZYX:
+                        return Matrix.CreateRotationZ(rotation.Z) * Matrix.CreateRotationY(rotation.Y) * Matrix.CreateRotationX(rotation.X);
 
-                default:
-                    throw new System.Exception("RotationOrder not exist");
+                    default:
+                        throw new System.Exception("RotationOrder not exist");
+                }
+            }
+            else
+            {
+                return Matrix.CreateFromQuaternion(modelQuat);
             }
         }
 

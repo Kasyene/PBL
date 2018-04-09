@@ -230,6 +230,12 @@ namespace PBLGame.SceneGraph
             set { if (transform.rotation.Z != value) OnTransformationsSet(); transform.rotation.Z = value; }
         }
 
+        public void SetModelQuat(Quaternion quat)
+        {
+            transform.useModelQuat = true;
+            transform.modelQuat = quat;
+        }
+
         public float ScaleX
         {
             get { return transform.scale.X; }

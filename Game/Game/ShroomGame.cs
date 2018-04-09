@@ -87,6 +87,9 @@ namespace PBLGame
             heart2.Position = new Vector3(-15.0f, 1.0f, -10.0f);
             heart.Scale = new Vector3(0.2f);
             heart2.Scale = new Vector3(0.2f);
+            playerModel.RotationY = -MathHelper.PiOver2;
+            playerModel.Scale = new Vector3(0.5f);
+
             //createLevel();
 
             root.CreateColliders();
@@ -120,9 +123,6 @@ namespace PBLGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             root.Draw(camera);
-            playerModel.RotationY = -MathHelper.PiOver2;
-            playerModel.Scale = new Vector3(0.5f);
-
             base.Draw(gameTime);
         }
 
@@ -168,7 +168,9 @@ namespace PBLGame
                     Debug.WriteLine("Position of new model " + position);
                     newObj.Position = position;
                     newObj.Scale = scale;
+                    newObj.SetModelQuat(quat);
                     newObj.AddEntity(newModel);
+                    newObj.Update();
                     result.Add(newObj);
                 }
 

@@ -51,7 +51,7 @@ namespace PBLGame.SceneGraph
         {
             if (boundingBox.Intersects(other))
             {
-                System.Diagnostics.Debug.WriteLine("Collision");
+                System.Diagnostics.Debug.WriteLine("Collision " + DateTime.Now);
                 return true;
             }
             return false;
