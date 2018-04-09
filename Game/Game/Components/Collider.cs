@@ -44,7 +44,6 @@ namespace PBLGame.SceneGraph
             component = comp;
             boundingBox = bounding;
             collidersList.Add(this);
-            //System.Diagnostics.Debug.WriteLine("Add to colliders list");
         }
 
         public bool IsCollision(BoundingBox other)
@@ -54,18 +53,24 @@ namespace PBLGame.SceneGraph
                 System.Diagnostics.Debug.WriteLine("Collision " + DateTime.Now);
                 return true;
             }
+
             return false;
         }
 
-        public void CollisionUpdate()
+        public bool CollisionUpdate()
         {
+            bool isColliding = false;
             foreach (Collider col in collidersList)
             {
                 if (col != this)
                 {
-                    IsCollision(col.BoundingBox);
+                    if (IsCollision(col.BoundingBox))
+                    {
+                        isColliding = true;
+                    }
                 }
             }
+            return isColliding;
         }
     }
 }

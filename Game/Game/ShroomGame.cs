@@ -65,14 +65,14 @@ namespace PBLGame
             camera.SetCameraTarget(player);
 
             Model apteczka = Content.Load<Model>("apteczka");
-            Model hierarchia = Content.Load<Model>("level1");
+            //Model hierarchia = Content.Load<Model>("level1");
             //Model budda2 = Content.Load<Model>("dude/dude");
             //Model budda = Content.Load<Model>("Knuckles");
 
             // Load anim model
             player.AddComponent(new SceneGraph.ModelAnimatedComponent("Knuckles", Content));
-            List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia);
-            CreateHierarchyOfLevel(hiererchyList, levelOne);
+            //List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia);
+            //CreateHierarchyOfLevel(hiererchyList, levelOne);
 
             heart.AddComponent(new SceneGraph.ModelComponent(apteczka));
             heart2.AddComponent(new SceneGraph.ModelComponent(apteczka));
@@ -101,12 +101,13 @@ namespace PBLGame
             heart2.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
             heart.Position = new Vector3(15.0f, 1.0f, -10.0f);
             heart2.Position = new Vector3(-15.0f, 1.0f, -10.0f);
+            player.Position = new Vector3(-30.0f, 0.5f, -30.0f);
             heart.Scale = new Vector3(0.2f);
             heart2.Scale = new Vector3(0.2f);
             player.RotationY = MathHelper.PiOver2;
             player.Scale = new Vector3(0.01f);
 
-            //createLevel();
+            CreateLevel();
 
             root.CreateColliders();
 
