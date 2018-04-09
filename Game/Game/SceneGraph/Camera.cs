@@ -19,6 +19,7 @@ namespace PBLGame.SceneGraph
             visible = false;
             Position = new Vector3(0f, 0f, -50f);
             TransformationsOrder = TransformationOrder.ScalePositionRotation;
+            
         }
 
         public Matrix ViewMatrix
@@ -48,7 +49,7 @@ namespace PBLGame.SceneGraph
                 float aspectRatio = 1f;
                 float fieldOfView = Microsoft.Xna.Framework.MathHelper.PiOver4;
                 float nearClipPlane = 1;
-                float farClipPlane = 200;
+                float farClipPlane = 400;
                 return Matrix.CreatePerspectiveFieldOfView(fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
             }
         }

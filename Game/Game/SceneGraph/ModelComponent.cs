@@ -21,6 +21,7 @@ namespace PBLGame.SceneGraph
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
+                    effect.EnableDefaultLighting();
                     // set world matrix
                     effect.World = worldTransformations;
 

@@ -9,7 +9,7 @@ namespace PBLGame.MainGame
         public int Hp { get; internal set; }
         public Pawn() : base()
         {
-
+            
         }
         public virtual void Damage()
         {

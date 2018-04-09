@@ -60,19 +60,18 @@ namespace PBLGame
 
             Model apteczka = Content.Load<Model>("apteczka");
             Model budda = Content.Load<Model>("Knuckles");
-            Model hierarchia = Content.Load<Model>("fbx");
+            Model hierarchia = Content.Load<Model>("level1");
 
-            List<Model> hiererchyList = SplitModelIntoSmallerPieces(hierarchia);
+            List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia);
 
-            box.AddEntity(new SceneGraph.ModelComponent(hiererchyList[0]));
-            sphere.AddEntity(new SceneGraph.ModelComponent(hiererchyList[1]));
-            cone.AddEntity(new SceneGraph.ModelComponent(hiererchyList[2]));
-
+            foreach(GameObject obj in hiererchyList)
+            {
+                root.AddChildNode(obj);
+            }
 
             heart.AddEntity(new SceneGraph.ModelComponent(apteczka));
             heart2.AddEntity(new SceneGraph.ModelComponent(apteczka));
             playerModel.AddEntity(new SceneGraph.ModelComponent(budda));
-
 
             root.AddChildNode(heart);
             root.AddChildNode(heart2);
@@ -88,8 +87,6 @@ namespace PBLGame
             heart2.Position = new Vector3(-15.0f, 1.0f, -10.0f);
             heart.Scale = new Vector3(0.2f);
             heart2.Scale = new Vector3(0.2f);
-            sphere.PositionX = 35.0f;
-            cone.PositionX = -70f;
             //createLevel();
 
             root.CreateColliders();
@@ -124,12 +121,12 @@ namespace PBLGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
             root.Draw(camera);
             playerModel.RotationY = -MathHelper.PiOver2;
-            playerModel.Scale = new Vector3(1.4f);
+            playerModel.Scale = new Vector3(0.5f);
 
             base.Draw(gameTime);
         }
 
-        private void createLevel()
+        private void CreateLevel()
         {
             Model sciana = Content.Load<Model>("wall");
             walls = new List<SceneGraph.GameObject>();
@@ -151,18 +148,28 @@ namespace PBLGame
         }
 
 
-        private List<Model> SplitModelIntoSmallerPieces(Model bigModel)
+        private List<GameObject> SplitModelIntoSmallerPieces(Model bigModel)
         {
             if (bigModel.Meshes.Count >= 1)
             {
-                List<Model> result = new List<Model>();
+                List<GameObject> result = new List<GameObject>();
                 for (int i = 0; i < bigModel.Meshes.Count; i++)
                 {
                     List<ModelBone> bones = new List<ModelBone>();
                     List<ModelMesh> meshes = new List<ModelMesh>();
                     bones.Add(bigModel.Bones[i]);
                     meshes.Add(bigModel.Meshes[i]);
-                    result.Add(new Model(GraphicsDevice, bones, meshes));
+                    ModelComponent newModel = new ModelComponent(new Model(GraphicsDevice, bones, meshes));
+                    GameObject newObj = new GameObject();
+                    Vector3 position;
+                    Vector3 scale;
+                    Quaternion quat;
+                    newModel.model.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
+                    Debug.WriteLine("Position of new model " + position);
+                    newObj.Position = position;
+                    newObj.Scale = scale;
+                    newObj.AddEntity(newModel);
+                    result.Add(newObj);
                 }
 
                 return result;
