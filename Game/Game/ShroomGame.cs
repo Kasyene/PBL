@@ -28,6 +28,7 @@ namespace PBLGame
         SceneGraph.GameObject box;
         SceneGraph.GameObject sphere;
         SceneGraph.GameObject cone;
+        SceneGraph.GameObject levelOne;
         List<SceneGraph.GameObject> walls;
 
         Player player;
@@ -58,6 +59,7 @@ namespace PBLGame
             sphere = new SceneGraph.GameObject();
             cone = new SceneGraph.GameObject();
             playerModel = new SceneGraph.GameObject();
+            levelOne = new SceneGraph.GameObject();
             player = new Player();
             camera = new SceneGraph.Camera();
             camera.SetCameraTarget(player);
@@ -70,15 +72,11 @@ namespace PBLGame
             // Load anim model
             playerModel.AddComponent(new SceneGraph.ModelAnimatedComponent("Knuckles", Content));
             List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia);
-
-            foreach(GameObject obj in hiererchyList)
-            {
-                root.AddChildNode(obj);
-            }
+            CreateHierarchyOfLevel(hiererchyList, levelOne);
 
             heart.AddComponent(new SceneGraph.ModelComponent(apteczka));
             heart2.AddComponent(new SceneGraph.ModelComponent(apteczka));
-            
+
 
             // TODO: ANIM LOAD SYSTEM / SELECTOR
             AnimationClip animationClip = playerModel.GetModelAnimatedComponent().AnimationClips[0];
@@ -88,12 +86,13 @@ namespace PBLGame
             // Add static models
             heart.AddComponent(new SceneGraph.ModelComponent(apteczka));
             heart2.AddComponent(new SceneGraph.ModelComponent(apteczka));
-            
+
 
             root.AddChildNode(heart);
             root.AddChildNode(heart2);
             root.AddChildNode(player);
             root.AddChildNode(box);
+            root.AddChildNode(levelOne);
             box.AddChildNode(sphere);
             sphere.AddChildNode(cone);
             player.AddChildNode(playerModel);
@@ -138,13 +137,14 @@ namespace PBLGame
             {
                 Exit();
             }
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            
+
             root.Draw(camera);
 
             playerModel.RotationY = MathHelper.PiOver2;
@@ -167,6 +167,7 @@ namespace PBLGame
                 wall.AddComponent(new SceneGraph.ModelComponent(sciana));
                 root.AddChildNode(wall);
             }
+
             walls[0].Position = new Vector3(0.0f, 4.0f, 0.0f);
             walls[1].Position = new Vector3(0.0f, -6.0f, -10.0f);
             walls[2].Position = new Vector3(0.0f, -6.0f, -20.0f);
@@ -200,12 +201,41 @@ namespace PBLGame
                     newObj.Update();
                     result.Add(newObj);
                 }
-
                 return result;
             }
             else
             {
                 throw new System.Exception("There is no mesh in this model WTF");
+            }
+        }
+
+        private void CreateHierarchyOfLevel(List<GameObject> mapa, GameObject rootMapy)
+        {
+            foreach (var newObj in mapa)
+            {
+                if (newObj.GetModelComponent().model.Bones[0].Children.Count > 0)
+                {
+                    for (int i = 0; i < newObj.GetModelComponent().model.Bones[0].Children.Count; i++)
+                    {
+                        foreach (var gameObject in mapa)
+                        {
+                            if (gameObject.GetModelComponent().model.Bones[0].Name ==
+                                newObj.GetModelComponent().model.Bones[0].Children[i].Name &&
+                                gameObject.Parent == null)
+                            {
+                                newObj.AddChildNode(gameObject);
+                            }
+                        }
+                    }
+                }
+            }
+
+            foreach (var newObj in mapa)
+            {
+                if (newObj.Parent == null)
+                {
+                    rootMapy.AddChildNode(newObj);
+                }
             }
         }
     }
