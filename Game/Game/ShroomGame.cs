@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using AnimationAux;
 using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Diagnostics;
 using PBLGame.Input;
 using PBLGame.MainGame;
+using PBLGame.Misc;
 using PBLGame.SceneGraph;
 
 namespace PBLGame
@@ -29,6 +32,7 @@ namespace PBLGame
 
         Player player;
         SceneGraph.GameObject playerModel;
+        private SceneGraph.GameObject playerDance;
         SceneGraph.Camera camera;
 
         public ShroomGame()
@@ -59,9 +63,12 @@ namespace PBLGame
             camera.SetCameraTarget(player);
 
             Model apteczka = Content.Load<Model>("apteczka");
-            Model budda = Content.Load<Model>("Knuckles");
             Model hierarchia = Content.Load<Model>("level1");
+            //Model budda2 = Content.Load<Model>("dude/dude");
+            //Model budda = Content.Load<Model>("Knuckles");
 
+            // Load anim model
+            playerModel.AddComponent(new SceneGraph.ModelAnimatedComponent("Knuckles", Content));
             List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia);
 
             foreach(GameObject obj in hiererchyList)
@@ -69,9 +76,19 @@ namespace PBLGame
                 root.AddChildNode(obj);
             }
 
-            heart.AddEntity(new SceneGraph.ModelComponent(apteczka));
-            heart2.AddEntity(new SceneGraph.ModelComponent(apteczka));
-            playerModel.AddEntity(new SceneGraph.ModelComponent(budda));
+            heart.AddComponent(new SceneGraph.ModelComponent(apteczka));
+            heart2.AddComponent(new SceneGraph.ModelComponent(apteczka));
+            
+
+            // TODO: ANIM LOAD SYSTEM / SELECTOR
+            AnimationClip animationClip = playerModel.GetModelAnimatedComponent().AnimationClips[0];
+            AnimationPlayer animationPlayer = playerModel.GetModelAnimatedComponent().PlayClip(animationClip);
+            animationPlayer.Looping = true;
+
+            // Add static models
+            heart.AddComponent(new SceneGraph.ModelComponent(apteczka));
+            heart2.AddComponent(new SceneGraph.ModelComponent(apteczka));
+            
 
             root.AddChildNode(heart);
             root.AddChildNode(heart2);
@@ -108,21 +125,31 @@ namespace PBLGame
 
         protected override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
             inputManager.Update();
             camera.Update();
+            // Player update
             player.Update();
-
+            // Anim update
+            playerModel.Update(gameTime);
+            // TODO: AUTOMATIC COMPONENT UPDATE REWORK!!!!!
+            playerModel.GetModelAnimatedComponent().Update(gameTime);
+            //
             if (inputManager.Keyboard[Keys.Escape])
             {
                 Exit();
             }
+            base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            
             root.Draw(camera);
+
+            playerModel.RotationY = MathHelper.PiOver2;
+            playerModel.Scale = new Vector3(0.03f);
+
             base.Draw(gameTime);
         }
 
@@ -137,7 +164,7 @@ namespace PBLGame
 
             foreach (var wall in walls)
             {
-                wall.AddEntity(new SceneGraph.ModelComponent(sciana));
+                wall.AddComponent(new SceneGraph.ModelComponent(sciana));
                 root.AddChildNode(wall);
             }
             walls[0].Position = new Vector3(0.0f, 4.0f, 0.0f);
@@ -169,7 +196,7 @@ namespace PBLGame
                     newObj.Position = position;
                     newObj.Scale = scale;
                     newObj.SetModelQuat(quat);
-                    newObj.AddEntity(newModel);
+                    newObj.AddComponent(newModel);
                     newObj.Update();
                     result.Add(newObj);
                 }

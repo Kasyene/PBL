@@ -2,16 +2,19 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System;
+using System.CodeDom;
+using Microsoft.Xna.Framework.Content;
 
 namespace PBLGame.SceneGraph
 {
-    class ModelComponent : Component
+    public class ModelComponent : Component
     {
         public Model model;
+        
 
-        public ModelComponent(Model loadedeModel)
+        public ModelComponent(Model _model)
         {
-            model = loadedeModel;
+            model = _model;
             Visible = true;
         }
 
@@ -60,6 +63,16 @@ namespace PBLGame.SceneGraph
                 }
             }
             return new BoundingBox(min, max);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+        }
+
+        public override void LoadContent(ContentManager contentManager)
+        {
+            base.LoadContent(contentManager);
         }
     }
 }
