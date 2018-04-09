@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System;
 using System.CodeDom;
 using Microsoft.Xna.Framework.Content;
-using SkinnedModel;
 
 namespace PBLGame.SceneGraph
 {

@@ -53,13 +53,15 @@ namespace PBLGame
 
             Model apteczka = Content.Load<Model>("apteczka");
             //Model budda2 = Content.Load<Model>("dude/dude");
-            Model budda = Content.Load<Model>("Knuckles");
+            //Model budda = Content.Load<Model>("Knuckles");
 
             // Load anim model
-            playerModel.AddComponent(new SceneGraph.ModelAnimatedComponent("Victoria-hat-tpose",Content));
-            playerDance.AddComponent(new SceneGraph.ModelAnimatedComponent("Victoria-hat-dance", Content));
+            playerModel.AddComponent(new SceneGraph.ModelAnimatedComponent("Knuckles", Content));
 
-            AnimationClip animationClip = playerDance.GetModelAnimatedComponent();
+            // TODO: ANIM LOAD SYSTEM / SELECTOR
+            AnimationClip animationClip = playerModel.GetModelAnimatedComponent().AnimationClips[0];
+            AnimationPlayer animationPlayer = playerModel.GetModelAnimatedComponent().PlayClip(animationClip);
+            animationPlayer.Looping = true;
 
             // Add static models
             heart.AddComponent(new SceneGraph.ModelComponent(apteczka));
@@ -99,6 +101,8 @@ namespace PBLGame
             player.Update();
             // Anim update
             playerModel.Update(gameTime);
+            // TODO: AUTOMATIC COMPONENT UPDATE REWORK!!!!!
+            playerModel.GetModelAnimatedComponent().Update(gameTime);
             //
             if (inputManager.Keyboard[Keys.Escape])
             {
@@ -113,8 +117,8 @@ namespace PBLGame
             
             root.Draw(camera);
 
-            playerModel.RotationY = -MathHelper.PiOver2;
-            playerModel.Scale = new Vector3(1.4f);
+            playerModel.RotationY = MathHelper.PiOver2;
+            playerModel.Scale = new Vector3(0.03f);
 
             base.Draw(gameTime);
         }
