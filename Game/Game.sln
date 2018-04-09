@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PBLGame", "Game\PBLGame.csproj", "{A449265F-D0FC-4E3E-BE13-0481ACBA6526}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ED2403FC-5EF0-4A49-9159-5B2A6060222E} = {ED2403FC-5EF0-4A49-9159-5B2A6060222E}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkinnedModelPipeline", "SkinnedModelPipeline\SkinnedModelPipeline.csproj", "{ED2403FC-5EF0-4A49-9159-5B2A6060222E}"
 EndProject
