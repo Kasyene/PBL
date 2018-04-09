@@ -381,6 +381,11 @@ namespace PBLGame.SceneGraph
 
         public void CollisionUpdate()
         {
+            foreach (Collider col in colliders)
+            {
+                col.CollisionUpdate();
+            }
+
             foreach (GameObject child in childs)
             {
                 foreach (Collider col in child.colliders)
