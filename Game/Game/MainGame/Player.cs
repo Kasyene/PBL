@@ -36,11 +36,11 @@ namespace PBLGame.MainGame
             }
             if (inputManager.Keyboard[Keys.A])
             {
-                this.Rotation  = new Vector3(this.RotationX, this.RotationY, this.RotationZ + playerSpeed/5);
+                MoveRight(playerSpeed);
             }
             if (inputManager.Keyboard[Keys.D])
             {
-                this.Rotation = new Vector3(this.RotationX, this.RotationY, this.RotationZ - playerSpeed/5);
+                MoveLeft(playerSpeed);
             }
         }
     }
