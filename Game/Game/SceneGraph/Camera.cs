@@ -9,7 +9,7 @@ namespace PBLGame.SceneGraph
         GameObject cameraTarget;
         public float minZoom = -2200f;
         public float maxZoom = -1000f;
-        public float minYRotation = 0f;
+        public float minYRotation = 0.1f;
         public float maxYRotation = 1f;
         private readonly InputManager inputManager;
 
@@ -30,7 +30,7 @@ namespace PBLGame.SceneGraph
                 Vector3 lookAtVector;
                 if (cameraTarget != null)
                 {
-                    lookAtVector = cameraTarget.Position;
+                    lookAtVector = cameraTarget.Position + new Vector3(0f, 4f, 0f);
                 }
                 else
                 {
@@ -49,7 +49,7 @@ namespace PBLGame.SceneGraph
                 float aspectRatio = 1f;
                 float fieldOfView = Microsoft.Xna.Framework.MathHelper.PiOver4;
                 float nearClipPlane = 1;
-                float farClipPlane = 400;
+                float farClipPlane = 1000;
                 return Matrix.CreatePerspectiveFieldOfView(fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
             }
         }

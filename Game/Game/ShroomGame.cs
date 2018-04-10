@@ -65,14 +65,14 @@ namespace PBLGame
             camera.SetCameraTarget(player);
 
             Model apteczka = Content.Load<Model>("apteczka");
-            //Model hierarchia = Content.Load<Model>("level1");
+            Model hierarchia = Content.Load<Model>("level1_boxy_rulez");
             //Model budda2 = Content.Load<Model>("dude/dude");
             //Model budda = Content.Load<Model>("Knuckles");
 
             // Load anim model
             player.AddComponent(new SceneGraph.ModelAnimatedComponent("Knuckles", Content));
-            //List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia);
-            //CreateHierarchyOfLevel(hiererchyList, levelOne);
+            List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia);
+            CreateHierarchyOfLevel(hiererchyList, levelOne);
 
             heart.AddComponent(new SceneGraph.ModelComponent(apteczka));
             heart2.AddComponent(new SceneGraph.ModelComponent(apteczka));
@@ -104,10 +104,11 @@ namespace PBLGame
             player.Position = new Vector3(-30.0f, 0.5f, -30.0f);
             heart.Scale = new Vector3(0.2f);
             heart2.Scale = new Vector3(0.2f);
+            player.Position = new Vector3(20f, 3f, 0f);
             player.RotationY = MathHelper.PiOver2;
-            player.Scale = new Vector3(0.01f);
+            player.Scale = new Vector3(0.02f);
 
-            CreateLevel();
+            //CreateLevel();
 
             root.CreateColliders();
 
@@ -192,7 +193,7 @@ namespace PBLGame
                     Vector3 scale;
                     Quaternion quat;
                     newModel.model.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
-                    Debug.WriteLine("Position of new model " + position);
+                    Debug.WriteLine("Position of new model " + position + " Rotation " + quat);
                     newObj.Position = position;
                     newObj.Scale = scale;
                     newObj.SetModelQuat(quat);
