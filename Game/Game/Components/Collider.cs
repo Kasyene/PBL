@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace PBLGame.SceneGraph
         private Component component;
         protected BoundingBox boundingBox;
         public bool isTrigger;
+        public SceneGraph.GameObject owner;
 
         public BoundingBox BoundingBox
         {
@@ -35,7 +37,7 @@ namespace PBLGame.SceneGraph
             }
         }
 
-        public Collider(BoundingBox bounding, Component comp)
+        public Collider(BoundingBox bounding, Component comp, GameObject owner)
         {
             if(collidersList == null)
             {
@@ -44,12 +46,20 @@ namespace PBLGame.SceneGraph
             component = comp;
             boundingBox = bounding;
             collidersList.Add(this);
+            this.owner = owner;
         }
 
-        public bool IsCollision(BoundingBox other)
+        public bool IsCollision(Collider other)
         {
-            if (boundingBox.Intersects(other))
+            if (boundingBox.Intersects(other.boundingBox))
             {
+                //Debug.WriteLine("pies");
+                if (other.isTrigger)
+                {
+                    Debug.WriteLine("interakcja z sercem");
+                    //other.owner.visible = false;
+                    return false;
+                }
                 System.Diagnostics.Debug.WriteLine("Collision " + DateTime.Now);
                 return true;
             }
@@ -64,7 +74,7 @@ namespace PBLGame.SceneGraph
             {
                 if (col != this)
                 {
-                    if (IsCollision(col.BoundingBox))
+                    if (IsCollision(col))
                     {
                         isColliding = true;
                     }

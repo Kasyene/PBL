@@ -65,7 +65,7 @@ namespace PBLGame
             camera.SetCameraTarget(player);
 
             Model apteczka = Content.Load<Model>("apteczka");
-            Model hierarchia = Content.Load<Model>("level1_boxy_rulez");
+            Model hierarchia = Content.Load<Model>("level_newXD");
             //Model budda2 = Content.Load<Model>("dude/dude");
             //Model budda = Content.Load<Model>("Knuckles");
 
@@ -133,6 +133,8 @@ namespace PBLGame
             player.Update(gameTime);
             // Anim update
             //playerModel.Update(gameTime);
+            heart.SetAtTriggers();
+            heart2.SetAtTriggers();
             // TODO: AUTOMATIC COMPONENT UPDATE REWORK!!!!!
             player.GetModelAnimatedComponent().Update(gameTime);
             //

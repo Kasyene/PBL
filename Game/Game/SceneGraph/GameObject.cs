@@ -357,7 +357,7 @@ namespace PBLGame.SceneGraph
                 if(component.GetType() == typeof(ModelComponent) || component.GetType() == typeof(ModelAnimatedComponent))
                 {
                     BoundingBox currBox = component.GetBoundingBox(this, localTransform, worldTransform);
-                    colliders.Add(new Collider(currBox, component));
+                    colliders.Add(new Collider(currBox, component, this));
                     break;
                 }
             }
@@ -443,6 +443,14 @@ namespace PBLGame.SceneGraph
                 }
             }
             throw new System.Exception("There is no mesh with such name");
+        }
+
+        public void SetAtTriggers()
+        {
+            foreach (var col in colliders)
+            {
+                col.isTrigger = true;
+            }
         }
     }
 }
