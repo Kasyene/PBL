@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using PBLGame.SceneGraph;
 
 
-namespace PBLGame.Misc
+namespace PBLGame.Misc.Anim
 {
     /// <summary>
     /// Animation clip player. It maps an animation clip onto a model

@@ -1,13 +1,15 @@
-﻿using System;
-using AnimationAux;
+﻿using AnimationAux;
 using Microsoft.Xna.Framework;
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using Game.Misc;
+using Game.Misc.Time;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PBLGame.Input;
 using PBLGame.MainGame;
 using PBLGame.Misc;
+using PBLGame.Misc.Anim;
 using PBLGame.SceneGraph;
 
 namespace PBLGame
@@ -125,6 +127,9 @@ namespace PBLGame
 
         protected override void Update(GameTime gameTime)
         {
+            // Our Timer Class
+            Timer.Update(gameTime);
+
             inputManager.Update();
             camera.Update();
             // Player update

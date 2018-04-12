@@ -3,7 +3,7 @@ using AnimationAux;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using PBLGame.Misc;
+using PBLGame.Misc.Anim;
 
 namespace PBLGame.SceneGraph
 {
