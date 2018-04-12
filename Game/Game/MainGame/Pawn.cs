@@ -5,67 +5,69 @@ using PBLGame.SceneGraph;
 
 namespace PBLGame.MainGame
 {
-    class Pawn : GameObject
+    class Pawn : Component
     {
+        protected GameObject parentGameObject;
         public int Hp { get; internal set; }
         public Pawn() : base()
         {
-           
+
         }
+
         public virtual void Damage()
         {
             this.Hp -= 1;
         }
 
-        public override void Update()
+        public override void Update(GameTime time)
         {
-            base.Update();
-            CollisionUpdate();
+            base.Update(time);
+            parentGameObject.CollisionUpdate();
         }
 
         protected void MoveForward(float speed)
         {
-            Vector2 direction = new Vector2((float)System.Math.Cos(RotationZ), (float)System.Math.Sin(RotationZ));
-            this.Translate(new Vector3(direction.Y * speed, 0f, direction.X * speed));
+            Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
+            parentGameObject.Translate(new Vector3(direction.Y * speed, 0f, direction.X * speed));
             if (CheckCollider())
             {
-                this.Translate(new Vector3(-2 * direction.Y * speed, 0f, -2 * direction.X * speed));
+                parentGameObject.Translate(new Vector3(-2 * direction.Y * speed, 0f, -2 * direction.X * speed));
             }
         }
 
         protected void MoveBack(float speed)
         {
-            Vector2 direction = new Vector2((float)System.Math.Cos(RotationZ), (float)System.Math.Sin(RotationZ));
-            this.Translate(new Vector3(-direction.Y * speed, 0f, -direction.X * speed));
+            Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
+            parentGameObject.Translate(new Vector3(-direction.Y * speed, 0f, -direction.X * speed));
             if (CheckCollider())
             {
-                this.Translate(new Vector3(2 * direction.Y * speed, 0f, 2 * direction.X * speed));
+                parentGameObject.Translate(new Vector3(2 * direction.Y * speed, 0f, 2 * direction.X * speed));
             }
         }
         protected void MoveLeft(float speed)
         {
-                Vector2 direction = new Vector2((float)System.Math.Cos(RotationZ), (float)System.Math.Sin(RotationZ));
-                this.Translate(new Vector3(-direction.X * speed, 0f, direction.Y * speed));
+                Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
+                parentGameObject.Translate(new Vector3(-direction.X * speed, 0f, direction.Y * speed));
                 if (CheckCollider())
                 {
-                    this.Translate(new Vector3(2 * direction.X * speed, 0f, -2 * direction.Y * speed));
+                    parentGameObject.Translate(new Vector3(2 * direction.X * speed, 0f, -2 * direction.Y * speed));
                 }
         }
 
         protected void MoveRight(float speed)
         {
-                Vector2 direction = new Vector2((float)System.Math.Cos(RotationZ), (float)System.Math.Sin(RotationZ));
-                this.Translate(new Vector3(direction.X * speed, 0f, -direction.Y * speed));
+                Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
+                parentGameObject.Translate(new Vector3(direction.X * speed, 0f, -direction.Y * speed));
                 if (CheckCollider())
                 {
-                    this.Translate(new Vector3(-2 * direction.X * speed, 0f, 2 * direction.Y * speed));
+                    parentGameObject.Translate(new Vector3(-2 * direction.X * speed, 0f, 2 * direction.Y * speed));
                 }
             
         }
 
         protected bool CheckCollider()
         {
-            foreach (Collider col in this.colliders)
+            foreach (Collider col in parentGameObject.colliders)
             {
                 if (col.CollisionUpdate())
                 {
@@ -77,7 +79,7 @@ namespace PBLGame.MainGame
 
         protected void Rotate(float angle)
         {
-                RotationZ += angle;
+            parentGameObject.RotationZ += angle;
         }
     }
 }

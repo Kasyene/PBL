@@ -31,7 +31,7 @@ namespace PBLGame
         SceneGraph.GameObject levelOne;
         List<SceneGraph.GameObject> walls;
 
-        Player player;
+        SceneGraph.GameObject player;
         SceneGraph.GameObject playerModel;
         private SceneGraph.GameObject playerDance;
         SceneGraph.Camera camera;
@@ -60,17 +60,16 @@ namespace PBLGame
             cone = new SceneGraph.GameObject();
             //playerModel = new SceneGraph.GameObject();
             levelOne = new SceneGraph.GameObject();
-            player = new Player();
+            player = new SceneGraph.GameObject();
             camera = new SceneGraph.Camera();
             camera.SetCameraTarget(player);
 
             Model apteczka = Content.Load<Model>("apteczka");
             Model hierarchia = Content.Load<Model>("level_newXD");
-            //Model budda2 = Content.Load<Model>("dude/dude");
-            //Model budda = Content.Load<Model>("Knuckles");
 
             // Load anim model
             player.AddComponent(new SceneGraph.ModelAnimatedComponent("Knuckles", Content));
+            player.AddComponent(new Player(player));
             List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia);
             CreateHierarchyOfLevel(hiererchyList, levelOne);
 

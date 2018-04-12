@@ -12,15 +12,16 @@ namespace PBLGame.MainGame
         private readonly InputManager inputManager;
         private float playerSpeed;
 
-        public Player() : base()
+        public Player(GameObject parent) : base()
         {
+            parentGameObject = parent;
             inputManager = InputManager.Instance;
             playerSpeed = 0.5f;
         }
 
-        public override void Update()
+        public override void Update(GameTime time)
         {
-            base.Update();
+            base.Update(time);
             PlayerMovement();     
         }
 

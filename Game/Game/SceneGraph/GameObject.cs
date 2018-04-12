@@ -24,7 +24,7 @@ namespace PBLGame.SceneGraph
 
         protected List<GameObject> childs = new List<GameObject>();
         protected List<Component> components = new List<Component>();
-        protected List<Collider> colliders = new List<Collider>();
+        public List<Collider> colliders = new List<Collider>();
         protected bool isDirty = true;
 
         protected uint transformVersion = 0;
@@ -68,6 +68,11 @@ namespace PBLGame.SceneGraph
 
         public virtual void Update(GameTime gameTime)
         {
+            foreach(Component comp in components)
+            {
+                comp.Update(gameTime);
+            }
+
             foreach (GameObject node in childs)
             {
                 node.Update(gameTime);
