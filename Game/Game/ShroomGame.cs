@@ -130,13 +130,10 @@ namespace PBLGame
             // Player update
             player.Update();
             player.Update(gameTime);
-            // Anim update
-            //playerModel.Update(gameTime);
+
             heart.SetAtTriggers();
             heart2.SetAtTriggers();
-            // TODO: AUTOMATIC COMPONENT UPDATE REWORK!!!!!
-            player.GetModelAnimatedComponent().Update(gameTime);
-            //
+
             if (inputManager.Keyboard[Keys.Escape])
             {
                 Exit();
