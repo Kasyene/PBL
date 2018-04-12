@@ -1,9 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
 namespace PBLGame.SceneGraph
 {
-    public class Component
+    public class Component : IDisposable
     {
         protected bool visible;
 
@@ -31,6 +32,11 @@ namespace PBLGame.SceneGraph
             {
                 visible = value;
             }
+        }
+
+        public virtual void Dispose()
+        {
+            
         }
     }
 }

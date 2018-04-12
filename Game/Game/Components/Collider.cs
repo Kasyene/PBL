@@ -82,5 +82,18 @@ namespace PBLGame.SceneGraph
             }
             return isColliding;
         }
+
+        public override void Dispose()
+        {
+            owner?.colliders.Remove(this);
+            owner = null;
+
+            foreach (Collider collider in collidersList)
+            {
+                collider?.Dispose();
+                collidersList.Remove(collider);
+            }
+            base.Dispose();
+        }
     }
 }

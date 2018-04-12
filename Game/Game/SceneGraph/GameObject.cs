@@ -1,15 +1,13 @@
 ﻿using System;
-using System.CodeDom;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace PBLGame.SceneGraph
 {
     public delegate void NodeEventCallback(GameObject node);
 
-    public class GameObject
+    public class GameObject : IDisposable
     {
         protected GameObject parent = null;
         public GameObject Parent { get { return parent; } }
@@ -476,6 +474,28 @@ namespace PBLGame.SceneGraph
             foreach (var col in colliders)
             {
                 col.isTrigger = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            parent?.childs.Remove(this);
+
+            parent = null;
+
+            foreach (Collider collider in colliders)
+            {
+                collider?.Dispose();
+            }
+
+            foreach (Component component in components)
+            {
+                component?.Dispose();
+            }
+
+            foreach (GameObject gameObject in childs)
+            {
+                gameObject?.Dispose();
             }
         }
     }
