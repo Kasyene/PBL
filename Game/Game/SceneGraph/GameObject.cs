@@ -400,6 +400,26 @@ namespace PBLGame.SceneGraph
             }
         }
 
+        public T GetComponent<T>() where T : class
+        {
+            if (this.HaveComponents)
+            {
+                foreach (Component component in components)
+                {
+                    if (component.GetType() == typeof(T))
+                    {
+                        return component as T;
+                    }
+                }
+                throw new System.Exception("GameObj doesn't have " + typeof(T));
+            }
+            else
+            {
+                throw new System.Exception("GameObj doesn't have any Components");
+            }
+        }
+
+        [Obsolete("GetModelComponent is deprecated, please use GetComponent<T>() instead.")]
         public ModelComponent GetModelComponent()
         {
             if (this.HaveComponents)
@@ -419,6 +439,7 @@ namespace PBLGame.SceneGraph
             }
         }
 
+        [Obsolete("GetModelAnimatedComponent is deprecated, please use GetComponent<T>() instead.")]
         public ModelAnimatedComponent GetModelAnimatedComponent()
         {
             if (this.HaveComponents)

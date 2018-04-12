@@ -78,8 +78,8 @@ namespace PBLGame
 
 
             // TODO: ANIM LOAD SYSTEM / SELECTOR
-            AnimationClip animationClip = player.GetModelAnimatedComponent().AnimationClips[0];
-            AnimationPlayer animationPlayer = player.GetModelAnimatedComponent().PlayClip(animationClip);
+            AnimationClip animationClip = player.GetComponent<ModelAnimatedComponent>().AnimationClips[0];
+            AnimationPlayer animationPlayer = player.GetComponent<ModelAnimatedComponent>().PlayClip(animationClip);
             animationPlayer.Looping = true;
 
             // Add static models
@@ -203,7 +203,7 @@ namespace PBLGame
             }
             else
             {
-                throw new System.Exception("There is no mesh in this model WTF");
+                throw new System.Exception("There is no mesh in this model !!");
             }
         }
 
@@ -211,14 +211,14 @@ namespace PBLGame
         {
             foreach (var newObj in mapa)
             {
-                if (newObj.GetModelComponent().model.Bones[0].Children.Count > 0)
+                if (newObj.GetComponent<ModelComponent>().model.Bones[0].Children.Count > 0)
                 {
-                    for (int i = 0; i < newObj.GetModelComponent().model.Bones[0].Children.Count; i++)
+                    for (int i = 0; i < newObj.GetComponent<ModelComponent>().model.Bones[0].Children.Count; i++)
                     {
                         foreach (var gameObject in mapa)
                         {
-                            if (gameObject.GetModelComponent().model.Bones[0].Name ==
-                                newObj.GetModelComponent().model.Bones[0].Children[i].Name &&
+                            if (gameObject.GetComponent<ModelComponent>().model.Bones[0].Name ==
+                                newObj.GetComponent<ModelComponent>().model.Bones[0].Children[i].Name &&
                                 gameObject.Parent == null)
                             {
                                 newObj.AddChildNode(gameObject);
