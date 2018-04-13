@@ -409,12 +409,8 @@ namespace PBLGame.SceneGraph
                         return component as T;
                     }
                 }
-                throw new System.Exception("GameObj doesn't have " + typeof(T));
             }
-            else
-            {
-                throw new System.Exception("GameObj doesn't have any Components");
-            }
+                return null;
         }
 
         [Obsolete("GetModelComponent is deprecated, please use GetComponent<T>() instead.")]
