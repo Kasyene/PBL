@@ -52,6 +52,9 @@ namespace PBLGame
 
         protected override void LoadContent()
         {
+            // TODO: WRITE CONTENT MANAGER EXTENSION
+            Resources.Init(Content);
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             root = new SceneGraph.GameObject();
@@ -60,7 +63,6 @@ namespace PBLGame
             box = new SceneGraph.GameObject();
             sphere = new SceneGraph.GameObject();
             cone = new SceneGraph.GameObject();
-            //playerModel = new SceneGraph.GameObject();
             levelOne = new SceneGraph.GameObject();
             player = new SceneGraph.GameObject();
             camera = new SceneGraph.Camera();

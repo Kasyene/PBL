@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System;
 using System.CodeDom;
+using Game.Misc;
 using Microsoft.Xna.Framework.Content;
 
 namespace PBLGame.SceneGraph
@@ -73,6 +74,11 @@ namespace PBLGame.SceneGraph
         public override void LoadContent(ContentManager contentManager)
         {
             base.LoadContent(contentManager);
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
         }
     }
 }
