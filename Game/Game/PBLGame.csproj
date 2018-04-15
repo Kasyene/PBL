@@ -57,6 +57,7 @@
     <Compile Include="Components\ModelAnimatedComponent.cs" />
     <Compile Include="Misc\Anim\AnimationPlayer.cs" />
     <Compile Include="Misc\Anim\Bone.cs" />
+    <Compile Include="Misc\Resources.cs" />
     <Compile Include="Misc\Time\Timer.cs" />
     <Compile Include="SceneGraph\Camera.cs" />
     <Compile Include="Components\Collider.cs" />

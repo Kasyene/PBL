@@ -8,10 +8,11 @@ namespace PBLGame.MainGame
     class Pawn : Component
     {
         protected GameObject parentGameObject;
+        protected Vector3 lastPosition;
         public int Hp { get; internal set; }
         public Pawn() : base()
         {
-
+            lastPosition = new Vector3(0f, 0f, 0f);
         }
 
         public virtual void Damage()
@@ -29,52 +30,39 @@ namespace PBLGame.MainGame
         {
             Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
             parentGameObject.Translate(new Vector3(direction.Y * speed, 0f, direction.X * speed));
-            if (CheckCollider())
-            {
-                parentGameObject.Translate(new Vector3(-2 * direction.Y * speed, 0f, -2 * direction.X * speed));
-            }
+            CheckCollider();
         }
 
         protected void MoveBack(float speed)
         {
             Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
             parentGameObject.Translate(new Vector3(-direction.Y * speed, 0f, -direction.X * speed));
-            if (CheckCollider())
-            {
-                parentGameObject.Translate(new Vector3(2 * direction.Y * speed, 0f, 2 * direction.X * speed));
-            }
+            CheckCollider();
         }
         protected void MoveLeft(float speed)
         {
-                Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
-                parentGameObject.Translate(new Vector3(-direction.X * speed, 0f, direction.Y * speed));
-                if (CheckCollider())
-                {
-                    parentGameObject.Translate(new Vector3(2 * direction.X * speed, 0f, -2 * direction.Y * speed));
-                }
+            Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
+            parentGameObject.Translate(new Vector3(-direction.X * speed, 0f, direction.Y * speed));
+            CheckCollider();
         }
 
         protected void MoveRight(float speed)
         {
-                Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
-                parentGameObject.Translate(new Vector3(direction.X * speed, 0f, -direction.Y * speed));
-                if (CheckCollider())
-                {
-                    parentGameObject.Translate(new Vector3(-2 * direction.X * speed, 0f, 2 * direction.Y * speed));
-                }
-            
+            Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
+            parentGameObject.Translate(new Vector3(direction.X * speed, 0f, -direction.Y * speed));
+            CheckCollider();
         }
 
-        protected bool CheckCollider()
+        protected void CheckCollider()
         {
             foreach (Collider col in parentGameObject.colliders)
             {
                 if (col.CollisionUpdate())
                 {
-                    return true;
+                    parentGameObject.Position = lastPosition;
                 }
             }
-            return false;
+            lastPosition = parentGameObject.Position;
         }
 
         protected void Rotate(float angle)
