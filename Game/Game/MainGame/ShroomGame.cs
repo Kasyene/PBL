@@ -35,7 +35,7 @@ namespace PBLGame
 
         SceneGraph.GameObject player;
         SceneGraph.GameObject playerModel;
-        private SceneGraph.GameObject playerDance;
+        SceneGraph.GameObject playerDance;
         SceneGraph.Camera camera;
 
         public ShroomGame()
@@ -65,6 +65,7 @@ namespace PBLGame
             cone = new SceneGraph.GameObject();
             levelOne = new SceneGraph.GameObject();
             player = new SceneGraph.GameObject();
+            playerDance = new SceneGraph.GameObject();
             camera = new SceneGraph.Camera();
             camera.SetCameraTarget(player);
 
@@ -72,8 +73,9 @@ namespace PBLGame
             Model hierarchia = Content.Load<Model>("level_newXD");
 
             // Load anim model
-            player.AddComponent(new SceneGraph.ModelAnimatedComponent("test/borowikSlashLewo", Content));
+            player.AddComponent(new SceneGraph.ModelAnimatedComponent("test/borowik", Content));
             player.AddComponent(new Player(player));
+            playerDance.AddComponent(new SceneGraph.ModelAnimatedComponent("test/borowikChod", Content));
             List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia);
             CreateHierarchyOfLevel(hiererchyList, levelOne);
 
@@ -82,7 +84,7 @@ namespace PBLGame
 
 
             // TODO: ANIM LOAD SYSTEM / SELECTOR
-            AnimationClip animationClip = player.GetComponent<ModelAnimatedComponent>().AnimationClips[0];
+            AnimationClip animationClip = playerDance.GetComponent<ModelAnimatedComponent>().AnimationClips[0];
             AnimationPlayer animationPlayer = player.GetComponent<ModelAnimatedComponent>().PlayClip(animationClip);
             animationPlayer.Looping = true;
 
