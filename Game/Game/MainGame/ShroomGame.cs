@@ -72,7 +72,7 @@ namespace PBLGame
             Model hierarchia = Content.Load<Model>("level_newXD");
 
             // Load anim model
-            player.AddComponent(new SceneGraph.ModelAnimatedComponent("Knuckles", Content));
+            player.AddComponent(new SceneGraph.ModelAnimatedComponent("test/borowikSlashLewo", Content));
             player.AddComponent(new Player(player));
             List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia);
             CreateHierarchyOfLevel(hiererchyList, levelOne);
