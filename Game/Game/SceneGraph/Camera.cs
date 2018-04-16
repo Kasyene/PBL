@@ -7,8 +7,8 @@ namespace PBLGame.SceneGraph
     public class Camera : GameObject
     {
         GameObject cameraTarget;
-        public float minZoom = -2200f;
-        public float maxZoom = -1000f;
+        public float minZoom = -1000f;
+        public float maxZoom = -500f;
         public float minYRotation = 0.1f;
         public float maxYRotation = 1f;
         private readonly InputManager inputManager;
@@ -17,7 +17,8 @@ namespace PBLGame.SceneGraph
         {
             inputManager = InputManager.Instance;
             visible = false;
-            Position = new Vector3(0f, -2000f, 0f);
+            Position = new Vector3(0f, 0f, -800f);
+            //colliders.Add(new Collider(new BoundingBox(), null, this));
             TransformationsOrder = TransformationOrder.ScalePositionRotation;
             
         }
@@ -30,7 +31,7 @@ namespace PBLGame.SceneGraph
                 Vector3 lookAtVector;
                 if (cameraTarget != null)
                 {
-                    lookAtVector = cameraTarget.Position + new Vector3(0f, 4f, 0f);
+                    lookAtVector = cameraTarget.Position + new Vector3(0f, 6f, 0f);
                 }
                 else
                 {
@@ -67,12 +68,11 @@ namespace PBLGame.SceneGraph
         public override void Update()
         {
             base.Update();
-            //RotationZ += inputManager.Mouse.PositionsDelta.X * 0.01f;
             float rotY = RotationY + inputManager.Mouse.PositionsDelta.Y * 0.01f;
-            float posZ = PositionY + inputManager.Mouse.ScrollValue * 1f; ;
+            float posZ = PositionZ + inputManager.Mouse.ScrollValue * 0.1f; ;
             if(posZ > minZoom && posZ <  maxZoom)
             {
-                PositionY = posZ;
+                PositionZ = posZ;
             }
             if(rotY < maxYRotation && rotY > minYRotation)
             {
