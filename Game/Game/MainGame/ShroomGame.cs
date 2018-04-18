@@ -38,9 +38,12 @@ namespace PBLGame
         SceneGraph.GameObject playerDance;
         SceneGraph.Camera camera;
 
+        Effect standardEffect;
+
         public ShroomGame()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.GraphicsProfile = GraphicsProfile.HiDef;
             inputManager = InputManager.Instance;
             Content.RootDirectory = "Content";
         }
@@ -57,12 +60,10 @@ namespace PBLGame
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            standardEffect = Content.Load<Effect>("Standard");
             root = new SceneGraph.GameObject();
             heart = new SceneGraph.GameObject();
             heart2 = new SceneGraph.GameObject();
-            box = new SceneGraph.GameObject();
-            sphere = new SceneGraph.GameObject();
-            cone = new SceneGraph.GameObject();
             levelOne = new SceneGraph.GameObject();
             player = new SceneGraph.GameObject();
             playerDance = new SceneGraph.GameObject();
@@ -79,38 +80,28 @@ namespace PBLGame
             List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia);
             CreateHierarchyOfLevel(hiererchyList, levelOne);
 
-            heart.AddComponent(new SceneGraph.ModelComponent(apteczka));
-            heart2.AddComponent(new SceneGraph.ModelComponent(apteczka));
-
-
             // TODO: ANIM LOAD SYSTEM / SELECTOR
             AnimationClip animationClip = playerDance.GetComponent<ModelAnimatedComponent>().AnimationClips[0];
             AnimationPlayer animationPlayer = player.GetComponent<ModelAnimatedComponent>().PlayClip(animationClip);
             animationPlayer.Looping = true;
 
             // Add static models
-            heart.AddComponent(new SceneGraph.ModelComponent(apteczka));
-            heart2.AddComponent(new SceneGraph.ModelComponent(apteczka));
-
+            heart.AddComponent(new SceneGraph.ModelComponent(apteczka, standardEffect));
+            heart2.AddComponent(new SceneGraph.ModelComponent(apteczka, standardEffect));
 
             root.AddChildNode(heart);
             root.AddChildNode(heart2);
             root.AddChildNode(player);
-            root.AddChildNode(box);
             root.AddChildNode(levelOne);
-            box.AddChildNode(sphere);
-            sphere.AddChildNode(cone);
             player.AddChildNode(camera);
             heart.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
             heart2.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
-            heart.Position = new Vector3(15.0f, 1.0f, -10.0f);
-            heart2.Position = new Vector3(-15.0f, 1.0f, -10.0f);
+            heart.Position = new Vector3(15.0f, 2.0f, -10.0f);
+            heart2.Position = new Vector3(-15.0f, 2.0f, -10.0f);
             heart.Scale = new Vector3(0.2f);
             heart2.Scale = new Vector3(0.2f);
             player.Position = new Vector3(0f, 3f, 0f);
             player.Scale = new Vector3(0.1f);
-
-            //CreateLevel();
 
             root.CreateColliders();
 
@@ -157,29 +148,6 @@ namespace PBLGame
             base.Draw(gameTime);
         }
 
-        private void CreateLevel()
-        {
-            Model sciana = Content.Load<Model>("wall");
-            walls = new List<SceneGraph.GameObject>();
-            for (int i = 0; i < 5; i++)
-            {
-                walls.Add(new SceneGraph.GameObject());
-            }
-
-            foreach (var wall in walls)
-            {
-                wall.AddComponent(new SceneGraph.ModelComponent(sciana));
-                root.AddChildNode(wall);
-            }
-
-            walls[0].Position = new Vector3(0.0f, 4.0f, 0.0f);
-            walls[1].Position = new Vector3(0.0f, -6.0f, -10.0f);
-            walls[2].Position = new Vector3(0.0f, -6.0f, -20.0f);
-            walls[3].Position = new Vector3(0.0f, -6.0f, -30.0f);
-            walls[4].Position = new Vector3(0.0f, 4.0f, -40.0f);
-        }
-
-
         private List<GameObject> SplitModelIntoSmallerPieces(Model bigModel)
         {
             if (bigModel.Meshes.Count >= 1)
@@ -191,7 +159,7 @@ namespace PBLGame
                     List<ModelMesh> meshes = new List<ModelMesh>();
                     bones.Add(bigModel.Meshes[i].ParentBone);
                     meshes.Add(bigModel.Meshes[i]);
-                    ModelComponent newModel = new ModelComponent(new Model(GraphicsDevice, bones, meshes));
+                    ModelComponent newModel = new ModelComponent(new Model(GraphicsDevice, bones, meshes), standardEffect);
                     GameObject newObj = new GameObject();
                     Vector3 position;
                     Vector3 scale;

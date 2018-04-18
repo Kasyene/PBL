@@ -19,7 +19,7 @@ namespace PBLGame.SceneGraph
 
         public List<AnimationClip> AnimationClips => modelExtra.Clips;
 
-        public ModelAnimatedComponent(string _assetName, ContentManager contentManager) : base(null)
+        public ModelAnimatedComponent(string _assetName, ContentManager contentManager) : base(null, null)
         {
             assetName = _assetName;
             LoadContent(contentManager);

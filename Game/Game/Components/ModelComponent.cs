@@ -11,11 +11,12 @@ namespace PBLGame.SceneGraph
     public class ModelComponent : Component
     {
         public Model model;
-        
+        public Effect modelEffect;
 
-        public ModelComponent(Model _model)
+        public ModelComponent(Model _model, Effect _modelEffect)
         {
             model = _model;
+            modelEffect = _modelEffect;
             Visible = true;
         }
 
@@ -23,7 +24,7 @@ namespace PBLGame.SceneGraph
         {
             foreach (var mesh in model.Meshes)
             {
-                foreach (BasicEffect effect in mesh.Effects)
+                /*foreach (BasicEffect effect in mesh.Effects)
                 {
                     effect.EnableDefaultLighting();
                     // set world matrix
@@ -34,6 +35,14 @@ namespace PBLGame.SceneGraph
 
                     // set projection matrix
                     effect.Projection = camera.ProjectionMatrix;
+                }*/
+                foreach (ModelMeshPart part in mesh.MeshParts)
+                {
+                    part.Effect = modelEffect;
+                    modelEffect.Parameters["World"].SetValue(worldTransformations);
+                    modelEffect.Parameters["View"].SetValue(camera.ViewMatrix);
+                    modelEffect.Parameters["Projection"].SetValue(camera.ProjectionMatrix);
+                    modelEffect.Parameters["WorldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(worldTransformations)));
                 }
                 mesh.Draw();
             }
