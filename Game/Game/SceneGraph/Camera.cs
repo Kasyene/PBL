@@ -65,6 +65,13 @@ namespace PBLGame.SceneGraph
             return cameraTarget;
         }
 
+        public Vector3 GetViewVector()
+        {
+            Vector3 viewVector = Vector3.Transform(cameraTarget.Position - Position, Matrix.CreateRotationY(0));
+            viewVector.Normalize();
+            return viewVector;
+        }
+
         public override void Update()
         {
             base.Update();

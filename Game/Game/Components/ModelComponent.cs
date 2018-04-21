@@ -43,6 +43,7 @@ namespace PBLGame.SceneGraph
                     modelEffect.Parameters["View"].SetValue(camera.ViewMatrix);
                     modelEffect.Parameters["Projection"].SetValue(camera.ProjectionMatrix);
                     modelEffect.Parameters["WorldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(worldTransformations)));
+                    modelEffect.Parameters["ViewVector"].SetValue(camera.GetViewVector());
                 }
                 mesh.Draw();
             }
