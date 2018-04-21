@@ -22,6 +22,7 @@ namespace PBLGame
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private readonly InputManager inputManager;
+        public static Texture2D missingTexture;
 
         SceneGraph.GameObject root;
         SceneGraph.GameObject heart;
@@ -64,6 +65,7 @@ namespace PBLGame
             camera = new SceneGraph.Camera();
             camera.SetCameraTarget(player);
 
+            missingTexture = Content.Load<Texture2D>("Missing");
             Model apteczka = Content.Load<Model>("apteczka");
             Texture2D apteczkaTexture = Content.Load<Texture2D>("apteczkaTex");
             Model hierarchia = Content.Load<Model>("level_newXD");

@@ -50,6 +50,10 @@ namespace PBLGame.SceneGraph
                     {
                         modelEffect.Parameters["ModelTexture"].SetValue(texture);
                     }
+                    else
+                    {
+                        modelEffect.Parameters["ModelTexture"].SetValue(ShroomGame.missingTexture);
+                    }
                 }
                 mesh.Draw();
             }
