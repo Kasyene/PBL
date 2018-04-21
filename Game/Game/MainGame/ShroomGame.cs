@@ -23,18 +23,12 @@ namespace PBLGame
         SpriteBatch spriteBatch;
         private readonly InputManager inputManager;
 
-        Texture2D checkerboardTexture;
         SceneGraph.GameObject root;
         SceneGraph.GameObject heart;
         SceneGraph.GameObject heart2;
-        SceneGraph.GameObject box;
-        SceneGraph.GameObject sphere;
-        SceneGraph.GameObject cone;
         SceneGraph.GameObject levelOne;
-        List<SceneGraph.GameObject> walls;
 
         SceneGraph.GameObject player;
-        SceneGraph.GameObject playerModel;
         SceneGraph.GameObject playerDance;
         SceneGraph.Camera camera;
 
@@ -71,6 +65,7 @@ namespace PBLGame
             camera.SetCameraTarget(player);
 
             Model apteczka = Content.Load<Model>("apteczka");
+            Texture2D apteczkaTexture = Content.Load<Texture2D>("apteczkaTex");
             Model hierarchia = Content.Load<Model>("level_newXD");
 
             // Load anim model
@@ -86,8 +81,8 @@ namespace PBLGame
             animationPlayer.Looping = true;
 
             // Add static models
-            heart.AddComponent(new SceneGraph.ModelComponent(apteczka, standardEffect));
-            heart2.AddComponent(new SceneGraph.ModelComponent(apteczka, standardEffect));
+            heart.AddComponent(new SceneGraph.ModelComponent(apteczka, standardEffect, apteczkaTexture));
+            heart2.AddComponent(new SceneGraph.ModelComponent(apteczka, standardEffect, apteczkaTexture));
 
             root.AddChildNode(heart);
             root.AddChildNode(heart2);
@@ -104,12 +99,6 @@ namespace PBLGame
             player.Scale = new Vector3(0.1f);
 
             root.CreateColliders();
-
-            // We aren't using the content pipeline, so we need to access the stream directly:
-            using (var stream = TitleContainer.OpenStream("Content/checkerboard.png"))
-            {
-                checkerboardTexture = Texture2D.FromStream(this.GraphicsDevice, stream);
-            }
         }
 
         protected override void UnloadContent()

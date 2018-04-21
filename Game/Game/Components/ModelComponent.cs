@@ -12,11 +12,13 @@ namespace PBLGame.SceneGraph
     {
         public Model model;
         public Effect modelEffect;
+        Texture2D texture;
 
-        public ModelComponent(Model _model, Effect _modelEffect)
+        public ModelComponent(Model _model, Effect _modelEffect, Texture2D _texture = null)
         {
             model = _model;
             modelEffect = _modelEffect;
+            texture = _texture;
             Visible = true;
         }
 
@@ -44,6 +46,10 @@ namespace PBLGame.SceneGraph
                     modelEffect.Parameters["Projection"].SetValue(camera.ProjectionMatrix);
                     modelEffect.Parameters["WorldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(worldTransformations)));
                     modelEffect.Parameters["ViewVector"].SetValue(camera.GetViewVector());
+                    if(texture != null)
+                    {
+                        modelEffect.Parameters["ModelTexture"].SetValue(texture);
+                    }
                 }
                 mesh.Draw();
             }
