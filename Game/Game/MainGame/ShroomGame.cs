@@ -23,6 +23,7 @@ namespace PBLGame
         SpriteBatch spriteBatch;
         private readonly InputManager inputManager;
         public static Texture2D missingTexture;
+        public static Game.Lights.DirectionalLight directionalLight;
 
         SceneGraph.GameObject root;
         SceneGraph.GameObject heart;
@@ -65,6 +66,7 @@ namespace PBLGame
             camera = new SceneGraph.Camera();
             camera.SetCameraTarget(player);
 
+            directionalLight = new Game.Lights.DirectionalLight();
             missingTexture = Content.Load<Texture2D>("Missing");
             Model apteczka = Content.Load<Model>("apteczka");
             Texture2D apteczkaTexture = Content.Load<Texture2D>("apteczkaTex");

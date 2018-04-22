@@ -46,7 +46,11 @@ namespace PBLGame.SceneGraph
                     modelEffect.Parameters["Projection"].SetValue(camera.ProjectionMatrix);
                     modelEffect.Parameters["WorldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(worldTransformations)));
                     modelEffect.Parameters["ViewVector"].SetValue(camera.GetViewVector());
-                    if(texture != null)
+                    modelEffect.Parameters["DirectionalLightDirection"].SetValue(ShroomGame.directionalLight.direction);
+                    modelEffect.Parameters["DirectionalAmbientColor"].SetValue(ShroomGame.directionalLight.ambient);
+                    modelEffect.Parameters["DirectionalDiffuseColor"].SetValue(ShroomGame.directionalLight.diffuse);
+                    modelEffect.Parameters["DirectionalSpecularColor"].SetValue(ShroomGame.directionalLight.specular);
+                    if (texture != null)
                     {
                         modelEffect.Parameters["ModelTexture"].SetValue(texture);
                     }

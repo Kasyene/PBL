@@ -3,19 +3,22 @@ float4x4 View;
 float4x4 Projection;
 float4x4 WorldInverseTranspose;
 
-float4 AmbientColor = float4(1, 1, 1, 1);
-float AmbientIntensity = 0.1;
-
-float3 DiffuseLightDirection = float3(0, 1, 1);
-float4 DiffuseColor = float4(1, 1, 1, 1);
-float DiffuseIntensity = 3.0;
-
-float Shininess = 200;
-float4 SpecularColor = float4(1, 1, 1, 1);
-float SpecularIntensity = 1;
-float3 ViewVector = float3(1, 0, 0);
-
+float3 ViewVector;
 texture ModelTexture;
+
+//General Light Values
+float AmbientIntensity = 0.1;
+float DiffuseIntensity = 3.0;
+float SpecularIntensity = 1;
+float Shininess = 200;
+
+//Directional Light
+float3 DirectionalLightDirection;
+float4 DirectionalAmbientColor;
+float4 DirectionalDiffuseColor;
+float4 DirectionalSpecularColor;
+
+
 sampler2D textureSampler = sampler_state {
 	Texture = (ModelTexture);
 	MinFilter = Linear;
@@ -46,31 +49,35 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	float4 worldPosition = mul(input.Position, World);
 	float4 viewPosition = mul(worldPosition, View);
 	output.Position = mul(viewPosition, Projection);
-
 	float4 normal = normalize(mul(input.Normal, WorldInverseTranspose));
-	float lightIntensity = dot(normal, DiffuseLightDirection);
-	output.Color = saturate(DiffuseColor * DiffuseIntensity * lightIntensity);
-
 	output.Normal = normal;
-
 	output.TextureCoordinate = input.TextureCoordinate;
+
 	return output;
+}
+
+float4 DirectionalLightCalculation(VertexShaderOutput input)
+{
+	float3 light = normalize(DirectionalLightDirection);
+	float3 normal = normalize(input.Normal);
+	float dotProduct = dot(normalize(2 * dot(light, normal) * normal - light), normalize(mul(normalize(ViewVector), World)));
+	float lightIntensity = dot(normal, DirectionalLightDirection);
+	float4 diffuseColor = saturate(DirectionalDiffuseColor * DiffuseIntensity * lightIntensity);
+	float4 textureColor = tex2D(textureSampler, input.TextureCoordinate);
+	textureColor.a = 1;
+
+	float4 ambient = textureColor * DirectionalAmbientColor * AmbientIntensity;
+	float4 specular = SpecularIntensity * DirectionalSpecularColor * max(pow(dotProduct, Shininess), 0);
+	float4 diffuse = textureColor * diffuseColor;
+
+	return saturate(diffuse + ambient + specular);
 }
 
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
-	float3 light = normalize(DiffuseLightDirection);
-	float3 normal = normalize(input.Normal);
-	float3 r = normalize(2 * dot(light, normal) * normal - light);
-	float3 v = normalize(mul(normalize(ViewVector), World));
-	float dotProduct = dot(r, v);
+	float4 directionalLight = DirectionalLightCalculation(input);
 
-	float4 specular = SpecularIntensity * SpecularColor * max(pow(dotProduct, Shininess), 0) * length(input.Color);
-
-	float4 textureColor = tex2D(textureSampler, input.TextureCoordinate);
-	textureColor.a = 1;
-
-	return saturate(textureColor * (input.Color) + AmbientColor * AmbientIntensity + specular);
+	return directionalLight;
 }
 
 technique Specular
