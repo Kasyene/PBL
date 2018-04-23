@@ -91,28 +91,31 @@ namespace PBLGame.SceneGraph
 
         public void DrawBoundingBox(GameObject parent, Matrix localTransformations, Matrix worldTransformations, Camera camera)
         {
-            lineEffect = new BasicEffect(GameServices.GetService<GraphicsDevice>());
-            BoundingBox box = GetBoundingBox(parent, localTransformations, worldTransformations);
-            Vector3[] corners = box.GetCorners();
-            VertexPositionColor[] primitiveList = new VertexPositionColor[corners.Length];
-
-            // Assign the 8 box vertices
-            for (int i = 0; i < corners.Length; i++)
+            if (System.Diagnostics.Debugger.IsAttached)
             {
-                primitiveList[i] = new VertexPositionColor(corners[i], Color.White);
-            }
+                lineEffect = new BasicEffect(GameServices.GetService<GraphicsDevice>());
+                BoundingBox box = GetBoundingBox(parent, localTransformations, worldTransformations);
+                Vector3[] corners = box.GetCorners();
+                VertexPositionColor[] primitiveList = new VertexPositionColor[corners.Length];
 
-            lineEffect.World = Matrix.Identity;
-            lineEffect.View = camera.ViewMatrix;
-            lineEffect.Projection = camera.ProjectionMatrix;
+                // Assign the 8 box vertices
+                for (int i = 0; i < corners.Length; i++)
+                {
+                    primitiveList[i] = new VertexPositionColor(corners[i], Color.White);
+                }
 
-            foreach (EffectPass pass in lineEffect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                GameServices.GetService<GraphicsDevice>().DrawUserIndexedPrimitives(
-                    PrimitiveType.LineList, primitiveList, 0, 8,
-                    bBoxIndices, 0, 12);
-            }
+                lineEffect.World = Matrix.Identity;
+                lineEffect.View = camera.ViewMatrix;
+                lineEffect.Projection = camera.ProjectionMatrix;
+
+                foreach (EffectPass pass in lineEffect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                    GameServices.GetService<GraphicsDevice>().DrawUserIndexedPrimitives(
+                        PrimitiveType.LineList, primitiveList, 0, 8,
+                        bBoxIndices, 0, 12);
+                }
+            } 
         }
 
         private static void AddVertex(List<VertexPositionColor> vertices, Vector3 position)
