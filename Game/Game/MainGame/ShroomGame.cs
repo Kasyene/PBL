@@ -77,7 +77,7 @@ namespace PBLGame
             missingTexture = Content.Load<Texture2D>("Missing");
             Model apteczka = Content.Load<Model>("apteczka");
             Texture2D apteczkaTexture = Content.Load<Texture2D>("apteczkaTex");
-            Model hierarchia = Content.Load<Model>("level_newXD");
+            Model hierarchia = Content.Load<Model>("level1");
 
             // Load anim model
             player.AddComponent(new SceneGraph.ModelAnimatedComponent("test/borowik", Content));
@@ -229,12 +229,23 @@ namespace PBLGame
         {
             List<String> otagowaneNazwy = new List<string>();
             otagowaneNazwy.Add("podloga");
-            otagowaneNazwy.Add("schodek");
+            otagowaneNazwy.Add("schodki");
+            otagowaneNazwy.Add("most");
+            otagowaneNazwy.Add("platforma");
+            otagowaneNazwy.Add("podest");
+            otagowaneNazwy.Add("schody");
             foreach (var gameObj in mapa)
             {
-                if (otagowaneNazwy.Any(s => gameObj.name.Contains(s)))
+                if (gameObj.tag != "Ground" && otagowaneNazwy.Any(s => gameObj.name.Contains(s)))
                 {
                     gameObj.tag = "Ground";
+                    if (gameObj.childs.Count > 0)
+                    {
+                        foreach (var gameObjChild in gameObj.childs)
+                        {
+                            gameObjChild.tag = "Ground";
+                        }
+                    }
                 }
             }
         }

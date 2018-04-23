@@ -21,7 +21,7 @@ namespace PBLGame.SceneGraph
         protected Matrix localTransform = Matrix.Identity;
         protected Matrix worldTransform = Matrix.Identity;
 
-        protected List<GameObject> childs = new List<GameObject>();
+        public List<GameObject> childs = new List<GameObject>();
         protected List<Component> components = new List<Component>();
         public List<Collider> colliders = new List<Collider>();
         protected bool isDirty = true;
