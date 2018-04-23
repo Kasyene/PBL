@@ -33,6 +33,7 @@ namespace PBLGame.SceneGraph
         public GameObject()
         {
             visible = true;
+            tag = "";
         }
 
         public virtual void Draw(Camera camera, bool createShadowMap = false, string newName = "Node")

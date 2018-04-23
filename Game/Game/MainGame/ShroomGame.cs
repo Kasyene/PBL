@@ -86,7 +86,7 @@ namespace PBLGame
             playerDance.AddComponent(new SceneGraph.ModelAnimatedComponent("test/borowikChod", Content));
             List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia);
             CreateHierarchyOfLevel(hiererchyList, levelOne);
-            AssignTagsForGroundElements(hiererchyList);
+            AssignTagsForMapElements(hiererchyList);
 
             // TODO: ANIM LOAD SYSTEM / SELECTOR
             AnimationClip animationClip = playerDance.GetComponent<ModelAnimatedComponent>().AnimationClips[0];
@@ -225,29 +225,46 @@ namespace PBLGame
             }
         }
 
-        private void AssignTagsForGroundElements(List<GameObject> mapa)
+        private void AssignTagsForMapElements(List<GameObject> mapa)
         {
-            List<String> otagowaneNazwy = new List<string>();
-            otagowaneNazwy.Add("podloga");
-            otagowaneNazwy.Add("schodki");
-            otagowaneNazwy.Add("most");
-            otagowaneNazwy.Add("platforma");
-            otagowaneNazwy.Add("podest");
-            otagowaneNazwy.Add("schody");
+            List<String> Groundy = new List<string>();
+            Groundy.Add("podloga");
+            Groundy.Add("schodki");
+            Groundy.Add("most");
+            Groundy.Add("platforma");
+            Groundy.Add("podest");
+            Groundy.Add("schody");
+
+            List<String> Walle = new List<string>();
+            Walle.Add("brama");
+            Walle.Add("sciany");
+            Walle.Add("sciany");
+            Walle.Add("podpory");
+            Walle.Add("wieza");
+
+           tagAssigner(mapa, Groundy, "Ground");
+           tagAssigner(mapa, Walle, "Wall");
+        }
+
+        private void tagAssigner(List<GameObject> mapa, List<String> otagowaneNazwy, string tag)
+        {
             foreach (var gameObj in mapa)
             {
-                if (gameObj.tag != "Ground" && otagowaneNazwy.Any(s => gameObj.name.Contains(s)))
+                if (gameObj.tag != tag && otagowaneNazwy.Any(s => gameObj.name.Contains(s)))
                 {
-                    gameObj.tag = "Ground";
+                    gameObj.tag = tag;
+                    Debug.WriteLine(gameObj.tag);
                     if (gameObj.childs.Count > 0)
                     {
                         foreach (var gameObjChild in gameObj.childs)
                         {
-                            gameObjChild.tag = "Ground";
+                            gameObjChild.tag = tag;
+                            Debug.WriteLine(gameObjChild.tag);
                         }
                     }
                 }
             }
         }
+
     }
 }
