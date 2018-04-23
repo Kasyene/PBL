@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System;
 using System.CodeDom;
+using System.Linq;
 using Game.Misc;
 using Microsoft.Xna.Framework.Content;
 
@@ -101,12 +102,9 @@ namespace PBLGame.SceneGraph
                 primitiveList[i] = new VertexPositionColor(corners[i], Color.White);
             }
 
-            lineEffect.World =  worldTransformations;
-            lineEffect.View = camera.ProjectionMatrix;
+            lineEffect.World = Matrix.Identity;
+            lineEffect.View = camera.ViewMatrix;
             lineEffect.Projection = camera.ProjectionMatrix;
-            lineEffect.LightingEnabled = false;
-            lineEffect.TextureEnabled = false;
-            lineEffect.VertexColorEnabled = true;
 
             foreach (EffectPass pass in lineEffect.CurrentTechnique.Passes)
             {
@@ -115,7 +113,11 @@ namespace PBLGame.SceneGraph
                     PrimitiveType.LineList, primitiveList, 0, 8,
                     bBoxIndices, 0, 12);
             }
-           
+        }
+
+        private static void AddVertex(List<VertexPositionColor> vertices, Vector3 position)
+        {
+            vertices.Add(new VertexPositionColor(position, Color.White));
         }
 
         public override void Update(GameTime gameTime)
