@@ -25,7 +25,7 @@ namespace PBLGame
         SpriteBatch spriteBatch;
         private readonly InputManager inputManager;
         public static Texture2D missingTexture;
-        public static Game.Lights.DirectionalLight directionalLight;
+        public static PBLGame.Lights.DirectionalLight directionalLight;
 
         SceneGraph.GameObject root;
         SceneGraph.GameObject heart;
@@ -37,6 +37,8 @@ namespace PBLGame
         SceneGraph.Camera camera;
 
         Effect standardEffect;
+        const int shadowMapWidthHeight = 2048;
+        RenderTarget2D shadowRenderTarget;
 
         public ShroomGame()
         {
@@ -58,6 +60,9 @@ namespace PBLGame
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            shadowRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, shadowMapWidthHeight, shadowMapWidthHeight,
+                                                    false, SurfaceFormat.Single, DepthFormat.Depth24);
+
             standardEffect = Content.Load<Effect>("Standard");
             root = new SceneGraph.GameObject();
             heart = new SceneGraph.GameObject();
@@ -68,7 +73,7 @@ namespace PBLGame
             camera = new SceneGraph.Camera();
             camera.SetCameraTarget(player);
 
-            directionalLight = new Game.Lights.DirectionalLight();
+            directionalLight = new PBLGame.Lights.DirectionalLight();
             missingTexture = Content.Load<Texture2D>("Missing");
             Model apteczka = Content.Load<Model>("apteczka");
             Texture2D apteczkaTexture = Content.Load<Texture2D>("apteczkaTex");
@@ -139,9 +144,21 @@ namespace PBLGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            CreateShadowMap();
             root.Draw(camera);
 
             base.Draw(gameTime);
+        }
+
+        void CreateShadowMap()
+        {
+            GraphicsDevice.SetRenderTarget(shadowRenderTarget);
+
+            GraphicsDevice.Clear(Color.White);
+
+            root.Draw(camera, true);
+
+            GraphicsDevice.SetRenderTarget(null);
         }
 
         private List<GameObject> SplitModelIntoSmallerPieces(Model bigModel)

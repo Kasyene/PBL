@@ -56,6 +56,7 @@
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Components\ModelAnimatedComponent.cs" />
     <Compile Include="Lights\DirectionalLight.cs" />
+    <Compile Include="Lights\PointLight.cs" />
     <Compile Include="Misc\Anim\AnimationPlayer.cs" />
     <Compile Include="Misc\Anim\Bone.cs" />
     <Compile Include="Misc\Resources.cs" />

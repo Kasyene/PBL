@@ -5,6 +5,7 @@ float4x4 WorldInverseTranspose;
 
 float3 ViewVector;
 texture ModelTexture;
+texture ShadowMap;
 
 //General Light Values
 float AmbientIntensity = 0.1;
@@ -17,6 +18,7 @@ float3 DirectionalLightDirection;
 float4 DirectionalAmbientColor;
 float4 DirectionalDiffuseColor;
 float4 DirectionalSpecularColor;
+float4x4 DirectionalLightViewProj;
 
 
 sampler2D textureSampler = sampler_state {
@@ -25,6 +27,10 @@ sampler2D textureSampler = sampler_state {
 	MagFilter = Linear;
 	AddressU = Clamp;
 	AddressV = Clamp;
+};
+
+sampler2D shadowMapSampler = sampler_state {
+	Texture = <ShadowMap>;
 };
 
 struct VertexShaderInput
@@ -41,6 +47,25 @@ struct VertexShaderOutput
 	float3 Normal : TEXCOORD0;
 	float2 TextureCoordinate : TEXCOORD1;
 };
+
+struct CreateShadowMap_VertexShaderOutput
+{
+	float4 Position : POSITION;
+	float Depth : TEXCOORD0;
+};
+
+CreateShadowMap_VertexShaderOutput CreateShadowMap_VertexShader(float4 Position: POSITION)
+{
+	CreateShadowMap_VertexShaderOutput output;
+	output.Position = mul(Position, mul(World, DirectionalLightViewProj));
+	output.Depth = output.Position.z / output.Position.w;
+	return output;
+}
+
+float4 CreateShadowMap_PixelShader(CreateShadowMap_VertexShaderOutput input) : COLOR
+{
+	return float4(input.Depth, 0, 0, 0);
+}
 
 VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 {
@@ -80,11 +105,20 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	return directionalLight;
 }
 
-technique Specular
+technique Draw
 {
     pass Pass1
     {
         VertexShader = compile vs_4_0 VertexShaderFunction();
         PixelShader = compile ps_4_0 PixelShaderFunction();
     }
+}
+
+technique CreateShadowMap
+{
+	pass Pass1
+	{
+		VertexShader = compile vs_4_0 CreateShadowMap_VertexShader();
+		PixelShader = compile ps_4_0 CreateShadowMap_PixelShader();
+	}
 }

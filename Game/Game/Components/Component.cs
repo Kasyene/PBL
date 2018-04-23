@@ -8,7 +8,7 @@ namespace PBLGame.SceneGraph
     {
         protected bool visible;
 
-        public virtual void Draw(GameObject parent, Camera camera, Matrix localTransformations, Matrix worldTransformations)
+        public virtual void Draw(GameObject parent, Camera camera, Matrix localTransformations, Matrix worldTransformations, bool createShadowMap = false)
         {
         }
 

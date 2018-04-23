@@ -35,7 +35,7 @@ namespace PBLGame.SceneGraph
             visible = true;
         }
 
-        public virtual void Draw(Camera camera, string newName = "Node")
+        public virtual void Draw(Camera camera, bool createShadowMap = false, string newName = "Node")
         {
             if (!visible)
             {
@@ -46,14 +46,14 @@ namespace PBLGame.SceneGraph
 
             foreach (GameObject node in childs)
             {
-                node.Draw(camera);
+                node.Draw(camera, createShadowMap);
             }
 
             onDraw?.Invoke(this);
 
             foreach (Component entity in components)
             {
-                entity.Draw(this, camera, localTransform, worldTransform);
+                entity.Draw(this, camera, localTransform, worldTransform, createShadowMap);
             }
         }
 

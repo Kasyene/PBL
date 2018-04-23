@@ -1,11 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PBLGame.SceneGraph;
 
-namespace Game.Lights
+namespace PBLGame.Lights
 {
     public class DirectionalLight
     {
@@ -17,11 +13,20 @@ namespace Game.Lights
 
         public DirectionalLight()
         {
-            direction = new Vector3(0f, 1f, 0.8f);
+            direction = new Vector3(0.1f, 1f, 0.8f);
 
             ambient = new Vector4(0.6f);
             diffuse = new Vector4(1f);
             specular = new Vector4(1f);
+        }
+
+        public Matrix CreateLightViewProjectionMatrix()
+        {
+            Matrix lightView = Matrix.CreateLookAt(-direction, Vector3.Zero, Vector3.Up);
+
+            Matrix lightProjection = Matrix.CreateOrthographic(1000, 1000, -1, 1000);
+
+            return lightView * lightProjection;
         }
     }
 }

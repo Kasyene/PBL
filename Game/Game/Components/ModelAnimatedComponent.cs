@@ -65,7 +65,7 @@ namespace PBLGame.SceneGraph
             return animationPlayer;
         }
 
-        public override void Draw(GameObject parent, Camera camera, Matrix localTransformations, Matrix worldTransformations)
+        public override void Draw(GameObject parent, Camera camera, Matrix localTransformations, Matrix worldTransformations, bool createShadowMap = false)
         {
             if(model == null)
                 return;

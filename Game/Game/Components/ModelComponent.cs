@@ -22,25 +22,15 @@ namespace PBLGame.SceneGraph
             Visible = true;
         }
 
-        public override void Draw(GameObject parent, Camera camera, Matrix localTransformations, Matrix worldTransformations)
+        public override void Draw(GameObject parent, Camera camera, Matrix localTransformations, Matrix worldTransformations, bool createShadowMap = false)
         {
+            string techniqueName = createShadowMap ? "CreateShadowMap" : "Draw";
             foreach (var mesh in model.Meshes)
             {
-                /*foreach (BasicEffect effect in mesh.Effects)
-                {
-                    effect.EnableDefaultLighting();
-                    // set world matrix
-                    effect.World = worldTransformations;
-
-                    // set view matrix
-                    effect.View = camera.ViewMatrix;
-
-                    // set projection matrix
-                    effect.Projection = camera.ProjectionMatrix;
-                }*/
                 foreach (ModelMeshPart part in mesh.MeshParts)
                 {
                     part.Effect = modelEffect;
+                    modelEffect.CurrentTechnique = modelEffect.Techniques[techniqueName];
                     modelEffect.Parameters["World"].SetValue(worldTransformations);
                     modelEffect.Parameters["View"].SetValue(camera.ViewMatrix);
                     modelEffect.Parameters["Projection"].SetValue(camera.ProjectionMatrix);
@@ -50,6 +40,7 @@ namespace PBLGame.SceneGraph
                     modelEffect.Parameters["DirectionalAmbientColor"].SetValue(ShroomGame.directionalLight.ambient);
                     modelEffect.Parameters["DirectionalDiffuseColor"].SetValue(ShroomGame.directionalLight.diffuse);
                     modelEffect.Parameters["DirectionalSpecularColor"].SetValue(ShroomGame.directionalLight.specular);
+                    modelEffect.Parameters["DirectionalLightViewProj"].SetValue(ShroomGame.directionalLight.CreateLightViewProjectionMatrix());
                     if (texture != null)
                     {
                         modelEffect.Parameters["ModelTexture"].SetValue(texture);
