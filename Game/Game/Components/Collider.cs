@@ -67,20 +67,19 @@ namespace PBLGame.SceneGraph
             return false;
         }
 
-        public bool CollisionUpdate()
+        public GameObject CollisionUpdate()
         {
-            bool isColliding = false;
             foreach (Collider col in collidersList)
             {
                 if (col != this)
                 {
                     if (IsCollision(col))
                     {
-                        isColliding = true;
+                        return col.owner;
                     }
                 }
             }
-            return isColliding;
+            return null;
         }
 
         public override void Dispose()

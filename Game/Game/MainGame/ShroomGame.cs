@@ -242,8 +242,9 @@ namespace PBLGame
             Walle.Add("podpory");
             Walle.Add("wieza");
 
-           tagAssigner(mapa, Groundy, "Ground");
-           tagAssigner(mapa, Walle, "Wall");
+            tagAssigner(mapa, Walle, "Wall");
+            tagAssigner(mapa, Groundy, "Ground");
+           
         }
 
         private void tagAssigner(List<GameObject> mapa, List<String> otagowaneNazwy, string tag)

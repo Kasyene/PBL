@@ -57,7 +57,7 @@ namespace PBLGame.MainGame
         {
             foreach (Collider col in parentGameObject.colliders)
             {
-                if (col.CollisionUpdate())
+                if (col.CollisionUpdate() != null)
                 {
                     parentGameObject.Position = lastPosition;
                 }
