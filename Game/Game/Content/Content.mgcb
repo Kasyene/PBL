@@ -13,6 +13,7 @@
 /reference:..\..\SkinnedModelPipeline\bin\Debug\SkinnedModelPipeline.dll
 /reference:..\..\SkinnedModelPipeline\bin\Debug\SkinnedModelPipeline.dll
 /reference:..\..\SkinnedModelPipeline\bin\Debug\SkinnedModelPipeline.dll
+/reference:..\..\SkinnedModelPipeline\bin\Debug\SkinnedModelPipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 

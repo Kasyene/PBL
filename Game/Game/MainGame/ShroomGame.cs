@@ -1,7 +1,9 @@
-﻿using AnimationAux;
+﻿using System;
+using AnimationAux;
 using Microsoft.Xna.Framework;
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Game.Misc;
 using Game.Misc.Time;
 using Microsoft.Xna.Framework.Graphics;
@@ -78,6 +80,7 @@ namespace PBLGame
             playerDance.AddComponent(new SceneGraph.ModelAnimatedComponent("test/borowikChod", Content));
             List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia);
             CreateHierarchyOfLevel(hiererchyList, levelOne);
+            AssignTagsForGroundElements(hiererchyList);
 
             // TODO: ANIM LOAD SYSTEM / SELECTOR
             AnimationClip animationClip = playerDance.GetComponent<ModelAnimatedComponent>().AnimationClips[0];
@@ -163,6 +166,7 @@ namespace PBLGame
                     newObj.Scale = scale;
                     newObj.SetModelQuat(quat);
                     newObj.AddComponent(newModel);
+                    newObj.name = bigModel.Meshes[i].Name;             
                     newObj.Update();
                     result.Add(newObj);
                 }
@@ -200,6 +204,20 @@ namespace PBLGame
                 if (newObj.Parent == null)
                 {
                     rootMapy.AddChildNode(newObj);
+                }
+            }
+        }
+
+        private void AssignTagsForGroundElements(List<GameObject> mapa)
+        {
+            List<String> otagowaneNazwy = new List<string>();
+            otagowaneNazwy.Add("podloga");
+            otagowaneNazwy.Add("schodek");
+            foreach (var gameObj in mapa)
+            {
+                if (otagowaneNazwy.Any(s => gameObj.name.Contains(s)))
+                {
+                    gameObj.tag = "Ground";
                 }
             }
         }

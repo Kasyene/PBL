@@ -14,6 +14,7 @@ namespace PBLGame.SceneGraph
         public static NodeEventCallback onTransformUpdate;
         public static NodeEventCallback onDraw;
         public string name;
+        public string tag;
         protected Transformation transform = new Transformation();
         public virtual bool visible { get; set; }
         protected static readonly BoundingBox EmptyBoundingBox = new BoundingBox();
