@@ -12,7 +12,13 @@ namespace PBLGame.SceneGraph
     {
         public Model model;
         public Effect modelEffect;
+        public BasicEffect lineEffect;
         Texture2D texture;
+        short[] bBoxIndices = {
+            0, 1, 1, 2, 2, 3, 3, 0, // Front edges
+            4, 5, 5, 6, 6, 7, 7, 4, // Back edges
+            0, 4, 1, 5, 2, 6, 3, 7 // Side edges connecting front and back
+        };
 
         public ModelComponent(Model _model, Effect _modelEffect, Texture2D _texture = null)
         {
@@ -51,6 +57,7 @@ namespace PBLGame.SceneGraph
                     }
                 }
                 mesh.Draw();
+                DrawBoundingBox(parent, localTransformations, worldTransformations, camera);
             }
         }
 
@@ -79,6 +86,36 @@ namespace PBLGame.SceneGraph
                 }
             }
             return new BoundingBox(min, max);
+        }
+
+        public void DrawBoundingBox(GameObject parent, Matrix localTransformations, Matrix worldTransformations, Camera camera)
+        {
+            lineEffect = new BasicEffect(GameServices.GetService<GraphicsDevice>());
+            BoundingBox box = GetBoundingBox(parent, localTransformations, worldTransformations);
+            Vector3[] corners = box.GetCorners();
+            VertexPositionColor[] primitiveList = new VertexPositionColor[corners.Length];
+
+            // Assign the 8 box vertices
+            for (int i = 0; i < corners.Length; i++)
+            {
+                primitiveList[i] = new VertexPositionColor(corners[i], Color.White);
+            }
+
+            lineEffect.World =  worldTransformations;
+            lineEffect.View = camera.ProjectionMatrix;
+            lineEffect.Projection = camera.ProjectionMatrix;
+            lineEffect.LightingEnabled = false;
+            lineEffect.TextureEnabled = false;
+            lineEffect.VertexColorEnabled = true;
+
+            foreach (EffectPass pass in lineEffect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+                GameServices.GetService<GraphicsDevice>().DrawUserIndexedPrimitives(
+                    PrimitiveType.LineList, primitiveList, 0, 8,
+                    bBoxIndices, 0, 12);
+            }
+           
         }
 
         public override void Update(GameTime gameTime)

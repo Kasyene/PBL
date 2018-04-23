@@ -51,6 +51,7 @@ namespace PBLGame
         protected override void Initialize()
         {
             base.Initialize();
+            GameServices.AddService<GraphicsDevice>(GraphicsDevice);
         }
 
         protected override void LoadContent()
@@ -59,9 +60,9 @@ namespace PBLGame
             Resources.Init(Content);
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
             shadowRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, shadowMapWidthHeight, shadowMapWidthHeight,
                                                     false, SurfaceFormat.Single, DepthFormat.Depth24);
+
 
             standardEffect = Content.Load<Effect>("Standard");
             root = new SceneGraph.GameObject();
@@ -122,7 +123,6 @@ namespace PBLGame
         {
             // Our Timer Class
             Timer.Update(gameTime);
-
             inputManager.Update();
             camera.Update();
             // Player update

@@ -127,6 +127,7 @@ namespace PBLGame.SceneGraph
                    
                 }
                 modelMesh.Draw();
+                DrawBoundingBox(parent, localTransformations, worldTransformations, camera);
             }
         }
 
