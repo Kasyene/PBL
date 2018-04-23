@@ -93,8 +93,11 @@ namespace PBLGame.SceneGraph
         {
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                lineEffect = new BasicEffect(GameServices.GetService<GraphicsDevice>());
-                BoundingBox box = GetBoundingBox(parent, localTransformations, worldTransformations);
+                if (lineEffect == null)
+                {
+                    lineEffect = new BasicEffect(GameServices.GetService<GraphicsDevice>());
+                }
+               BoundingBox box = GetBoundingBox(parent, localTransformations, worldTransformations);
                 Vector3[] corners = box.GetCorners();
                 VertexPositionColor[] primitiveList = new VertexPositionColor[corners.Length];
 
