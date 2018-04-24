@@ -13,7 +13,7 @@ namespace PBLGame.Lights
 
         public DirectionalLight()
         {
-            direction = new Vector3(0.1f, 1f, 0.8f);
+            direction = new Vector3(0.1f, 1f, 0.1f);
 
             ambient = new Vector4(0.6f);
             diffuse = new Vector4(1f);
@@ -22,9 +22,10 @@ namespace PBLGame.Lights
 
         public Matrix CreateLightViewProjectionMatrix()
         {
-            Matrix lightView = Matrix.CreateLookAt(-direction, Vector3.Zero, Vector3.Up);
+            //Matrix lightView = Matrix.CreateLookAt(-direction, Vector3.Zero, Vector3.Up);
+            Matrix lightView = Matrix.CreateLookAt(Vector3.Zero, -direction, Vector3.Up);
 
-            Matrix lightProjection = Matrix.CreateOrthographic(1000, 1000, -1, 1000);
+            Matrix lightProjection = Matrix.CreateOrthographic(2000, 2000, -1000, 1000);
 
             return lightView * lightProjection;
         }

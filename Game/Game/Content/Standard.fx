@@ -9,8 +9,7 @@ texture ShadowMap;
 
 //General Light Values
 float AmbientIntensity = 0.1;
-float DiffuseIntensity = 3.0;
-float SpecularIntensity = 1;
+float SpecularIntensity = 0.1;
 float Shininess = 200;
 
 //Directional Light
@@ -46,6 +45,7 @@ struct VertexShaderOutput
 	float4 Color : COLOR0;
 	float3 Normal : TEXCOORD0;
 	float2 TextureCoordinate : TEXCOORD1;
+	float4 WorldPos : TEXCOORD2;
 };
 
 struct CreateShadowMap_VertexShaderOutput
@@ -72,6 +72,7 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	VertexShaderOutput output;
 
 	float4 worldPosition = mul(input.Position, World);
+	output.WorldPos = worldPosition;
 	float4 viewPosition = mul(worldPosition, View);
 	output.Position = mul(viewPosition, Projection);
 	float4 normal = normalize(mul(input.Normal, WorldInverseTranspose));
@@ -86,14 +87,24 @@ float4 DirectionalLightCalculation(VertexShaderOutput input)
 	float3 light = normalize(DirectionalLightDirection);
 	float3 normal = normalize(input.Normal);
 	float dotProduct = dot(normalize(2 * dot(light, normal) * normal - light), normalize(mul(normalize(ViewVector), World)));
-	float lightIntensity = dot(normal, DirectionalLightDirection);
-	float4 diffuseColor = saturate(DirectionalDiffuseColor * DiffuseIntensity * lightIntensity);
-	float4 textureColor = tex2D(textureSampler, input.TextureCoordinate);
-	textureColor.a = 1;
+	float lightIntensity = dot(DirectionalLightDirection, normal);
+	float4 diffuseColor = tex2D(textureSampler, input.TextureCoordinate);
 
-	float4 ambient = textureColor * DirectionalAmbientColor * AmbientIntensity;
+	float4 ambient = DirectionalAmbientColor * AmbientIntensity;
 	float4 specular = SpecularIntensity * DirectionalSpecularColor * max(pow(dotProduct, Shininess), 0);
-	float4 diffuse = textureColor * diffuseColor;
+	float4 diffuse = diffuseColor * lightIntensity;
+
+	float4 lightingPosition = mul(input.WorldPos, DirectionalLightViewProj);
+
+	float2 shadowTexCoord = 0.5 * lightingPosition.xy /lightingPosition.w + float2(0.5, 0.5);
+	shadowTexCoord.y = 1.0f - shadowTexCoord.y;
+	float shadowdepth = tex2D(shadowMapSampler, shadowTexCoord).r;
+	float ourdepth = (lightingPosition.z / lightingPosition.w) - 0.001f;
+
+	if (shadowdepth < ourdepth)
+	{
+		diffuse *= float4(0.5, 0.5, 0.5, 0);
+	};
 
 	return saturate(diffuse + ambient + specular);
 }

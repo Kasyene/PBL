@@ -26,6 +26,7 @@ namespace PBLGame
         private readonly InputManager inputManager;
         public static Texture2D missingTexture;
         public static PBLGame.Lights.DirectionalLight directionalLight;
+        public static RenderTarget2D shadowRenderTarget;
 
         SceneGraph.GameObject root;
         SceneGraph.GameObject heart;
@@ -38,7 +39,6 @@ namespace PBLGame
 
         Effect standardEffect;
         const int shadowMapWidthHeight = 2048;
-        RenderTarget2D shadowRenderTarget;
 
         public ShroomGame()
         {
@@ -104,8 +104,8 @@ namespace PBLGame
             player.AddChildNode(camera);
             heart.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
             heart2.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
-            heart.Position = new Vector3(15.0f, 2.0f, -10.0f);
-            heart2.Position = new Vector3(-15.0f, 2.0f, -10.0f);
+            heart.Position = new Vector3(15.0f, 4.0f, -10.0f);
+            heart2.Position = new Vector3(-15.0f, 4.0f, -10.0f);
             heart.Scale = new Vector3(0.2f);
             heart2.Scale = new Vector3(0.2f);
             player.Position = new Vector3(0f, 3f, 0f);
@@ -142,10 +142,12 @@ namespace PBLGame
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.BlendState = BlendState.Opaque;
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
 
             CreateShadowMap();
-            root.Draw(camera);
+            DrawWithShadow();
+            //DrawShadowMapToScreen();
 
             base.Draw(gameTime);
         }
@@ -159,6 +161,13 @@ namespace PBLGame
             root.Draw(camera, true);
 
             GraphicsDevice.SetRenderTarget(null);
+        }
+
+        void DrawWithShadow()
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.SamplerStates[1] = SamplerState.PointClamp;
+            root.Draw(camera);
         }
 
         private List<GameObject> SplitModelIntoSmallerPieces(Model bigModel)
@@ -265,6 +274,16 @@ namespace PBLGame
                     }
                 }
             }
+        }
+
+        void DrawShadowMapToScreen()
+        {
+            spriteBatch.Begin(0, BlendState.Opaque, SamplerState.PointClamp, null, null);
+            spriteBatch.Draw(shadowRenderTarget, new Rectangle(0, 0, 512, 512), Color.White);
+            spriteBatch.End();
+
+            GraphicsDevice.Textures[0] = null;
+            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
         }
 
     }
