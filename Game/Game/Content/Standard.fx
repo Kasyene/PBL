@@ -1,9 +1,12 @@
+#define NUM_LIGHTS 8
+
 float4x4 World;
 float4x4 View;
 float4x4 Projection;
 float4x4 WorldInverseTranspose;
 
 float3 ViewVector;
+int pointLightNumber = 0;
 texture ModelTexture;
 texture ShadowMap;
 
@@ -18,6 +21,13 @@ float4 DirectionalAmbientColor;
 float4 DirectionalDiffuseColor;
 float4 DirectionalSpecularColor;
 float4x4 DirectionalLightViewProj;
+
+//Point Lights
+float3 PointLightPosition[NUM_LIGHTS];
+float4 PointAmbientColor[NUM_LIGHTS];
+float4 PointDiffuseColor[NUM_LIGHTS];
+float4 PointSpecularColor[NUM_LIGHTS];
+float4x4 PointLightViewProj[NUM_LIGHTS];
 
 
 sampler2D textureSampler = sampler_state {

@@ -25,7 +25,8 @@ namespace PBLGame
         SpriteBatch spriteBatch;
         private readonly InputManager inputManager;
         public static Texture2D missingTexture;
-        public static PBLGame.Lights.DirectionalLight directionalLight;
+        public static Lights.DirectionalLight directionalLight;
+        public static List<Lights.PointLight> pointLights;
         public static RenderTarget2D shadowRenderTarget;
 
         SceneGraph.GameObject root;
@@ -74,6 +75,7 @@ namespace PBLGame
             camera = new SceneGraph.Camera();
             camera.SetCameraTarget(player);
 
+            pointLights = new List<Lights.PointLight>();
             directionalLight = new PBLGame.Lights.DirectionalLight();
             missingTexture = Content.Load<Texture2D>("Missing");
             Model apteczka = Content.Load<Model>("apteczka");
@@ -96,6 +98,9 @@ namespace PBLGame
             // Add static models
             heart.AddComponent(new SceneGraph.ModelComponent(apteczka, standardEffect, apteczkaTexture));
             heart2.AddComponent(new SceneGraph.ModelComponent(apteczka, standardEffect, apteczkaTexture));
+
+            pointLights.Add(new Lights.PointLight(new Vector3(0.0f, 8.0f, 0.0f)));
+            pointLights.Add(new Lights.PointLight(new Vector3(15.0f, 8.0f, 60.0f)));
 
             root.AddChildNode(heart);
             root.AddChildNode(heart2);

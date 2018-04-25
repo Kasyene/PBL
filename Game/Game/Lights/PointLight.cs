@@ -2,7 +2,7 @@
 
 namespace PBLGame.Lights
 {
-    class PointLight
+    public class PointLight
     {
         public Vector3 position;
 

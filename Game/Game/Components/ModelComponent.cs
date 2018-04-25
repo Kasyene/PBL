@@ -48,6 +48,10 @@ namespace PBLGame.SceneGraph
                     modelEffect.Parameters["DirectionalDiffuseColor"].SetValue(ShroomGame.directionalLight.diffuse);
                     modelEffect.Parameters["DirectionalSpecularColor"].SetValue(ShroomGame.directionalLight.specular);
                     modelEffect.Parameters["DirectionalLightViewProj"].SetValue(ShroomGame.directionalLight.CreateLightViewProjectionMatrix());
+                    foreach(Lights.PointLight lights in PBLGame.ShroomGame.pointLights)
+                    {
+
+                    }
                     if(!createShadowMap)
                     {
                         modelEffect.Parameters["ShadowMap"].SetValue(ShroomGame.shadowRenderTarget);

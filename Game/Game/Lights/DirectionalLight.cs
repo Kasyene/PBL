@@ -22,7 +22,6 @@ namespace PBLGame.Lights
 
         public Matrix CreateLightViewProjectionMatrix()
         {
-            //Matrix lightView = Matrix.CreateLookAt(-direction, Vector3.Zero, Vector3.Up);
             Matrix lightView = Matrix.CreateLookAt(Vector3.Zero, -direction, Vector3.Up);
 
             Matrix lightProjection = Matrix.CreateOrthographic(2000, 2000, -1000, 1000);
