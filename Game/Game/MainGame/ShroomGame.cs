@@ -290,6 +290,5 @@ namespace PBLGame
             GraphicsDevice.Textures[0] = null;
             GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
         }
-
     }
 }

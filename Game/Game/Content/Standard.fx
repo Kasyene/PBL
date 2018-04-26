@@ -6,7 +6,7 @@ float4x4 Projection;
 float4x4 WorldInverseTranspose;
 
 float3 ViewVector;
-int pointLightNumber = 0;
+int PointLightNumber = 0;
 texture ModelTexture;
 texture ShadowMap;
 
@@ -18,14 +18,13 @@ float Shininess = 200;
 //Directional Light
 float3 DirectionalLightDirection;
 float4 DirectionalAmbientColor;
-float4 DirectionalDiffuseColor;
 float4 DirectionalSpecularColor;
 float4x4 DirectionalLightViewProj;
 
 //Point Lights
 float3 PointLightPosition[NUM_LIGHTS];
+float3 PointLightAttenuation[NUM_LIGHTS];
 float4 PointAmbientColor[NUM_LIGHTS];
-float4 PointDiffuseColor[NUM_LIGHTS];
 float4 PointSpecularColor[NUM_LIGHTS];
 float4x4 PointLightViewProj[NUM_LIGHTS];
 
@@ -113,17 +112,42 @@ float4 DirectionalLightCalculation(VertexShaderOutput input)
 
 	if (shadowdepth < ourdepth)
 	{
-		diffuse *= float4(0.5, 0.5, 0.5, 0);
+		diffuse *= float4(0.1, 0.1, 0.1, 0);
 	};
 
 	return saturate(diffuse + ambient + specular);
 }
 
+float4 PointLightCalculation(VertexShaderOutput input)
+{
+	float4 ambient;
+	float4 specular;
+	float4 diffuse;
+	for (int i = 0; i < PointLightNumber; i++)
+	{
+		float3 light = normalize(PointLightPosition[i] - input.WorldPos);
+		float3 normal = normalize(input.Normal);
+
+		float dist = length(PointLightPosition[i] - input.WorldPos);
+		float att = 1.0 / (PointLightAttenuation[i].x + PointLightAttenuation[i].y * dist + PointLightAttenuation[i].z * dist * dist);
+
+		float dotProduct = dot(normalize(2 * dot(light, normal) * normal - light), normalize(mul(normalize(ViewVector), World)));
+		float4 diffuseColor = tex2D(textureSampler, input.TextureCoordinate);
+
+		//ambient += PointAmbientColor[i] * AmbientIntensity * att;
+		ambient += DirectionalAmbientColor * AmbientIntensity * att;
+		//specular += SpecularIntensity * PointSpecularColor[i] * max(pow(dotProduct, Shininess), 0) * att;
+		diffuse += diffuseColor * att;
+	}
+	return saturate(diffuse + ambient);
+}
+
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
 	float4 directionalLight = DirectionalLightCalculation(input);
+	float4 pointLight = PointLightCalculation(input);
 
-	return directionalLight;
+	return saturate(directionalLight + pointLight);
 }
 
 technique Draw

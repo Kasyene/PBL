@@ -45,13 +45,14 @@ namespace PBLGame.SceneGraph
                     modelEffect.Parameters["ViewVector"].SetValue(camera.GetViewVector());
                     modelEffect.Parameters["DirectionalLightDirection"].SetValue(ShroomGame.directionalLight.direction);
                     modelEffect.Parameters["DirectionalAmbientColor"].SetValue(ShroomGame.directionalLight.ambient);
-                    modelEffect.Parameters["DirectionalDiffuseColor"].SetValue(ShroomGame.directionalLight.diffuse);
                     modelEffect.Parameters["DirectionalSpecularColor"].SetValue(ShroomGame.directionalLight.specular);
                     modelEffect.Parameters["DirectionalLightViewProj"].SetValue(ShroomGame.directionalLight.CreateLightViewProjectionMatrix());
-                    foreach(Lights.PointLight lights in PBLGame.ShroomGame.pointLights)
-                    {
-
-                    }
+                    modelEffect.Parameters["PointLightNumber"].SetValue(ShroomGame.pointLights.Count);
+                    modelEffect.Parameters["PointLightPosition"].SetValue(Lights.PointLight.GetPointLightsPositionArray());
+                    modelEffect.Parameters["PointLightAttenuation"].SetValue(Lights.PointLight.GetPointLightsAttenuationArray());
+                    //modelEffect.Parameters["PointAmbientColor[i]"].SetValue(ShroomGame.pointLights[i].ambient);
+                    //modelEffect.Parameters["PointSpecularColor[i]"].SetValue(ShroomGame.pointLights[i].specular);
+                    
                     if(!createShadowMap)
                     {
                         modelEffect.Parameters["ShadowMap"].SetValue(ShroomGame.shadowRenderTarget);

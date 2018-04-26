@@ -15,7 +15,7 @@ namespace PBLGame.Lights
         public PointLight(Vector3 _position)
         {
             position = _position;
-            attenuation = new Vector3(1f, 0.5f, 0.2f);
+            attenuation = new Vector3(0.8f, 0.001f, 0.0004f);
             ambient = new Vector4(0.6f);
             diffuse = new Vector4(1f);
             specular = new Vector4(1f);
@@ -28,6 +28,28 @@ namespace PBLGame.Lights
             ambient = _ambient;
             diffuse = _diffuse;
             specular = _specular;
+        }
+
+        static public Vector3[] GetPointLightsPositionArray()
+        {
+            int number = ShroomGame.pointLights.Count;
+            Vector3[] array = new Vector3[number];
+            for (int i = 0; i < number; i++)
+            {
+                array[i] = ShroomGame.pointLights[i].position;
+            }
+            return array;
+        }
+
+        static public Vector3[] GetPointLightsAttenuationArray()
+        {
+            int number = ShroomGame.pointLights.Count;
+            Vector3[] array = new Vector3[number];
+            for (int i = 0; i < number; i++)
+            {
+                array[i] = ShroomGame.pointLights[i].attenuation;
+            }
+            return array;
         }
     }
 }
