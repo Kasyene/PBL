@@ -80,13 +80,14 @@ namespace PBLGame
             missingTexture = Content.Load<Texture2D>("Missing");
             Model apteczka = Content.Load<Model>("apteczka");
             Texture2D apteczkaTexture = Content.Load<Texture2D>("apteczkaTex");
-            Model hierarchia = Content.Load<Model>("level1");
+            Model hierarchia = Content.Load<Model>("TexTest/level1");
+            Texture2D hierarchiaTex = Content.Load<Texture2D>("TexTest/tex");
 
             // Load anim model
             player.AddComponent(new SceneGraph.ModelAnimatedComponent("test/borowik", Content));
             player.AddComponent(new Player(player));
             playerDance.AddComponent(new SceneGraph.ModelAnimatedComponent("test/borowikChod", Content));
-            List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia);
+            List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia, hierarchiaTex);
             CreateHierarchyOfLevel(hiererchyList, levelOne);
             AssignTagsForMapElements(hiererchyList);
 
@@ -175,7 +176,7 @@ namespace PBLGame
             root.Draw(camera);
         }
 
-        private List<GameObject> SplitModelIntoSmallerPieces(Model bigModel)
+        private List<GameObject> SplitModelIntoSmallerPieces(Model bigModel, Texture2D bigTex = null)
         {
             if (bigModel.Meshes.Count >= 1)
             {
@@ -186,7 +187,7 @@ namespace PBLGame
                     List<ModelMesh> meshes = new List<ModelMesh>();
                     bones.Add(bigModel.Meshes[i].ParentBone);
                     meshes.Add(bigModel.Meshes[i]);
-                    ModelComponent newModel = new ModelComponent(new Model(GraphicsDevice, bones, meshes), standardEffect);
+                    ModelComponent newModel = new ModelComponent(new Model(GraphicsDevice, bones, meshes), standardEffect, bigTex);
                     GameObject newObj = new GameObject();
                     Vector3 position;
                     Vector3 scale;
