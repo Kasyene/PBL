@@ -8,7 +8,6 @@ float4x4 WorldInverseTranspose;
 float3 ViewVector;
 int PointLightNumber = 0;
 texture ModelTexture;
-texture ShadowMap;
 
 //General Light Values
 float AmbientIntensity = 0.1;
@@ -20,6 +19,7 @@ float3 DirectionalLightDirection;
 float4 DirectionalAmbientColor;
 float4 DirectionalSpecularColor;
 float4x4 DirectionalLightViewProj;
+texture DirectionalShadowMap;
 
 //Point Lights
 float3 PointLightPosition[NUM_LIGHTS];
@@ -27,6 +27,7 @@ float3 PointLightAttenuation[NUM_LIGHTS];
 float4 PointAmbientColor[NUM_LIGHTS];
 float4 PointSpecularColor[NUM_LIGHTS];
 float4x4 PointLightViewProj[NUM_LIGHTS];
+texture PointLightShadowCubeMap[NUM_LIGHTS];
 
 
 sampler2D textureSampler = sampler_state {
@@ -38,7 +39,11 @@ sampler2D textureSampler = sampler_state {
 };
 
 sampler2D shadowMapSampler = sampler_state {
-	Texture = <ShadowMap>;
+	Texture = <DirectionalShadowMap>;
+};
+
+samplerCUBE shadowCubeMapSampler = sampler_state {
+	Texture = <PointLightShadowCubeMap>;
 };
 
 struct VertexShaderInput
@@ -134,12 +139,11 @@ float4 PointLightCalculation(VertexShaderOutput input)
 		float dotProduct = dot(normalize(2 * dot(light, normal) * normal - light), normalize(mul(normalize(ViewVector), World)));
 		float4 diffuseColor = tex2D(textureSampler, input.TextureCoordinate);
 
-		//ambient += PointAmbientColor[i] * AmbientIntensity * att;
-		ambient += DirectionalAmbientColor * AmbientIntensity * att;
-		//specular += SpecularIntensity * PointSpecularColor[i] * max(pow(dotProduct, Shininess), 0) * att;
+		ambient += PointAmbientColor[i] * AmbientIntensity * att;
+		specular += SpecularIntensity * PointSpecularColor[i] * max(pow(dotProduct, Shininess), 0) * att;
 		diffuse += diffuseColor * att;
 	}
-	return saturate(diffuse + ambient);
+	return saturate(diffuse + ambient + specular);
 }
 
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0

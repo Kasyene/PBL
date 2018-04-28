@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace PBLGame.Lights
 {
@@ -11,6 +12,8 @@ namespace PBLGame.Lights
         public Vector4 ambient;
         public Vector4 diffuse;
         public Vector4 specular;
+
+        public TextureCube shadowMap;
 
         public PointLight(Vector3 _position)
         {
@@ -48,6 +51,28 @@ namespace PBLGame.Lights
             for (int i = 0; i < number; i++)
             {
                 array[i] = ShroomGame.pointLights[i].attenuation;
+            }
+            return array;
+        }
+
+        static public Vector4[] GetPointLightsAmbientArray()
+        {
+            int number = ShroomGame.pointLights.Count;
+            Vector4[] array = new Vector4[number];
+            for (int i = 0; i < number; i++)
+            {
+                array[i] = ShroomGame.pointLights[i].ambient;
+            }
+            return array;
+        }
+
+        static public Vector4[] GetPointLightsSpecularArray()
+        {
+            int number = ShroomGame.pointLights.Count;
+            Vector4[] array = new Vector4[number];
+            for (int i = 0; i < number; i++)
+            {
+                array[i] = ShroomGame.pointLights[i].specular;
             }
             return array;
         }

@@ -50,12 +50,12 @@ namespace PBLGame.SceneGraph
                     modelEffect.Parameters["PointLightNumber"].SetValue(ShroomGame.pointLights.Count);
                     modelEffect.Parameters["PointLightPosition"].SetValue(Lights.PointLight.GetPointLightsPositionArray());
                     modelEffect.Parameters["PointLightAttenuation"].SetValue(Lights.PointLight.GetPointLightsAttenuationArray());
-                    //modelEffect.Parameters["PointAmbientColor[i]"].SetValue(ShroomGame.pointLights[i].ambient);
-                    //modelEffect.Parameters["PointSpecularColor[i]"].SetValue(ShroomGame.pointLights[i].specular);
+                    modelEffect.Parameters["PointAmbientColor"].SetValue(Lights.PointLight.GetPointLightsAmbientArray());
+                    modelEffect.Parameters["PointSpecularColor"].SetValue(Lights.PointLight.GetPointLightsSpecularArray());
                     
                     if(!createShadowMap)
                     {
-                        modelEffect.Parameters["ShadowMap"].SetValue(ShroomGame.shadowRenderTarget);
+                        modelEffect.Parameters["DirectionalShadowMap"].SetValue(ShroomGame.shadowRenderTarget);
                     }
 
                     if (texture != null)

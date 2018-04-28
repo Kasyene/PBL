@@ -80,8 +80,8 @@ namespace PBLGame
             missingTexture = Content.Load<Texture2D>("Missing");
             Model apteczka = Content.Load<Model>("apteczka");
             Texture2D apteczkaTexture = Content.Load<Texture2D>("apteczkaTex");
-            Model hierarchia = Content.Load<Model>("TexTest/level1");
-            Texture2D hierarchiaTex = Content.Load<Texture2D>("TexTest/tex");
+            Model hierarchia = Content.Load<Model>("Level/level1");
+            Texture2D hierarchiaTex = Content.Load<Texture2D>("Level/level1Tex");
 
             // Load anim model
             player.AddComponent(new SceneGraph.ModelAnimatedComponent("test/borowik", Content));
