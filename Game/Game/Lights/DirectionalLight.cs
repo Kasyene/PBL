@@ -13,7 +13,7 @@ namespace PBLGame.Lights
 
         public DirectionalLight()
         {
-            direction = new Vector3(0.1f, 1f, 0.1f);
+            direction = new Vector3(-0.3f, 1f, 0.2f);
 
             ambient = new Vector4(0.6f);
             diffuse = new Vector4(1f);

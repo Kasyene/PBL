@@ -25,6 +25,7 @@ namespace PBLGame
         SpriteBatch spriteBatch;
         private readonly InputManager inputManager;
         public static Texture2D missingTexture;
+        public static Texture2D missingNormalMap;
         public static Lights.DirectionalLight directionalLight;
         public static List<Lights.PointLight> pointLights;
         public static RenderTarget2D shadowRenderTarget;
@@ -78,16 +79,18 @@ namespace PBLGame
             pointLights = new List<Lights.PointLight>();
             directionalLight = new PBLGame.Lights.DirectionalLight();
             missingTexture = Content.Load<Texture2D>("Missing");
+            missingNormalMap = Content.Load<Texture2D>("Level/level1Normal");
             Model apteczka = Content.Load<Model>("apteczka");
             Texture2D apteczkaTexture = Content.Load<Texture2D>("apteczkaTex");
             Model hierarchia = Content.Load<Model>("Level/level1");
             Texture2D hierarchiaTex = Content.Load<Texture2D>("Level/level1Tex");
+            Texture2D hierarchiaNormalTex = Content.Load<Texture2D>("Level/level1Normal");
 
             // Load anim model
             player.AddComponent(new SceneGraph.ModelAnimatedComponent("test/borowik", Content));
             player.AddComponent(new Player(player));
             playerDance.AddComponent(new SceneGraph.ModelAnimatedComponent("test/borowikChod", Content));
-            List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia, hierarchiaTex);
+            List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia, hierarchiaTex, hierarchiaNormalTex);
             CreateHierarchyOfLevel(hiererchyList, levelOne);
             AssignTagsForMapElements(hiererchyList);
 
@@ -176,7 +179,7 @@ namespace PBLGame
             root.Draw(camera);
         }
 
-        private List<GameObject> SplitModelIntoSmallerPieces(Model bigModel, Texture2D bigTex = null)
+        private List<GameObject> SplitModelIntoSmallerPieces(Model bigModel, Texture2D bigTex = null, Texture2D bigNormalTex = null)
         {
             if (bigModel.Meshes.Count >= 1)
             {
@@ -187,7 +190,7 @@ namespace PBLGame
                     List<ModelMesh> meshes = new List<ModelMesh>();
                     bones.Add(bigModel.Meshes[i].ParentBone);
                     meshes.Add(bigModel.Meshes[i]);
-                    ModelComponent newModel = new ModelComponent(new Model(GraphicsDevice, bones, meshes), standardEffect, bigTex);
+                    ModelComponent newModel = new ModelComponent(new Model(GraphicsDevice, bones, meshes), standardEffect, bigTex, bigNormalTex);
                     GameObject newObj = new GameObject();
                     Vector3 position;
                     Vector3 scale;

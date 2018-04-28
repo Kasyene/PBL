@@ -15,17 +15,27 @@ namespace PBLGame.SceneGraph
         public Effect modelEffect;
         public BasicEffect lineEffect;
         Texture2D texture;
+        Texture2D normalMap;
+
         short[] bBoxIndices = {
             0, 1, 1, 2, 2, 3, 3, 0, // Front edges
             4, 5, 5, 6, 6, 7, 7, 4, // Back edges
             0, 4, 1, 5, 2, 6, 3, 7 // Side edges connecting front and back
         };
 
-        public ModelComponent(Model _model, Effect _modelEffect, Texture2D _texture = null)
+        public ModelComponent(Model _model, Effect _modelEffect, Texture2D _texture = null, Texture2D _normal = null)
         {
             model = _model;
             modelEffect = _modelEffect;
             texture = _texture;
+            if(_normal != null)
+            {
+                normalMap = _normal;
+            }
+            else
+            {
+                normalMap = ShroomGame.missingNormalMap;
+            }
             Visible = true;
         }
 
@@ -65,6 +75,11 @@ namespace PBLGame.SceneGraph
                     else
                     {
                         modelEffect.Parameters["ModelTexture"].SetValue(ShroomGame.missingTexture);
+                    }
+
+                    if (normalMap != null)
+                    {
+                        modelEffect.Parameters["NormalMap"].SetValue(normalMap);
                     }
                 }
                 mesh.Draw();

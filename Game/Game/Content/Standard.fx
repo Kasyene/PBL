@@ -8,11 +8,13 @@ float4x4 WorldInverseTranspose;
 float3 ViewVector;
 int PointLightNumber = 0;
 texture ModelTexture;
+texture NormalMap;
 
 //General Light Values
-float AmbientIntensity = 0.1;
+float AmbientIntensity = 0.3;
 float SpecularIntensity = 0.1;
 float Shininess = 200;
+float BumpConstant = 1;
 
 //Directional Light
 float3 DirectionalLightDirection;
@@ -38,6 +40,14 @@ sampler2D textureSampler = sampler_state {
 	AddressV = Clamp;
 };
 
+sampler2D normalSampler = sampler_state {
+	Texture = (NormalMap);
+	MinFilter = Linear;
+	MagFilter = Linear;
+	AddressU = Wrap;
+	AddressV = Wrap;
+};
+
 sampler2D shadowMapSampler = sampler_state {
 	Texture = <DirectionalShadowMap>;
 };
@@ -49,17 +59,20 @@ samplerCUBE shadowCubeMapSampler = sampler_state {
 struct VertexShaderInput
 {
 	float4 Position : POSITION0;
-	float4 Normal : NORMAL0;
+	float3 Normal : NORMAL0;
+	float3 Tangent : TANGENT0;
+	float3 Binormal : BINORMAL0;
 	float2 TextureCoordinate : TEXCOORD0;
 };
 
 struct VertexShaderOutput
 {
 	float4 Position : POSITION0;
-	float4 Color : COLOR0;
-	float3 Normal : TEXCOORD0;
-	float2 TextureCoordinate : TEXCOORD1;
-	float4 WorldPos : TEXCOORD2;
+	float2 TextureCoordinate : TEXCOORD0;
+	float3 Normal : TEXCOORD1;
+	float3 Tangent : TEXCOORD2;
+	float3 Binormal : TEXCOORD3;
+	float4 WorldPos : TEXCOORD4;
 };
 
 struct CreateShadowMap_VertexShaderOutput
@@ -89,8 +102,11 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	output.WorldPos = worldPosition;
 	float4 viewPosition = mul(worldPosition, View);
 	output.Position = mul(viewPosition, Projection);
-	float4 normal = normalize(mul(input.Normal, WorldInverseTranspose));
-	output.Normal = normal;
+
+	output.Normal = normalize(mul(input.Normal, World));
+	output.Tangent = normalize(mul(input.Tangent, World));
+	output.Binormal = normalize(mul(input.Binormal, World));
+
 	output.TextureCoordinate = input.TextureCoordinate;
 
 	return output;
@@ -98,13 +114,19 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 
 float4 DirectionalLightCalculation(VertexShaderOutput input)
 {
+	float3 bump = BumpConstant * (tex2D(normalSampler, input.TextureCoordinate) - (0.5, 0.5, 0.5));
+	float3 bumpNormal = input.Normal + (bump.x * input.Tangent + bump.y * input.Binormal);
+	bumpNormal = normalize(bumpNormal);
+
+	float lightIntensity = dot(normalize(DirectionalLightDirection), bumpNormal);
+	if (lightIntensity < 0)
+		lightIntensity = 0;
+
 	float3 light = normalize(DirectionalLightDirection);
-	float3 normal = normalize(input.Normal);
-	float dotProduct = dot(normalize(2 * dot(light, normal) * normal - light), normalize(mul(normalize(ViewVector), World)));
-	float lightIntensity = dot(DirectionalLightDirection, normal);
+	float dotProduct = dot(normalize(2 * dot(light, bumpNormal) * bumpNormal - light), normalize(mul(normalize(ViewVector), World)));
 	float4 diffuseColor = tex2D(textureSampler, input.TextureCoordinate);
 
-	float4 ambient = DirectionalAmbientColor * AmbientIntensity;
+	float4 ambient = diffuseColor * DirectionalAmbientColor * AmbientIntensity;
 	float4 specular = SpecularIntensity * DirectionalSpecularColor * max(pow(dotProduct, Shininess), 0);
 	float4 diffuse = diffuseColor * lightIntensity;
 
@@ -118,6 +140,7 @@ float4 DirectionalLightCalculation(VertexShaderOutput input)
 	if (shadowdepth < ourdepth)
 	{
 		diffuse *= float4(0.1, 0.1, 0.1, 0);
+		specular *= float4(0.1, 0.1, 0.1, 0);
 	};
 
 	return saturate(diffuse + ambient + specular);
@@ -130,16 +153,19 @@ float4 PointLightCalculation(VertexShaderOutput input)
 	float4 diffuse;
 	for (int i = 0; i < PointLightNumber; i++)
 	{
+		float3 bump = BumpConstant * (tex2D(normalSampler, input.TextureCoordinate) - (0.5, 0.5, 0.5));
+		float3 bumpNormal = input.Normal + (bump.x * input.Tangent + bump.y * input.Binormal);
+		bumpNormal = normalize(bumpNormal);
+
 		float3 light = normalize(PointLightPosition[i] - input.WorldPos);
-		float3 normal = normalize(input.Normal);
 
 		float dist = length(PointLightPosition[i] - input.WorldPos);
 		float att = 1.0 / (PointLightAttenuation[i].x + PointLightAttenuation[i].y * dist + PointLightAttenuation[i].z * dist * dist);
 
-		float dotProduct = dot(normalize(2 * dot(light, normal) * normal - light), normalize(mul(normalize(ViewVector), World)));
+		float dotProduct = dot(normalize(2 * dot(light, bumpNormal) * bumpNormal - light), normalize(mul(normalize(ViewVector), World)));
 		float4 diffuseColor = tex2D(textureSampler, input.TextureCoordinate);
 
-		ambient += PointAmbientColor[i] * AmbientIntensity * att;
+		ambient += diffuseColor * PointAmbientColor[i] * AmbientIntensity * att;
 		specular += SpecularIntensity * PointSpecularColor[i] * max(pow(dotProduct, Shininess), 0) * att;
 		diffuse += diffuseColor * att;
 	}
