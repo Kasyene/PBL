@@ -157,6 +157,10 @@ float4 PointLightCalculation(VertexShaderOutput input)
 		float3 bumpNormal = input.Normal + (bump.x * input.Tangent + bump.y * input.Binormal);
 		bumpNormal = normalize(bumpNormal);
 
+		float lightIntensity = dot(normalize(PointLightPosition[i] - input.WorldPos), bumpNormal);
+		if (lightIntensity < 0)
+			lightIntensity = 0;
+
 		float3 light = normalize(PointLightPosition[i] - input.WorldPos);
 
 		float dist = length(PointLightPosition[i] - input.WorldPos);
@@ -167,7 +171,7 @@ float4 PointLightCalculation(VertexShaderOutput input)
 
 		ambient += diffuseColor * PointAmbientColor[i] * AmbientIntensity * att;
 		specular += SpecularIntensity * PointSpecularColor[i] * max(pow(dotProduct, Shininess), 0) * att;
-		diffuse += diffuseColor * att;
+		diffuse += diffuseColor * att * lightIntensity;
 	}
 	return saturate(diffuse + ambient + specular);
 }
