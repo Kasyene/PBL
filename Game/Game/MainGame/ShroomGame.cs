@@ -30,14 +30,17 @@ namespace PBLGame
         public static List<Lights.PointLight> pointLights;
         public static RenderTarget2D shadowRenderTarget;
 
-        SceneGraph.GameObject root;
-        SceneGraph.GameObject heart;
-        SceneGraph.GameObject heart2;
-        SceneGraph.GameObject levelOne;
+        GameObject root;
+        GameObject heart;
+        GameObject heart2;
+        GameObject levelOne;
 
-        SceneGraph.GameObject player;
-        SceneGraph.GameObject playerDance;
-        SceneGraph.Camera camera;
+        GameObject player;
+        GameObject playerLeg;
+        GameObject playerHat;
+        GameObject playerLegWalk;
+        GameObject playerHatWalk;
+        Camera camera;
 
         Effect standardEffect;
         const int shadowMapWidthHeight = 2048;
@@ -67,17 +70,22 @@ namespace PBLGame
 
 
             standardEffect = Content.Load<Effect>("Standard");
-            root = new SceneGraph.GameObject();
-            heart = new SceneGraph.GameObject();
-            heart2 = new SceneGraph.GameObject();
-            levelOne = new SceneGraph.GameObject();
-            player = new SceneGraph.GameObject();
-            playerDance = new SceneGraph.GameObject();
-            camera = new SceneGraph.Camera();
+            root = new GameObject();
+            heart = new GameObject();
+            heart2 = new GameObject();
+            levelOne = new GameObject();
+
+            player = new GameObject();
+            playerLeg = new GameObject();
+            playerHat = new GameObject();
+            playerLegWalk = new GameObject();
+            playerHatWalk = new GameObject();
+
+            camera = new Camera();
             camera.SetCameraTarget(player);
 
             pointLights = new List<Lights.PointLight>();
-            directionalLight = new PBLGame.Lights.DirectionalLight();
+            directionalLight = new Lights.DirectionalLight();
             missingTexture = Content.Load<Texture2D>("Missing");
             missingNormalMap = Content.Load<Texture2D>("Level/level1Normal");
             Model apteczka = Content.Load<Model>("apteczka");
@@ -87,21 +95,32 @@ namespace PBLGame
             Texture2D hierarchiaNormalTex = Content.Load<Texture2D>("Level/level1Normal");
 
             // Load anim model
-            player.AddComponent(new SceneGraph.ModelAnimatedComponent("test/borowik", Content));
+            player.AddChildNode(playerLeg);
+            player.AddChildNode(playerHat);
+            
+            // models without anims have problems i guess ; /
+            playerLeg.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content));
+            playerHat.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content));
             player.AddComponent(new Player(player));
-            playerDance.AddComponent(new SceneGraph.ModelAnimatedComponent("test/borowikChod", Content));
+
+            playerLegWalk.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content));
+            playerHatWalk.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content));
+
             List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia, hierarchiaTex, hierarchiaNormalTex);
             CreateHierarchyOfLevel(hiererchyList, levelOne);
             AssignTagsForMapElements(hiererchyList);
 
             // TODO: ANIM LOAD SYSTEM / SELECTOR
-            AnimationClip animationClip = playerDance.GetComponent<ModelAnimatedComponent>().AnimationClips[0];
-            AnimationPlayer animationPlayer = player.GetComponent<ModelAnimatedComponent>().PlayClip(animationClip);
-            animationPlayer.Looping = true;
+            AnimationClip animationClipLeg = playerLegWalk.GetComponent<ModelAnimatedComponent>().AnimationClips[0];
+            AnimationClip animationClipHat = playerHatWalk.GetComponent<ModelAnimatedComponent>().AnimationClips[0];
+            AnimationPlayer animationPlayerLeg = playerLeg.GetComponent<ModelAnimatedComponent>().PlayClip(animationClipLeg);
+            AnimationPlayer animationPlayerHat = playerHat.GetComponent<ModelAnimatedComponent>().PlayClip(animationClipHat);
+            animationPlayerLeg.Looping = true;
+            animationPlayerHat.Looping = true;
 
             // Add static models
-            heart.AddComponent(new SceneGraph.ModelComponent(apteczka, standardEffect, apteczkaTexture));
-            heart2.AddComponent(new SceneGraph.ModelComponent(apteczka, standardEffect, apteczkaTexture));
+            heart.AddComponent(new ModelComponent(apteczka, standardEffect, apteczkaTexture));
+            heart2.AddComponent(new ModelComponent(apteczka, standardEffect, apteczkaTexture));
 
             pointLights.Add(new Lights.PointLight(new Vector3(0.0f, 8.0f, 0.0f)));
             pointLights.Add(new Lights.PointLight(new Vector3(15.0f, 8.0f, 60.0f)));
@@ -111,8 +130,8 @@ namespace PBLGame
             root.AddChildNode(player);
             root.AddChildNode(levelOne);
             player.AddChildNode(camera);
-            heart.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
-            heart2.TransformationsOrder = SceneGraph.TransformationOrder.ScalePositionRotation;
+            heart.TransformationsOrder = TransformationOrder.ScalePositionRotation;
+            heart2.TransformationsOrder = TransformationOrder.ScalePositionRotation;
             heart.Position = new Vector3(15.0f, 4.0f, -10.0f);
             heart2.Position = new Vector3(-15.0f, 4.0f, -10.0f);
             heart.Scale = new Vector3(0.2f);
@@ -209,7 +228,7 @@ namespace PBLGame
             }
             else
             {
-                throw new System.Exception("There is no mesh in this model !!");
+                throw new Exception("There is no mesh in this model !!");
             }
         }
 
