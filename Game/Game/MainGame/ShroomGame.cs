@@ -43,6 +43,7 @@ namespace PBLGame
         Camera camera;
 
         Effect standardEffect;
+        Effect animatedEffect;
         const int shadowMapWidthHeight = 2048;
 
         public ShroomGame()
@@ -70,6 +71,7 @@ namespace PBLGame
 
 
             standardEffect = Content.Load<Effect>("Standard");
+            animatedEffect = Content.Load<Effect>("StandardAnimated");
             root = new GameObject();
             heart = new GameObject();
             heart2 = new GameObject();
@@ -93,18 +95,19 @@ namespace PBLGame
             Model hierarchia = Content.Load<Model>("Level/level1");
             Texture2D hierarchiaTex = Content.Load<Texture2D>("Level/level1Tex");
             Texture2D hierarchiaNormalTex = Content.Load<Texture2D>("Level/level1Normal");
+            Texture2D playerTex = Content.Load<Texture2D>("models/player/borowikTex");
 
             // Load anim model
             player.AddChildNode(playerLeg);
             player.AddChildNode(playerHat);
             
             // models without anims have problems i guess ; /
-            playerLeg.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content));
-            playerHat.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content));
+            playerLeg.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content, animatedEffect, playerTex));
+            playerHat.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content, animatedEffect, playerTex));
             player.AddComponent(new Player(player));
 
-            playerLegWalk.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content));
-            playerHatWalk.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content));
+            playerLegWalk.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content, animatedEffect, playerTex));
+            playerHatWalk.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content, animatedEffect, playerTex));
 
             List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia, hierarchiaTex, hierarchiaNormalTex);
             CreateHierarchyOfLevel(hiererchyList, levelOne);

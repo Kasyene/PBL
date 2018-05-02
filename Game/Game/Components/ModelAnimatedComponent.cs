@@ -10,6 +10,7 @@ namespace PBLGame.SceneGraph
     public class ModelAnimatedComponent : ModelComponent
     {
         private ModelExtra modelExtra;
+        Texture2D texture;
         private AnimationPlayer animationPlayer = null;
         private List<Bone> bones = new List<Bone>();
         private List<AnimationClip> animationClips;
@@ -19,9 +20,11 @@ namespace PBLGame.SceneGraph
 
         public List<AnimationClip> AnimationClips => modelExtra.Clips;
 
-        public ModelAnimatedComponent(string _assetName, ContentManager contentManager) : base(null, null)
+        public ModelAnimatedComponent(string _assetName, ContentManager contentManager, Effect _modelEffect, Texture2D _texture = null) : base(null, null)
         {
             assetName = _assetName;
+            modelEffect = _modelEffect;
+            texture = _texture;
             LoadContent(contentManager);
         }
 
@@ -85,46 +88,42 @@ namespace PBLGame.SceneGraph
                 Bone bone = bones[modelExtra.Skeleton[i]];
                 skeleton[i] = bone.SkinTransform * bone.AbsoluteTransform;
             }
-
+            string techniqueName = createShadowMap ? "CreateShadowMap" : "Draw";
             foreach (ModelMesh modelMesh in model.Meshes)
             {
-                foreach (Effect effect in modelMesh.Effects)
+                foreach (ModelMeshPart part in modelMesh.MeshParts)
                 {
-                    if (effect is BasicEffect)
+                    part.Effect = modelEffect;
+                    modelEffect.CurrentTechnique = modelEffect.Techniques[techniqueName];
+                    modelEffect.Parameters["World"].SetValue(worldTransformations);
+                    modelEffect.Parameters["View"].SetValue(camera.ViewMatrix);
+                    modelEffect.Parameters["Projection"].SetValue(camera.ProjectionMatrix);
+                    modelEffect.Parameters["WorldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(worldTransformations)));
+                    modelEffect.Parameters["Bones"].SetValue(skeleton);
+                    modelEffect.Parameters["ViewVector"].SetValue(camera.GetViewVector());
+                    modelEffect.Parameters["DirectionalLightDirection"].SetValue(ShroomGame.directionalLight.direction);
+                    modelEffect.Parameters["DirectionalAmbientColor"].SetValue(ShroomGame.directionalLight.ambient);
+                    modelEffect.Parameters["DirectionalSpecularColor"].SetValue(ShroomGame.directionalLight.specular);
+                    modelEffect.Parameters["DirectionalLightViewProj"].SetValue(ShroomGame.directionalLight.CreateLightViewProjectionMatrix());
+                    modelEffect.Parameters["PointLightNumber"].SetValue(ShroomGame.pointLights.Count);
+                    modelEffect.Parameters["PointLightPosition"].SetValue(Lights.PointLight.GetPointLightsPositionArray());
+                    modelEffect.Parameters["PointLightAttenuation"].SetValue(Lights.PointLight.GetPointLightsAttenuationArray());
+                    modelEffect.Parameters["PointAmbientColor"].SetValue(Lights.PointLight.GetPointLightsAmbientArray());
+                    modelEffect.Parameters["PointSpecularColor"].SetValue(Lights.PointLight.GetPointLightsSpecularArray());
+
+                    if (!createShadowMap)
                     {
-                        BasicEffect basicEffect = effect as BasicEffect;
-
-                        // set world matrix
-                        basicEffect.World = worldTransformations * boneTransforms[modelMesh.ParentBone.Index];
-
-                        // set view matrix
-                        basicEffect.View = camera.ViewMatrix;
-
-                        // set projection matrix
-                        basicEffect.Projection = camera.ProjectionMatrix;
-
-                        basicEffect.EnableDefaultLighting();
-                        basicEffect.PreferPerPixelLighting = true;
+                        modelEffect.Parameters["DirectionalShadowMap"].SetValue(ShroomGame.shadowRenderTarget);
                     }
 
-                    else if (effect is SkinnedEffect)
+                    if (texture != null)
                     {
-                        SkinnedEffect skinnedEffect = effect as SkinnedEffect;
-
-                        // set world matrix
-                        skinnedEffect.World = worldTransformations * boneTransforms[modelMesh.ParentBone.Index];
-
-                        // set view matrix
-                        skinnedEffect.View = camera.ViewMatrix;
-
-                        // set projection matrix
-                        skinnedEffect.Projection = camera.ProjectionMatrix;
-
-                        skinnedEffect.EnableDefaultLighting();
-                        skinnedEffect.PreferPerPixelLighting = true;
-                        skinnedEffect.SetBoneTransforms(skeleton);
+                        modelEffect.Parameters["ModelTexture"].SetValue(texture);
                     }
-                   
+                    else
+                    {
+                        modelEffect.Parameters["ModelTexture"].SetValue(ShroomGame.missingTexture);
+                    }
                 }
                 modelMesh.Draw();
                 DrawBoundingBox(parent, localTransformations, worldTransformations, camera);
