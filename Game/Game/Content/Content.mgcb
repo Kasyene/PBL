@@ -469,3 +469,9 @@
 /processorParam:TextureFormat=Color
 /build:models/player/borowikTex.png
 
+#begin StandardAnimated.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:StandardAnimated.fx
+

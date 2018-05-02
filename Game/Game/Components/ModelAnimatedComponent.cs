@@ -99,6 +99,7 @@ namespace PBLGame.SceneGraph
                     modelEffect.Parameters["View"].SetValue(camera.ViewMatrix);
                     modelEffect.Parameters["Projection"].SetValue(camera.ProjectionMatrix);
                     modelEffect.Parameters["WorldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(worldTransformations)));
+                    modelEffect.Parameters["Bones"].SetValue(skeleton);
                     modelEffect.Parameters["ViewVector"].SetValue(camera.GetViewVector());
                     modelEffect.Parameters["DirectionalLightDirection"].SetValue(ShroomGame.directionalLight.direction);
                     modelEffect.Parameters["DirectionalAmbientColor"].SetValue(ShroomGame.directionalLight.ambient);

@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Standard.fx" />
+    <Content Include="Content\StandardAnimated.fx" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

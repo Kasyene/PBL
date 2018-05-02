@@ -43,6 +43,7 @@ namespace PBLGame
         Camera camera;
 
         Effect standardEffect;
+        Effect animatedEffect;
         const int shadowMapWidthHeight = 2048;
 
         public ShroomGame()
@@ -70,6 +71,7 @@ namespace PBLGame
 
 
             standardEffect = Content.Load<Effect>("Standard");
+            animatedEffect = Content.Load<Effect>("StandardAnimated");
             root = new GameObject();
             heart = new GameObject();
             heart2 = new GameObject();
@@ -100,12 +102,12 @@ namespace PBLGame
             player.AddChildNode(playerHat);
             
             // models without anims have problems i guess ; /
-            playerLeg.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content, standardEffect, playerTex));
-            playerHat.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content, standardEffect, playerTex));
+            playerLeg.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content, animatedEffect, playerTex));
+            playerHat.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content, animatedEffect, playerTex));
             player.AddComponent(new Player(player));
 
-            playerLegWalk.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content, standardEffect, playerTex));
-            playerHatWalk.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content, standardEffect, playerTex));
+            playerLegWalk.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content, animatedEffect, playerTex));
+            playerHatWalk.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content, animatedEffect, playerTex));
 
             List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia, hierarchiaTex, hierarchiaNormalTex);
             CreateHierarchyOfLevel(hiererchyList, levelOne);
