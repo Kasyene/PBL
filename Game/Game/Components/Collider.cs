@@ -51,12 +51,12 @@ namespace PBLGame.SceneGraph
 
         public bool IsCollision(Collider other)
         {
+            if (this.owner.Parent == other.owner.Parent)
+            {
+                return false;
+            }
             if (boundingBox.Intersects(other.boundingBox))
             {
-                if (this.owner.Parent == other.owner.Parent)
-                {
-                    return false;
-                }
                 if (other.isTrigger)
                 {
                     Debug.WriteLine("interakcja z sercem");
