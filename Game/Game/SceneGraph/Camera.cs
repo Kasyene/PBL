@@ -7,8 +7,8 @@ namespace PBLGame.SceneGraph
     public class Camera : GameObject
     {
         GameObject cameraTarget;
-        public float minZoom = -1000f;
-        public float maxZoom = -500f;
+        public float minZoom = -500f;
+        public float maxZoom = -250f;
         public float minYRotation = 0.1f;
         public float maxYRotation = 1f;
         private readonly InputManager inputManager;
@@ -17,7 +17,7 @@ namespace PBLGame.SceneGraph
         {
             inputManager = InputManager.Instance;
             visible = false;
-            Position = new Vector3(0f, 0f, -800f);
+            Position = new Vector3(0f, 0f, -400f);
             //colliders.Add(new Collider(new BoundingBox(), null, this));
             TransformationsOrder = TransformationOrder.ScalePositionRotation;
             

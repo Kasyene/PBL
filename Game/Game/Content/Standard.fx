@@ -6,7 +6,6 @@ float4x4 Projection;
 float4x4 WorldInverseTranspose;
 
 float3 ViewVector;
-int PointLightNumber = 0;
 texture ModelTexture;
 texture NormalMap;
 
@@ -15,6 +14,8 @@ float AmbientIntensity = 0.3;
 float SpecularIntensity = 0.1;
 float Shininess = 200;
 float BumpConstant = 1;
+int PointLightNumber = 0;
+float bias = 0.005;
 
 //Directional Light
 float3 DirectionalLightDirection;
@@ -112,6 +113,26 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	return output;
 }
 
+float PCF(float2 shadowCoords, float depth)
+{
+	float texelSize = 1.0f / 2048;
+	float shadowPart;
+	float shadow = 0.0f;
+	for (int x = -2; x <= 2; x++)
+	{
+		for (int y = -2; y <= 2; y++)
+		{
+			float2 coords = shadowCoords + float2(texelSize * x, texelSize * y);
+			float shadowDepth = tex2D(shadowMapSampler, coords).r;
+			float B = (depth - bias);
+
+			shadowPart = shadowDepth < B ? 0.0f : 1.0f;
+			shadow += shadowPart;
+		}
+	}
+	return shadow / 25.0f;
+}
+
 float4 DirectionalLightCalculation(VertexShaderOutput input)
 {
 	float3 bump = BumpConstant * (tex2D(normalSampler, input.TextureCoordinate) - (0.5, 0.5, 0.5));
@@ -134,16 +155,11 @@ float4 DirectionalLightCalculation(VertexShaderOutput input)
 
 	float2 shadowTexCoord = 0.5 * lightingPosition.xy /lightingPosition.w + float2(0.5, 0.5);
 	shadowTexCoord.y = 1.0f - shadowTexCoord.y;
-	float shadowdepth = tex2D(shadowMapSampler, shadowTexCoord).r;
-	float ourdepth = (lightingPosition.z / lightingPosition.w) - 0.001f;
+	float ourdepth = (lightingPosition.z / lightingPosition.w);
 
-	if (shadowdepth < ourdepth)
-	{
-		diffuse *= float4(0.1, 0.1, 0.1, 0);
-		specular *= float4(0.1, 0.1, 0.1, 0);
-	};
+	float shadow = PCF(shadowTexCoord, ourdepth);
 
-	return saturate(diffuse + ambient + specular);
+	return saturate(ambient + (shadow) * (diffuse + specular));
 }
 
 float4 PointLightCalculation(VertexShaderOutput input)

@@ -8,7 +8,6 @@ float4x4 WorldInverseTranspose;
 float4x3 Bones[SKINNED_EFFECT_MAX_BONES];
 
 float3 ViewVector;
-int PointLightNumber = 0;
 texture ModelTexture;
 texture NormalMap;
 
@@ -17,6 +16,8 @@ float AmbientIntensity = 0.3;
 float SpecularIntensity = 0.1;
 float Shininess = 200;
 float BumpConstant = 1;
+int PointLightNumber = 0;
+float bias = 0.005;
 
 //Directional Light
 float3 DirectionalLightDirection;
@@ -79,6 +80,19 @@ struct VertexShaderOutput
 	float4 WorldPos : TEXCOORD4;
 };
 
+struct CreateShadowMap_VertexShaderInput
+{
+	float4 Position: POSITION;
+	int4   Indices  : BLENDINDICES0;
+	float4 Weights  : BLENDWEIGHT0;
+};
+
+struct CreateShadowMap_VertexShaderOutput
+{
+	float4 Position : POSITION;
+	float Depth : TEXCOORD0;
+};
+
 void Skin(inout VertexShaderInput vin, uniform int boneCount)
 {
 	float4x3 skinning = 0;
@@ -93,16 +107,24 @@ void Skin(inout VertexShaderInput vin, uniform int boneCount)
 	vin.Normal = mul(vin.Normal, (float3x3)skinning);
 }
 
-struct CreateShadowMap_VertexShaderOutput
+void SkinShadow(inout CreateShadowMap_VertexShaderInput vin, uniform int boneCount)
 {
-	float4 Position : POSITION;
-	float Depth : TEXCOORD0;
-};
+	float4x3 skinning = 0;
 
-CreateShadowMap_VertexShaderOutput CreateShadowMap_VertexShader(float4 Position: POSITION)
+	[unroll]
+	for (int i = 0; i < boneCount; i++)
+	{
+		skinning += Bones[vin.Indices[i]] * vin.Weights[i];
+	}
+
+	vin.Position.xyz = mul(vin.Position, skinning);
+}
+
+CreateShadowMap_VertexShaderOutput CreateShadowMap_VertexShader(CreateShadowMap_VertexShaderInput input)
 {
 	CreateShadowMap_VertexShaderOutput output;
-	output.Position = mul(Position, mul(World, DirectionalLightViewProj));
+	SkinShadow(input, 4);
+	output.Position = mul(input.Position, mul(World, DirectionalLightViewProj));
 	output.Depth = output.Position.z / output.Position.w;
 	return output;
 }
@@ -132,6 +154,26 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	return output;
 }
 
+float PCF(float2 shadowCoords, float depth)
+{
+	float texelSize = 1.0f / 2048;
+	float shadowPart;
+	float shadow = 0.0f;
+	for (int x = -2; x <= 2; x++)
+	{
+		for (int y = -2; y <= 2; y++)
+		{
+			float2 coords = shadowCoords + float2(texelSize * x, texelSize * y);
+			float shadowDepth = tex2D(shadowMapSampler, coords).r;
+			float B = (depth - bias);
+
+			shadowPart = shadowDepth < B ? 0.0f : 1.0f;
+			shadow += shadowPart;
+		}
+	}
+	return shadow / 25.0f;
+}
+
 float4 DirectionalLightCalculation(VertexShaderOutput input)
 {
 	float3 bump = BumpConstant * (tex2D(normalSampler, input.TextureCoordinate) - (0.5, 0.5, 0.5));
@@ -152,18 +194,13 @@ float4 DirectionalLightCalculation(VertexShaderOutput input)
 
 	float4 lightingPosition = mul(input.WorldPos, DirectionalLightViewProj);
 
-	float2 shadowTexCoord = 0.5 * lightingPosition.xy /lightingPosition.w + float2(0.5, 0.5);
+	float2 shadowTexCoord = 0.5 * lightingPosition.xy / lightingPosition.w + float2(0.5, 0.5);
 	shadowTexCoord.y = 1.0f - shadowTexCoord.y;
-	float shadowdepth = tex2D(shadowMapSampler, shadowTexCoord).r;
-	float ourdepth = (lightingPosition.z / lightingPosition.w) - 0.001f;
+	float ourdepth = (lightingPosition.z / lightingPosition.w);
 
-	if (shadowdepth < ourdepth)
-	{
-		diffuse *= float4(0.1, 0.1, 0.1, 0);
-		specular *= float4(0.1, 0.1, 0.1, 0);
-	};
+	float shadow = PCF(shadowTexCoord, ourdepth);
 
-	return saturate(diffuse + ambient + specular);
+	return saturate(ambient + (shadow) * (diffuse + specular));
 }
 
 float4 PointLightCalculation(VertexShaderOutput input)

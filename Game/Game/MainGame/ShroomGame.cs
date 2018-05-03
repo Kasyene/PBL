@@ -140,7 +140,8 @@ namespace PBLGame
             heart.Scale = new Vector3(0.2f);
             heart2.Scale = new Vector3(0.2f);
             player.Position = new Vector3(0f, 3f, 0f);
-            player.Scale = new Vector3(0.1f);
+            player.RotationZ = 1.5f;
+            player.Scale = new Vector3(0.4f);
 
             root.CreateColliders();
         }
