@@ -78,10 +78,11 @@ namespace PBLGame
             levelOne = new GameObject();
 
             player = new GameObject();
-            playerLeg = new GameObject();
-            playerHat = new GameObject();
-            playerLegWalk = new GameObject();
-            playerHatWalk = new GameObject();
+            playerLeg = new GameObject("Leg");
+            playerHat = new GameObject("Hat");
+            playerLegWalk = new GameObject("Leg");
+            playerHatWalk = new GameObject("Hat");
+
 
             camera = new Camera();
             camera.SetCameraTarget(player);
