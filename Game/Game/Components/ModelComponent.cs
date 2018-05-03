@@ -14,8 +14,8 @@ namespace PBLGame.SceneGraph
         public Model model;
         public Effect modelEffect;
         public BasicEffect lineEffect;
-        Texture2D texture;
-        Texture2D normalMap;
+        protected Texture2D texture;
+        protected Texture2D normalMap;
 
         short[] bBoxIndices = {
             0, 1, 1, 2, 2, 3, 3, 0, // Front edges
@@ -31,10 +31,6 @@ namespace PBLGame.SceneGraph
             if(_normal != null)
             {
                 normalMap = _normal;
-            }
-            else
-            {
-                normalMap = ShroomGame.missingNormalMap;
             }
             Visible = true;
         }
@@ -53,34 +49,7 @@ namespace PBLGame.SceneGraph
                     modelEffect.Parameters["Projection"].SetValue(camera.ProjectionMatrix);
                     modelEffect.Parameters["WorldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(worldTransformations)));
                     modelEffect.Parameters["ViewVector"].SetValue(camera.GetViewVector());
-                    modelEffect.Parameters["DirectionalLightDirection"].SetValue(ShroomGame.directionalLight.direction);
-                    modelEffect.Parameters["DirectionalAmbientColor"].SetValue(ShroomGame.directionalLight.ambient);
-                    modelEffect.Parameters["DirectionalSpecularColor"].SetValue(ShroomGame.directionalLight.specular);
-                    modelEffect.Parameters["DirectionalLightViewProj"].SetValue(ShroomGame.directionalLight.CreateLightViewProjectionMatrix());
-                    modelEffect.Parameters["PointLightNumber"].SetValue(ShroomGame.pointLights.Count);
-                    modelEffect.Parameters["PointLightPosition"].SetValue(Lights.PointLight.GetPointLightsPositionArray());
-                    modelEffect.Parameters["PointLightAttenuation"].SetValue(Lights.PointLight.GetPointLightsAttenuationArray());
-                    modelEffect.Parameters["PointAmbientColor"].SetValue(Lights.PointLight.GetPointLightsAmbientArray());
-                    modelEffect.Parameters["PointSpecularColor"].SetValue(Lights.PointLight.GetPointLightsSpecularArray());
-                    
-                    if(!createShadowMap)
-                    {
-                        modelEffect.Parameters["DirectionalShadowMap"].SetValue(ShroomGame.shadowRenderTarget);
-                    }
-
-                    if (texture != null)
-                    {
-                        modelEffect.Parameters["ModelTexture"].SetValue(texture);
-                    }
-                    else
-                    {
-                        modelEffect.Parameters["ModelTexture"].SetValue(ShroomGame.missingTexture);
-                    }
-
-                    if (normalMap != null)
-                    {
-                        modelEffect.Parameters["NormalMap"].SetValue(normalMap);
-                    }
+                    SetShadingParameters(createShadowMap);
                 }
                 mesh.Draw();
                 DrawBoundingBox(parent, localTransformations, worldTransformations, camera);
@@ -164,6 +133,38 @@ namespace PBLGame.SceneGraph
         public override void Dispose()
         {
             base.Dispose();
+        }
+
+        protected void SetShadingParameters(bool createShadowMap = false)
+        {
+            modelEffect.Parameters["DirectionalLightDirection"].SetValue(ShroomGame.directionalLight.direction);
+            modelEffect.Parameters["DirectionalAmbientColor"].SetValue(ShroomGame.directionalLight.ambient);
+            modelEffect.Parameters["DirectionalSpecularColor"].SetValue(ShroomGame.directionalLight.specular);
+            modelEffect.Parameters["DirectionalLightViewProj"].SetValue(ShroomGame.directionalLight.CreateLightViewProjectionMatrix());
+            modelEffect.Parameters["PointLightNumber"].SetValue(ShroomGame.pointLights.Count);
+            modelEffect.Parameters["PointLightPosition"].SetValue(Lights.PointLight.GetPointLightsPositionArray());
+            modelEffect.Parameters["PointLightAttenuation"].SetValue(Lights.PointLight.GetPointLightsAttenuationArray());
+            modelEffect.Parameters["PointAmbientColor"].SetValue(Lights.PointLight.GetPointLightsAmbientArray());
+            modelEffect.Parameters["PointSpecularColor"].SetValue(Lights.PointLight.GetPointLightsSpecularArray());
+
+            if (!createShadowMap)
+            {
+                modelEffect.Parameters["DirectionalShadowMap"].SetValue(ShroomGame.shadowRenderTarget);
+            }
+
+            if (texture != null)
+            {
+                modelEffect.Parameters["ModelTexture"].SetValue(texture);
+            }
+            else
+            {
+                modelEffect.Parameters["ModelTexture"].SetValue(ShroomGame.missingTexture);
+            }
+
+            if (normalMap != null)
+            {
+                modelEffect.Parameters["NormalMap"].SetValue(normalMap);
+            }
         }
     }
 }

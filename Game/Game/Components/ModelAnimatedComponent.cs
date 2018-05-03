@@ -10,7 +10,6 @@ namespace PBLGame.SceneGraph
     public class ModelAnimatedComponent : ModelComponent
     {
         private ModelExtra modelExtra;
-        Texture2D texture;
         private AnimationPlayer animationPlayer = null;
         private List<Bone> bones = new List<Bone>();
         private List<AnimationClip> animationClips;
@@ -101,29 +100,7 @@ namespace PBLGame.SceneGraph
                     modelEffect.Parameters["WorldInverseTranspose"].SetValue(Matrix.Transpose(Matrix.Invert(worldTransformations)));
                     modelEffect.Parameters["Bones"].SetValue(skeleton);
                     modelEffect.Parameters["ViewVector"].SetValue(camera.GetViewVector());
-                    modelEffect.Parameters["DirectionalLightDirection"].SetValue(ShroomGame.directionalLight.direction);
-                    modelEffect.Parameters["DirectionalAmbientColor"].SetValue(ShroomGame.directionalLight.ambient);
-                    modelEffect.Parameters["DirectionalSpecularColor"].SetValue(ShroomGame.directionalLight.specular);
-                    modelEffect.Parameters["DirectionalLightViewProj"].SetValue(ShroomGame.directionalLight.CreateLightViewProjectionMatrix());
-                    modelEffect.Parameters["PointLightNumber"].SetValue(ShroomGame.pointLights.Count);
-                    modelEffect.Parameters["PointLightPosition"].SetValue(Lights.PointLight.GetPointLightsPositionArray());
-                    modelEffect.Parameters["PointLightAttenuation"].SetValue(Lights.PointLight.GetPointLightsAttenuationArray());
-                    modelEffect.Parameters["PointAmbientColor"].SetValue(Lights.PointLight.GetPointLightsAmbientArray());
-                    modelEffect.Parameters["PointSpecularColor"].SetValue(Lights.PointLight.GetPointLightsSpecularArray());
-
-                    if (!createShadowMap)
-                    {
-                        modelEffect.Parameters["DirectionalShadowMap"].SetValue(ShroomGame.shadowRenderTarget);
-                    }
-
-                    if (texture != null)
-                    {
-                        modelEffect.Parameters["ModelTexture"].SetValue(texture);
-                    }
-                    else
-                    {
-                        modelEffect.Parameters["ModelTexture"].SetValue(ShroomGame.missingTexture);
-                    }
+                    SetShadingParameters(createShadowMap);
                 }
                 modelMesh.Draw();
                 DrawBoundingBox(parent, localTransformations, worldTransformations, camera);
