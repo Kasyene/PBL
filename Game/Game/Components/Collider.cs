@@ -53,11 +53,13 @@ namespace PBLGame.SceneGraph
         {
             if (boundingBox.Intersects(other.boundingBox))
             {
-                //Debug.WriteLine("pies");
+                if (this.owner.Parent == other.owner.Parent)
+                {
+                    return false;
+                }
                 if (other.isTrigger)
                 {
                     Debug.WriteLine("interakcja z sercem");
-                    //other.owner.visible = false;
                     return false;
                 }
                 System.Diagnostics.Debug.WriteLine("Collision " + DateTime.Now);
