@@ -497,6 +497,7 @@ namespace PBLGame.SceneGraph
             foreach (var col in colliders)
             {
                 col.isTrigger = true;
+                col.isCollider = false;
             }
         }
 

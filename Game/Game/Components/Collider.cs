@@ -13,7 +13,8 @@ namespace PBLGame.SceneGraph
         private static List<Collider> collidersList;
         private Component component;
         protected BoundingBox boundingBox;
-        public bool isTrigger;
+        public bool isTrigger = false;
+        public bool isCollider = true;
         public SceneGraph.GameObject owner;
 
         public BoundingBox BoundingBox
@@ -51,6 +52,10 @@ namespace PBLGame.SceneGraph
 
         public bool IsCollision(Collider other)
         {
+            if (!other.isCollider && !other.isTrigger)
+            {
+                return false;
+            }
             if (this.owner.Parent == other.owner.Parent)
             {
                 return false;
@@ -60,6 +65,7 @@ namespace PBLGame.SceneGraph
                 if (other.isTrigger)
                 {
                     Debug.WriteLine("interakcja z sercem");
+                    other.isTrigger = false;
                     other.owner.Dispose();
                     return false;
                 }
