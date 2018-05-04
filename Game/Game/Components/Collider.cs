@@ -12,6 +12,7 @@ namespace PBLGame.SceneGraph
     {
         private static List<Collider> collidersList;
         private Component component;
+        public Vector3 penetrationDepth = new Vector3(0.0f);
         protected BoundingBox boundingBox;
         public bool isTrigger = false;
         public bool isCollider = true;
@@ -63,6 +64,9 @@ namespace PBLGame.SceneGraph
             }
             if (boundingBox.Intersects(other.boundingBox))
             {
+                Vector3[] corners = boundingBox.GetCorners();
+                Vector3[] corners2 = other.boundingBox.GetCorners();
+                Debug.WriteLine(corners + "/n" + corners2);
                 if (other.isTrigger)
                 {
                     Debug.WriteLine("interakcja z sercem");
@@ -87,6 +91,7 @@ namespace PBLGame.SceneGraph
                 {
                     if (IsCollision(col))
                     {
+                        this.penetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
                         return col.owner;
                     }
                     else
@@ -104,6 +109,27 @@ namespace PBLGame.SceneGraph
                 collidersList.Remove(trig);
             }
             return null;
+        }
+
+        public Vector3 PenetrationDepth(BoundingBox boxA, BoundingBox boxB)
+        {
+            Vector3 result = new Vector3(0.0f);
+            result.X = SingleAxisPenetrationDepth(boxA.Max.X, boxA.Min.X, boxB.Max.X, boxB.Min.X);
+            result.Y = SingleAxisPenetrationDepth(boxA.Max.Y, boxA.Min.Y, boxB.Max.Y, boxB.Min.Y);
+            result.Z = SingleAxisPenetrationDepth(boxA.Max.Z, boxA.Min.Z, boxB.Max.Z, boxB.Min.Z);
+
+            return result;
+        }
+
+        private float SingleAxisPenetrationDepth(float maxA, float minA, float maxB, float minB)
+        {
+            float result = 0.0f;
+            if (((maxA > maxB) && (minA < minB)) || ((maxB > maxA) && (minB < minA)))
+            {
+                return result;
+            }
+            result = (maxA - minB) > (maxB - minA) ? (maxB - minA) : (maxA - minB);
+            return result;
         }
 
         //TODO Styczeń to nie działa, robimy to inaczej, żal skasować, napraw xd

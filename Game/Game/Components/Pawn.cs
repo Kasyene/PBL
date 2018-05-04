@@ -7,6 +7,7 @@ namespace PBLGame.MainGame
 {
     class Pawn : Component
     {
+        private bool isMoving = false;
         protected GameObject parentGameObject;
         protected Vector3 lastPosition;
         public int Hp { get; internal set; }
@@ -28,29 +29,50 @@ namespace PBLGame.MainGame
 
         protected void MoveForward(float speed)
         {
-            Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
-            parentGameObject.Translate(new Vector3(direction.Y * speed, 0f, direction.X * speed));
-            CheckCollider();
+            if (!isMoving)
+            {
+                isMoving = true;
+                Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
+                parentGameObject.Translate(new Vector3(direction.Y * speed, 0f, direction.X * speed));
+                CheckCollider();
+                isMoving = false;
+            }
+           
         }
 
         protected void MoveBack(float speed)
         {
-            Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
-            parentGameObject.Translate(new Vector3(-direction.Y * speed, 0f, -direction.X * speed));
-            CheckCollider();
+            if (!isMoving)
+            {
+                isMoving = true;
+                Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
+                parentGameObject.Translate(new Vector3(-direction.Y * speed, 0f, -direction.X * speed));
+                CheckCollider();
+                isMoving = false;
+            }
         }
         protected void MoveLeft(float speed)
         {
-            Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
-            parentGameObject.Translate(new Vector3(-direction.X * speed, 0f, direction.Y * speed));
-            CheckCollider();
+            if (!isMoving)
+            {
+                isMoving = true;
+                Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
+                parentGameObject.Translate(new Vector3(-direction.X * speed, 0f, direction.Y * speed));
+                CheckCollider();
+                isMoving = false;
+            }
         }
 
         protected void MoveRight(float speed)
         {
-            Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
-            parentGameObject.Translate(new Vector3(direction.X * speed, 0f, -direction.Y * speed));
-            CheckCollider();
+            if (!isMoving)
+            {
+                isMoving = true;
+                Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
+                parentGameObject.Translate(new Vector3(direction.X * speed, 0f, -direction.Y * speed));
+                CheckCollider();
+                isMoving = false;
+            }
         }
 
         protected void CheckCollider()
@@ -59,7 +81,7 @@ namespace PBLGame.MainGame
             {
                 if (col.CollisionUpdate() != null)
                 {
-                    parentGameObject.Position = lastPosition;
+                    parentGameObject.Position = parentGameObject.Position - col.penetrationDepth;
                 }
             }
             lastPosition = parentGameObject.Position;
