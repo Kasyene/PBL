@@ -12,7 +12,7 @@ texture ModelTexture;
 texture NormalMap;
 
 //General Light Values
-float AmbientIntensity = 0.3;
+float AmbientIntensity = 0.7;
 float SpecularIntensity = 0.1;
 float Shininess = 200;
 float BumpConstant = 1;
@@ -167,7 +167,7 @@ float PCF(float2 shadowCoords, float depth)
 			float shadowDepth = tex2D(shadowMapSampler, coords).r;
 			float B = (depth - bias);
 
-			shadowPart = shadowDepth < B ? 0.0f : 1.0f;
+			shadowPart = shadowDepth < B ? 0.1f : 1.0f;
 			shadow += shadowPart;
 		}
 	}

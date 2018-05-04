@@ -15,7 +15,7 @@ namespace PBLGame.Lights
         {
             direction = new Vector3(-0.3f, 1f, 0.2f);
 
-            ambient = new Vector4(0.6f);
+            ambient = new Vector4(1f);
             diffuse = new Vector4(1f);
             specular = new Vector4(1f);
         }

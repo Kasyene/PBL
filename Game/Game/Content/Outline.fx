@@ -6,8 +6,8 @@ sampler screenTextureSampler = sampler_state
 
 float2 ScreenSize = float2(600, 600);
 
-float Thickness = 1.0f;
-float Threshold = 0.4f;
+float Thickness = 0.4f;
+float Threshold = 0.25f;
 
 float getGray(float4 c)
 {
@@ -17,18 +17,26 @@ float getGray(float4 c)
 float4 PixelShaderFunction(float4 pos : SV_POSITION, float4 color1 : COLOR0, float2 texCoord : TEXCOORD0) : SV_TARGET0
 {
 	float4 Color = ScreenTexture.Sample(screenTextureSampler, texCoord.xy);
-	float2 ox = float2(Thickness/ScreenSize.x,0.0);
-	float2 oy = float2(0.0,Thickness/ScreenSize.y);
 	float2 uv = texCoord.xy;
 
+	float4 CC = ScreenTexture.Sample(screenTextureSampler, uv);			float g11 = getGray(CC);
+
+	if (g11 < 0.3)
+	{
+		Threshold /= 5;
+		Thickness *= 2;
+	}
+
+	float2 ox = float2(Thickness / ScreenSize.x, 0.0);
+	float2 oy = float2(0.0, Thickness / ScreenSize.y);
+
 	float2 PP = uv - oy;
-	float4 CC = ScreenTexture.Sample(screenTextureSampler, PP-ox);	float g00 = getGray(CC);
+	CC = ScreenTexture.Sample(screenTextureSampler, PP-ox);	float g00 = getGray(CC);
 	CC = ScreenTexture.Sample(screenTextureSampler, PP);			float g01 = getGray(CC);
 	CC = ScreenTexture.Sample(screenTextureSampler, PP+ox);			float g02 = getGray(CC);
 
 	PP = uv;
 	CC = ScreenTexture.Sample(screenTextureSampler, PP-ox);			float g10 = getGray(CC);
-	CC = ScreenTexture.Sample(screenTextureSampler, PP);			float g11 = getGray(CC);
 	CC = ScreenTexture.Sample(screenTextureSampler, PP+ox);			float g12 = getGray(CC);
 
 	PP = uv + oy;
@@ -67,17 +75,17 @@ float4 PixelShaderFunction(float4 pos : SV_POSITION, float4 color1 : COLOR0, flo
 	sy += g20 * K02;
 	sy += g21 * K12;
 	sy += g22 * K22;
-	
+
 	float contrast = sqrt(sx*sx + sy*sy);
 	
-	float result = 1;
+	float result = 0.8;
 
 	if (contrast > Threshold)
 	{
 		result = 0;
 	}
 	
-	return Color * float4(result.xxx, 1);
+	return saturate(Color * Color * float4(result.xxxx));
 }
 
 technique PostOutline
