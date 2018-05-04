@@ -506,10 +506,7 @@ namespace PBLGame.SceneGraph
 
             parent = null;
 
-            foreach (Collider collider in colliders)
-            {
-                collider?.Dispose();
-            }
+            colliders.Clear();
 
             foreach (Component component in components)
             {

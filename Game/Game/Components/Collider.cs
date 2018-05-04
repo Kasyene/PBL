@@ -60,6 +60,7 @@ namespace PBLGame.SceneGraph
                 if (other.isTrigger)
                 {
                     Debug.WriteLine("interakcja z sercem");
+                    other.owner.Dispose();
                     return false;
                 }
                 System.Diagnostics.Debug.WriteLine("Collision " + DateTime.Now);
@@ -71,6 +72,7 @@ namespace PBLGame.SceneGraph
 
         public GameObject CollisionUpdate()
         {
+            List<Collider> triggered = new List<Collider>();
             foreach (Collider col in collidersList)
             {
                 if (col != this)
@@ -79,11 +81,24 @@ namespace PBLGame.SceneGraph
                     {
                         return col.owner;
                     }
+                    else
+                    {
+                        if (col.isTrigger)
+                        {
+                            triggered.Add(col);
+                        }
+                    }
                 }
+            }
+
+            foreach (var trig in triggered)
+            {
+                collidersList.Remove(trig);
             }
             return null;
         }
 
+        //TODO Styczeń to nie działa, robimy to inaczej, żal skasować, napraw xd
         public override void Dispose()
         {
             owner?.colliders.Remove(this);
