@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
+using PBLGame.MainGame;
 
 namespace PBLGame.SceneGraph
 {
@@ -361,6 +362,7 @@ namespace PBLGame.SceneGraph
             return BoundingBox.CreateFromPoints(corners);
         }
 
+
         public void CreateColliders()
         {
             foreach (Component component in components)
@@ -369,6 +371,10 @@ namespace PBLGame.SceneGraph
                 {
                     BoundingBox currBox = component.GetBoundingBox(this, localTransform, worldTransform);
                     colliders.Add(new Collider(currBox, component, this));
+                    if (this.parent.CheckIfPawn())
+                    {
+                        this.parent.colliders.Add(new Collider(currBox, component, this));
+                    }
                     break;
                 }
             }
@@ -419,6 +425,19 @@ namespace PBLGame.SceneGraph
                 }
             }
                 return null;
+        }
+
+        private bool CheckIfPawn()
+        {
+            foreach (Component component in components)
+            {
+                if (component is Pawn)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         [Obsolete("GetModelComponent is deprecated, please use GetComponent<T>() instead.")]
