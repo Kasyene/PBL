@@ -125,7 +125,7 @@ namespace PBLGame.SceneGraph
             {
                 return result;
             }
-            result = ((maxA - minB) > (maxB - minA)) ? (maxB - minA) : (maxA - minB);
+            result = ((maxA - minB) > (maxB - minA)) ? -(maxB - minA) : (maxA - minB);
             return result;
         }
 
