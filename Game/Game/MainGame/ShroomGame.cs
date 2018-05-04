@@ -1,7 +1,7 @@
 ﻿using System;
 using AnimationAux;
 using Microsoft.Xna.Framework;
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Game.Misc;
@@ -13,6 +13,7 @@ using PBLGame.MainGame;
 using PBLGame.Misc;
 using PBLGame.Misc.Anim;
 using PBLGame.SceneGraph;
+using System.IO;
 
 namespace PBLGame
 {
@@ -29,6 +30,7 @@ namespace PBLGame
         public static Lights.DirectionalLight directionalLight;
         public static List<Lights.PointLight> pointLights;
         public static RenderTarget2D shadowRenderTarget;
+        public static RenderTarget2D screenRenderTarget;
 
         GameObject root;
         GameObject heart;
@@ -44,6 +46,7 @@ namespace PBLGame
 
         Effect standardEffect;
         Effect animatedEffect;
+        Effect outlineEffect;
         const int shadowMapWidthHeight = 2048;
 
         public ShroomGame()
@@ -68,10 +71,14 @@ namespace PBLGame
             spriteBatch = new SpriteBatch(GraphicsDevice);
             shadowRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, shadowMapWidthHeight, shadowMapWidthHeight,
                                                     false, SurfaceFormat.Single, DepthFormat.Depth24);
-
+            screenRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, graphics.GraphicsDevice.Viewport.Width,
+                graphics.GraphicsDevice.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
 
             standardEffect = Content.Load<Effect>("Standard");
             animatedEffect = Content.Load<Effect>("StandardAnimated");
+            outlineEffect = Content.Load<Effect>("Outline");
+            outlineEffect.Parameters["ScreenSize"].SetValue(
+               new Vector2(GraphicsDevice.Viewport.Bounds.Width, GraphicsDevice.Viewport.Bounds.Height));
             root = new GameObject();
             heart = new GameObject();
             heart2 = new GameObject();
@@ -175,9 +182,6 @@ namespace PBLGame
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.BlendState = BlendState.Opaque;
-            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-
             CreateShadowMap();
             DrawWithShadow();
             //DrawShadowMapToScreen();
@@ -187,20 +191,36 @@ namespace PBLGame
 
         void CreateShadowMap()
         {
+            GraphicsDevice.BlendState = BlendState.Opaque;
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+
             GraphicsDevice.SetRenderTarget(shadowRenderTarget);
 
             GraphicsDevice.Clear(Color.White);
 
             root.Draw(camera, true);
+        }
 
-            GraphicsDevice.SetRenderTarget(null);
+        void DrawShadowMapToScreen()
+        {
+            spriteBatch.Begin(0, BlendState.Opaque, SamplerState.PointClamp, null, null);
+            spriteBatch.Draw(shadowRenderTarget, new Rectangle(0, 0, 512, 512), Color.White);
+            spriteBatch.End();
+
+            GraphicsDevice.Textures[0] = null;
+            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
         }
 
         void DrawWithShadow()
         {
+            GraphicsDevice.SetRenderTarget(screenRenderTarget);
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            GraphicsDevice.SamplerStates[1] = SamplerState.PointClamp;
             root.Draw(camera);
+            GraphicsDevice.SetRenderTarget(null);
+
+            spriteBatch.Begin(0, BlendState.Opaque, null, null, null, outlineEffect);
+            spriteBatch.Draw(screenRenderTarget, Vector2.Zero, Color.White);
+            spriteBatch.End();
         }
 
         private List<GameObject> SplitModelIntoSmallerPieces(Model bigModel, Texture2D bigTex = null, Texture2D bigNormalTex = null)
@@ -307,16 +327,6 @@ namespace PBLGame
                     }
                 }
             }
-        }
-
-        void DrawShadowMapToScreen()
-        {
-            spriteBatch.Begin(0, BlendState.Opaque, SamplerState.PointClamp, null, null);
-            spriteBatch.Draw(shadowRenderTarget, new Rectangle(0, 0, 512, 512), Color.White);
-            spriteBatch.End();
-
-            GraphicsDevice.Textures[0] = null;
-            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
         }
     }
 }
