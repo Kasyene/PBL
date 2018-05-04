@@ -33,7 +33,7 @@ namespace PBLGame
         public static RenderTarget2D screenRenderTarget;
 
         private bool areCollidersAndTriggersSet;
-        private int timeeee = 0;
+        private int counterOfUpdatesToCreatCollidersAndTriggers = 0;
 
         GameObject root;
         GameObject heart;
@@ -164,14 +164,16 @@ namespace PBLGame
 
         protected override void Update(GameTime gameTime)
         {
-            timeeee++;
-
-            if (timeeee > 100 && !areCollidersAndTriggersSet)
+            if (!areCollidersAndTriggersSet)
             {
-                root.CreateColliders();
-                heart.SetAsTrigger();
-                heart2.SetAsTrigger();
-                areCollidersAndTriggersSet = true;
+                counterOfUpdatesToCreatCollidersAndTriggers++;
+                if (counterOfUpdatesToCreatCollidersAndTriggers > 10)
+                {
+                    root.CreateColliders();
+                    heart.SetAsTrigger();
+                    heart2.SetAsTrigger();
+                    areCollidersAndTriggersSet = true;
+                }
             }
 
 
