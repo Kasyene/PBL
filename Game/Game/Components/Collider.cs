@@ -114,15 +114,15 @@ namespace PBLGame.SceneGraph
             result.X = SingleAxisPenetrationDepth(boxA.Max.X, boxA.Min.X, boxB.Max.X, boxB.Min.X);
             //result.Y = SingleAxisPenetrationDepth(boxA.Max.Y, boxA.Min.Y, boxB.Max.Y, boxB.Min.Y);
             result.Z = SingleAxisPenetrationDepth(boxA.Max.Z, boxA.Min.Z, boxB.Max.Z, boxB.Min.Z);
-            if (Math.Abs(result.X) > 0.01 && Math.Abs(result.Z) > 0.01)
+            if (Math.Abs(result.X) > 0.0f && Math.Abs(result.Z) > 0.0f)
             {
                 if (Math.Abs(result.X) > Math.Abs(result.Z))
                 {
-                    result.X = result.Z;
+                    result.X = 0.0f;
                 }
                 else
                 {
-                    result.Z = result.X;
+                    result.Z = 0.0f;
                 }
             }
 
