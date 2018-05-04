@@ -99,7 +99,7 @@ namespace PBLGame.SceneGraph
 
             foreach (var trig in triggered)
             {
-                collidersList.Remove(trig);
+                //collidersList.Remove(trig);
             }
             return null;
         }

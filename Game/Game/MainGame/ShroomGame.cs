@@ -32,6 +32,9 @@ namespace PBLGame
         public static RenderTarget2D shadowRenderTarget;
         public static RenderTarget2D screenRenderTarget;
 
+        private bool areCollidersAndTriggersSet;
+        private int timeeee = 0;
+
         GameObject root;
         GameObject heart;
         GameObject heart2;
@@ -151,10 +154,6 @@ namespace PBLGame
             player.RotationZ = 1.5f;
             player.Scale = new Vector3(0.4f);
 
-            root.CreateColliders();
-
-            heart.SetAsTrigger();
-            heart2.SetAsTrigger();
         }
 
         protected override void UnloadContent()
@@ -162,8 +161,20 @@ namespace PBLGame
             // TODO: Unload any non ContentManager content here
         }
 
+
         protected override void Update(GameTime gameTime)
         {
+            timeeee++;
+
+            if (timeeee > 100 && !areCollidersAndTriggersSet)
+            {
+                root.CreateColliders();
+                heart.SetAsTrigger();
+                heart2.SetAsTrigger();
+                areCollidersAndTriggersSet = true;
+            }
+
+
             // Our Timer Class
             Timer.Update(gameTime);
             inputManager.Update();
