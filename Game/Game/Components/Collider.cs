@@ -15,6 +15,7 @@ namespace PBLGame.SceneGraph
         protected BoundingBox boundingBox;
         public bool isTrigger = false;
         public bool isCollider = true;
+        public bool isReadyToBeDisposed = false;
         public SceneGraph.GameObject owner;
 
         public BoundingBox BoundingBox
@@ -66,6 +67,7 @@ namespace PBLGame.SceneGraph
                 {
                     Debug.WriteLine("interakcja z sercem");
                     other.isTrigger = false;
+                    other.isReadyToBeDisposed = true;
                     other.owner.Dispose();
                     return false;
                 }
@@ -89,7 +91,7 @@ namespace PBLGame.SceneGraph
                     }
                     else
                     {
-                        if (col.isTrigger)
+                        if (col.isReadyToBeDisposed)
                         {
                             triggered.Add(col);
                         }
@@ -99,7 +101,7 @@ namespace PBLGame.SceneGraph
 
             foreach (var trig in triggered)
             {
-                //collidersList.Remove(trig);
+                collidersList.Remove(trig);
             }
             return null;
         }

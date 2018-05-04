@@ -33,7 +33,7 @@ namespace PBLGame
         public static RenderTarget2D screenRenderTarget;
 
         private bool areCollidersAndTriggersSet;
-        private int counterOfUpdatesToCreatCollidersAndTriggers = 0;
+        private int counterOfUpdatesToCreateCollidersAndTriggers = 0;
 
         GameObject root;
         GameObject heart;
@@ -166,8 +166,8 @@ namespace PBLGame
         {
             if (!areCollidersAndTriggersSet)
             {
-                counterOfUpdatesToCreatCollidersAndTriggers++;
-                if (counterOfUpdatesToCreatCollidersAndTriggers > 10)
+                counterOfUpdatesToCreateCollidersAndTriggers++;
+                if (counterOfUpdatesToCreateCollidersAndTriggers > 10)
                 {
                     root.CreateColliders();
                     heart.SetAsTrigger();
