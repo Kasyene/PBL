@@ -145,6 +145,9 @@ namespace PBLGame
             player.Scale = new Vector3(0.4f);
 
             root.CreateColliders();
+
+            heart.SetAsTrigger();
+            heart2.SetAsTrigger();
         }
 
         protected override void UnloadContent()
@@ -161,9 +164,6 @@ namespace PBLGame
             // Player update
             player.Update();
             player.Update(gameTime);
-
-            heart.SetAtTriggers();
-            heart2.SetAtTriggers();
 
             if (inputManager.Keyboard[Keys.Escape])
             {

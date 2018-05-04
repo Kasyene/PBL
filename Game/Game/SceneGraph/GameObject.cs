@@ -492,7 +492,7 @@ namespace PBLGame.SceneGraph
             throw new System.Exception("There is no mesh with such name");
         }
 
-        public void SetAtTriggers()
+        public void SetAsTrigger()
         {
             foreach (var col in colliders)
             {
