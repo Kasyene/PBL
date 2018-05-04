@@ -64,9 +64,6 @@ namespace PBLGame.SceneGraph
             }
             if (boundingBox.Intersects(other.boundingBox))
             {
-                Vector3[] corners = boundingBox.GetCorners();
-                Vector3[] corners2 = other.boundingBox.GetCorners();
-                Debug.WriteLine(corners + "/n" + corners2);
                 if (other.isTrigger)
                 {
                     Debug.WriteLine("interakcja z sercem");
@@ -128,7 +125,7 @@ namespace PBLGame.SceneGraph
             {
                 return result;
             }
-            result = (maxA - minB) > (maxB - minA) ? (maxB - minA) : (maxA - minB);
+            result = ((maxA - minB) > (maxB - minA)) ? (maxB - minA) : (maxA - minB);
             return result;
         }
 

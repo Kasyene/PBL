@@ -16,7 +16,7 @@ namespace PBLGame.MainGame
         {
             parentGameObject = parent;
             inputManager = InputManager.Instance;
-            playerSpeed = 0.5f;
+            playerSpeed = 1f;
         }
 
         public override void Update(GameTime time)
