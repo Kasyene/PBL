@@ -112,18 +112,15 @@ namespace PBLGame.SceneGraph
         {
             Vector3 result = new Vector3(0.0f);
             result.X = SingleAxisPenetrationDepth(boxA.Max.X, boxA.Min.X, boxB.Max.X, boxB.Min.X);
-           // result.Y = SingleAxisPenetrationDepth(boxA.Max.Y, boxA.Min.Y, boxB.Max.Y, boxB.Min.Y);
+            //result.Y = SingleAxisPenetrationDepth(boxA.Max.Y, boxA.Min.Y, boxB.Max.Y, boxB.Min.Y);
             result.Z = SingleAxisPenetrationDepth(boxA.Max.Z, boxA.Min.Z, boxB.Max.Z, boxB.Min.Z);
-            if (Math.Abs(result.X) > Math.Abs(result.Z))
+            if (Math.Abs(result.X) > 0.01 && Math.Abs(result.Z) > 0.01)
             {
-                if (result.Z != 0.0)
+                if (Math.Abs(result.X) > Math.Abs(result.Z))
                 {
                     result.X = result.Z;
                 }
-            }
-            if (Math.Abs(result.Z) > Math.Abs(result.X))
-            {
-                if (result.X != 0.0)
+                else
                 {
                     result.Z = result.X;
                 }
