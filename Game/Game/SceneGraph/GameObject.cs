@@ -10,6 +10,7 @@ namespace PBLGame.SceneGraph
 
     public class GameObject : IDisposable
     {
+        public bool isGrounded = false;
         protected GameObject parent = null;
         public GameObject Parent { get { return parent; } }
         public static NodeEventCallback onTransformUpdate;

@@ -9,6 +9,7 @@ namespace PBLGame.MainGame
     class Pawn : Component
     {
         private bool isMoving = false;
+        public float AccelerationDueToGravity;
         protected GameObject parentGameObject;
         protected Vector3 lastPosition;
         public int Hp { get; internal set; }
@@ -24,9 +25,20 @@ namespace PBLGame.MainGame
 
         public override void Update(GameTime time)
         {
+            if (!parentGameObject.isGrounded)
+            {
+                AccelerationDueToGravity = -0.05f;
+               //parentGameObject.Translate(new Vector3(0.0f, AccelerationDueToGravity * (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0.0f));
+            }
+            else
+            {
+                AccelerationDueToGravity = 0.0f;
+            }
+
             base.Update(time);
-            parentGameObject.CollisionUpdate();
+          // parentGameObject.CollisionUpdate();
         }
+
 
         protected void MoveForward(float speed)
         {
@@ -90,6 +102,7 @@ namespace PBLGame.MainGame
             }
             lastPosition = parentGameObject.Position;
         }
+
 
         protected void Rotate(float angle)
         {

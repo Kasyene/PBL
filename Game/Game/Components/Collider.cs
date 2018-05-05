@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Graphics;
+using PBLGame.MainGame;
 
 namespace PBLGame.SceneGraph
 {
@@ -88,6 +90,10 @@ namespace PBLGame.SceneGraph
                 {
                     if (IsCollision(col))
                     {
+                        if (col.owner.tag == "Ground")
+                        {
+                            col.owner.Parent.isGrounded = true;
+                        }
                         this.penetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
                         return col.owner;
                     }
