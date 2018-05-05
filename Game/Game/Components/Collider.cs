@@ -72,7 +72,7 @@ namespace PBLGame.SceneGraph
                     other.owner.Dispose();
                     return false;
                 }
-                System.Diagnostics.Debug.WriteLine("Collision " + DateTime.Now);
+            //    System.Diagnostics.Debug.WriteLine("Collision " + DateTime.Now);
                 return true;
             }
 

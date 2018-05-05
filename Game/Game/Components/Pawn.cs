@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Game.Misc.Time;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PBLGame.SceneGraph;
@@ -33,7 +34,7 @@ namespace PBLGame.MainGame
             {
                 isMoving = true;
                 Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
-                parentGameObject.Translate(new Vector3(direction.Y * speed, 0f, direction.X * speed));
+                parentGameObject.Translate(new Vector3(direction.Y * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0f, direction.X * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds));
                 CheckCollider();
                 isMoving = false;
             }
@@ -46,7 +47,8 @@ namespace PBLGame.MainGame
             {
                 isMoving = true;
                 Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
-                parentGameObject.Translate(new Vector3(-direction.Y * speed, 0f, -direction.X * speed));
+                parentGameObject.Translate(new Vector3(-direction.Y * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0f, 
+                    -direction.X * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds));
                 CheckCollider();
                 isMoving = false;
             }
@@ -57,7 +59,8 @@ namespace PBLGame.MainGame
             {
                 isMoving = true;
                 Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
-                parentGameObject.Translate(new Vector3(-direction.X * speed, 0f, direction.Y * speed));
+                parentGameObject.Translate(new Vector3(-direction.X * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0f, 
+                    direction.Y * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds));
                 CheckCollider();
                 isMoving = false;
             }
@@ -69,7 +72,8 @@ namespace PBLGame.MainGame
             {
                 isMoving = true;
                 Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
-                parentGameObject.Translate(new Vector3(direction.X * speed, 0f, -direction.Y * speed));
+                parentGameObject.Translate(new Vector3(direction.X * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0f,
+                    -direction.Y * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds));
                 CheckCollider();
                 isMoving = false;
             }

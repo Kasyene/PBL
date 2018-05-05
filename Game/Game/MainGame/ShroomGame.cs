@@ -253,7 +253,7 @@ namespace PBLGame
                     Vector3 scale;
                     Quaternion quat;
                     newModel.model.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
-                    Debug.WriteLine("Position of new model " + position + " Rotation " + quat);
+                  //  Debug.WriteLine("Position of new model " + position + " Rotation " + quat);
                     newObj.Position = position;
                     newObj.Scale = scale;
                     newObj.SetModelQuat(quat);
