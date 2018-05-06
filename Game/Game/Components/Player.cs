@@ -43,6 +43,10 @@ namespace PBLGame.MainGame
             {
                 MoveLeft(playerSpeed);
             }
+            else
+            {
+                parentGameObject.CollisionUpdate();
+            }
             Rotate(inputManager.Mouse.PositionsDelta.X * 0.01f);
         }
     }

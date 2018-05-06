@@ -36,7 +36,6 @@ namespace PBLGame.MainGame
             }
 
             base.Update(time);
-          // parentGameObject.CollisionUpdate();
         }
 
 
