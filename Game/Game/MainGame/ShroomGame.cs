@@ -32,6 +32,7 @@ namespace PBLGame
         public static RenderTarget2D shadowRenderTarget;
         public static RenderTarget2D screenRenderTarget;
 
+        private float gammaValue = 0.9f;
         private bool areCollidersAndTriggersSet;
         private int counterOfUpdatesToCreateCollidersAndTriggers = 0;
 
@@ -231,6 +232,7 @@ namespace PBLGame
             root.Draw(camera);
             GraphicsDevice.SetRenderTarget(null);
 
+            outlineEffect.Parameters["GammaValue"].SetValue(gammaValue);
             spriteBatch.Begin(0, BlendState.Opaque, null, null, null, outlineEffect);
             spriteBatch.Draw(screenRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();

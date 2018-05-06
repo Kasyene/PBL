@@ -9,6 +9,8 @@ float2 ScreenSize = float2(600, 600);
 float Thickness = 0.4f;
 float Threshold = 0.25f;
 
+float GammaValue = 1.0f;
+
 float getGray(float4 c)
 {
 	return(dot(c.rgb,((0.33333).xxx)));
@@ -85,7 +87,8 @@ float4 PixelShaderFunction(float4 pos : SV_POSITION, float4 color1 : COLOR0, flo
 		result = 0;
 	}
 	
-	return saturate(Color * Color * float4(result.xxxx));
+	Color = saturate(Color * Color * float4(result.xxxx));
+	return pow(Color, float4((1 / GammaValue).xxxx));
 }
 
 technique PostOutline
