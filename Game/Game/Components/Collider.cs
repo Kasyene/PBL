@@ -92,7 +92,7 @@ namespace PBLGame.SceneGraph
                     {
                         if (col.owner.tag == "Ground")
                         {
-                            col.owner.Parent.isGrounded = true;
+                            this.owner.Parent.isGrounded = true;
                         }
                         this.penetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
                         return col.owner;

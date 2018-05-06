@@ -151,7 +151,7 @@ namespace PBLGame
             heart2.Position = new Vector3(-15.0f, 4.0f, -10.0f);
             heart.Scale = new Vector3(0.2f);
             heart2.Scale = new Vector3(0.2f);
-            player.Position = new Vector3(0f, 3f, 0f);
+            player.Position = new Vector3(0f, 40f, 0f);
             player.RotationZ = 1.5f;
             player.Scale = new Vector3(0.4f);
 

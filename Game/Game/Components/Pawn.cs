@@ -28,7 +28,7 @@ namespace PBLGame.MainGame
             if (!parentGameObject.isGrounded)
             {
                 AccelerationDueToGravity = -0.05f;
-               //parentGameObject.Translate(new Vector3(0.0f, AccelerationDueToGravity * (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0.0f));
+                parentGameObject.Translate(new Vector3(0.0f, AccelerationDueToGravity * (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0.0f));
             }
             else
             {
