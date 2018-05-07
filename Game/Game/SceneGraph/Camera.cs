@@ -51,7 +51,7 @@ namespace PBLGame.SceneGraph
                 float aspectRatio = 1f;
                 float fieldOfView = Microsoft.Xna.Framework.MathHelper.PiOver4;
                 float nearClipPlane = 1;
-                float farClipPlane = 2000;
+                float farClipPlane = 4000;
                 return Matrix.CreatePerspectiveFieldOfView(fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
             }
         }

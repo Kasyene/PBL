@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using PBLGame.SceneGraph;
+using System.Diagnostics;
 
 namespace PBLGame.MainGame
 {
@@ -15,7 +16,7 @@ namespace PBLGame.MainGame
         private TextureCube skyBoxTexture;
         private Effect skyBoxEffect;
 
-        private float size = 10f;
+        public float size = 500f;
 
         public Skybox(string skyboxTexture, ContentManager Content)
         {

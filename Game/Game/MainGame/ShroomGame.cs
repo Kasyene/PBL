@@ -85,7 +85,7 @@ namespace PBLGame
             outlineEffect = Content.Load<Effect>("Outline");
             outlineEffect.Parameters["ScreenSize"].SetValue(
                new Vector2(GraphicsDevice.Viewport.Bounds.Width, GraphicsDevice.Viewport.Bounds.Height));
-            skybox = new Skybox("skybox/SkyBox", Content);
+            skybox = new Skybox("skybox/Sunset", Content);
             root = new GameObject();
             heart = new GameObject();
             heart2 = new GameObject();
@@ -253,8 +253,8 @@ namespace PBLGame
             Quaternion rotation;
             Vector3 cameraPosition;
             camera.WorldTransformations.Decompose(out scale, out rotation, out cameraPosition);
-            skybox.Draw(Matrix.CreateLookAt(camera.Position, new Vector3(0, 0, 0), Vector3.UnitY),
-                camera.ProjectionMatrix, camera.Position);
+            skybox.Draw(Matrix.CreateLookAt(cameraPosition, player.Position, Vector3.UnitY),
+                Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 1f, 0.1f, 4000f), cameraPosition - new Vector3(0f,0f,skybox.size/2));
             graphics.GraphicsDevice.RasterizerState = originalRasterizerState;
         }
 
