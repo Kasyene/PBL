@@ -32,7 +32,7 @@ namespace PBLGame
         public static RenderTarget2D shadowRenderTarget;
         public static RenderTarget2D screenRenderTarget;
 
-        private float gammaValue = 0.9f;
+        private float gammaValue = 1.1f;
         private bool areCollidersAndTriggersSet;
         private int counterOfUpdatesToCreateCollidersAndTriggers = 0;
 

@@ -12,7 +12,7 @@ texture ModelTexture;
 texture NormalMap;
 
 //General Light Values
-float AmbientIntensity = 0.7;
+float AmbientIntensity = 0.5;
 float SpecularIntensity = 0.1;
 float Shininess = 200;
 float BumpConstant = 1;
@@ -167,11 +167,22 @@ float PCF(float2 shadowCoords, float depth)
 			float shadowDepth = tex2D(shadowMapSampler, coords).r;
 			float B = (depth - bias);
 
-			shadowPart = shadowDepth < B ? 0.1f : 1.0f;
+			shadowPart = shadowDepth < B ? 0.0f : 1.0f;
 			shadow += shadowPart;
 		}
 	}
 	return shadow / 25.0f;
+}
+
+float Toonify(float intensity)
+{
+	float lightIntensity;
+	if (intensity > 0.95) lightIntensity = 1.0f;
+	else if (intensity > 0.5) lightIntensity = 0.7f;
+	else if (intensity > 0.05) lightIntensity = 0.3f;
+	else intensity = 0.0f;
+
+	return lightIntensity;
 }
 
 float4 DirectionalLightCalculation(VertexShaderOutput input)
@@ -181,8 +192,7 @@ float4 DirectionalLightCalculation(VertexShaderOutput input)
 	bumpNormal = normalize(bumpNormal);
 
 	float lightIntensity = dot(normalize(DirectionalLightDirection), bumpNormal);
-	if (lightIntensity < 0)
-		lightIntensity = 0;
+	lightIntensity = Toonify(lightIntensity);
 
 	float3 light = normalize(DirectionalLightDirection);
 	float dotProduct = dot(normalize(2 * dot(light, bumpNormal) * bumpNormal - light), normalize(mul(normalize(ViewVector), World)));
@@ -215,8 +225,7 @@ float4 PointLightCalculation(VertexShaderOutput input)
 		bumpNormal = normalize(bumpNormal);
 
 		float lightIntensity = dot(normalize(PointLightPosition[i] - input.WorldPos), bumpNormal);
-		if (lightIntensity < 0)
-			lightIntensity = 0;
+		lightIntensity = Toonify(lightIntensity);
 
 		float3 light = normalize(PointLightPosition[i] - input.WorldPos);
 
