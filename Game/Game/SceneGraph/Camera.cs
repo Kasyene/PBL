@@ -18,6 +18,7 @@ namespace PBLGame.SceneGraph
             inputManager = InputManager.Instance;
             visible = false;
             Position = new Vector3(0f, 0f, -400f);
+            RotationY = minYRotation;
             //colliders.Add(new Collider(new BoundingBox(), null, this));
             TransformationsOrder = TransformationOrder.ScalePositionRotation;
             
@@ -50,7 +51,7 @@ namespace PBLGame.SceneGraph
                 float aspectRatio = 1f;
                 float fieldOfView = Microsoft.Xna.Framework.MathHelper.PiOver4;
                 float nearClipPlane = 1;
-                float farClipPlane = 1000;
+                float farClipPlane = 2000;
                 return Matrix.CreatePerspectiveFieldOfView(fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
             }
         }

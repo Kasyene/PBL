@@ -58,6 +58,7 @@
     <Compile Include="Lights\DirectionalLight.cs" />
     <Compile Include="Lights\PointLight.cs" />
     <Compile Include="MainGame\GameServices.cs" />
+    <Compile Include="MainGame\Skybox.cs" />
     <Compile Include="Misc\Anim\AnimationPlayer.cs" />
     <Compile Include="Misc\Anim\Bone.cs" />
     <Compile Include="Misc\Resources.cs" />
@@ -81,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Outline.fx" />
+    <Content Include="Content\SkyboxShader.fx" />
     <Content Include="Content\Standard.fx" />
     <Content Include="Content\StandardAnimated.fx" />
     <Content Include="Icon.ico" />

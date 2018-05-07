@@ -24,6 +24,8 @@ namespace PBLGame
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Skybox skybox;
+
         private readonly InputManager inputManager;
         public static Texture2D missingTexture;
         public static Texture2D missingNormalMap;
@@ -83,6 +85,7 @@ namespace PBLGame
             outlineEffect = Content.Load<Effect>("Outline");
             outlineEffect.Parameters["ScreenSize"].SetValue(
                new Vector2(GraphicsDevice.Viewport.Bounds.Width, GraphicsDevice.Viewport.Bounds.Height));
+            skybox = new Skybox("skybox/SkyBox", Content);
             root = new GameObject();
             heart = new GameObject();
             heart2 = new GameObject();
@@ -228,7 +231,8 @@ namespace PBLGame
         void DrawWithShadow()
         {
             GraphicsDevice.SetRenderTarget(screenRenderTarget);
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            DrawSkybox();
+            //GraphicsDevice.Clear(Color.CornflowerBlue);
             root.Draw(camera);
             GraphicsDevice.SetRenderTarget(null);
 
@@ -236,6 +240,22 @@ namespace PBLGame
             spriteBatch.Begin(0, BlendState.Opaque, null, null, null, outlineEffect);
             spriteBatch.Draw(screenRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
+        }
+
+        void DrawSkybox()
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            RasterizerState originalRasterizerState = graphics.GraphicsDevice.RasterizerState;
+            RasterizerState rasterizerState = new RasterizerState();
+            rasterizerState.CullMode = CullMode.None;
+            graphics.GraphicsDevice.RasterizerState = rasterizerState;
+            Vector3 scale;
+            Quaternion rotation;
+            Vector3 cameraPosition;
+            camera.WorldTransformations.Decompose(out scale, out rotation, out cameraPosition);
+            skybox.Draw(Matrix.CreateLookAt(camera.Position, new Vector3(0, 0, 0), Vector3.UnitY),
+                camera.ProjectionMatrix, camera.Position);
+            graphics.GraphicsDevice.RasterizerState = originalRasterizerState;
         }
 
         private List<GameObject> SplitModelIntoSmallerPieces(Model bigModel, Texture2D bigTex = null, Texture2D bigNormalTex = null)
