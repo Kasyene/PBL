@@ -19,11 +19,12 @@ namespace PBLGame.SceneGraph
 
         public List<AnimationClip> AnimationClips => modelExtra.Clips;
 
-        public ModelAnimatedComponent(string _assetName, ContentManager contentManager, Effect _modelEffect, Texture2D _texture = null) : base(null, null)
+        public ModelAnimatedComponent(string _assetName, ContentManager contentManager, Effect _modelEffect, Texture2D _texture = null, Texture2D _normal = null) : base(null, null)
         {
             assetName = _assetName;
             modelEffect = _modelEffect;
             texture = _texture;
+            normalMap = _normal;
             LoadContent(contentManager);
         }
 

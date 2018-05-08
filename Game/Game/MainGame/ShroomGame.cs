@@ -111,18 +111,19 @@ namespace PBLGame
             Texture2D hierarchiaTex = Content.Load<Texture2D>("Level/level1Tex");
             Texture2D hierarchiaNormalTex = Content.Load<Texture2D>("Level/level1Normal");
             Texture2D playerTex = Content.Load<Texture2D>("models/player/borowikTex");
+            Texture2D playerNormal = Content.Load<Texture2D>("models/player/borowikNormal");
 
             // Load anim model
             player.AddChildNode(playerLeg);
             player.AddChildNode(playerHat);
             
             // models without anims have problems i guess ; /
-            playerLeg.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content, animatedEffect, playerTex));
-            playerHat.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content, animatedEffect, playerTex));
+            playerLeg.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content, animatedEffect, playerTex, playerNormal));
+            playerHat.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content, animatedEffect, playerTex, playerNormal));
             player.AddComponent(new Player(player));
 
-            playerLegWalk.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content, animatedEffect, playerTex));
-            playerHatWalk.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content, animatedEffect, playerTex));
+            playerLegWalk.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content, animatedEffect, playerTex, playerNormal));
+            playerHatWalk.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content, animatedEffect, playerTex, playerNormal));
 
             List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia, hierarchiaTex, hierarchiaNormalTex);
             CreateHierarchyOfLevel(hiererchyList, levelOne);
