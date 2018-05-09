@@ -32,8 +32,6 @@ float3 PointLightAttenuation[NUM_LIGHTS];
 float4 PointAmbientColor[NUM_LIGHTS];
 float4 PointSpecularColor[NUM_LIGHTS];
 float4x4 PointLightViewProj[NUM_LIGHTS];
-texture PointLightShadowCubeMap[NUM_LIGHTS];
-
 
 sampler2D textureSampler = sampler_state {
 	Texture = (ModelTexture);
@@ -53,10 +51,6 @@ sampler2D normalSampler = sampler_state {
 
 sampler2D shadowMapSampler = sampler_state {
 	Texture = <DirectionalShadowMap>;
-};
-
-samplerCUBE shadowCubeMapSampler = sampler_state {
-	Texture = <PointLightShadowCubeMap>;
 };
 
 struct VertexShaderInput

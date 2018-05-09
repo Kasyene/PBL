@@ -614,3 +614,10 @@
 /processorParam:TextureFormat=Color
 /build:models/player/borowikNormal.png
 
+#begin Dialogues.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Dialogues.spritefont
+

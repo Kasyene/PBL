@@ -53,6 +53,7 @@ namespace PBLGame
         Effect standardEffect;
         Effect animatedEffect;
         Effect outlineEffect;
+        SpriteFont dialoguesFont;
         const int shadowMapWidthHeight = 2048;
 
         public ShroomGame()
@@ -85,6 +86,7 @@ namespace PBLGame
             outlineEffect = Content.Load<Effect>("Outline");
             outlineEffect.Parameters["ScreenSize"].SetValue(
                new Vector2(GraphicsDevice.Viewport.Bounds.Width, GraphicsDevice.Viewport.Bounds.Height));
+            dialoguesFont = Content.Load<SpriteFont>("Dialogues");
             skybox = new Skybox("skybox/Sunset", Content);
             root = new GameObject();
             heart = new GameObject();
@@ -204,6 +206,8 @@ namespace PBLGame
             DrawWithShadow();
             //DrawShadowMapToScreen();
 
+            DrawText("I'm alive!");
+
             base.Draw(gameTime);
         }
 
@@ -257,6 +261,15 @@ namespace PBLGame
             skybox.Draw(Matrix.CreateLookAt(cameraPosition, player.Position, Vector3.UnitY),
                 Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 1f, 0.1f, 4000f), cameraPosition - new Vector3(0f,0f,skybox.size/2));
             graphics.GraphicsDevice.RasterizerState = originalRasterizerState;
+        }
+
+        void DrawText(string text)
+        {
+            spriteBatch.Begin();
+            spriteBatch.DrawString(dialoguesFont, text,
+                new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 50f),
+                Color.Snow, 0.0f, dialoguesFont.MeasureString(text)/2, 1.0f, SpriteEffects.None, 0.5f);
+            spriteBatch.End();
         }
 
         private List<GameObject> SplitModelIntoSmallerPieces(Model bigModel, Texture2D bigTex = null, Texture2D bigNormalTex = null)
