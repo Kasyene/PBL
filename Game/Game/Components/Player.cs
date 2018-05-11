@@ -11,6 +11,8 @@ namespace PBLGame.MainGame
     {
         private readonly InputManager inputManager;
         private float playerSpeed;
+        private int hp = 100;
+        private int timeEnergy = 100;
 
         public Player(GameObject parent) : base()
         {
@@ -48,6 +50,16 @@ namespace PBLGame.MainGame
                 parentGameObject.CollisionUpdate();
             }
             Rotate(inputManager.Mouse.PositionsDelta.X * 0.01f);
+        }
+
+        public int GetHP()
+        {
+            return hp;
+        }
+
+        public int GetTimeEnergy()
+        {
+            return timeEnergy;
         }
     }
 }

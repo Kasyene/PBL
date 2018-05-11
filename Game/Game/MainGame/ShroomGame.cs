@@ -38,6 +38,9 @@ namespace PBLGame
         private bool areCollidersAndTriggersSet;
         private int counterOfUpdatesToCreateCollidersAndTriggers = 0;
 
+        private Texture2D hpTexture;
+        private Texture2D timeTexture;
+
         GameObject root;
         GameObject heart;
         GameObject heart2;
@@ -114,6 +117,8 @@ namespace PBLGame
             Texture2D hierarchiaNormalTex = Content.Load<Texture2D>("Level/level1Normal");
             Texture2D playerTex = Content.Load<Texture2D>("models/player/borowikTex");
             Texture2D playerNormal = Content.Load<Texture2D>("models/player/borowikNormal");
+            hpTexture = apteczkaTexture;
+            timeTexture = playerNormal;
 
             // Load anim model
             player.AddChildNode(playerLeg);
@@ -204,10 +209,11 @@ namespace PBLGame
         {
             CreateShadowMap();
             DrawWithShadow();
-            //DrawShadowMapToScreen();
+
+            DrawHpBar();
+            DrawTimeBar();
 
             DrawText("I'm alive!");
-
             base.Draw(gameTime);
         }
 
@@ -221,16 +227,6 @@ namespace PBLGame
             GraphicsDevice.Clear(Color.White);
 
             root.Draw(camera, true);
-        }
-
-        void DrawShadowMapToScreen()
-        {
-            spriteBatch.Begin(0, BlendState.Opaque, SamplerState.PointClamp, null, null);
-            spriteBatch.Draw(shadowRenderTarget, new Rectangle(0, 0, 512, 512), Color.White);
-            spriteBatch.End();
-
-            GraphicsDevice.Textures[0] = null;
-            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
         }
 
         void DrawWithShadow()
@@ -269,6 +265,20 @@ namespace PBLGame
             spriteBatch.DrawString(dialoguesFont, text,
                 new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 50f),
                 Color.Snow, 0.0f, dialoguesFont.MeasureString(text)/2, 1.0f, SpriteEffects.None, 0.5f);
+            spriteBatch.End();
+        }
+
+        void DrawHpBar()
+        {
+            spriteBatch.Begin();
+            spriteBatch.Draw(hpTexture, new Rectangle(20, graphics.GraphicsDevice.Viewport.Height - 60, player.GetComponent<Player>().GetHP() * 2, 20), Color.White);
+            spriteBatch.End();
+        }
+
+        void DrawTimeBar()
+        {
+            spriteBatch.Begin();
+            spriteBatch.Draw(timeTexture, new Rectangle(20, graphics.GraphicsDevice.Viewport.Height - 30, player.GetComponent<Player>().GetTimeEnergy() * 2, 20), Color.White);
             spriteBatch.End();
         }
 
