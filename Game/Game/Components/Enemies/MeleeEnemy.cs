@@ -14,12 +14,14 @@ namespace Game.Components.Enemies
         {
             parentGameObject = parent;
             enemySpeed = 0.05f;
+            wakeUpDistance = 150f;
+            range = 10f;
         }
 
         protected override void EnemyBehaviour()
         {
             base.EnemyBehaviour();
-            if (distance < wakeUpDistance && heightDifference < 3.0f)
+            if (distance < wakeUpDistance && heightDifference < 5.0f)
             {
                 if (distance < range)
                 {
