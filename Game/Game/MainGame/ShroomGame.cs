@@ -213,25 +213,39 @@ namespace PBLGame
             {
                 Exit();
             }
+            // TEMP ANIMATION CHANGER
 
-            if (inputManager.Keyboard[Keys.Q])
-            {
-                playerHat.GetComponent<AnimationManager>().PlayAnimation("walk");
-                playerLeg.GetComponent<AnimationManager>().PlayAnimation("walk");
-            }
+          
+            //if (inputManager.Keyboard[Keys.Q])
+            //{
+            //    playerHat.GetComponent<AnimationManager>().PlayAnimation("walk");
+            //    playerLeg.GetComponent<AnimationManager>().PlayAnimation("walk");
+            //    anim = Anim.walk;
+            //}
 
-            if (inputManager.Keyboard[Keys.E])
+            if (inputManager.Keyboard[Keys.E] && playerHat.GetComponent<AnimationManager>().isReady)
             {
                 playerHat.GetComponent<AnimationManager>().PlayAnimation("slash");
                 playerLeg.GetComponent<AnimationManager>().PlayAnimation("slash");
+                playerHat.GetComponent<AnimationManager>().isReady = false;
+                playerLeg.GetComponent<AnimationManager>().isReady = false;
+
             }
 
-            if (inputManager.Keyboard[Keys.LeftShift])
+            if (inputManager.Keyboard[Keys.Q] && playerHat.GetComponent<AnimationManager>().isReady)
             {
                 playerHat.GetComponent<AnimationManager>().PlayAnimation("throw");
                 playerLeg.GetComponent<AnimationManager>().PlayAnimation("throw");
+                playerHat.GetComponent<AnimationManager>().isReady = false;
+                playerLeg.GetComponent<AnimationManager>().isReady = false;
             }
 
+            //if (inputManager.Keyboard[Keys.LeftAlt])
+            //{
+            //    playerHat.GetComponent<AnimationManager>().PlayAnimation("walk", true);
+            //    playerLeg.GetComponent<AnimationManager>().PlayAnimation("walk", true);
+            //    anim = Anim.walk;
+            //}
 
 
             base.Update(gameTime);

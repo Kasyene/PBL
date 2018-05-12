@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AnimationAux;
 using Microsoft.Xna.Framework;
 using PBLGame.SceneGraph;
@@ -13,18 +14,26 @@ namespace PBLGame.Misc.Anim
         private bool isLooping = false;
         private bool isAnimationUpdated = true;
 
+        public bool isReady { get; set; }
+
         private Queue<AnimationClip> animQueue = new Queue<AnimationClip>();
 
         private AnimationPlayer animationPlayer;
 
         private AnimationClip animationClip;
+        private AnimationClip animationClipDefault;
 
         private Dictionary<string, AnimationClip> animationClips = new Dictionary<string, AnimationClip>();
 
         public void PlayAnimation(string _key)
         {
             animQueue.Enqueue(animationClips[_key]);
-            isAnimationUpdated = false;
+
+            if (animationPlayer == null)
+            {
+                animationClipDefault = animationClips[_key];
+                animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClipDefault);
+            }
         }
 
         public void PlayAnimation(string _key, bool forceChange)
@@ -33,13 +42,9 @@ namespace PBLGame.Misc.Anim
             {
                 animQueue.Clear();
                 //animationPlayer?.Rewind();
-                animationClip = animationClips[_key];
-                animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClip);
-                animationPlayer.Looping = isLooping;
-                isAnimationUpdated = true;
+                animationClipDefault = animationClips[_key];
+                animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClipDefault);
                 
-                animQueue.Enqueue(animationClips[_key]);
-
             }
             else
             {
@@ -60,25 +65,22 @@ namespace PBLGame.Misc.Anim
 
         public override void Update(GameTime gameTime)
         {
-            if (animationPlayer?.Position >= animationPlayer?.Duration || animationPlayer == null)
+            animationPlayer.Looping = isLooping;
+
+            if (animationPlayer.Position >= animationPlayer.Duration)
             {
-                if (animQueue.Count > 1)
+                if (animQueue.Count > 0)
                 {
                     animationClip = animQueue.Dequeue();
                     animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClip);
                 }
-                else if (animQueue.Count == 1)
-                {
-                    animationClip = animQueue.Peek();
-                    animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClip);
-                }
                 else
                 {
-                    // SHRUG
+                    isReady = true;
+                    animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClipDefault);
                 }
             }
-            //base.Update(gameTime);
-
+            base.Update(gameTime);
         }
 
         public AnimationManager(GameObject _parent)
