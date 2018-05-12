@@ -142,6 +142,10 @@ namespace PBLGame
             playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaSlash", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "slash");
             playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszSlash", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "slash");
 
+            // THROW
+            playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaRzutKapeluszem", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "throw");
+            playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszRzutKapeluszem", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "throw");
+
             List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia, hierarchiaTex, hierarchiaNormalTex);
             CreateHierarchyOfLevel(hiererchyList, levelOne);
             AssignTagsForMapElements(hiererchyList);
@@ -221,6 +225,14 @@ namespace PBLGame
                 playerHat.GetComponent<AnimationManager>().PlayAnimation("slash");
                 playerLeg.GetComponent<AnimationManager>().PlayAnimation("slash");
             }
+
+            if (inputManager.Keyboard[Keys.LeftShift])
+            {
+                playerHat.GetComponent<AnimationManager>().PlayAnimation("throw");
+                playerLeg.GetComponent<AnimationManager>().PlayAnimation("throw");
+            }
+
+
 
             base.Update(gameTime);
         }

@@ -60,13 +60,22 @@ namespace PBLGame.Misc.Anim
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
+            if(animationPlayer != null)
+            if (animQueue.Count > 1)
+            {
+                animationPlayer.Looping = false;
+            }
+            else
+            {
+                animationPlayer.Looping = true;
+            }
+
             if (animationPlayer?.Position >= animationPlayer?.Duration || animationPlayer == null)
             {
                 if (animQueue.Count > 1)
                 {
                     animationClip = animQueue.Dequeue();
-                    isAnimationUpdated = true;
+                    //isAnimationUpdated = true;
                     animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClip);
                 }
                 else if (animQueue.Count == 1)
@@ -79,7 +88,8 @@ namespace PBLGame.Misc.Anim
                     // SHRUG
                 }
             }
-            
+            //base.Update(gameTime);
+
         }
 
         public AnimationManager(GameObject _parent)
