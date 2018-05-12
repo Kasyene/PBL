@@ -60,7 +60,7 @@
     <Compile Include="MainGame\DialogueString.cs" />
     <Compile Include="MainGame\GameServices.cs" />
     <Compile Include="MainGame\Skybox.cs" />
-    <Compile Include="Misc\Anim\AnimationManager.cs" />
+    <Compile Include="Components\AnimationManager.cs" />
     <Compile Include="Misc\Anim\AnimationPlayer.cs" />
     <Compile Include="Misc\Anim\Bone.cs" />
     <Compile Include="Misc\Resources.cs" />
