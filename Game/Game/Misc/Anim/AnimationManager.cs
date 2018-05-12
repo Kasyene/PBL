@@ -10,6 +10,8 @@ namespace PBLGame.Misc.Anim
     {
         private GameObject parent;
 
+        private bool isLooping = true;
+
         private AnimationPlayer animationPlayer;
 
         private AnimationClip animationClip;
@@ -18,7 +20,10 @@ namespace PBLGame.Misc.Anim
 
         public void PlayAnimation(string _key)
         {
+            //animationPlayer?.Rewind();
             animationClip = animationClips[_key];
+            animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClip);
+            animationPlayer.Looping = isLooping;
         }
 
         public void AddAnimation(AnimationClip _animClip, string _key)
@@ -33,14 +38,10 @@ namespace PBLGame.Misc.Anim
 
         public override void Update(GameTime gameTime)
         {
-            if (!ReferenceEquals(animationClip,animationPlayer.Clip))
-            {
-                animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClip);
-            }
             base.Update(gameTime);
         }
 
-        AnimationManager(GameObject _parent)
+        public AnimationManager(GameObject _parent)
         {
             parent = _parent;
         }

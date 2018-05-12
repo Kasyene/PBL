@@ -413,7 +413,7 @@ namespace PBLGame.SceneGraph
             }
         }
 
-        public T GetComponent<T>() where T : class
+        public T GetComponent<T>() where T : Component
         {
             if (this.HaveComponents)
             {

@@ -128,23 +128,28 @@ namespace PBLGame
             
             // models without anims have problems i guess ; /
             playerLeg.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content, animatedEffect, playerTex, playerNormal));
+            playerLeg.AddComponent(new AnimationManager(playerLeg));
             playerHat.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content, animatedEffect, playerTex, playerNormal));
+            playerHat.AddComponent(new AnimationManager(playerHat));
             player.AddComponent(new Player(player));
 
-            playerLegWalk.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content, animatedEffect, playerTex, playerNormal));
-            playerHatWalk.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content, animatedEffect, playerTex, playerNormal));
+            //anims TODO: CHANGE MODEL COMPONENT TO SOMETHING ELSE : )
+            // WALK
+            playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "walk");
+            playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "walk");
+
+            // ATTACK
+            playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaSlash", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "slash");
+            playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszSlash", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "slash");
 
             List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia, hierarchiaTex, hierarchiaNormalTex);
             CreateHierarchyOfLevel(hiererchyList, levelOne);
             AssignTagsForMapElements(hiererchyList);
 
             // TODO: ANIM LOAD SYSTEM / SELECTOR
-            AnimationClip animationClipLeg = playerLegWalk.GetComponent<ModelAnimatedComponent>().AnimationClips[0];
-            AnimationClip animationClipHat = playerHatWalk.GetComponent<ModelAnimatedComponent>().AnimationClips[0];
-            AnimationPlayer animationPlayerLeg = playerLeg.GetComponent<ModelAnimatedComponent>().PlayClip(animationClipLeg);
-            AnimationPlayer animationPlayerHat = playerHat.GetComponent<ModelAnimatedComponent>().PlayClip(animationClipHat);
-            animationPlayerLeg.Looping = true;
-            animationPlayerHat.Looping = true;
+            playerHat.GetComponent<AnimationManager>().PlayAnimation("walk");
+            playerLeg.GetComponent<AnimationManager>().PlayAnimation("walk");
+  
 
             // Add static models
             heart.AddComponent(new ModelComponent(apteczka, standardEffect, apteczkaTexture));
@@ -203,6 +208,18 @@ namespace PBLGame
             if (inputManager.Keyboard[Keys.Escape])
             {
                 Exit();
+            }
+
+            if (inputManager.Keyboard[Keys.Q])
+            {
+                playerHat.GetComponent<AnimationManager>().PlayAnimation("walk");
+                playerLeg.GetComponent<AnimationManager>().PlayAnimation("walk");
+            }
+
+            if (inputManager.Keyboard[Keys.E])
+            {
+                playerHat.GetComponent<AnimationManager>().PlayAnimation("slash");
+                playerLeg.GetComponent<AnimationManager>().PlayAnimation("slash");
             }
 
             base.Update(gameTime);
