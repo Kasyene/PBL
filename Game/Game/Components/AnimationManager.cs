@@ -65,21 +65,25 @@ namespace PBLGame.Misc.Anim
 
         public override void Update(GameTime gameTime)
         {
-            animationPlayer.Looping = isLooping;
-
-            if (animationPlayer.Position >= animationPlayer.Duration)
+            if (animationPlayer != null)
             {
-                if (animQueue.Count > 0)
+                animationPlayer.Looping = isLooping;
+
+                if (animationPlayer.Position >= animationPlayer.Duration)
                 {
-                    animationClip = animQueue.Dequeue();
-                    animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClip);
-                }
-                else
-                {
-                    isReady = true;
-                    animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClipDefault);
+                    if (animQueue.Count > 0)
+                    {
+                        animationClip = animQueue.Dequeue();
+                        animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClip);
+                    }
+                    else
+                    {
+                        isReady = true;
+                        animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClipDefault);
+                    }
                 }
             }
+           
             base.Update(gameTime);
         }
 
