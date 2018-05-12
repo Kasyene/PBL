@@ -38,6 +38,8 @@ namespace PBLGame
         private bool areCollidersAndTriggersSet;
         private int counterOfUpdatesToCreateCollidersAndTriggers = 0;
 
+        private float textDisplayTime = 3f;
+        private string actualDialogueText = "";
         private Texture2D hpTexture;
         private Texture2D timeTexture;
 
@@ -165,6 +167,7 @@ namespace PBLGame
             player.Position = new Vector3(0f, 40f, 0f);
             player.RotationZ = 1.5f;
             player.Scale = new Vector3(0.4f);
+            new DialogueString("I not have too much time, I need to find Borowikus quickly, there is no time to waste");
 
         }
 
@@ -213,7 +216,7 @@ namespace PBLGame
             DrawHpBar();
             DrawTimeBar();
 
-            DrawText("I'm alive!");
+            DrawText(gameTime);
             base.Draw(gameTime);
         }
 
@@ -233,7 +236,6 @@ namespace PBLGame
         {
             GraphicsDevice.SetRenderTarget(screenRenderTarget);
             DrawSkybox();
-            //GraphicsDevice.Clear(Color.CornflowerBlue);
             root.Draw(camera);
             GraphicsDevice.SetRenderTarget(null);
 
@@ -259,12 +261,18 @@ namespace PBLGame
             graphics.GraphicsDevice.RasterizerState = originalRasterizerState;
         }
 
-        void DrawText(string text)
+        void DrawText(GameTime gameTime)
         {
+            textDisplayTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if(textDisplayTime < 0f || actualDialogueText == "")
+            {
+                actualDialogueText = DialogueString.GetActualDialogueString();
+                textDisplayTime = 3f;
+            }            
             spriteBatch.Begin();
-            spriteBatch.DrawString(dialoguesFont, text,
+            spriteBatch.DrawString(dialoguesFont, actualDialogueText,
                 new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 50f),
-                Color.Snow, 0.0f, dialoguesFont.MeasureString(text)/2, 1.0f, SpriteEffects.None, 0.5f);
+                Color.Snow, 0.0f, dialoguesFont.MeasureString(actualDialogueText) /2, 1.0f, SpriteEffects.None, 0.5f);
             spriteBatch.End();
         }
 
