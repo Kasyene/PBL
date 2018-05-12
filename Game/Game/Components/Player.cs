@@ -27,6 +27,11 @@ namespace PBLGame.MainGame
             PlayerMovement();     
         }
 
+        public Player GetPlayer()
+        {
+            return this;
+        }
+
         private void PlayerMovement()
         {
             if (inputManager.Keyboard[Keys.W])

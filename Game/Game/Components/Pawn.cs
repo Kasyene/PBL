@@ -12,7 +12,7 @@ namespace PBLGame.MainGame
         public float AccelerationDueToGravity;
         protected GameObject parentGameObject;
         protected Vector3 lastPosition;
-        public int Hp { get; internal set; }
+        public int Hp { get; internal set; } = 10;
         public Pawn() : base()
         {
             lastPosition = new Vector3(0f, 0f, 0f);

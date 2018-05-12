@@ -14,6 +14,8 @@ using PBLGame.Misc;
 using PBLGame.Misc.Anim;
 using PBLGame.SceneGraph;
 using System.IO;
+using Game.Components;
+using Game.Components.Enemies;
 
 namespace PBLGame
 {
@@ -53,6 +55,11 @@ namespace PBLGame
         GameObject playerHat;
         GameObject playerLegWalk;
         GameObject playerHatWalk;
+        GameObject enemy1;
+        GameObject meleeEnemyLeg;
+        GameObject meleeEnemyHat;
+        GameObject meleeEnemyLegWalk;
+        GameObject meleeEnemyHatWalk;
         Camera camera;
 
         Effect standardEffect;
@@ -104,6 +111,11 @@ namespace PBLGame
             playerLegWalk = new GameObject("Leg");
             playerHatWalk = new GameObject("Hat");
 
+            enemy1 = new GameObject();
+            meleeEnemyHat = new GameObject("Hat");
+            meleeEnemyHatWalk = new GameObject("Hat");
+            meleeEnemyLeg = new GameObject("Leg");
+            meleeEnemyLegWalk = new GameObject("Leg");
 
             camera = new Camera();
             camera.SetCameraTarget(player);
@@ -119,12 +131,16 @@ namespace PBLGame
             Texture2D hierarchiaNormalTex = Content.Load<Texture2D>("Level/level1Normal");
             Texture2D playerTex = Content.Load<Texture2D>("models/player/borowikTex");
             Texture2D playerNormal = Content.Load<Texture2D>("models/player/borowikNormal");
+            Texture2D rangedEnemyTex = Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyTex");
+            Texture2D rangedEnemyNormal = Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyNormal");
             hpTexture = apteczkaTexture;
             timeTexture = playerNormal;
 
             // Load anim model
             player.AddChildNode(playerLeg);
             player.AddChildNode(playerHat);
+            enemy1.AddChildNode(meleeEnemyLeg);
+            enemy1.AddChildNode(meleeEnemyHat);
             
             // models without anims have problems i guess ; /
             playerLeg.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content, animatedEffect, playerTex, playerNormal));
@@ -132,6 +148,11 @@ namespace PBLGame
             playerHat.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content, animatedEffect, playerTex, playerNormal));
             playerHat.AddComponent(new AnimationManager(playerHat));
             player.AddComponent(new Player(player));
+            meleeEnemyLeg.AddComponent(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaChod", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal));
+            meleeEnemyLeg.AddComponent(new AnimationManager(meleeEnemyLeg));
+            meleeEnemyHat.AddComponent(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszChod", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal));
+            meleeEnemyHat.AddComponent(new AnimationManager(meleeEnemyHat));
+            enemy1.AddComponent(new MeleeEnemy(enemy1));
 
             //anims TODO: CHANGE MODEL COMPONENT TO SOMETHING ELSE : )
             // WALK
@@ -165,6 +186,7 @@ namespace PBLGame
             root.AddChildNode(heart);
             root.AddChildNode(heart2);
             root.AddChildNode(player);
+            root.AddChildNode(enemy1);
             root.AddChildNode(levelOne);
             player.AddChildNode(camera);
             heart.TransformationsOrder = TransformationOrder.ScalePositionRotation;
@@ -174,8 +196,11 @@ namespace PBLGame
             heart.Scale = new Vector3(0.2f);
             heart2.Scale = new Vector3(0.2f);
             player.Position = new Vector3(0f, 40f, 0f);
+            enemy1.Position = new Vector3(-8f, 3f, -150f);
+            enemy1.Scale = new Vector3(0.4f);
             player.RotationZ = 1.5f;
             player.Scale = new Vector3(0.4f);
+            GameServices.AddService(player);
             new DialogueString("I not have too much time, I need to find Borowikus quickly, there is no time to waste");
 
         }
@@ -200,7 +225,6 @@ namespace PBLGame
                 }
             }
 
-
             // Our Timer Class
             Timer.Update(gameTime);
             inputManager.Update();
@@ -208,6 +232,7 @@ namespace PBLGame
             // Player update
             player.Update();
             player.Update(gameTime);
+            enemy1.Update(gameTime);
 
             if (inputManager.Keyboard[Keys.Escape])
             {
