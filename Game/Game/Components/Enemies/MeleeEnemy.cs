@@ -15,7 +15,7 @@ namespace Game.Components.Enemies
             parentGameObject = parent;
             enemySpeed = 0.05f;
             wakeUpDistance = 150f;
-            range = 10f;
+            range = 15f;
         }
 
         protected override void EnemyBehaviour()
