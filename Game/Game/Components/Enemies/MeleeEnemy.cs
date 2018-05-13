@@ -26,11 +26,16 @@ namespace Game.Components.Enemies
                 if (distance < range)
                 {
                     Attack();
+                    parentGameObject.CollisionUpdate();
                 }
                 else
                 {
                     Movement();
                 }
+            }
+            else
+            {
+                parentGameObject.CollisionUpdate();
             }
         }
 
