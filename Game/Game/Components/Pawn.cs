@@ -107,5 +107,15 @@ namespace PBLGame.MainGame
         {
             parentGameObject.RotationZ += angle;
         }
+
+        protected void LookAtTarget(Vector3 targetPosition, Vector3 position)
+        {
+            float x = position.X - targetPosition.X;
+            float z = position.Z - targetPosition.Z;
+
+            float desiredAngle = (float)System.Math.Atan2(z, x);
+
+            parentGameObject.RotationZ = -desiredAngle + MathHelper.Pi + MathHelper.PiOver2;
+        }
     }
 }

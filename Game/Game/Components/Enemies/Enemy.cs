@@ -39,7 +39,7 @@ namespace Game.Components
         protected virtual void EnemyBehaviour()
         {
             Vector3 playerPosition = GameServices.GetService<GameObject>().Position;
-            //transform.LookAt(playerPosition);
+            LookAtTarget(playerPosition, parentGameObject.Position);
             distance = Vector3.Distance(playerPosition, this.parentGameObject.Position);
             heightDifference = System.Math.Abs(playerPosition.Y - this.parentGameObject.Position.Y);
         }
