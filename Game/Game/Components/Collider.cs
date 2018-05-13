@@ -88,6 +88,14 @@ namespace PBLGame.SceneGraph
                 {
                     if (IsCollision(col))
                     {
+                        if ((this.isCollider && this.isTrigger) || (col.isCollider && col.isTrigger))
+                        {
+                            if (col.owner.tag != "Ground" && col.owner.tag != "Wall")
+                            {
+                                Debug.WriteLine("TriggerCollider interaction");
+                                return null;
+                            }
+                        }
                         this.penetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
                         if (col.owner.tag == "Ground")
                         {
