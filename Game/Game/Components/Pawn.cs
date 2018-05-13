@@ -3,6 +3,7 @@ using Game.Misc.Time;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PBLGame.SceneGraph;
+using Game = Microsoft.Xna.Framework.Game;
 
 namespace PBLGame.MainGame
 {
@@ -94,7 +95,8 @@ namespace PBLGame.MainGame
         {
             foreach (Collider col in parentGameObject.colliders)
             {
-                if (col.CollisionUpdate() != null)
+                GameObject temp = col.CollisionUpdate();
+                if ( temp != null && temp.Parent.tag != "Ground")
                 {
                     parentGameObject.Position = parentGameObject.Position - col.penetrationDepth;
                 }

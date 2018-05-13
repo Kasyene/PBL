@@ -25,8 +25,8 @@ namespace Game.Components.Enemies
             {
                 if (distance < range)
                 {
-                    Attack();
                     parentGameObject.CollisionUpdate();
+                    Attack();
                 }
                 else
                 {

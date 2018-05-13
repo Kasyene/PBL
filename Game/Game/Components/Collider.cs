@@ -66,15 +66,13 @@ namespace PBLGame.SceneGraph
             }
             if (boundingBox.Intersects(other.boundingBox))
             {
-                if (other.isTrigger)
+                if (other.isTrigger && !other.isCollider)
                 {
-                    Debug.WriteLine("interakcja z sercem");
                     other.isTrigger = false;
                     other.isReadyToBeDisposed = true;
                     other.owner.Dispose();
                     return false;
                 }
-            //    System.Diagnostics.Debug.WriteLine("Collision " + DateTime.Now);
                 return true;
             }
 
@@ -90,11 +88,12 @@ namespace PBLGame.SceneGraph
                 {
                     if (IsCollision(col))
                     {
+                        this.penetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
                         if (col.owner.tag == "Ground")
                         {
                             this.owner.Parent.isGrounded = true;
+                            this.owner.Parent.Position = this.owner.Parent.Position - this.penetrationDepth;
                         }
-                        this.penetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
                         return col.owner;
                     }
                     else

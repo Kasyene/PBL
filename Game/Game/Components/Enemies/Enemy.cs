@@ -32,7 +32,7 @@ namespace Game.Components
         }
         public override void Update(GameTime time)
         {
-           // base.Update(time);
+            base.Update(time);
             CheckIfDead();
             EnemyBehaviour();
         }

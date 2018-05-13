@@ -502,6 +502,15 @@ namespace PBLGame.SceneGraph
             }
         }
 
+        public void SetAsColliderAndTrigger()
+        {
+            foreach (var col in colliders)
+            {
+                col.isTrigger = true;
+                col.isCollider = true;
+            }
+        }
+
         public void Dispose()
         {
             parent?.childs.Remove(this);

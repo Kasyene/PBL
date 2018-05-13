@@ -105,13 +105,13 @@ namespace PBLGame
             heart2 = new GameObject();
             levelOne = new GameObject();
 
-            player = new GameObject();
+            player = new GameObject("player");
             playerLeg = new GameObject("Leg");
             playerHat = new GameObject("Hat");
             playerLegWalk = new GameObject("Leg");
             playerHatWalk = new GameObject("Hat");
 
-            enemy1 = new GameObject();
+            enemy1 = new GameObject("enemy1");
             meleeEnemyHat = new GameObject("Hat");
             meleeEnemyHatWalk = new GameObject("Hat");
             meleeEnemyLeg = new GameObject("Leg");
@@ -196,7 +196,7 @@ namespace PBLGame
             heart.Scale = new Vector3(0.2f);
             heart2.Scale = new Vector3(0.2f);
             player.Position = new Vector3(0f, 40f, 0f);
-            enemy1.Position = new Vector3(-8f, 3f, -150f);
+            enemy1.Position = new Vector3(-8f, 40f, -150f);
             enemy1.Scale = new Vector3(0.4f);
             player.RotationZ = 1.5f;
             player.Scale = new Vector3(0.4f);
@@ -219,6 +219,8 @@ namespace PBLGame
                 if (counterOfUpdatesToCreateCollidersAndTriggers > 10)
                 {
                     root.CreateColliders();
+                    playerHat.SetAsColliderAndTrigger();
+                    meleeEnemyHat.SetAsColliderAndTrigger();
                     heart.SetAsTrigger();
                     heart2.SetAsTrigger();
                     areCollidersAndTriggersSet = true;
