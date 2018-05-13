@@ -1,0 +1,7 @@
+mgcb finished with exit code = 1: Std output:
+Build started 2018-04-24 20:17:09C:/Users/Marcin/Desktop/Modelviewer v0_6/Modelviewer v0_6/Old_Man_Fixed_Anim.fbxC:/Users/Marcin/Desktop/Modelviewer v0_6/Modelviewer v0_6/Old_Man_Fixed_Anim.fbx: error: Importer 'FbxImporter' had unexpected failure!Assimp.AssimpException: Error importing file: FBX-Tokenize (offset 0x34) block offset is out of range   w Assimp.AssimpContext.ImportFile(String file, PostProcessSteps postProcessFlags)   w Microsoft.Xna.Framework.Content.Pipeline.OpenAssetImporter.Import(String filename, ContentImporterContext context)   w Microsoft.Xna.Framework.Content.Pipeline.FbxImporter.Import(String filename, ContentImporterContext context)   w Microsoft.Xna.Framework.Content.Pipeline.ContentImporter`1.Microsoft.Xna.Framework.Content.Pipeline.IContentImporter.Import(String filename, ContentImporterContext context)   w MonoGame.Framework.Content.Pipeline.Builder.PipelineManager.ProcessContent(PipelineBuildEvent pipelineEvent)Build 0 succeeded, 1 failed.Time elapsed 00:00:00.13.
+
+er.ProcessContent(PipelineBuildEvent pipelineEvent)Build 0 succeeded, 1 failed.Time elapsed 00:00:00.21.
+
+imationProcessor'Build 0 succeeded, 1 failed.Time elapsed 00:00:00.41.
+
