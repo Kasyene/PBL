@@ -34,19 +34,43 @@ namespace PBLGame.MainGame
 
         private void PlayerMovement()
         {
-            if (inputManager.Keyboard[Keys.W])
+            if (inputManager.Keyboard[Keys.W] && inputManager.Keyboard[Keys.A])
             {
-                MoveForward(playerSpeed);              
+                MoveWA(playerSpeed);
             }
-            if (inputManager.Keyboard[Keys.S])
+            else if (inputManager.Keyboard[Keys.W] && inputManager.Keyboard[Keys.D])
+            {
+                MoveWD(playerSpeed);
+            }
+            else if (inputManager.Keyboard[Keys.S] && inputManager.Keyboard[Keys.A])
+            {
+                MoveSA(playerSpeed);
+            }
+            else if (inputManager.Keyboard[Keys.S] && inputManager.Keyboard[Keys.D])
+            {
+                MoveSD(playerSpeed);
+            }
+            else if (inputManager.Keyboard[Keys.A] && inputManager.Keyboard[Keys.D])
+            {
+                return;
+            }
+            else if (inputManager.Keyboard[Keys.W] && inputManager.Keyboard[Keys.S])
+            {
+                return;
+            }
+            else if (inputManager.Keyboard[Keys.W])
+            {
+                MoveForward(playerSpeed);
+            }
+            else if (inputManager.Keyboard[Keys.S])
             {
                 MoveBack(playerSpeed);
             }
-            if (inputManager.Keyboard[Keys.A])
+            else if (inputManager.Keyboard[Keys.A])
             {
                 MoveRight(playerSpeed);
             }
-            if (inputManager.Keyboard[Keys.D])
+            else if (inputManager.Keyboard[Keys.D])
             {
                 MoveLeft(playerSpeed);
             }

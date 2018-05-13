@@ -91,6 +91,53 @@ namespace PBLGame.MainGame
             }
         }
 
+        protected void MoveWA(float speed)
+        {
+            if (!isMoving)
+            {
+                isMoving = true;
+                Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
+                parentGameObject.Translate(new Vector3(((direction.Y + direction.X) * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds)/1.5f, 0f, ((direction.X - direction.Y) * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds))/1.5f);
+                CheckCollider();
+                isMoving = false;
+            }
+        }
+
+        protected void MoveWD(float speed)
+        {
+            if (!isMoving)
+            {
+                isMoving = true;
+                Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
+                parentGameObject.Translate(new Vector3(((direction.Y - direction.X) * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds) / 1.5f, 0f, ((direction.X + direction.Y) * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds)) / 1.5f);
+                CheckCollider();
+                isMoving = false;
+            }
+        }
+
+        protected void MoveSA(float speed)
+        {
+            if (!isMoving)
+            {
+                isMoving = true;
+                Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
+                parentGameObject.Translate(new Vector3(((-direction.Y + direction.X) * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds) / 1.5f, 0f, ((-direction.X - direction.Y) * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds)) / 1.5f);
+                isMoving = false;
+            }
+        }
+
+        protected void MoveSD(float speed)
+        {
+            if (!isMoving)
+            {
+                isMoving = true;
+                Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
+                parentGameObject.Translate(new Vector3(((- direction.Y - direction.X) * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds) / 1.5f, 0f, ((- direction.X + direction.Y) * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds)) / 1.5f);
+                CheckCollider();
+                isMoving = false;
+            }
+        }
+
         protected void CheckCollider()
         {
             foreach (Collider col in parentGameObject.colliders)
