@@ -436,7 +436,7 @@ namespace PBLGame
 
             List<String> Walle = new List<string>();
             Walle.Add("brama");
-            Walle.Add("sciany");
+            Walle.Add("strefa");
             Walle.Add("sciany");
             Walle.Add("podpory");
             Walle.Add("wieza");
@@ -453,13 +453,13 @@ namespace PBLGame
                 if (gameObj.tag != tag && otagowaneNazwy.Any(s => gameObj.name.Contains(s)))
                 {
                     gameObj.tag = tag;
-                 //   Debug.WriteLine(gameObj.tag);
+                    //   Debug.WriteLine(gameObj.tag);
                     if (gameObj.childs.Count > 0)
                     {
                         foreach (var gameObjChild in gameObj.childs)
                         {
                             gameObjChild.tag = tag;
-                         //   Debug.WriteLine(gameObjChild.tag);
+                            //   Debug.WriteLine(gameObjChild.tag);
                         }
                     }
                 }
