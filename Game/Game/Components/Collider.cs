@@ -102,8 +102,11 @@ namespace PBLGame.SceneGraph
                             this.owner.Parent.isGrounded = true;
                             this.owner.Parent.Position = this.owner.Parent.Position - this.penetrationDepth;
                         }
-                        this.penetrationDepth.Y = 0.0f;
-                        return col.owner;
+                        else
+                        {
+                            this.penetrationDepth.Y = 0.0f;
+                            return col.owner;
+                        }
                     }
                     else
                     {
