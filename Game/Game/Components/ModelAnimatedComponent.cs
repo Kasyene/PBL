@@ -108,6 +108,39 @@ namespace PBLGame.SceneGraph
             }
         }
 
+        public override BoundingBox GetBoundingBox(GameObject parent, Matrix localTransformations, Matrix worldTransformations)
+        {
+            Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+            Vector3 max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+
+            Matrix[] transforms = new Matrix[model.Bones.Count];
+            //System.Diagnostics.Debug.WriteLine(model.Bones.Count);
+            model.CopyAbsoluteBoneTransformsTo(transforms);
+            int it = 1;
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                System.Diagnostics.Debug.WriteLine(it);
+                it++;
+                foreach (ModelMeshPart meshPart in mesh.MeshParts)
+                {
+                    int vertexStride = meshPart.VertexBuffer.VertexDeclaration.VertexStride;
+                    int vertexBufferSize = meshPart.NumVertices * vertexStride;
+
+                    float[] vertexData = new float[vertexBufferSize / sizeof(float)];
+                    meshPart.VertexBuffer.GetData<float>(vertexData);
+
+                    for (int i = 0; i < vertexBufferSize / sizeof(float); i += vertexStride / sizeof(float))
+                    {
+                        Vector3 currPosition = new Vector3(vertexData[i], vertexData[i + 1], vertexData[i + 2]);
+                        currPosition = Vector3.Transform(currPosition, worldTransformations * transforms[mesh.ParentBone.Index]);
+                        min = Vector3.Min(min, currPosition);
+                        max = Vector3.Max(max, currPosition);
+                    }
+                }
+            }
+            return new BoundingBox(min, max);
+        }
+
         public override void Update(GameTime gameTime)
         {
             animationPlayer?.Update(gameTime);
