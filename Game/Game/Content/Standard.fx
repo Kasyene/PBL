@@ -135,6 +135,7 @@ float Toonify(float intensity)
 	else if (intensity > 0.05) lightIntensity = 0.3f;
 	else intensity = 0.0f;
 
+	lightIntensity = max(0.02, lightIntensity);
 	return lightIntensity;
 }
 
@@ -153,17 +154,21 @@ float4 DirectionalLightCalculation(VertexShaderOutput input)
 
 	float4 ambient = diffuseColor * DirectionalAmbientColor * AmbientIntensity;
 	float4 specular = SpecularIntensity * DirectionalSpecularColor * max(pow(dotProduct, Shininess), 0);
+	specular = saturate(specular);
 	float4 diffuse = diffuseColor * lightIntensity;
 
 	float4 lightingPosition = mul(input.WorldPos, DirectionalLightViewProj);
 
-	float2 shadowTexCoord = 0.5 * lightingPosition.xy /lightingPosition.w + float2(0.5, 0.5);
+	float2 shadowTexCoord = 0.5 * lightingPosition.xy / lightingPosition.w + float2(0.5, 0.5);
 	shadowTexCoord.y = 1.0f - shadowTexCoord.y;
 	float ourdepth = (lightingPosition.z / lightingPosition.w);
 
 	float shadow = PCF(shadowTexCoord, ourdepth);
+	shadow = max(0.3f, shadow);
 
-	return saturate(ambient + (shadow) * (diffuse + specular));
+	float4 finalColor = ambient + shadow * (diffuse + specular);
+	finalColor = max(0, finalColor);
+	return finalColor;
 }
 
 float4 PointLightCalculation(VertexShaderOutput input)
@@ -192,7 +197,10 @@ float4 PointLightCalculation(VertexShaderOutput input)
 		specular += SpecularIntensity * PointSpecularColor[i] * max(pow(dotProduct, Shininess), 0) * att;
 		diffuse += diffuseColor * att * lightIntensity;
 	}
-	return saturate(diffuse + ambient + specular);
+	specular = saturate(specular);
+	float4 finalColor = ambient + diffuse + specular;
+	finalColor = max(0, finalColor);
+	return finalColor;
 }
 
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
@@ -205,11 +213,11 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 
 technique Draw
 {
-    pass Pass1
-    {
-        VertexShader = compile vs_4_0 VertexShaderFunction();
-        PixelShader = compile ps_4_0 PixelShaderFunction();
-    }
+	pass Pass1
+	{
+		VertexShader = compile vs_4_0 VertexShaderFunction();
+		PixelShader = compile ps_4_0 PixelShaderFunction();
+	}
 }
 
 technique CreateShadowMap
