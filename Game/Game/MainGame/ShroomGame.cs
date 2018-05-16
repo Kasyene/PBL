@@ -247,6 +247,7 @@ namespace PBLGame
                 Exit();
             }
             // TEMP ANIMATION CHANGER
+            // TODO: CREATE ANIMATION CHANGING CLASS N' METHODS :)
 
             if (inputManager.Mouse[SupportedMouseButtons.Left].WasPressed && playerHat.GetComponent<AnimationManager>().isReady)
             {
@@ -260,7 +261,7 @@ namespace PBLGame
                 playerLeg.GetComponent<AnimationManager>().PlayAnimation("throw");
             }
 
-            if (inputManager.Keyboard[Keys.W].IsDown)
+            if (inputManager.Keyboard[Keys.W].IsDown || inputManager.Keyboard[Keys.S].IsDown || inputManager.Keyboard[Keys.A].IsDown || inputManager.Keyboard[Keys.D].IsDown)
             {
                 if (playerHat.GetComponent<AnimationManager>().defaultKey != "walk")
                 {
