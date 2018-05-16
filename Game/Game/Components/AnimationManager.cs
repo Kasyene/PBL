@@ -16,6 +16,8 @@ namespace PBLGame.Misc.Anim
 
         public bool isReady { get; set; }
 
+        public string defaultKey {get; private set; }
+
         private Queue<AnimationClip> animQueue = new Queue<AnimationClip>();
 
         private AnimationPlayer animationPlayer;
@@ -25,13 +27,21 @@ namespace PBLGame.Misc.Anim
 
         private Dictionary<string, AnimationClip> animationClips = new Dictionary<string, AnimationClip>();
 
+        public void SetDefaultAnimation(string _key)
+        {
+            animationClipDefault = animationClips[_key];
+            defaultKey = _key;
+        }
+
         public void PlayAnimation(string _key)
         {
             animQueue.Enqueue(animationClips[_key]);
+            isReady = false;
 
             if (animationPlayer == null)
             {
                 animationClipDefault = animationClips[_key];
+                defaultKey = _key;
                 animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClipDefault);
             }
         }
@@ -40,10 +50,11 @@ namespace PBLGame.Misc.Anim
         {
             if (forceChange)
             {
+                // TODO: FINISH CODE FOR SPECIFIC CASE SCENARIO
                 animQueue.Clear();
                 //animationPlayer?.Rewind();
-                animationClipDefault = animationClips[_key];
-                animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClipDefault);
+                //animationClipDefault = animationClips[_key];
+                //animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClipDefault);
                 
             }
             else
@@ -71,6 +82,8 @@ namespace PBLGame.Misc.Anim
 
                 if (animationPlayer.Position >= animationPlayer.Duration)
                 {
+                    isReady = true;
+
                     if (animQueue.Count > 0)
                     {
                         animationClip = animQueue.Dequeue();
@@ -78,7 +91,6 @@ namespace PBLGame.Misc.Anim
                     }
                     else
                     {
-                        isReady = true;
                         animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClipDefault);
                     }
                 }

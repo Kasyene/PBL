@@ -16,6 +16,7 @@ using PBLGame.SceneGraph;
 using System.IO;
 using Game.Components;
 using Game.Components.Enemies;
+using PBLGame.Input.Devices;
 
 namespace PBLGame
 {
@@ -155,6 +156,11 @@ namespace PBLGame
             enemy1.AddComponent(new MeleeEnemy(enemy1));
 
             //anims TODO: CHANGE MODEL COMPONENT TO SOMETHING ELSE : )
+
+            // IDLE
+            playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaIdle", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "idle");
+            playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszIdle", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "idle");
+
             // WALK
             playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "walk");
             playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "walk");
@@ -172,8 +178,8 @@ namespace PBLGame
             AssignTagsForMapElements(hiererchyList);
 
             // TODO: ANIM LOAD SYSTEM / SELECTOR
-            playerHat.GetComponent<AnimationManager>().PlayAnimation("walk");
-            playerLeg.GetComponent<AnimationManager>().PlayAnimation("walk");
+            playerHat.GetComponent<AnimationManager>().PlayAnimation("idle");
+            playerLeg.GetComponent<AnimationManager>().PlayAnimation("idle");
   
 
             // Add static models
@@ -242,38 +248,32 @@ namespace PBLGame
             }
             // TEMP ANIMATION CHANGER
 
-          
-            //if (inputManager.Keyboard[Keys.Q])
-            //{
-            //    playerHat.GetComponent<AnimationManager>().PlayAnimation("walk");
-            //    playerLeg.GetComponent<AnimationManager>().PlayAnimation("walk");
-            //    anim = Anim.walk;
-            //}
-
-            if (inputManager.Keyboard[Keys.E] && playerHat.GetComponent<AnimationManager>().isReady)
+            if (inputManager.Mouse[SupportedMouseButtons.Left].WasPressed && playerHat.GetComponent<AnimationManager>().isReady)
             {
                 playerHat.GetComponent<AnimationManager>().PlayAnimation("slash");
                 playerLeg.GetComponent<AnimationManager>().PlayAnimation("slash");
-                playerHat.GetComponent<AnimationManager>().isReady = false;
-                playerLeg.GetComponent<AnimationManager>().isReady = false;
-
             }
 
-            if (inputManager.Keyboard[Keys.Q] && playerHat.GetComponent<AnimationManager>().isReady)
+            if (inputManager.Mouse[SupportedMouseButtons.Right].WasPressed && playerHat.GetComponent<AnimationManager>().isReady)
             {
                 playerHat.GetComponent<AnimationManager>().PlayAnimation("throw");
                 playerLeg.GetComponent<AnimationManager>().PlayAnimation("throw");
-                playerHat.GetComponent<AnimationManager>().isReady = false;
-                playerLeg.GetComponent<AnimationManager>().isReady = false;
             }
 
-            //if (inputManager.Keyboard[Keys.LeftAlt])
-            //{
-            //    playerHat.GetComponent<AnimationManager>().PlayAnimation("walk", true);
-            //    playerLeg.GetComponent<AnimationManager>().PlayAnimation("walk", true);
-            //    anim = Anim.walk;
-            //}
-
+            if (inputManager.Keyboard[Keys.W].IsDown)
+            {
+                if (playerHat.GetComponent<AnimationManager>().defaultKey != "walk")
+                {
+                    playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
+                    playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
+                }
+            }
+            else if (true)
+            {
+                //TODO CHANGE CONDITION
+                playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
+                playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
+            }
 
             base.Update(gameTime);
         }
