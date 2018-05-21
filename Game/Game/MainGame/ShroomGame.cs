@@ -190,13 +190,11 @@ namespace PBLGame
             heart2.TransformationsOrder = TransformationOrder.ScalePositionRotation;
             heart.Position = new Vector3(15.0f, 4.0f, -10.0f);
             heart2.Position = new Vector3(-15.0f, 4.0f, -10.0f);
-            heart.Scale = new Vector3(0.2f);
-            heart2.Scale = new Vector3(0.2f);
-            player.Position = new Vector3(0f, 400f, -1500f);
-            enemy1.Position = new Vector3(-8f, 40f, -150f);
-            enemy1.Scale = new Vector3(0.4f);
+            heart.Scale = new Vector3(0.4f);
+            heart2.Scale = new Vector3(0.4f);
+            player.Position = new Vector3(0f, 20f, 0f);
+            enemy1.Position = new Vector3(-8f, 40f, -250f);
             player.RotationZ = 1.5f;
-            player.Scale = new Vector3(0.4f);
             GameServices.AddService(player);
             new DialogueString("I not have too much time, I need to find Borowikus quickly, there is no time to waste");
 
@@ -468,6 +466,11 @@ namespace PBLGame
             CreateHierarchyOfLevel(strefa1List, mapRoot);
             AssignTagsForMapElements(strefa1List);
 
+            Model dzwignia = Content.Load<Model>("Level1/levelStrefa1Dzwignia");
+            List<GameObject> dzwigniaList = SplitModelIntoSmallerPieces(dzwignia, hierarchiaStrefa1Tex, hierarchiaStrefa1Normal);
+            CreateHierarchyOfLevel(dzwigniaList, mapRoot);
+            AssignTagsForMapElements(dzwigniaList);
+
             Model hierarchiaStrefa2 = Content.Load<Model>("Level1/levelStrefa2");
             Texture2D hierarchiaStrefa2Tex = Content.Load<Texture2D>("Level1/levelStrefa2Tex");
             Texture2D hierarchiaStrefa2Normal = Content.Load<Texture2D>("Level1/levelStrefa2Normal");
@@ -475,6 +478,16 @@ namespace PBLGame
             List<GameObject> strefa2List = SplitModelIntoSmallerPieces(hierarchiaStrefa2, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
             CreateHierarchyOfLevel(strefa2List, mapRoot);
             AssignTagsForMapElements(strefa2List);
+
+            Model platforma1 = Content.Load<Model>("Level1/levelStrefa2Platforma1");
+            List<GameObject> platforma1List = SplitModelIntoSmallerPieces(platforma1, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
+            CreateHierarchyOfLevel(platforma1List, mapRoot);
+            AssignTagsForMapElements(platforma1List);
+
+            Model platforma2 = Content.Load<Model>("Level1/levelStrefa2Platforma2");
+            List<GameObject> platforma2List = SplitModelIntoSmallerPieces(platforma2, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
+            CreateHierarchyOfLevel(platforma2List, mapRoot);
+            AssignTagsForMapElements(platforma2List);
 
             Model hierarchiaStrefa3 = Content.Load<Model>("Level1/levelStrefa3");
             Texture2D hierarchiaStrefa3Tex = Content.Load<Texture2D>("Level1/levelStrefa3Tex");
@@ -484,6 +497,26 @@ namespace PBLGame
             CreateHierarchyOfLevel(strefa3List, mapRoot);
             AssignTagsForMapElements(strefa3List);
 
+            Model most = Content.Load<Model>("Level1/levelStrefa3Most");
+            List<GameObject> mostList = SplitModelIntoSmallerPieces(most, hierarchiaStrefa3Tex, hierarchiaStrefa3Normal);
+            CreateHierarchyOfLevel(mostList, mapRoot);
+            AssignTagsForMapElements(mostList);
+
+            Model kolek1 = Content.Load<Model>("Level1/levelStrefa3Kolek1");
+            List<GameObject> kolek1List = SplitModelIntoSmallerPieces(kolek1, hierarchiaStrefa3Tex, hierarchiaStrefa3Normal);
+            CreateHierarchyOfLevel(kolek1List, mapRoot);
+            AssignTagsForMapElements(kolek1List);
+
+            Model kolek2 = Content.Load<Model>("Level1/levelStrefa3Kolek2");
+            List<GameObject> kolek2List = SplitModelIntoSmallerPieces(kolek2, hierarchiaStrefa3Tex, hierarchiaStrefa3Normal);
+            CreateHierarchyOfLevel(kolek2List, mapRoot);
+            AssignTagsForMapElements(kolek2List);
+
+            Model lina = Content.Load<Model>("Level1/levelStrefa3Lina");
+            List<GameObject> linaList = SplitModelIntoSmallerPieces(lina, hierarchiaStrefa3Tex, hierarchiaStrefa3Normal);
+            CreateHierarchyOfLevel(linaList, mapRoot);
+            AssignTagsForMapElements(linaList);
+
             Model hierarchiaStrefa4 = Content.Load<Model>("Level1/levelStrefa4");
             Texture2D hierarchiaStrefa4Tex = Content.Load<Texture2D>("Level1/levelStrefa4Tex");
             Texture2D hierarchiaStrefa4Normal = Content.Load<Texture2D>("Level1/levelStrefa4Normal");
@@ -492,8 +525,8 @@ namespace PBLGame
             CreateHierarchyOfLevel(strefa4List, mapRoot);
             AssignTagsForMapElements(strefa4List);
 
-            //pointLights.Add(new Lights.PointLight(new Vector3(0.0f, 8.0f, 0.0f)));
-            //pointLights.Add(new Lights.PointLight(new Vector3(15.0f, 8.0f, 60.0f)));
+            pointLights.Add(new Lights.PointLight(new Vector3(0.0f, 8.0f, 0.0f)));
+            pointLights.Add(new Lights.PointLight(new Vector3(15.0f, 8.0f, -60.0f)));
         }
     }
 }
