@@ -31,7 +31,6 @@ namespace PBLGame
 
         private readonly InputManager inputManager;
         public static Texture2D missingTexture;
-        public static Texture2D missingNormalMap;
         public static Lights.DirectionalLight directionalLight;
         public static List<Lights.PointLight> pointLights;
         public static RenderTarget2D shadowRenderTarget;
@@ -49,7 +48,7 @@ namespace PBLGame
         GameObject root;
         GameObject heart;
         GameObject heart2;
-        GameObject levelOne;
+        GameObject mapRoot;
 
         GameObject player;
         GameObject playerLeg;
@@ -101,10 +100,11 @@ namespace PBLGame
                new Vector2(GraphicsDevice.Viewport.Bounds.Width, GraphicsDevice.Viewport.Bounds.Height));
             dialoguesFont = Content.Load<SpriteFont>("Dialogues");
             skybox = new Skybox("skybox/Sunset", Content);
+
             root = new GameObject();
             heart = new GameObject();
             heart2 = new GameObject();
-            levelOne = new GameObject();
+            mapRoot = new GameObject();
 
             player = new GameObject("player");
             playerLeg = new GameObject("Leg");
@@ -124,12 +124,8 @@ namespace PBLGame
             pointLights = new List<Lights.PointLight>();
             directionalLight = new Lights.DirectionalLight();
             missingTexture = Content.Load<Texture2D>("Missing");
-            missingNormalMap = Content.Load<Texture2D>("Level/level1Normal");
             Model apteczka = Content.Load<Model>("apteczka");
             Texture2D apteczkaTexture = Content.Load<Texture2D>("apteczkaTex");
-            Model hierarchia = Content.Load<Model>("Level/level1");
-            Texture2D hierarchiaTex = Content.Load<Texture2D>("Level/level1Tex");
-            Texture2D hierarchiaNormalTex = Content.Load<Texture2D>("Level/level1Normal");
             Texture2D playerTex = Content.Load<Texture2D>("models/player/borowikTex");
             Texture2D playerNormal = Content.Load<Texture2D>("models/player/borowikNormal");
             Texture2D rangedEnemyTex = Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyTex");
@@ -155,6 +151,8 @@ namespace PBLGame
             meleeEnemyHat.AddComponent(new AnimationManager(meleeEnemyHat));
             enemy1.AddComponent(new MeleeEnemy(enemy1));
 
+            LoadLevel1();
+
             //anims TODO: CHANGE MODEL COMPONENT TO SOMETHING ELSE : )
 
             // IDLE
@@ -173,10 +171,6 @@ namespace PBLGame
             playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaRzutKapeluszem", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "throw");
             playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszRzutKapeluszem", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "throw");
 
-            List<GameObject> hiererchyList = SplitModelIntoSmallerPieces(hierarchia, hierarchiaTex, hierarchiaNormalTex);
-            CreateHierarchyOfLevel(hiererchyList, levelOne);
-            AssignTagsForMapElements(hiererchyList);
-
             // TODO: ANIM LOAD SYSTEM / SELECTOR
             playerHat.GetComponent<AnimationManager>().PlayAnimation("idle");
             playerLeg.GetComponent<AnimationManager>().PlayAnimation("idle");
@@ -186,14 +180,11 @@ namespace PBLGame
             heart.AddComponent(new ModelComponent(apteczka, standardEffect, apteczkaTexture));
             heart2.AddComponent(new ModelComponent(apteczka, standardEffect, apteczkaTexture));
 
-            pointLights.Add(new Lights.PointLight(new Vector3(0.0f, 8.0f, 0.0f)));
-            pointLights.Add(new Lights.PointLight(new Vector3(15.0f, 8.0f, 60.0f)));
-
             root.AddChildNode(heart);
             root.AddChildNode(heart2);
             root.AddChildNode(player);
             root.AddChildNode(enemy1);
-            root.AddChildNode(levelOne);
+            root.AddChildNode(mapRoot);
             player.AddChildNode(camera);
             heart.TransformationsOrder = TransformationOrder.ScalePositionRotation;
             heart2.TransformationsOrder = TransformationOrder.ScalePositionRotation;
@@ -201,7 +192,7 @@ namespace PBLGame
             heart2.Position = new Vector3(-15.0f, 4.0f, -10.0f);
             heart.Scale = new Vector3(0.2f);
             heart2.Scale = new Vector3(0.2f);
-            player.Position = new Vector3(0f, 40f, 0f);
+            player.Position = new Vector3(0f, 400f, -1500f);
             enemy1.Position = new Vector3(-8f, 40f, -150f);
             enemy1.Scale = new Vector3(0.4f);
             player.RotationZ = 1.5f;
@@ -465,6 +456,44 @@ namespace PBLGame
                     }
                 }
             }
+        }
+
+        void LoadLevel1()
+        {
+            Model hierarchiaStrefa1 = Content.Load<Model>("Level1/levelStrefa1");
+            Texture2D hierarchiaStrefa1Tex = Content.Load<Texture2D>("Level1/levelStrefa1Tex");
+            Texture2D hierarchiaStrefa1Normal = Content.Load<Texture2D>("Level1/levelStrefa1Normal");
+
+            List<GameObject> strefa1List = SplitModelIntoSmallerPieces(hierarchiaStrefa1, hierarchiaStrefa1Tex, hierarchiaStrefa1Normal);
+            CreateHierarchyOfLevel(strefa1List, mapRoot);
+            AssignTagsForMapElements(strefa1List);
+
+            Model hierarchiaStrefa2 = Content.Load<Model>("Level1/levelStrefa2");
+            Texture2D hierarchiaStrefa2Tex = Content.Load<Texture2D>("Level1/levelStrefa2Tex");
+            Texture2D hierarchiaStrefa2Normal = Content.Load<Texture2D>("Level1/levelStrefa2Normal");
+
+            List<GameObject> strefa2List = SplitModelIntoSmallerPieces(hierarchiaStrefa2, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
+            CreateHierarchyOfLevel(strefa2List, mapRoot);
+            AssignTagsForMapElements(strefa2List);
+
+            Model hierarchiaStrefa3 = Content.Load<Model>("Level1/levelStrefa3");
+            Texture2D hierarchiaStrefa3Tex = Content.Load<Texture2D>("Level1/levelStrefa3Tex");
+            Texture2D hierarchiaStrefa3Normal = Content.Load<Texture2D>("Level1/levelStrefa3Normal");
+
+            List<GameObject> strefa3List = SplitModelIntoSmallerPieces(hierarchiaStrefa3, hierarchiaStrefa3Tex, hierarchiaStrefa3Normal);
+            CreateHierarchyOfLevel(strefa3List, mapRoot);
+            AssignTagsForMapElements(strefa3List);
+
+            Model hierarchiaStrefa4 = Content.Load<Model>("Level1/levelStrefa4");
+            Texture2D hierarchiaStrefa4Tex = Content.Load<Texture2D>("Level1/levelStrefa4Tex");
+            Texture2D hierarchiaStrefa4Normal = Content.Load<Texture2D>("Level1/levelStrefa4Normal");
+
+            List<GameObject> strefa4List = SplitModelIntoSmallerPieces(hierarchiaStrefa4, hierarchiaStrefa4Tex, hierarchiaStrefa4Normal);
+            CreateHierarchyOfLevel(strefa4List, mapRoot);
+            AssignTagsForMapElements(strefa4List);
+
+            //pointLights.Add(new Lights.PointLight(new Vector3(0.0f, 8.0f, 0.0f)));
+            //pointLights.Add(new Lights.PointLight(new Vector3(15.0f, 8.0f, 60.0f)));
         }
     }
 }
