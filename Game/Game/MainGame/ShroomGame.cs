@@ -419,19 +419,19 @@ namespace PBLGame
         private void AssignTagsForMapElements(List<GameObject> mapa)
         {
             List<String> Groundy = new List<string>();
-            Groundy.Add("podloga");
-            Groundy.Add("schodki");
-            Groundy.Add("most");
-            Groundy.Add("platforma");
-            Groundy.Add("podest");
-            Groundy.Add("schody");
+            Groundy.Add("Most");
+            Groundy.Add("Platforma");
+            Groundy.Add("Ground");
+            Groundy.Add("OwinietaLina");
 
             List<String> Walle = new List<string>();
-            Walle.Add("brama");
-            Walle.Add("strefa");
-            Walle.Add("sciany");
-            Walle.Add("podpory");
-            Walle.Add("wieza");
+            Walle.Add("Brama");
+            Walle.Add("Dzwignia");
+            Walle.Add("Kolek");
+            Walle.Add("Lina");
+            Walle.Add("Flag");
+            Walle.Add("OwinietaLina");
+            Walle.Add("Pal");
 
             tagAssigner(mapa, Walle, "Wall");
             tagAssigner(mapa, Groundy, "Ground");
