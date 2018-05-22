@@ -113,9 +113,27 @@ namespace PBLGame.SceneGraph
             Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
             Vector3 max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
 
+            Matrix[] boneTransforms = new Matrix[bones.Count];
+
+            for (int i = 0; i < bones.Count; ++i)
+            {
+                Bone bone = bones[i];
+                bone.ComputeAbsoluteTransform();
+                boneTransforms[i] = bone.AbsoluteTransform;
+            }
+
+            Matrix[] skeleton = new Matrix[modelExtra.Skeleton.Count];
+
+            for (int i = 0; i < modelExtra.Skeleton.Count; ++i)
+            {
+                Bone bone = bones[modelExtra.Skeleton[i]];
+                skeleton[i] = bone.SkinTransform * bone.AbsoluteTransform;
+            }
+
             Matrix[] transforms = new Matrix[model.Bones.Count];
             //System.Diagnostics.Debug.WriteLine(model.Bones.Count);
             model.CopyAbsoluteBoneTransformsTo(transforms);
+            int count = 0;
             foreach (ModelMesh mesh in model.Meshes)
             {
                 foreach (ModelMeshPart meshPart in mesh.MeshParts)
@@ -129,11 +147,12 @@ namespace PBLGame.SceneGraph
                     for (int i = 0; i < vertexBufferSize / sizeof(float); i += vertexStride / sizeof(float))
                     {
                         Vector3 currPosition = new Vector3(vertexData[i], vertexData[i + 1], vertexData[i + 2]);
-                        currPosition = Vector3.Transform(currPosition, worldTransformations * transforms[mesh.ParentBone.Index]);
+                        currPosition = Vector3.Transform(currPosition, worldTransformations * skeleton[count]);
                         min = Vector3.Min(min, currPosition);
                         max = Vector3.Max(max, currPosition);
                     }
                 }
+                count++;
             }
             return new BoundingBox(min, max);
         }
