@@ -10,6 +10,8 @@ namespace PBLGame.MainGame
     class Pawn : Component
     {
         private bool isMoving = false;
+        protected bool isJumping = false;
+        private float positionYBeforeJump = 0.0f;
         public float AccelerationDueToGravity;
         protected GameObject parentGameObject;
         protected Vector3 lastPosition;
@@ -32,10 +34,22 @@ namespace PBLGame.MainGame
                 AccelerationDueToGravity = -0.03f;
                 parentGameObject.Translate(new Vector3(0.0f, AccelerationDueToGravity * (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0.0f));
             }
-            else
+
+            if (!isJumping)
             {
-                AccelerationDueToGravity = 0.0f;
+                positionYBeforeJump = parentGameObject.PositionY;
             }
+
+            if (isJumping)
+            {
+                parentGameObject.Translate(new Vector3(0.0f, 0.13f * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0.0f));
+                if (parentGameObject.PositionY > positionYBeforeJump + 55.0f)
+                {
+                    isJumping = false;
+                }
+            }
+
+
 
             base.Update(time);
         }
