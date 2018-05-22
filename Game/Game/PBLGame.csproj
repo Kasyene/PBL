@@ -46,7 +46,8 @@
   <ItemGroup>
     <Compile Include="Components\Enemies\Enemy.cs" />
     <Compile Include="Components\Enemies\MeleeEnemy.cs" />
-    <Compile Include="Components\ParticleSystem.cs" />
+    <Compile Include="Components\Particles\ParticleSystem.cs" />
+    <Compile Include="Components\Particles\ParticleVertex.cs" />
     <Compile Include="Components\Pawn.cs" />
     <Compile Include="Components\Player.cs" />
     <Compile Include="Input\Devices\KeyboardInput.cs" />
