@@ -147,7 +147,7 @@ namespace PBLGame.SceneGraph
                     for (int i = 0; i < vertexBufferSize / sizeof(float); i += vertexStride / sizeof(float))
                     {
                         Vector3 currPosition = new Vector3(vertexData[i], vertexData[i + 1], vertexData[i + 2]);
-                        currPosition = Vector3.Transform(currPosition, worldTransformations * skeleton[count]);
+                        currPosition = Vector3.Transform(currPosition, skeleton[count] * worldTransformations);
                         min = Vector3.Min(min, currPosition);
                         max = Vector3.Max(max, currPosition);
                     }
