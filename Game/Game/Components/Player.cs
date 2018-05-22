@@ -74,10 +74,10 @@ namespace PBLGame.MainGame
             {
                 MoveLeft(playerSpeed);
             }
-            else
+/*            else
             {
-                parentGameObject.CollisionUpdate();
-            }
+                CheckCollider();
+            }*/
             Rotate(inputManager.Mouse.PositionsDelta.X * 0.01f);
         }
 

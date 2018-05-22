@@ -192,7 +192,7 @@ namespace PBLGame
             heart2.Position = new Vector3(-15.0f, 4.0f, -10.0f);
             heart.Scale = new Vector3(0.4f);
             heart2.Scale = new Vector3(0.4f);
-            player.Position = new Vector3(0f, 20f, 0f);
+            player.Position = new Vector3(0f, 40f, 0f);
             enemy1.Position = new Vector3(-8f, 40f, -250f);
             player.RotationZ = 1.5f;
             GameServices.AddService(player);
@@ -211,7 +211,7 @@ namespace PBLGame
             if (!areCollidersAndTriggersSet)
             {
                 counterOfUpdatesToCreateCollidersAndTriggers++;
-                if (counterOfUpdatesToCreateCollidersAndTriggers > 10)
+                if (counterOfUpdatesToCreateCollidersAndTriggers > 2)
                 {
                     root.CreateColliders();
                     playerHat.SetAsColliderAndTrigger();

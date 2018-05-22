@@ -26,9 +26,10 @@ namespace PBLGame.MainGame
 
         public override void Update(GameTime time)
         {
+            CheckCollider();
             if (!parentGameObject.isGrounded)
             {
-                AccelerationDueToGravity = -0.05f;
+                AccelerationDueToGravity = -0.03f;
                 parentGameObject.Translate(new Vector3(0.0f, AccelerationDueToGravity * (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0.0f));
             }
             else
@@ -142,6 +143,7 @@ namespace PBLGame.MainGame
         {
             foreach (Collider col in parentGameObject.colliders)
             {
+                col.checkIfGrounded();
                 GameObject temp = col.CollisionUpdate();
                 if ( temp != null && temp.Parent.tag != "Ground")
                 {

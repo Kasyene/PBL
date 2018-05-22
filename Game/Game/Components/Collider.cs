@@ -99,7 +99,7 @@ namespace PBLGame.SceneGraph
                         this.penetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
                         if (col.owner.tag == "Ground")
                         {
-                            this.owner.Parent.isGrounded = true;
+                            //this.owner.Parent.isGrounded = true;
                             this.owner.Parent.Position = this.owner.Parent.Position - this.penetrationDepth;
                         }
                         else
@@ -110,6 +110,7 @@ namespace PBLGame.SceneGraph
                     }
                     else
                     {
+
                         if (col.isReadyToBeDisposed)
                         {
                             triggered.Add(col);
@@ -123,6 +124,27 @@ namespace PBLGame.SceneGraph
                 collidersList.Remove(trig);
             }
             return null;
+        }
+
+        public void checkIfGrounded()
+        {
+            foreach (Collider col in collidersList)
+            {
+                if (col != this)
+                {
+                    if (IsCollision(col) && col.owner.tag == "Ground")
+                    {
+                        this.owner.Parent.isGrounded = true;
+                        return;
+                    }
+                }
+            }
+
+            if (this.owner.tag == "Leg")
+            {
+                this.owner.Parent.isGrounded = false;
+            }
+            
         }
 
         public Vector3 PenetrationDepth(BoundingBox boxA, BoundingBox boxB)
