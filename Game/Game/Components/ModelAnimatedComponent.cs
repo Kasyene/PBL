@@ -116,11 +116,8 @@ namespace PBLGame.SceneGraph
             Matrix[] transforms = new Matrix[model.Bones.Count];
             //System.Diagnostics.Debug.WriteLine(model.Bones.Count);
             model.CopyAbsoluteBoneTransformsTo(transforms);
-            int it = 1;
             foreach (ModelMesh mesh in model.Meshes)
             {
-                System.Diagnostics.Debug.WriteLine(it);
-                it++;
                 foreach (ModelMeshPart meshPart in mesh.MeshParts)
                 {
                     int vertexStride = meshPart.VertexBuffer.VertexDeclaration.VertexStride;
