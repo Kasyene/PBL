@@ -77,9 +77,8 @@ namespace PBLGame
             inputManager = InputManager.Instance;
             Content.RootDirectory = "Content";
             resolution = new Resolution();
-            resolution.SetResolution(1366, 768);
-            graphics.PreferredBackBufferWidth = resolution.BaseWidth;
-            graphics.PreferredBackBufferHeight = resolution.BaseHeight;
+            graphics.PreferredBackBufferHeight = 768;
+            graphics.PreferredBackBufferWidth = 1366;
         }
 
         protected override void Initialize()
@@ -216,6 +215,11 @@ namespace PBLGame
 
         protected override void Update(GameTime gameTime)
         {
+            //resolutionChange
+            if (inputManager.Keyboard[Keys.P])
+            {
+                resolution.SetResolution(1366, 768);
+            }
             if (!areCollidersAndTriggersSet)
             {
                 counterOfUpdatesToCreateCollidersAndTriggers++;
@@ -278,9 +282,6 @@ namespace PBLGame
 
         protected override void Draw(GameTime gameTime)
         {
-            resolution.ApplyTotalViewport();
-            GraphicsDevice.Clear(Color.Black);
-            resolution.ApplyScaledViewport();
             CreateShadowMap();
             DrawWithShadow();
 
