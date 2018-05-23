@@ -96,7 +96,9 @@ namespace PBLGame.SceneGraph
                                 return null;
                             }
                         }
+
                         this.penetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
+
                         if (col.owner.tag == "Ground")
                         {
                             //this.owner.Parent.isGrounded = true;

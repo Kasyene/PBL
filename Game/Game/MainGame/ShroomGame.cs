@@ -430,6 +430,7 @@ namespace PBLGame
             Walle.Add("Flag");
             Walle.Add("OwinietaLina");
             Walle.Add("Pal");
+            Walle.Add("Wall");
 
             tagAssigner(mapa, Walle, "Wall");
             tagAssigner(mapa, Groundy, "Ground");
@@ -443,15 +444,7 @@ namespace PBLGame
                 if (gameObj.tag != tag && otagowaneNazwy.Any(s => gameObj.name.Contains(s)))
                 {
                     gameObj.tag = tag;
-                    //   Debug.WriteLine(gameObj.tag);
-                    if (gameObj.childs.Count > 0)
-                    {
-                        foreach (var gameObjChild in gameObj.childs)
-                        {
-                            gameObjChild.tag = tag;
-                            //   Debug.WriteLine(gameObjChild.tag);
-                        }
-                    }
+                    //Debug.WriteLine(gameObj.tag);
                 }
             }
         }
