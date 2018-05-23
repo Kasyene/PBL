@@ -15,14 +15,17 @@ namespace PBLGame.MainGame
         private Model skyBox;
         private TextureCube skyBoxTexture;
         private Effect skyBoxEffect;
+        Matrix[] skyboxTransforms;
 
-        public float size = 500f;
+        public float size = 1000f;
 
         public Skybox(string skyboxTexture, ContentManager Content)
         {
             skyBox = Content.Load<Model>("skybox/cube");
             skyBoxTexture = Content.Load<TextureCube>(skyboxTexture);
             skyBoxEffect = Content.Load<Effect>("SkyboxShader");
+            skyboxTransforms = new Matrix[skyBox.Bones.Count];
+            skyBox.CopyAbsoluteBoneTransformsTo(skyboxTransforms);
         }
 
         public void Draw(Matrix view, Matrix projection, Vector3 cameraPosition)
@@ -34,7 +37,8 @@ namespace PBLGame.MainGame
                     foreach (ModelMeshPart part in mesh.MeshParts)
                     {
                         part.Effect = skyBoxEffect;
-                        part.Effect.Parameters["World"].SetValue(Matrix.CreateScale(size) * Matrix.CreateTranslation(cameraPosition));
+                        part.Effect.Parameters["World"].SetValue(skyboxTransforms[mesh.ParentBone.Index] * Matrix.CreateScale(size) 
+                            * Matrix.CreateTranslation(cameraPosition - new Vector3(0f, size/2, 0f)));
                         part.Effect.Parameters["View"].SetValue(view);
                         part.Effect.Parameters["Projection"].SetValue(projection);
                         part.Effect.Parameters["SkyBoxTexture"].SetValue(skyBoxTexture);

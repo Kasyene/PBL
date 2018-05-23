@@ -101,8 +101,6 @@ namespace PBLGame
             screenRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, graphics.GraphicsDevice.Viewport.Width,
                 graphics.GraphicsDevice.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
 
-            System.Diagnostics.Debug.WriteLine(graphics.GraphicsDevice.Viewport.Width);
-
             standardEffect = Content.Load<Effect>("Standard");
             animatedEffect = Content.Load<Effect>("StandardAnimated");
             outlineEffect = Content.Load<Effect>("Outline");
@@ -330,7 +328,7 @@ namespace PBLGame
             Vector3 cameraPosition;
             camera.WorldTransformations.Decompose(out scale, out rotation, out cameraPosition);
             skybox.Draw(Matrix.CreateLookAt(cameraPosition, player.Position, Vector3.UnitY),
-                Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 1f, 0.1f, 4000f), cameraPosition - new Vector3(0f,0f,skybox.size/2));
+                Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 1f, 0.1f, 4000f), cameraPosition);
             graphics.GraphicsDevice.RasterizerState = originalRasterizerState;
         }
 
