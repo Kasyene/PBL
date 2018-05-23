@@ -101,7 +101,6 @@ namespace PBLGame.SceneGraph
 
                         if (col.owner.tag == "Ground")
                         {
-                            //this.owner.Parent.isGrounded = true;
                             this.owner.Parent.Position = this.owner.Parent.Position - this.penetrationDepth;
                         }
                         else

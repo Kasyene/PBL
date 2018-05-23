@@ -159,7 +159,7 @@ namespace PBLGame.MainGame
             {
                 col.checkIfGrounded();
                 GameObject temp = col.CollisionUpdate();
-                if ( temp != null && temp.Parent.tag != "Ground")
+                if ( temp != null && temp.tag != "Ground")
                 {
                     parentGameObject.Position = parentGameObject.Position - col.penetrationDepth;
                 }
