@@ -16,6 +16,7 @@ using PBLGame.SceneGraph;
 using System.IO;
 using Game.Components;
 using Game.Components.Enemies;
+using Game.MainGame;
 using PBLGame.Input.Devices;
 
 namespace PBLGame
@@ -26,6 +27,7 @@ namespace PBLGame
     public class ShroomGame : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
+        Resolution resolution;
         SpriteBatch spriteBatch;
         Skybox skybox;
 
@@ -74,12 +76,16 @@ namespace PBLGame
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             inputManager = InputManager.Instance;
             Content.RootDirectory = "Content";
+            resolution = new Resolution();
         }
 
         protected override void Initialize()
         {
             base.Initialize();
             GameServices.AddService<GraphicsDevice>(GraphicsDevice);
+            GameServices.AddService<GraphicsDeviceManager>(graphics);
+            GameServices.AddService<Resolution>(resolution);
+            resolution.SetResolution(1366, 768);
         }
 
         protected override void LoadContent()
@@ -270,6 +276,9 @@ namespace PBLGame
 
         protected override void Draw(GameTime gameTime)
         {
+            resolution.ApplyTotalViewport();
+            GraphicsDevice.Clear(Color.Black);
+            resolution.ApplyScaledViewport();
             CreateShadowMap();
             DrawWithShadow();
 
