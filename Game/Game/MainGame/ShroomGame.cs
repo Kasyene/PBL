@@ -77,6 +77,9 @@ namespace PBLGame
             inputManager = InputManager.Instance;
             Content.RootDirectory = "Content";
             resolution = new Resolution();
+            resolution.SetResolution(1366, 768);
+            graphics.PreferredBackBufferWidth = resolution.BaseWidth;
+            graphics.PreferredBackBufferHeight = resolution.BaseHeight;
         }
 
         protected override void Initialize()
@@ -85,7 +88,6 @@ namespace PBLGame
             GameServices.AddService<GraphicsDevice>(GraphicsDevice);
             GameServices.AddService<GraphicsDeviceManager>(graphics);
             GameServices.AddService<Resolution>(resolution);
-            resolution.SetResolution(1366, 768);
         }
 
         protected override void LoadContent()
@@ -98,6 +100,8 @@ namespace PBLGame
                                                     false, SurfaceFormat.Single, DepthFormat.Depth24);
             screenRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, graphics.GraphicsDevice.Viewport.Width,
                 graphics.GraphicsDevice.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
+
+            System.Diagnostics.Debug.WriteLine(graphics.GraphicsDevice.Viewport.Width);
 
             standardEffect = Content.Load<Effect>("Standard");
             animatedEffect = Content.Load<Effect>("StandardAnimated");
