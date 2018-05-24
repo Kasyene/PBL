@@ -13,6 +13,17 @@ namespace PBLGame.SceneGraph
         private AnimationPlayer animationPlayer = null;
         private List<Bone> bones = new List<Bone>();
         private List<AnimationClip> animationClips;
+        private bool isColliderDynamicUpdateEnabled = false;
+
+        public void ColliderDynamicUpdateEnable()
+        {
+            isColliderDynamicUpdateEnabled = true;
+        }
+
+        public void ColliderDynamicUpdateDisable()
+        {
+            isColliderDynamicUpdateEnabled = false;
+        }
 
         public List<Bone> Bones => bones;
         private string assetName;
@@ -147,7 +158,14 @@ namespace PBLGame.SceneGraph
                     for (int i = 0; i < vertexBufferSize / sizeof(float); i += vertexStride / sizeof(float))
                     {
                         Vector3 currPosition = new Vector3(vertexData[i], vertexData[i + 1], vertexData[i + 2]);
-                        currPosition = Vector3.Transform(currPosition, skeleton[count] * worldTransformations);
+                        if (isColliderDynamicUpdateEnabled)
+                        {
+                            currPosition = Vector3.Transform(currPosition, skeleton[count] * worldTransformations);
+                        }
+                        else
+                        {
+                            currPosition = Vector3.Transform(currPosition, worldTransformations * transforms[mesh.ParentBone.Index]);
+                        }
                         min = Vector3.Min(min, currPosition);
                         max = Vector3.Max(max, currPosition);
                     }

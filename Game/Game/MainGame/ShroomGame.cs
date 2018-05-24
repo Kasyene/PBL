@@ -140,9 +140,10 @@ namespace PBLGame
             hpTexture = apteczkaTexture;
             timeTexture = playerNormal;
 
-            // Load anim model
+            // Load anim models
             player.AddChildNode(playerLeg);
             player.AddChildNode(playerHat);
+
             enemy1.AddChildNode(meleeEnemyLeg);
             enemy1.AddChildNode(meleeEnemyHat);
             
@@ -152,6 +153,11 @@ namespace PBLGame
             playerHat.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content, animatedEffect, playerTex, playerNormal));
             playerHat.AddComponent(new AnimationManager(playerHat));
             player.AddComponent(new Player(player));
+
+            // ENABLE DYNAMIC COLLISION ON PLAYER HAT
+            playerHat.GetComponent<ModelAnimatedComponent>().ColliderDynamicUpdateEnable();
+
+            // ENEMY
             meleeEnemyLeg.AddComponent(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaChod", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal));
             meleeEnemyLeg.AddComponent(new AnimationManager(meleeEnemyLeg));
             meleeEnemyHat.AddComponent(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszChod", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal));
