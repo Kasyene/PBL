@@ -12,6 +12,7 @@ namespace PBLGame.SceneGraph
         public float minYRotation = 0.1f;
         public float maxYRotation = 1f;
         private readonly InputManager inputManager;
+        private Matrix viewMatrix;
 
         public Camera()
         {
@@ -26,22 +27,31 @@ namespace PBLGame.SceneGraph
 
         public Matrix ViewMatrix
         {
+            set
+            {
+                viewMatrix = value;
+            }
             get
             {
-                isDirty = true;
-                Vector3 lookAtVector;
-                if (cameraTarget != null)
-                {
-                    lookAtVector = cameraTarget.Position + new Vector3(0f, 30f, 0f);
-                }
-                else
-                {
-                    lookAtVector = Vector3.Zero;
-                }
-                Vector3 cameraUpVector = Vector3.UnitY;
-
-                return Matrix.CreateLookAt(WorldTransformations.Translation, lookAtVector, cameraUpVector);
+                return viewMatrix;
             }
+        }
+
+        public Matrix CalcViewMatrix()
+        {
+            isDirty = true;
+            Vector3 lookAtVector;
+            if (cameraTarget != null)
+            {
+                lookAtVector = cameraTarget.Position + new Vector3(0f, 30f, 0f);
+            }
+            else
+            {
+                lookAtVector = Vector3.Zero;
+            }
+            Vector3 cameraUpVector = Vector3.UnitY;
+
+            return Matrix.CreateLookAt(WorldTransformations.Translation, lookAtVector, cameraUpVector);
         }
 
         public Matrix ProjectionMatrix

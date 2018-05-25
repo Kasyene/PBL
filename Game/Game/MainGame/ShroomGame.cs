@@ -294,7 +294,7 @@ namespace PBLGame
         protected override void Draw(GameTime gameTime)
         {
             CreateShadowMap();
-            DrawWithShadow();
+            DrawWithShadow(camera.CalcViewMatrix());
 
             DrawHpBar();
             DrawTimeBar();
@@ -315,10 +315,11 @@ namespace PBLGame
             root.Draw(camera, true);
         }
 
-        void DrawWithShadow()
+        void DrawWithShadow(Matrix viewMatrix)
         {
             GraphicsDevice.SetRenderTarget(screenRenderTarget);
             DrawSkybox();
+            camera.ViewMatrix = viewMatrix;
             root.Draw(camera);
             GraphicsDevice.SetRenderTarget(null);
 
@@ -335,39 +336,39 @@ namespace PBLGame
                 // render the scene to all cubemap faces
                 CubeMapFace cubeMapFace = (CubeMapFace)i;
 
-                /*switch (cubeMapFace)
+                switch (cubeMapFace)
                 {
                     case CubeMapFace.NegativeX:
                         {
-                            viewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Left, Vector3.Up);
+                            camera.ViewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Left, Vector3.Up);
                             break;
                         }
                     case CubeMapFace.NegativeY:
                         {
-                            viewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Down, Vector3.Forward);
+                            camera.ViewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Down, Vector3.Forward);
                             break;
                         }
                     case CubeMapFace.NegativeZ:
                         {
-                            viewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Backward, Vector3.Up);
+                            camera.ViewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Backward, Vector3.Up);
                             break;
                         }
                     case CubeMapFace.PositiveX:
                         {
-                            viewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Right, Vector3.Up);
+                            camera.ViewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Right, Vector3.Up);
                             break;
                         }
                     case CubeMapFace.PositiveY:
                         {
-                            viewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Up, Vector3.Backward);
+                            camera.ViewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Up, Vector3.Backward);
                             break;
                         }
                     case CubeMapFace.PositiveZ:
                         {
-                            viewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Forward, Vector3.Up);
+                            camera.ViewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Forward, Vector3.Up);
                             break;
                         }
-                }*/
+                }
             }
         }
 
