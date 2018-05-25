@@ -28,6 +28,11 @@ namespace PBLGame.MainGame
             skyBox.CopyAbsoluteBoneTransformsTo(skyboxTransforms);
         }
 
+        public void SetSkyBoxTexture(TextureCube cube)
+        {
+            skyBoxTexture = cube;
+        }
+
         public void Draw(Matrix view, Matrix projection, Vector3 cameraPosition)
         {
             foreach (EffectPass pass in skyBoxEffect.CurrentTechnique.Passes)

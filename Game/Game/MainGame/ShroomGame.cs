@@ -208,7 +208,7 @@ namespace PBLGame
             heart2.Position = new Vector3(-15.0f, 4.0f, -10.0f);
             heart.Scale = new Vector3(0.4f);
             heart2.Scale = new Vector3(0.4f);
-            player.Position = new Vector3(0f, 40f, 0f);
+            player.Position = new Vector3(0f, 60f, 0f);
             enemy1.Position = new Vector3(-8f, 40f, -250f);
             player.RotationZ = 1.5f;
             GameServices.AddService(player);
@@ -242,6 +242,7 @@ namespace PBLGame
                     heart.SetAsTrigger();
                     heart2.SetAsTrigger();
                     areCollidersAndTriggersSet = true;
+                    //DrawRefraction();
                 }
             }
 
@@ -294,8 +295,11 @@ namespace PBLGame
         protected override void Draw(GameTime gameTime)
         {
             CreateShadowMap();
+            //DrawRefraction();
+            //skybox.SetSkyBoxTexture(refractionTarget);
+            GraphicsDevice.SetRenderTarget(screenRenderTarget);
             DrawWithShadow(camera.CalcViewMatrix());
-
+            DrawOutline();
             DrawHpBar();
             DrawTimeBar();
 
@@ -317,12 +321,15 @@ namespace PBLGame
 
         void DrawWithShadow(Matrix viewMatrix)
         {
-            GraphicsDevice.SetRenderTarget(screenRenderTarget);
+            GraphicsDevice.Clear(Color.White);
             DrawSkybox();
             camera.ViewMatrix = viewMatrix;
             root.Draw(camera);
             GraphicsDevice.SetRenderTarget(null);
+        }
 
+        void DrawOutline()
+        {
             outlineEffect.Parameters["GammaValue"].SetValue(gammaValue);
             spriteBatch.Begin(0, BlendState.Opaque, null, null, null, outlineEffect);
             spriteBatch.Draw(screenRenderTarget, Vector2.Zero, Color.White);
@@ -340,35 +347,38 @@ namespace PBLGame
                 {
                     case CubeMapFace.NegativeX:
                         {
-                            camera.ViewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Left, Vector3.Up);
+                            camera.ViewMatrix = Matrix.CreateLookAt(player.Position, player.Position + Vector3.Left, Vector3.Up);
                             break;
                         }
                     case CubeMapFace.NegativeY:
                         {
-                            camera.ViewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Down, Vector3.Forward);
+                            camera.ViewMatrix = Matrix.CreateLookAt(player.Position, player.Position + Vector3.Down, Vector3.Forward);
                             break;
                         }
                     case CubeMapFace.NegativeZ:
                         {
-                            camera.ViewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Backward, Vector3.Up);
+                            camera.ViewMatrix = Matrix.CreateLookAt(player.Position, player.Position + Vector3.Backward, Vector3.Up);
                             break;
                         }
                     case CubeMapFace.PositiveX:
                         {
-                            camera.ViewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Right, Vector3.Up);
+                            camera.ViewMatrix = Matrix.CreateLookAt(player.Position, player.Position + Vector3.Right, Vector3.Up);
                             break;
                         }
                     case CubeMapFace.PositiveY:
                         {
-                            camera.ViewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Up, Vector3.Backward);
+                            camera.ViewMatrix = Matrix.CreateLookAt(player.Position, player.Position + Vector3.Up, Vector3.Backward);
                             break;
                         }
                     case CubeMapFace.PositiveZ:
                         {
-                            camera.ViewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Forward, Vector3.Up);
+                            camera.ViewMatrix = Matrix.CreateLookAt(player.Position, player.Position + Vector3.Forward, Vector3.Up);
                             break;
                         }
                 }
+                GraphicsDevice.SetRenderTarget(refractionTarget, cubeMapFace);
+                GraphicsDevice.Clear(Color.White);
+                DrawWithShadow(camera.ViewMatrix);
             }
         }
 
@@ -585,7 +595,7 @@ namespace PBLGame
             CreateHierarchyOfLevel(strefa4List, mapRoot);
             AssignTagsForMapElements(strefa4List);
 
-            pointLights.Add(new Lights.PointLight(new Vector3(0.0f, 8.0f, 0.0f)));
+            //pointLights.Add(new Lights.PointLight(new Vector3(0.0f, 8.0f, 0.0f)));
             pointLights.Add(new Lights.PointLight(new Vector3(15.0f, 8.0f, -60.0f)));
         }
     }
