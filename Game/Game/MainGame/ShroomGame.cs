@@ -37,6 +37,7 @@ namespace PBLGame
         public static List<Lights.PointLight> pointLights;
         public static RenderTarget2D shadowRenderTarget;
         public static RenderTarget2D screenRenderTarget;
+        public static RenderTargetCube refractionTarget;
 
         private float gammaValue = 0.9f;
         private bool areCollidersAndTriggersSet;
@@ -98,7 +99,9 @@ namespace PBLGame
             shadowRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, shadowMapWidthHeight, shadowMapWidthHeight,
                                                     false, SurfaceFormat.Single, DepthFormat.Depth24);
             screenRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, graphics.GraphicsDevice.Viewport.Width,
-                graphics.GraphicsDevice.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
+                                                    graphics.GraphicsDevice.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
+            refractionTarget = new RenderTargetCube(this.GraphicsDevice, shadowMapWidthHeight, true, SurfaceFormat.Color, DepthFormat.Depth24);
+
 
             standardEffect = Content.Load<Effect>("Standard");
             animatedEffect = Content.Load<Effect>("StandardAnimated");
@@ -224,7 +227,9 @@ namespace PBLGame
             //resolutionChange
             if (inputManager.Keyboard[Keys.P])
             {
-                resolution.SetResolution(1366, 768);
+                resolution.SetResolution(800, 400);
+                screenRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, graphics.GraphicsDevice.Viewport.Width,
+                                                   graphics.GraphicsDevice.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
             }
             if (!areCollidersAndTriggersSet)
             {
@@ -321,6 +326,49 @@ namespace PBLGame
             spriteBatch.Begin(0, BlendState.Opaque, null, null, null, outlineEffect);
             spriteBatch.Draw(screenRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
+        }
+
+        void DrawRefraction()
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                // render the scene to all cubemap faces
+                CubeMapFace cubeMapFace = (CubeMapFace)i;
+
+                /*switch (cubeMapFace)
+                {
+                    case CubeMapFace.NegativeX:
+                        {
+                            viewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Left, Vector3.Up);
+                            break;
+                        }
+                    case CubeMapFace.NegativeY:
+                        {
+                            viewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Down, Vector3.Forward);
+                            break;
+                        }
+                    case CubeMapFace.NegativeZ:
+                        {
+                            viewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Backward, Vector3.Up);
+                            break;
+                        }
+                    case CubeMapFace.PositiveX:
+                        {
+                            viewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Right, Vector3.Up);
+                            break;
+                        }
+                    case CubeMapFace.PositiveY:
+                        {
+                            viewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Up, Vector3.Backward);
+                            break;
+                        }
+                    case CubeMapFace.PositiveZ:
+                        {
+                            viewMatrix = Matrix.CreateLookAt(Vector3.Zero, Vector3.Forward, Vector3.Up);
+                            break;
+                        }
+                }*/
+            }
         }
 
         void DrawSkybox()
