@@ -16,6 +16,7 @@ namespace PBLGame.SceneGraph
         public BasicEffect lineEffect;
         protected Texture2D texture;
         protected Texture2D normalMap;
+        public bool refractive = false;
 
         short[] bBoxIndices = {
             0, 1, 1, 2, 2, 3, 3, 0, // Front edges
@@ -164,6 +165,11 @@ namespace PBLGame.SceneGraph
             if (normalMap != null)
             {
                 modelEffect.Parameters["NormalMap"].SetValue(normalMap);
+            }
+
+            if (refractive)
+            {
+                modelEffect.Parameters["RefractiveMap"].SetValue(ShroomGame.refractionTarget);
             }
         }
     }

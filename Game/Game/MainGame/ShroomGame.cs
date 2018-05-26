@@ -53,6 +53,8 @@ namespace PBLGame
         GameObject heart2;
         GameObject mapRoot;
 
+        GameObject refractiveObject;
+
         GameObject player;
         GameObject playerLeg;
         GameObject playerHat;
@@ -67,6 +69,7 @@ namespace PBLGame
 
         Effect standardEffect;
         Effect animatedEffect;
+        Effect refractionEffect;
         Effect outlineEffect;
         SpriteFont dialoguesFont;
         const int shadowMapWidthHeight = 2048;
@@ -105,6 +108,7 @@ namespace PBLGame
 
             standardEffect = Content.Load<Effect>("Standard");
             animatedEffect = Content.Load<Effect>("StandardAnimated");
+            refractionEffect = Content.Load<Effect>("Refraction");
             outlineEffect = Content.Load<Effect>("Outline");
             outlineEffect.Parameters["ScreenSize"].SetValue(
                new Vector2(GraphicsDevice.Viewport.Bounds.Width, GraphicsDevice.Viewport.Bounds.Height));
@@ -115,6 +119,9 @@ namespace PBLGame
             heart = new GameObject();
             heart2 = new GameObject();
             mapRoot = new GameObject();
+
+            refractiveObject = new GameObject();
+            root.AddChildNode(refractiveObject);
 
             player = new GameObject("player");
             playerLeg = new GameObject("Leg");
@@ -286,32 +293,32 @@ namespace PBLGame
                 {
                     case CubeMapFace.NegativeX:
                         {
-                            camera.ViewMatrix = Matrix.CreateLookAt(player.Position, player.Position + Vector3.Left, Vector3.Up);
+                            camera.ViewMatrix = Matrix.CreateLookAt(refractiveObject.Position, refractiveObject.Position + Vector3.Left, Vector3.Up);
                             break;
                         }
                     case CubeMapFace.NegativeY:
                         {
-                            camera.ViewMatrix = Matrix.CreateLookAt(player.Position, player.Position + Vector3.Down, Vector3.Forward);
+                            camera.ViewMatrix = Matrix.CreateLookAt(refractiveObject.Position, refractiveObject.Position + Vector3.Down, Vector3.Forward);
                             break;
                         }
                     case CubeMapFace.NegativeZ:
                         {
-                            camera.ViewMatrix = Matrix.CreateLookAt(player.Position, player.Position + Vector3.Backward, Vector3.Up);
+                            camera.ViewMatrix = Matrix.CreateLookAt(refractiveObject.Position, refractiveObject.Position + Vector3.Backward, Vector3.Up);
                             break;
                         }
                     case CubeMapFace.PositiveX:
                         {
-                            camera.ViewMatrix = Matrix.CreateLookAt(player.Position, player.Position + Vector3.Right, Vector3.Up);
+                            camera.ViewMatrix = Matrix.CreateLookAt(refractiveObject.Position, refractiveObject.Position + Vector3.Right, Vector3.Up);
                             break;
                         }
                     case CubeMapFace.PositiveY:
                         {
-                            camera.ViewMatrix = Matrix.CreateLookAt(player.Position, player.Position + Vector3.Up, Vector3.Backward);
+                            camera.ViewMatrix = Matrix.CreateLookAt(refractiveObject.Position, refractiveObject.Position + Vector3.Up, Vector3.Backward);
                             break;
                         }
                     case CubeMapFace.PositiveZ:
                         {
-                            camera.ViewMatrix = Matrix.CreateLookAt(player.Position, player.Position + Vector3.Forward, Vector3.Up);
+                            camera.ViewMatrix = Matrix.CreateLookAt(refractiveObject.Position, refractiveObject.Position + Vector3.Forward, Vector3.Up);
                             break;
                         }
                 }
@@ -539,7 +546,13 @@ namespace PBLGame
 
             root.AddChildNode(mapRoot);
 
+            refractiveObject.Position = new Vector3(400f, 50f, -400f);
+            refractiveObject.Scale = new Vector3(3f);
             DrawRefraction();
+            ModelComponent refract = new ModelComponent(Content.Load<Model>("models/player/borowikNozka"), refractionEffect, 
+                Content.Load<Texture2D>("models/player/borowikTex"), Content.Load<Texture2D>("models/player/borowikNormal"));
+            //refract.refractive = true;
+            refractiveObject.AddComponent(refract);
 
             LoadEnemies1();
         }
