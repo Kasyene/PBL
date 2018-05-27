@@ -148,7 +148,7 @@ namespace PBLGame.SceneGraph
             modelEffect.Parameters["PointAmbientColor"].SetValue(Lights.PointLight.GetPointLightsAmbientArray());
             modelEffect.Parameters["PointSpecularColor"].SetValue(Lights.PointLight.GetPointLightsSpecularArray());
 
-            if (!createShadowMap)
+            if (!createShadowMap && !refractive)
             {
                 modelEffect.Parameters["DirectionalShadowMap"].SetValue(ShroomGame.shadowRenderTarget);
             }

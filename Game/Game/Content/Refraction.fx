@@ -117,26 +117,6 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	return output;
 }
 
-float PCF(float2 shadowCoords, float depth)
-{
-	float texelSize = 3.0f / 2048;
-	float shadowPart;
-	float shadow = 0.0f;
-	for (int x = -2; x <= 2; x++)
-	{
-		for (int y = -2; y <= 2; y++)
-		{
-			float2 coords = shadowCoords + float2(texelSize * x, texelSize * y);
-			float shadowDepth = tex2D(shadowMapSampler, coords).r;
-			float B = (depth - bias);
-
-			shadowPart = shadowDepth < B ? 0.0f : 1.0f;
-			shadow += shadowPart;
-		}
-	}
-	return shadow / 25.0f;
-}
-
 float Toonify(float intensity)
 {
 	float lightIntensity;
@@ -169,14 +149,7 @@ float4 DirectionalLightCalculation(VertexShaderOutput input)
 
 	float4 lightingPosition = mul(input.WorldPos, DirectionalLightViewProj);
 
-	float2 shadowTexCoord = 0.5 * lightingPosition.xy / lightingPosition.w + float2(0.5, 0.5);
-	shadowTexCoord.y = 1.0f - shadowTexCoord.y;
-	float ourdepth = (lightingPosition.z / lightingPosition.w);
-
-	float shadow = PCF(shadowTexCoord, ourdepth);
-	shadow = max(0.3f, shadow);
-
-	float4 finalColor = ambient + shadow * (diffuse + specular);
+	float4 finalColor = ambient + diffuse + specular;
 	finalColor = max(0, finalColor);
 	return finalColor;
 }
