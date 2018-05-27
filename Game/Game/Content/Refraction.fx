@@ -57,8 +57,8 @@ samplerCUBE refractionCubeSampler = sampler_state
 	texture = <RefractionMap>;
 	MinFilter = Linear;
 	MagFilter = Linear;
-	AddressU = Mirror;
-	AddressV = Mirror;
+	AddressU = Clamp;
+	AddressV = Clamp;
 };
 
 struct VertexShaderInput
@@ -218,14 +218,16 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	float4 directionalLight = DirectionalLightCalculation(input);
 	float4 pointLight = PointLightCalculation(input);
 
+	float4 light = directionalLight + pointLight;
+
 	float3 bump = BumpConstant * (tex2D(normalSampler, input.TextureCoordinate) - (0.5, 0.5, 0.5));
 	float3 bumpNormal = input.Normal + (bump.x * input.Tangent + bump.y * input.Binormal);
 	bumpNormal = normalize(bumpNormal);
 
 	float3 Refract = refract(ViewVector, bumpNormal, 0.66);
-	float3 RefractColor = texCUBE(refractionCubeSampler, Refract);
+	float3 RefractColor = texCUBE(refractionCubeSampler, Refract * float3(1, 1, -1));
 
-	return saturate((directionalLight + pointLight) * float4(RefractColor, 1));
+	return saturate(light * float4(RefractColor, 1));
 }
 
 technique Draw

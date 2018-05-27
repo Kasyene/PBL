@@ -549,10 +549,10 @@ namespace PBLGame
             root.AddChildNode(mapRoot);
 
             refractiveObject.Position = new Vector3(400f, 50f, -550f);
-            refractiveObject.Scale = new Vector3(3f);
+            //refractiveObject.Scale = new Vector3(3f);
             DrawRefraction();
-            ModelComponent refract = new ModelComponent(Content.Load<Model>("models/player/borowikNozka"), refractionEffect, 
-                Content.Load<Texture2D>("models/player/borowikTex"), Content.Load<Texture2D>("models/player/borowikNormal"));
+            ModelComponent refract = new ModelComponent(Content.Load<Model>("Level1/levelStrefa4Rzezba"), refractionEffect, 
+                Content.Load<Texture2D>("Level1/levelStrefa4RzezbaTex"), Content.Load<Texture2D>("Level1/levelStrefa4RzezbaNormal"));
             refract.refractive = true;
             refractiveObject.AddComponent(refract);
 
