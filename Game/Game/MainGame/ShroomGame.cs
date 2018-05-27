@@ -322,10 +322,12 @@ namespace PBLGame
                             break;
                         }
                 }
+                camera.fieldOfView = MathHelper.PiOver2;
                 GraphicsDevice.SetRenderTarget(refractionTarget, cubeMapFace);
                 GraphicsDevice.Clear(Color.White);
                 DrawWithShadow(camera.ViewMatrix);
             }
+            camera.fieldOfView = MathHelper.PiOver4;
         }
 
         void DrawSkybox()
@@ -546,12 +548,12 @@ namespace PBLGame
 
             root.AddChildNode(mapRoot);
 
-            refractiveObject.Position = new Vector3(400f, 50f, -400f);
+            refractiveObject.Position = new Vector3(400f, 50f, -550f);
             refractiveObject.Scale = new Vector3(3f);
             DrawRefraction();
             ModelComponent refract = new ModelComponent(Content.Load<Model>("models/player/borowikNozka"), refractionEffect, 
                 Content.Load<Texture2D>("models/player/borowikTex"), Content.Load<Texture2D>("models/player/borowikNormal"));
-            //refract.refractive = true;
+            refract.refractive = true;
             refractiveObject.AddComponent(refract);
 
             LoadEnemies1();

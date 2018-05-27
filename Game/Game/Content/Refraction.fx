@@ -8,6 +8,7 @@ float4x4 WorldInverseTranspose;
 float3 ViewVector;
 texture ModelTexture;
 texture NormalMap;
+texture RefractionMap;
 
 //General Light Values
 float AmbientIntensity = 0.5;
@@ -49,6 +50,15 @@ sampler2D normalSampler = sampler_state {
 
 sampler2D shadowMapSampler = sampler_state {
 	Texture = <DirectionalShadowMap>;
+};
+
+samplerCUBE refractionCubeSampler = sampler_state
+{
+	texture = <RefractionMap>;
+	MinFilter = Linear;
+	MagFilter = Linear;
+	AddressU = Mirror;
+	AddressV = Mirror;
 };
 
 struct VertexShaderInput
@@ -208,7 +218,14 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	float4 directionalLight = DirectionalLightCalculation(input);
 	float4 pointLight = PointLightCalculation(input);
 
-	return saturate(directionalLight + pointLight);
+	float3 bump = BumpConstant * (tex2D(normalSampler, input.TextureCoordinate) - (0.5, 0.5, 0.5));
+	float3 bumpNormal = input.Normal + (bump.x * input.Tangent + bump.y * input.Binormal);
+	bumpNormal = normalize(bumpNormal);
+
+	float3 Refract = refract(ViewVector, bumpNormal, 0.66);
+	float3 RefractColor = texCUBE(refractionCubeSampler, Refract);
+
+	return saturate((directionalLight + pointLight) * float4(RefractColor, 1));
 }
 
 technique Draw

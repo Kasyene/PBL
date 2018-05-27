@@ -169,7 +169,7 @@ namespace PBLGame.SceneGraph
 
             if (refractive)
             {
-                modelEffect.Parameters["RefractiveMap"].SetValue(ShroomGame.refractionTarget);
+                modelEffect.Parameters["RefractionMap"].SetValue(ShroomGame.refractionTarget);
             }
         }
     }
