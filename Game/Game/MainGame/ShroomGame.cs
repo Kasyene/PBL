@@ -21,9 +21,13 @@ using PBLGame.Input.Devices;
 
 namespace PBLGame
 {
-    /// <summary>
-    /// This is the main type for your game.
-    /// </summary>
+    enum GameState
+    {
+        MainMenu,
+        LevelTutorial,
+        LevelOne
+    }
+
     public class ShroomGame : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
@@ -41,7 +45,6 @@ namespace PBLGame
 
         private float gammaValue = 0.9f;
         private bool areCollidersAndTriggersSet;
-        private int counterOfUpdatesToCreateCollidersAndTriggers = 0;
 
         private float textDisplayTime = 3f;
         private string actualDialogueText = "";
@@ -67,12 +70,20 @@ namespace PBLGame
         GameObject meleeEnemyHatWalk;
         Camera camera;
 
+        Texture2D playerTex;
+        Texture2D playerNormal;
+        Texture2D rangedEnemyTex;
+        Texture2D rangedEnemyNormal;
+        Texture2D apteczkaTexture;
+
         Effect standardEffect;
         Effect animatedEffect;
         Effect refractionEffect;
         Effect outlineEffect;
         SpriteFont dialoguesFont;
         const int shadowMapWidthHeight = 2048;
+
+        GameState actualGameState;
 
         public ShroomGame()
         {
@@ -83,6 +94,7 @@ namespace PBLGame
             resolution = new Resolution();
             graphics.PreferredBackBufferHeight = 768;
             graphics.PreferredBackBufferWidth = 1366;
+            actualGameState = GameState.LevelOne;
         }
 
         protected override void Initialize()
@@ -95,7 +107,6 @@ namespace PBLGame
 
         protected override void LoadContent()
         {
-            // TODO: WRITE CONTENT MANAGER EXTENSION
             Resources.Init(Content);
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -113,7 +124,13 @@ namespace PBLGame
             outlineEffect.Parameters["ScreenSize"].SetValue(
                new Vector2(GraphicsDevice.Viewport.Bounds.Width, GraphicsDevice.Viewport.Bounds.Height));
             dialoguesFont = Content.Load<SpriteFont>("Dialogues");
+
             skybox = new Skybox("skybox/Sunset", Content);
+            playerTex = Content.Load<Texture2D>("models/player/borowikTex");
+            playerNormal = Content.Load<Texture2D>("models/player/borowikNormal");
+            rangedEnemyTex = Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyTex");
+            rangedEnemyNormal = Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyNormal");
+            apteczkaTexture = Content.Load<Texture2D>("apteczkaTex");
 
             root = new GameObject();
             heart = new GameObject();
@@ -143,8 +160,7 @@ namespace PBLGame
             directionalLight = new Lights.DirectionalLight();
             missingTexture = Content.Load<Texture2D>("Missing");
             Model apteczka = Content.Load<Model>("apteczka");
-            Texture2D apteczkaTexture = Content.Load<Texture2D>("apteczkaTex");
-            
+
             // Add static models
             heart.AddComponent(new ModelComponent(apteczka, standardEffect, apteczkaTexture));
             heart2.AddComponent(new ModelComponent(apteczka, standardEffect, apteczkaTexture));
@@ -175,19 +191,33 @@ namespace PBLGame
                 screenRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, graphics.GraphicsDevice.Viewport.Width,
                                                    graphics.GraphicsDevice.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
             }
+
+            switch (actualGameState)
+            {
+                case GameState.MainMenu:
+                    break;
+                case GameState.LevelTutorial:
+                    if (!areCollidersAndTriggersSet)
+                    {
+                        LoadTutorial();
+                    }
+                    break;
+                case GameState.LevelOne:
+                    if (!areCollidersAndTriggersSet)
+                    {
+                        LoadLevel1();
+                    }
+                    break;
+            }
+
             if (!areCollidersAndTriggersSet)
             {
-                counterOfUpdatesToCreateCollidersAndTriggers++;
-                //if (counterOfUpdatesToCreateCollidersAndTriggers > 2)
-                {
-                    LoadLevel1();
-                    root.CreateColliders();
-                    playerHat.SetAsColliderAndTrigger();
-                    meleeEnemyHat.SetAsColliderAndTrigger();
-                    heart.SetAsTrigger();
-                    heart2.SetAsTrigger();
-                    areCollidersAndTriggersSet = true;
-                }
+                root.CreateColliders();
+                playerHat.SetAsColliderAndTrigger();
+                meleeEnemyHat.SetAsColliderAndTrigger();
+                heart.SetAsTrigger();
+                heart2.SetAsTrigger();
+                areCollidersAndTriggersSet = true;
             }
 
             // Our Timer Class
@@ -241,15 +271,23 @@ namespace PBLGame
 
         protected override void Draw(GameTime gameTime)
         {
-            CreateShadowMap();
-            //skybox.SetSkyBoxTexture(refractionTarget);
-            GraphicsDevice.SetRenderTarget(screenRenderTarget);
-            DrawWithShadow(camera.CalcViewMatrix());
-            DrawOutline();
-            DrawHpBar();
-            DrawTimeBar();
+            switch(actualGameState)
+            {
+                case GameState.MainMenu:
+                    break;
 
-            DrawText(gameTime);
+                case GameState.LevelTutorial:
+                case GameState.LevelOne:
+                    CreateShadowMap();
+                    GraphicsDevice.SetRenderTarget(screenRenderTarget);
+                    DrawWithShadow(camera.CalcViewMatrix());
+                    DrawOutline();
+                    DrawHpBar();
+                    DrawTimeBar();
+
+                    DrawText(gameTime);
+                    break;
+            }
             base.Draw(gameTime);
         }
 
@@ -349,15 +387,15 @@ namespace PBLGame
         void DrawText(GameTime gameTime)
         {
             textDisplayTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if(textDisplayTime < 0f || actualDialogueText == "")
+            if (textDisplayTime < 0f || actualDialogueText == "")
             {
                 actualDialogueText = DialogueString.GetActualDialogueString();
                 textDisplayTime = 3f;
-            }            
+            }
             spriteBatch.Begin();
             spriteBatch.DrawString(dialoguesFont, actualDialogueText,
                 new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 50f),
-                Color.Snow, 0.0f, dialoguesFont.MeasureString(actualDialogueText) /2, 1.0f, SpriteEffects.None, 0.5f);
+                Color.Snow, 0.0f, dialoguesFont.MeasureString(actualDialogueText) / 2, 1.0f, SpriteEffects.None, 0.5f);
             spriteBatch.End();
         }
 
@@ -392,12 +430,12 @@ namespace PBLGame
                     Vector3 scale;
                     Quaternion quat;
                     newModel.model.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
-                  //  Debug.WriteLine("Position of new model " + position + " Rotation " + quat);
+                    //  Debug.WriteLine("Position of new model " + position + " Rotation " + quat);
                     newObj.Position = position;
                     newObj.Scale = scale;
                     newObj.SetModelQuat(quat);
                     newObj.AddComponent(newModel);
-                    newObj.name = bigModel.Meshes[i].Name;             
+                    newObj.name = bigModel.Meshes[i].Name;
                     newObj.Update();
                     result.Add(newObj);
                 }
@@ -459,7 +497,7 @@ namespace PBLGame
 
             tagAssigner(mapa, Walle, "Wall");
             tagAssigner(mapa, Groundy, "Ground");
-           
+
         }
 
         private void tagAssigner(List<GameObject> mapa, List<String> otagowaneNazwy, string tag)
@@ -476,6 +514,7 @@ namespace PBLGame
 
         void LoadLevel1()
         {
+            areCollidersAndTriggersSet = false;
             Model hierarchiaStrefa1 = Content.Load<Model>("Level1/levelStrefa1");
             Texture2D hierarchiaStrefa1Tex = Content.Load<Texture2D>("Level1/levelStrefa1Tex");
             Texture2D hierarchiaStrefa1Normal = Content.Load<Texture2D>("Level1/levelStrefa1Normal");
@@ -551,7 +590,7 @@ namespace PBLGame
             refractiveObject.Position = new Vector3(400f, 50f, -550f);
             //refractiveObject.Scale = new Vector3(3f);
             DrawRefraction();
-            ModelComponent refract = new ModelComponent(Content.Load<Model>("Level1/levelStrefa4Rzezba"), refractionEffect, 
+            ModelComponent refract = new ModelComponent(Content.Load<Model>("Level1/levelStrefa4Rzezba"), refractionEffect,
                 Content.Load<Texture2D>("Level1/levelStrefa4RzezbaTex"), Content.Load<Texture2D>("Level1/levelStrefa4RzezbaNormal"));
             refract.refractive = true;
             refractiveObject.AddComponent(refract);
@@ -561,11 +600,6 @@ namespace PBLGame
 
         void LoadEnemies1()
         {
-            Texture2D playerTex = Content.Load<Texture2D>("models/player/borowikTex");
-            Texture2D playerNormal = Content.Load<Texture2D>("models/player/borowikNormal");
-            Texture2D rangedEnemyTex = Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyTex");
-            Texture2D rangedEnemyNormal = Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyNormal");
-            Texture2D apteczkaTexture = Content.Load<Texture2D>("apteczkaTex");
             hpTexture = apteczkaTexture;
             timeTexture = playerNormal;
 
@@ -625,6 +659,19 @@ namespace PBLGame
             player.RotationZ = 1.5f;
             GameServices.AddService(player);
             new DialogueString("I not have too much time, I need to find Borowikus quickly, there is no time to waste");
+        }
+
+        void LoadTutorial()
+        {
+            areCollidersAndTriggersSet = false;
+
+
+            LoadTutorialEnemies();
+        }
+
+        void LoadTutorialEnemies()
+        {
+
         }
     }
 }
