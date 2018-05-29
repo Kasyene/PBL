@@ -94,7 +94,7 @@ namespace PBLGame
             resolution = new Resolution();
             graphics.PreferredBackBufferHeight = 768;
             graphics.PreferredBackBufferWidth = 1366;
-            actualGameState = GameState.LevelOne;
+            actualGameState = GameState.LevelTutorial;
         }
 
         protected override void Initialize()
@@ -514,7 +514,6 @@ namespace PBLGame
 
         void LoadLevel1()
         {
-            areCollidersAndTriggersSet = false;
             Model hierarchiaStrefa1 = Content.Load<Model>("Level1/levelStrefa1");
             Texture2D hierarchiaStrefa1Tex = Content.Load<Texture2D>("Level1/levelStrefa1Tex");
             Texture2D hierarchiaStrefa1Normal = Content.Load<Texture2D>("Level1/levelStrefa1Normal");
@@ -595,10 +594,95 @@ namespace PBLGame
             refract.refractive = true;
             refractiveObject.AddComponent(refract);
 
+            LoadPlayer();
+            player.Position = new Vector3(0f, 60f, 0f);
+
             LoadEnemies1();
         }
 
         void LoadEnemies1()
+        {
+            enemy1.AddChildNode(meleeEnemyLeg);
+            enemy1.AddChildNode(meleeEnemyHat);
+
+            // ENEMY
+            meleeEnemyLeg.AddComponent(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaChod", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal));
+            meleeEnemyLeg.AddComponent(new AnimationManager(meleeEnemyLeg));
+            meleeEnemyHat.AddComponent(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszChod", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal));
+            meleeEnemyHat.AddComponent(new AnimationManager(meleeEnemyHat));
+            enemy1.AddComponent(new MeleeEnemy(enemy1));
+
+            //anims TODO: CHANGE MODEL COMPONENT TO SOMETHING ELSE : )
+
+            root.AddChildNode(enemy1);
+            
+            enemy1.Position = new Vector3(-8f, 40f, -250f);
+            new DialogueString("I not have too much time, I need to find Borowikus quickly, there is no time to waste");
+        }
+
+        void LoadTutorial()
+        {
+            Model hierarchiaStrefa1 = Content.Load<Model>("LevelTut/zamekStrefa1");
+            Texture2D hierarchiaStrefa1Tex = Content.Load<Texture2D>("LevelTut/zamekStrefa1Tex");
+            Texture2D hierarchiaStrefa1Normal = Content.Load<Texture2D>("LevelTut/zamekStrefa1Normal");
+
+            List<GameObject> strefa1List = SplitModelIntoSmallerPieces(hierarchiaStrefa1, hierarchiaStrefa1Tex, hierarchiaStrefa1Normal);
+            CreateHierarchyOfLevel(strefa1List, mapRoot);
+            AssignTagsForMapElements(strefa1List);
+
+            Model hierarchiaStrefa2 = Content.Load<Model>("LevelTut/zamekStrefa2");
+            Texture2D hierarchiaStrefa2Tex = Content.Load<Texture2D>("LevelTut/zamekStrefa2Tex");
+            Texture2D hierarchiaStrefa2Normal = Content.Load<Texture2D>("LevelTut/zamekStrefa2Normal");
+
+            List<GameObject> strefa2List = SplitModelIntoSmallerPieces(hierarchiaStrefa2, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
+            CreateHierarchyOfLevel(strefa2List, mapRoot);
+            AssignTagsForMapElements(strefa2List);
+
+            /*Model platforma1 = Content.Load<Model>("Level1/levelStrefa2Platforma1");
+            List<GameObject> platforma1List = SplitModelIntoSmallerPieces(platforma1, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
+            CreateHierarchyOfLevel(platforma1List, mapRoot);
+            AssignTagsForMapElements(platforma1List);
+
+            Model platforma2 = Content.Load<Model>("Level1/levelStrefa2Platforma2");
+            List<GameObject> platforma2List = SplitModelIntoSmallerPieces(platforma2, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
+            CreateHierarchyOfLevel(platforma2List, mapRoot);
+            AssignTagsForMapElements(platforma2List);*/
+
+            Model hierarchiaStrefa3 = Content.Load<Model>("LevelTut/zamekStrefa3");
+            Texture2D hierarchiaStrefa3Tex = Content.Load<Texture2D>("LevelTut/zamekStrefa3Tex");
+            Texture2D hierarchiaStrefa3Normal = Content.Load<Texture2D>("LevelTut/zamekStrefa3Normal");
+
+            List<GameObject> strefa3List = SplitModelIntoSmallerPieces(hierarchiaStrefa3, hierarchiaStrefa3Tex, hierarchiaStrefa3Normal);
+            CreateHierarchyOfLevel(strefa3List, mapRoot);
+            AssignTagsForMapElements(strefa3List);
+
+            Model hierarchiaStrefa4 = Content.Load<Model>("LevelTut/zamekStrefa4");
+            Texture2D hierarchiaStrefa4Tex = Content.Load<Texture2D>("LevelTut/zamekStrefa4Tex");
+            Texture2D hierarchiaStrefa4Normal = Content.Load<Texture2D>("LevelTut/zamekStrefa4Normal");
+
+            List<GameObject> strefa4List = SplitModelIntoSmallerPieces(hierarchiaStrefa4, hierarchiaStrefa4Tex, hierarchiaStrefa4Normal);
+            CreateHierarchyOfLevel(strefa4List, mapRoot);
+            AssignTagsForMapElements(strefa4List);
+
+            pointLights = new List<Lights.PointLight>();
+
+            pointLights.Add(new Lights.PointLight(new Vector3(-20.0f, 150.0f, -620.0f), new Vector3(2.8f, 0.0002f, 0.00004f)));
+            pointLights.Add(new Lights.PointLight(new Vector3(-20.0f, 150.0f, -1300.0f), new Vector3(2.8f, 0.0002f, 0.00004f)));
+            pointLights.Add(new Lights.PointLight(new Vector3(-20.0f, 150.0f, -1900.0f), new Vector3(2.8f, 0.0002f, 0.00004f)));
+
+            root.AddChildNode(mapRoot);
+
+            LoadPlayer();
+            player.Position = new Vector3(0f, 60f, 1850f);
+            LoadTutorialEnemies();
+        }
+
+        void LoadTutorialEnemies()
+        {
+
+        }
+
+        void LoadPlayer()
         {
             hpTexture = apteczkaTexture;
             timeTexture = playerNormal;
@@ -606,9 +690,6 @@ namespace PBLGame
             // Load anim models
             player.AddChildNode(playerLeg);
             player.AddChildNode(playerHat);
-
-            enemy1.AddChildNode(meleeEnemyLeg);
-            enemy1.AddChildNode(meleeEnemyHat);
 
             // models without anims have problems i guess ; /
             playerLeg.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content, animatedEffect, playerTex, playerNormal));
@@ -618,17 +699,6 @@ namespace PBLGame
 
             // ENABLE DYNAMIC COLLISION ON PLAYER HAT
             playerHat.GetComponent<ModelAnimatedComponent>().ColliderDynamicUpdateEnable();
-
-            // ENEMY
-            meleeEnemyLeg.AddComponent(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaChod", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal));
-            meleeEnemyLeg.AddComponent(new AnimationManager(meleeEnemyLeg));
-            meleeEnemyHat.AddComponent(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszChod", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal));
-            meleeEnemyHat.AddComponent(new AnimationManager(meleeEnemyHat));
-            enemy1.AddComponent(new MeleeEnemy(enemy1));
-
-            //LoadLevel1();
-
-            //anims TODO: CHANGE MODEL COMPONENT TO SOMETHING ELSE : )
 
             // IDLE
             playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaIdle", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "idle");
@@ -651,26 +721,11 @@ namespace PBLGame
             playerLeg.GetComponent<AnimationManager>().PlayAnimation("idle");
 
             root.AddChildNode(player);
-            root.AddChildNode(enemy1);
+
             player.AddChildNode(camera);
-
-            player.Position = new Vector3(0f, 60f, 0f);
-            enemy1.Position = new Vector3(-8f, 40f, -250f);
             player.RotationZ = 1.5f;
+
             GameServices.AddService(player);
-            new DialogueString("I not have too much time, I need to find Borowikus quickly, there is no time to waste");
-        }
-
-        void LoadTutorial()
-        {
-            areCollidersAndTriggersSet = false;
-
-
-            LoadTutorialEnemies();
-        }
-
-        void LoadTutorialEnemies()
-        {
 
         }
     }

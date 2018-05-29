@@ -19,7 +19,16 @@ namespace PBLGame.Lights
         {
             position = _position;
             attenuation = new Vector3(0.8f, 0.001f, 0.0004f);
-            ambient = new Vector4(0.6f);
+            ambient = new Vector4(0.0f);
+            diffuse = new Vector4(1f);
+            specular = new Vector4(1f);
+        }
+
+        public PointLight(Vector3 _position, Vector3 _attenuation)
+        {
+            position = _position;
+            attenuation = _attenuation;
+            ambient = new Vector4(0.0f);
             diffuse = new Vector4(1f);
             specular = new Vector4(1f);
         }
