@@ -279,6 +279,7 @@ namespace PBLGame
                 case GameState.LevelTutorial:
                 case GameState.LevelOne:
                     CreateShadowMap();
+                    //skybox.SetSkyBoxTexture(refractionTarget);
                     GraphicsDevice.SetRenderTarget(screenRenderTarget);
                     DrawWithShadow(camera.CalcViewMatrix());
                     DrawOutline();
@@ -664,16 +665,30 @@ namespace PBLGame
             CreateHierarchyOfLevel(strefa4List, mapRoot);
             AssignTagsForMapElements(strefa4List);
 
+            root.AddChildNode(mapRoot);
+
+            Model refr = Content.Load<Model>("LevelTut/zamekStrefa4Rzezby");
+            Vector3 position;
+            Vector3 scale;
+            Quaternion quat;
+            refr.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
+            //  Debug.WriteLine("Position of new model " + position + " Rotation " + quat);
+            refractiveObject.Position = position;
+            refractiveObject.Scale = scale;
+            DrawRefraction();
+            ModelComponent refract = new ModelComponent(refr, refractionEffect,
+                Content.Load<Texture2D>("LevelTut/zamekStrefa4RzezbyTex"), Content.Load<Texture2D>("LevelTut/zamekStrefa4RzezbyNormal"));
+            refract.refractive = true;
+            refractiveObject.AddComponent(refract);
+
             pointLights = new List<Lights.PointLight>();
 
             pointLights.Add(new Lights.PointLight(new Vector3(-20.0f, 150.0f, -620.0f), new Vector3(2.8f, 0.0002f, 0.00004f)));
             pointLights.Add(new Lights.PointLight(new Vector3(-20.0f, 150.0f, -1300.0f), new Vector3(2.8f, 0.0002f, 0.00004f)));
             pointLights.Add(new Lights.PointLight(new Vector3(-20.0f, 150.0f, -1900.0f), new Vector3(2.8f, 0.0002f, 0.00004f)));
 
-            root.AddChildNode(mapRoot);
-
             LoadPlayer();
-            player.Position = new Vector3(0f, 60f, 1850f);
+            player.Position = new Vector3(0f, 60f, -800f);
             LoadTutorialEnemies();
         }
 
