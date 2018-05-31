@@ -69,7 +69,7 @@ namespace PBLGame.SceneGraph
             {
                 if (other.isTrigger && !other.isCollider)
                 {
-                    other.owner.GetComponent<ConsumableTrigger>().OnTrigger();
+                    other.owner.GetComponent<Trigger>().OnTrigger();
                     return false;
                 }
                 return true;
