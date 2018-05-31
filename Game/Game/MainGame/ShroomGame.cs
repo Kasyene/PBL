@@ -167,8 +167,8 @@ namespace PBLGame
             
 
             meleeEnemy1 = new GameObject("meleeEnemy");
-            meleeEnemyModel = new GameObject("Leg");
-            meleeEnemyWalk = new GameObject("Leg");
+            meleeEnemyModel = new GameObject("meleeEnemy");
+            meleeEnemyWalk = new GameObject("meleeEnemy");
 
             camera = new Camera();
             camera.SetCameraTarget(player);
@@ -653,8 +653,8 @@ namespace PBLGame
             rangedEnemyHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszChod", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "walk");
 
             // GOTHIT
-            rangedEnemyLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaOberwal", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "gothit");
-            rangedEnemyHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszOberwal", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "gothit");
+            rangedEnemyLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaOberwal", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "gotHit");
+            rangedEnemyHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszOberwal", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "gotHit");
 
             // DEATH
             rangedEnemyLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaUmarl", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "death");
@@ -687,8 +687,8 @@ namespace PBLGame
             // ATTACK
             meleeEnemyModel.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyAtak", Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal).AnimationClips[0], "attack");
 
-            // GOTHIT
-            meleeEnemyModel.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyOberwal", Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal).AnimationClips[0], "gothit");
+            // gotHit
+            meleeEnemyModel.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyOberwal", Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal).AnimationClips[0], "gotHit");
 
             // DEATH
             meleeEnemyModel.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyUmarl", Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal).AnimationClips[0], "death");

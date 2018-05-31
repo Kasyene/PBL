@@ -140,7 +140,7 @@ namespace PBLGame.SceneGraph
                 }
             }
 
-            if (this.owner.tag == "Leg")
+            if (this.owner.tag == "Leg" || this.owner.tag == "meleeEnemy")
             {
                 this.owner.Parent.isGrounded = false;
             }
