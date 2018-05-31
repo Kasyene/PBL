@@ -109,6 +109,20 @@ namespace PBLGame.SceneGraph
             node.SetParent(this);
         }
 
+
+        public GameObject FindChildNodeByTag(String searchedTag)
+        {
+            foreach (var node in childs)
+            {
+                if (node.tag == searchedTag)
+                {
+                    return node;
+                }
+            }
+
+            return null;
+        }
+
         public void RemoveChildNode(GameObject node)
         {
             if (node.parent != this)
@@ -373,10 +387,11 @@ namespace PBLGame.SceneGraph
                 if(component.GetType() == typeof(ModelComponent) || component.GetType() == typeof(ModelAnimatedComponent))
                 {
                     BoundingBox currBox = component.GetBoundingBox(this, localTransform, worldTransform);
-                    colliders.Add(new Collider(currBox, component, this));
+                    var a = new Collider(currBox, component, this);
+                    colliders.Add(a);
                     if (this.parent.CheckIfPawn())
                     {
-                        this.parent.colliders.Add(new Collider(currBox, component, this));
+                        this.parent.colliders.Add(a);
                     }
                     break;
                 }
@@ -509,11 +524,24 @@ namespace PBLGame.SceneGraph
 
         public void SetAsColliderAndTrigger()
         {
-            foreach (var col in colliders)
+            if (this.CheckIfPawn())
             {
-                col.isTrigger = true;
-                col.isCollider = true;
+                var hat = this.FindChildNodeByTag("Hat");
+                foreach (var col in hat.colliders)
+                {
+                    col.isTrigger = true;
+                    col.isCollider = true;
+                }
             }
+            else
+            {
+                foreach (var col in colliders)
+                {
+                    col.isTrigger = true;
+                    col.isCollider = true;
+                }
+            }
+            
         }
 
         public void Dispose()
