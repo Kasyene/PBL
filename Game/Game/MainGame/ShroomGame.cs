@@ -538,15 +538,28 @@ namespace PBLGame
             CreateHierarchyOfLevel(strefa2List, mapRoot);
             AssignTagsForMapElements(strefa2List);
 
+            GameObject plat1 = new GameObject();
             Model platforma1 = Content.Load<Model>("Level1/levelStrefa2Platforma1");
-            List<GameObject> platforma1List = SplitModelIntoSmallerPieces(platforma1, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
-            CreateHierarchyOfLevel(platforma1List, mapRoot);
-            AssignTagsForMapElements(platforma1List);
+            Vector3 position;
+            Vector3 scale;
+            Quaternion quat;
+            platforma1.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
+            plat1.Position = position;
+            plat1.Scale = scale;
+            plat1.SetModelQuat(quat);
+            ModelComponent modelPlat1 = new ModelComponent(platforma1, standardEffect, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
+            plat1.AddComponent(modelPlat1);
+            mapRoot.AddChildNode(plat1);
 
+            GameObject plat2 = new GameObject();
             Model platforma2 = Content.Load<Model>("Level1/levelStrefa2Platforma2");
-            List<GameObject> platforma2List = SplitModelIntoSmallerPieces(platforma2, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
-            CreateHierarchyOfLevel(platforma2List, mapRoot);
-            AssignTagsForMapElements(platforma2List);
+            platforma2.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
+            plat2.Position = position;
+            plat2.Scale = scale;
+            plat2.SetModelQuat(quat);
+            ModelComponent modelPlat2 = new ModelComponent(platforma2, standardEffect, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
+            plat2.AddComponent(modelPlat2);
+            mapRoot.AddChildNode(plat2);
 
             Model hierarchiaStrefa3 = Content.Load<Model>("Level1/levelStrefa3");
             Texture2D hierarchiaStrefa3Tex = Content.Load<Texture2D>("Level1/levelStrefa3Tex");
@@ -590,9 +603,6 @@ namespace PBLGame
             root.AddChildNode(mapRoot);
 
             Model refr = Content.Load<Model>("Level1/levelStrefa4Rzezba");
-            Vector3 position;
-            Vector3 scale;
-            Quaternion quat;
             refr.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
             refractiveObject.Position = position;
             refractiveObject.Scale = scale;
@@ -638,6 +648,19 @@ namespace PBLGame
             CreateHierarchyOfLevel(strefa1List, mapRoot);
             AssignTagsForMapElements(strefa1List);
 
+            GameObject plat1 = new GameObject();
+            Model platforma1 = Content.Load<Model>("LevelTut/zamekStrefa1Platforma");
+            Vector3 position;
+            Vector3 scale;
+            Quaternion quat;
+            platforma1.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
+            plat1.Position = position;
+            plat1.Scale = scale;
+            plat1.SetModelQuat(quat);
+            ModelComponent modelPlat1 = new ModelComponent(platforma1, standardEffect, hierarchiaStrefa1Tex, hierarchiaStrefa1Normal);
+            plat1.AddComponent(modelPlat1);
+            mapRoot.AddChildNode(plat1);
+
             Model hierarchiaStrefa2 = Content.Load<Model>("LevelTut/zamekStrefa2");
             Texture2D hierarchiaStrefa2Tex = Content.Load<Texture2D>("LevelTut/zamekStrefa2Tex");
             Texture2D hierarchiaStrefa2Normal = Content.Load<Texture2D>("LevelTut/zamekStrefa2Normal");
@@ -675,9 +698,6 @@ namespace PBLGame
             root.AddChildNode(mapRoot);
 
             Model refr = Content.Load<Model>("LevelTut/zamekStrefa4Rzezby");
-            Vector3 position;
-            Vector3 scale;
-            Quaternion quat;
             refr.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
             //  Debug.WriteLine("Position of new model " + position + " Rotation " + quat);
             refractiveObject.Position = position;
