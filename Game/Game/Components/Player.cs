@@ -74,14 +74,10 @@ namespace PBLGame.MainGame
             {
                 MoveLeft(playerSpeed);
             }
-            else if (parentGameObject.isGrounded && inputManager.Keyboard[Keys.Space])
+            if (parentGameObject.isGrounded && inputManager.Keyboard[Keys.Space])
             {
                 isJumping = true;
             }
-/*            else
-            {
-                CheckCollider();
-            }*/
             Rotate(inputManager.Mouse.PositionsDelta.X * 0.01f);
         }
 
