@@ -66,11 +66,11 @@ namespace PBLGame
         GameObject playerHat;
         GameObject playerLegWalk;
         GameObject playerHatWalk;
-        GameObject enemy1;
-        GameObject meleeEnemyLeg;
-        GameObject meleeEnemyHat;
-        GameObject meleeEnemyLegWalk;
-        GameObject meleeEnemyHatWalk;
+        GameObject rangedEnemy1;
+        GameObject rangedEnemyLeg;
+        GameObject rangedEnemyHat;
+        GameObject rangedEnemyLegWalk;
+        GameObject rangedEnemyHatWalk;
         Camera camera;
 
         Texture2D playerTex;
@@ -151,11 +151,12 @@ namespace PBLGame
             playerHatWalk = new GameObject("Hat");
             player.AddComponent(new Player(player));
 
-            enemy1 = new GameObject("enemy1");
-            meleeEnemyHat = new GameObject("Hat");
-            meleeEnemyHatWalk = new GameObject("Hat");
-            meleeEnemyLeg = new GameObject("Leg");
-            meleeEnemyLegWalk = new GameObject("Leg");
+            rangedEnemy1 = new GameObject("rangedEnemy");
+            rangedEnemyHat = new GameObject("Hat");
+            rangedEnemyHatWalk = new GameObject("Hat");
+            rangedEnemyLeg = new GameObject("Leg");
+            rangedEnemyLegWalk = new GameObject("Leg");
+            rangedEnemy1.AddComponent(new MeleeEnemy(rangedEnemy1));
 
             camera = new Camera();
             camera.SetCameraTarget(player);
@@ -218,7 +219,6 @@ namespace PBLGame
             {
                 root.CreateColliders();
                 playerHat.SetAsColliderAndTrigger();
-                meleeEnemyHat.SetAsColliderAndTrigger();
                 heart.SetAsTrigger(new ConsumableTrigger(heart));
                 heart2.SetAsTrigger(new ConsumableTrigger(heart2));
                 areCollidersAndTriggersSet = true;
@@ -236,7 +236,7 @@ namespace PBLGame
             // Player update
             player.Update();
             player.Update(gameTime);
-            enemy1.Update(gameTime);
+            rangedEnemy1.Update(gameTime);
 
             if (inputManager.Keyboard[Keys.Escape])
             {
@@ -641,21 +641,43 @@ namespace PBLGame
 
         void LoadEnemies1()
         {
-            enemy1.AddChildNode(meleeEnemyLeg);
-            enemy1.AddChildNode(meleeEnemyHat);
+            //rangedEnemy          
+            // Load anim models
+            rangedEnemy1.AddChildNode(rangedEnemyLeg);
+            rangedEnemy1.AddChildNode(rangedEnemyHat);
 
-            // ENEMY
-            meleeEnemyLeg.AddComponent(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaChod", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal));
-            meleeEnemyLeg.AddComponent(new AnimationManager(meleeEnemyLeg));
-            meleeEnemyHat.AddComponent(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszChod", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal));
-            meleeEnemyHat.AddComponent(new AnimationManager(meleeEnemyHat));
-            enemy1.AddComponent(new MeleeEnemy(enemy1));
+            // models without anims have problems i guess ; /
+            rangedEnemyLeg.AddComponent(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaChod", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal));
+            rangedEnemyLeg.AddComponent(new AnimationManager(rangedEnemyLeg));
+            rangedEnemyHat.AddComponent(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszChod", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal));
+            rangedEnemyHat.AddComponent(new AnimationManager(rangedEnemyHat));
 
-            //anims TODO: CHANGE MODEL COMPONENT TO SOMETHING ELSE : )
+            // ENABLE DYNAMIC COLLISION ON ENEMY HAT
+            rangedEnemyHat.GetComponent<ModelAnimatedComponent>().ColliderDynamicUpdateEnable();
 
-            root.AddChildNode(enemy1);
-            
-            enemy1.Position = new Vector3(-8f, 40f, -250f);
+            // IDLE
+            rangedEnemyLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaIdle", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "idle");
+            rangedEnemyHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszIdle", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "idle");
+
+            // WALK
+            rangedEnemyLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaChod", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "walk");
+            rangedEnemyHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszChod", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "walk");
+
+            // GOTHIT
+            rangedEnemyLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaOberwal", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "gothit");
+            rangedEnemyHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszOberwal", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "gothit");
+
+            // DEATH
+            rangedEnemyLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaUmarl", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "death");
+            rangedEnemyHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszUmarl", Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "death");
+
+            // TODO: ANIM LOAD SYSTEM / SELECTOR
+            rangedEnemyLeg.GetComponent<AnimationManager>().PlayAnimation("idle");
+            rangedEnemyHat.GetComponent<AnimationManager>().PlayAnimation("idle");
+
+            root.AddChildNode(rangedEnemy1);
+            rangedEnemy1.Position = new Vector3(-8f, 40f, -350f);
+
             new DialogueString("I not have too much time, I need to find Borowikus quickly, there is no time to waste");
         }
 
@@ -794,7 +816,6 @@ namespace PBLGame
             player.RotationZ = 1.5f;
 
             GameServices.AddService(player);
-
         }
     }
 }
