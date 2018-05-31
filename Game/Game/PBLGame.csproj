@@ -51,6 +51,7 @@
     <Compile Include="Components\Particles\ParticleEmitter.cs" />
     <Compile Include="Components\Particles\ParticleSystem.cs" />
     <Compile Include="Components\Particles\ParticleVertex.cs" />
+    <Compile Include="Components\Pawns\Enemies\RangedEnemy.cs" />
     <Compile Include="Components\Pawns\Pawn.cs" />
     <Compile Include="Components\Pawns\Player.cs" />
     <Compile Include="Components\PlatformComponent.cs" />

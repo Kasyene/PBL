@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PBLGame.SceneGraph;
 
-namespace Game.Components.Enemies
+namespace Game.Components.Pawns.Enemies
 {
     class MeleeEnemy : Enemy
     {
@@ -14,8 +14,8 @@ namespace Game.Components.Enemies
         {
             parentGameObject = parent;
             enemySpeed = 0.05f;
-            wakeUpDistance = 150f;
-            range = 15f;
+            wakeUpDistance = 300f;
+            range = 300f;
         }
 
         protected override void EnemyBehaviour()
@@ -23,25 +23,26 @@ namespace Game.Components.Enemies
             base.EnemyBehaviour();
             if (distance < wakeUpDistance && heightDifference < 5.0f)
             {
-                if (distance < range)
+                if (distance < 30f )
                 {
-                    Attack();
+                    Movement();
+                    
                 }
                 else
                 {
-                    Movement();
+                    Attack();
                 }
             }
         }
 
         protected override void Movement()
         {
-            MoveForward(enemySpeed);
+            MoveBack(enemySpeed);
         }
 
         protected override void Attack()
         {
-           Debug.WriteLine("ATAK MELEE");
+            Debug.WriteLine("ATAK RANGED");
         }
     }
 }
