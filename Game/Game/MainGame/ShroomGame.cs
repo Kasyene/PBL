@@ -95,8 +95,8 @@ namespace PBLGame
             resolution = new Resolution();
             graphics.PreferredBackBufferHeight = 768;
             graphics.PreferredBackBufferWidth = 1366;
-            actualGameState = GameState.LevelTutorial;
-            //actualGameState = GameState.LevelOne;
+            //actualGameState = GameState.LevelTutorial;
+            actualGameState = GameState.LevelOne;
         }
 
         protected override void Initialize()
@@ -589,10 +589,15 @@ namespace PBLGame
 
             root.AddChildNode(mapRoot);
 
-            refractiveObject.Position = new Vector3(400f, 50f, -550f);
-            //refractiveObject.Scale = new Vector3(3f);
+            Model refr = Content.Load<Model>("Level1/levelStrefa4Rzezba");
+            Vector3 position;
+            Vector3 scale;
+            Quaternion quat;
+            refr.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
+            refractiveObject.Position = position;
+            refractiveObject.Scale = scale;
             DrawRefraction();
-            ModelComponent refract = new ModelComponent(Content.Load<Model>("Level1/levelStrefa4Rzezba"), refractionEffect,
+            ModelComponent refract = new ModelComponent(refr, refractionEffect,
                 Content.Load<Texture2D>("Level1/levelStrefa4RzezbaTex"), Content.Load<Texture2D>("Level1/levelStrefa4RzezbaNormal"));
             refract.refractive = true;
             refractiveObject.AddComponent(refract);
