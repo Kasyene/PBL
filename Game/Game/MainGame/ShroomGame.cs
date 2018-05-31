@@ -17,6 +17,7 @@ using System.IO;
 using Game.Components;
 using Game.Components.Collisions;
 using Game.Components.Enemies;
+using Game.Components.Pawns.Enemies;
 using Game.MainGame;
 using PBLGame.Input.Devices;
 
@@ -163,11 +164,12 @@ namespace PBLGame
             rangedEnemyHatWalk = new GameObject("Hat");
             rangedEnemyLeg = new GameObject("Leg");
             rangedEnemyLegWalk = new GameObject("Leg");
-            rangedEnemy1.AddComponent(new MeleeEnemy(rangedEnemy1));
+            rangedEnemy1.AddComponent(new RangedEnemy(rangedEnemy1));
 
             meleeEnemy1 = new GameObject("meleeEnemy");
             meleeEnemyModel = new GameObject("Leg");
             meleeEnemyWalk = new GameObject("Leg");
+            meleeEnemy1.AddComponent(new MeleeEnemy(meleeEnemy1));
 
             camera = new Camera();
             camera.SetCameraTarget(player);

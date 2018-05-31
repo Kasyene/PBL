@@ -8,12 +8,12 @@ using PBLGame.SceneGraph;
 
 namespace Game.Components.Pawns.Enemies
 {
-    class MeleeEnemy : Enemy
+    class RangedEnemy : Enemy
     {
-        public MeleeEnemy(GameObject parent) : base(parent)
+        public RangedEnemy(GameObject parent) : base(parent)
         {
             parentGameObject = parent;
-            enemySpeed = 0.05f;
+            enemySpeed = 0.07f;
             wakeUpDistance = 300f;
             range = 300f;
         }
@@ -23,7 +23,7 @@ namespace Game.Components.Pawns.Enemies
             base.EnemyBehaviour();
             if (distance < wakeUpDistance && heightDifference < 5.0f)
             {
-                if (distance < 30f )
+                if (distance < 70f )
                 {
                     Movement();
                     

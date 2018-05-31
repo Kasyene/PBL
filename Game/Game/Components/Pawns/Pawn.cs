@@ -39,7 +39,6 @@ namespace PBLGame.MainGame
             {
                 positionYBeforeJump = parentGameObject.PositionY;
             }
-
             if (isJumping)
             {
                 parentGameObject.Translate(new Vector3(0.0f, 0.20f * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0.0f));
