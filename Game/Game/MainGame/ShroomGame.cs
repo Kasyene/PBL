@@ -52,6 +52,8 @@ namespace PBLGame
         private Texture2D hpTexture;
         private Texture2D timeTexture;
 
+        List<Component> updateComponents;
+
         GameObject root;
         GameObject heart;
         GameObject heart2;
@@ -226,6 +228,11 @@ namespace PBLGame
             Timer.Update(gameTime);
             inputManager.Update();
             camera.Update();
+
+            foreach(Component comp in updateComponents)
+            {
+                comp.Update(gameTime);
+            }
             // Player update
             player.Update();
             player.Update(gameTime);
@@ -517,6 +524,7 @@ namespace PBLGame
 
         void LoadLevel1()
         {
+            updateComponents = new List<Component>();
             Model hierarchiaStrefa1 = Content.Load<Model>("Level1/levelStrefa1");
             Texture2D hierarchiaStrefa1Tex = Content.Load<Texture2D>("Level1/levelStrefa1Tex");
             Texture2D hierarchiaStrefa1Normal = Content.Load<Texture2D>("Level1/levelStrefa1Normal");
@@ -547,8 +555,12 @@ namespace PBLGame
             plat1.Position = position;
             plat1.Scale = scale;
             plat1.SetModelQuat(quat);
+            plat1.name = platforma1.Meshes[0].Name;
             ModelComponent modelPlat1 = new ModelComponent(platforma1, standardEffect, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
             plat1.AddComponent(modelPlat1);
+            PlatformComponent plat1Comp = new PlatformComponent(plat1, plat1.Position - new Vector3(150f, 0f, 0f), 1f, 4f);
+            plat1.AddComponent(plat1Comp);
+            updateComponents.Add(plat1Comp);
             mapRoot.AddChildNode(plat1);
 
             GameObject plat2 = new GameObject();
@@ -557,9 +569,18 @@ namespace PBLGame
             plat2.Position = position;
             plat2.Scale = scale;
             plat2.SetModelQuat(quat);
+            plat2.name = platforma2.Meshes[0].Name;
             ModelComponent modelPlat2 = new ModelComponent(platforma2, standardEffect, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
             plat2.AddComponent(modelPlat2);
+            PlatformComponent plat2Comp = new PlatformComponent(plat2, plat2.Position - new Vector3(150f, 0f, 0f), 2f, 3f);
+            plat2.AddComponent(plat2Comp);
+            updateComponents.Add(plat2Comp);
             mapRoot.AddChildNode(plat2);
+
+            List<GameObject> list = new List<GameObject>();
+            list.Add(plat1);
+            list.Add(plat2);
+            AssignTagsForMapElements(list);
 
             Model hierarchiaStrefa3 = Content.Load<Model>("Level1/levelStrefa3");
             Texture2D hierarchiaStrefa3Tex = Content.Load<Texture2D>("Level1/levelStrefa3Tex");
@@ -657,9 +678,14 @@ namespace PBLGame
             plat1.Position = position;
             plat1.Scale = scale;
             plat1.SetModelQuat(quat);
+            plat1.name = platforma1.Meshes[0].Name;
             ModelComponent modelPlat1 = new ModelComponent(platforma1, standardEffect, hierarchiaStrefa1Tex, hierarchiaStrefa1Normal);
             plat1.AddComponent(modelPlat1);
             mapRoot.AddChildNode(plat1);
+
+            List<GameObject> list = new List<GameObject>();
+            list.Add(plat1);
+            AssignTagsForMapElements(list);
 
             Model hierarchiaStrefa2 = Content.Load<Model>("LevelTut/zamekStrefa2");
             Texture2D hierarchiaStrefa2Tex = Content.Load<Texture2D>("LevelTut/zamekStrefa2Tex");

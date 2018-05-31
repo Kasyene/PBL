@@ -53,6 +53,7 @@
     <Compile Include="Components\Particles\ParticleVertex.cs" />
     <Compile Include="Components\Pawns\Pawn.cs" />
     <Compile Include="Components\Pawns\Player.cs" />
+    <Compile Include="Components\PlatformComponent.cs" />
     <Compile Include="Input\Devices\KeyboardInput.cs" />
     <Compile Include="Input\Devices\KeyboardKey.cs" />
     <Compile Include="Input\Devices\SupportedMouseButtons.cs" />
