@@ -705,9 +705,6 @@ namespace PBLGame
             meleeEnemyModel.AddComponent(new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyChod", Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal));
             meleeEnemyModel.AddComponent(new AnimationManager(meleeEnemyModel));
 
-            // ENABLE DYNAMIC COLLISION ON ENEMY HAT
-            meleeEnemyModel.GetComponent<ModelAnimatedComponent>().ColliderDynamicUpdateEnable();
-
             // IDLE
             meleeEnemyModel.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyIdle", Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal).AnimationClips[0], "idle");
 

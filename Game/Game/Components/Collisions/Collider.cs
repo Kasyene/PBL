@@ -87,7 +87,7 @@ namespace PBLGame.SceneGraph
                 {
                     if (IsCollision(col))
                     {
-                        if ((this.isCollider && this.isTrigger) || (col.isCollider && col.isTrigger))
+                        if ((this.isCollider && this.isTrigger))
                         {
                             if (col.owner.tag != "Ground" && col.owner.tag != "Wall")
                             {
