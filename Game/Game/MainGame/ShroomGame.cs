@@ -157,19 +157,18 @@ namespace PBLGame
             playerHat = new GameObject("Hat");
             playerLegWalk = new GameObject("Leg");
             playerHatWalk = new GameObject("Hat");
-            player.AddComponent(new Player(player));
+
 
             rangedEnemy1 = new GameObject("rangedEnemy");
             rangedEnemyHat = new GameObject("Hat");
             rangedEnemyHatWalk = new GameObject("Hat");
             rangedEnemyLeg = new GameObject("Leg");
             rangedEnemyLegWalk = new GameObject("Leg");
-            rangedEnemy1.AddComponent(new RangedEnemy(rangedEnemy1));
+            
 
             meleeEnemy1 = new GameObject("meleeEnemy");
             meleeEnemyModel = new GameObject("Leg");
             meleeEnemyWalk = new GameObject("Leg");
-            meleeEnemy1.AddComponent(new MeleeEnemy(meleeEnemy1));
 
             camera = new Camera();
             camera.SetCameraTarget(player);
@@ -258,38 +257,9 @@ namespace PBLGame
             {
                 Exit();
             }
-            // TEMP ANIMATION CHANGER
-            // TODO: CREATE ANIMATION CHANGING CLASS N' METHODS :)
 
             if (areCollidersAndTriggersSet)
             {
-                if (inputManager.Mouse[SupportedMouseButtons.Left].WasPressed && playerHat.GetComponent<AnimationManager>().isReady)
-                {
-                    playerHat.GetComponent<AnimationManager>().PlayAnimation("slash");
-                    playerLeg.GetComponent<AnimationManager>().PlayAnimation("slash");
-                }
-
-                if (inputManager.Mouse[SupportedMouseButtons.Right].WasPressed && playerHat.GetComponent<AnimationManager>().isReady)
-                {
-                    playerHat.GetComponent<AnimationManager>().PlayAnimation("throw");
-                    playerLeg.GetComponent<AnimationManager>().PlayAnimation("throw");
-                }
-
-                if (inputManager.Keyboard[Keys.W].IsDown || inputManager.Keyboard[Keys.S].IsDown || inputManager.Keyboard[Keys.A].IsDown || inputManager.Keyboard[Keys.D].IsDown)
-                {
-                    if (playerHat.GetComponent<AnimationManager>().defaultKey != "walk")
-                    {
-                        playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
-                        playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
-                    }
-                }
-                else if (true)
-                {
-                    //TODO CHANGE CONDITION
-                    playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
-                    playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
-                }
-
                 base.Update(gameTime);
             }
         }
@@ -694,6 +664,7 @@ namespace PBLGame
             rangedEnemyLeg.GetComponent<AnimationManager>().PlayAnimation("idle");
             rangedEnemyHat.GetComponent<AnimationManager>().PlayAnimation("idle");
 
+            rangedEnemy1.AddComponent(new RangedEnemy(rangedEnemy1));
             root.AddChildNode(rangedEnemy1);
             rangedEnemy1.Position = new Vector3(-20f, 40f, -550f);
         }
@@ -725,6 +696,7 @@ namespace PBLGame
             // TODO: ANIM LOAD SYSTEM / SELECTOR
             rangedEnemyLeg.GetComponent<AnimationManager>().PlayAnimation("idle");
 
+            meleeEnemy1.AddComponent(new MeleeEnemy(meleeEnemy1));
             root.AddChildNode(meleeEnemy1);
             meleeEnemy1.Position = new Vector3(100f, 40f, -350f);
         }
@@ -858,6 +830,7 @@ namespace PBLGame
             playerHat.GetComponent<AnimationManager>().PlayAnimation("idle");
             playerLeg.GetComponent<AnimationManager>().PlayAnimation("idle");
 
+            player.AddComponent(new Player(player));
             root.AddChildNode(player);
 
             player.AddChildNode(camera);
