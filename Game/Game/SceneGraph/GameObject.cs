@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using Game.Components.Collisions;
 using Microsoft.Xna.Framework.Graphics;
 using PBLGame.MainGame;
 
@@ -386,6 +387,11 @@ namespace PBLGame.SceneGraph
             }
         }
 
+        public void CreateTriggers()
+        {
+
+        }
+
         public void UpdateColliders()
         {
             foreach (Collider col in colliders)
@@ -493,8 +499,9 @@ namespace PBLGame.SceneGraph
             throw new System.Exception("There is no mesh with such name");
         }
 
-        public void SetAsTrigger()
+        public void SetAsTrigger(Trigger triggerType)
         {
+            AddComponent(triggerType);
             foreach (var col in colliders)
             {
                 col.isTrigger = true;

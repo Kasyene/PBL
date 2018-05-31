@@ -44,13 +44,15 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Components\Enemies\Enemy.cs" />
-    <Compile Include="Components\Enemies\MeleeEnemy.cs" />
+    <Compile Include="Components\Collisions\ConsumableTrigger.cs" />
+    <Compile Include="Components\Collisions\Trigger.cs" />
+    <Compile Include="Components\Pawns\Enemies\Enemy.cs" />
+    <Compile Include="Components\Pawns\Enemies\MeleeEnemy.cs" />
     <Compile Include="Components\Particles\ParticleEmitter.cs" />
     <Compile Include="Components\Particles\ParticleSystem.cs" />
     <Compile Include="Components\Particles\ParticleVertex.cs" />
-    <Compile Include="Components\Pawn.cs" />
-    <Compile Include="Components\Player.cs" />
+    <Compile Include="Components\Pawns\Pawn.cs" />
+    <Compile Include="Components\Pawns\Player.cs" />
     <Compile Include="Input\Devices\KeyboardInput.cs" />
     <Compile Include="Input\Devices\KeyboardKey.cs" />
     <Compile Include="Input\Devices\SupportedMouseButtons.cs" />
@@ -59,22 +61,22 @@
     <Compile Include="Input\IInput.cs" />
     <Compile Include="Input\InputKey.cs" />
     <Compile Include="Input\InputManager.cs" />
-    <Compile Include="Components\ModelAnimatedComponent.cs" />
+    <Compile Include="Components\ModelAndAnimations\ModelAnimatedComponent.cs" />
     <Compile Include="Lights\DirectionalLight.cs" />
     <Compile Include="Lights\PointLight.cs" />
     <Compile Include="MainGame\DialogueString.cs" />
     <Compile Include="MainGame\GameServices.cs" />
     <Compile Include="MainGame\Resolution.cs" />
     <Compile Include="MainGame\Skybox.cs" />
-    <Compile Include="Components\AnimationManager.cs" />
+    <Compile Include="Components\ModelAndAnimations\AnimationManager.cs" />
     <Compile Include="Misc\Anim\AnimationPlayer.cs" />
     <Compile Include="Misc\Anim\Bone.cs" />
     <Compile Include="Misc\Resources.cs" />
     <Compile Include="Misc\Time\Timer.cs" />
     <Compile Include="SceneGraph\Camera.cs" />
-    <Compile Include="Components\Collider.cs" />
+    <Compile Include="Components\Collisions\Collider.cs" />
     <Compile Include="Components\Component.cs" />
-    <Compile Include="Components\ModelComponent.cs" />
+    <Compile Include="Components\ModelAndAnimations\ModelComponent.cs" />
     <Compile Include="SceneGraph\GameObject.cs" />
     <Compile Include="SceneGraph\Transformation.cs" />
     <Compile Include="MainGame\ShroomGame.cs" />

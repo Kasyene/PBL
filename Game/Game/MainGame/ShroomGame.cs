@@ -15,6 +15,7 @@ using PBLGame.Misc.Anim;
 using PBLGame.SceneGraph;
 using System.IO;
 using Game.Components;
+using Game.Components.Collisions;
 using Game.Components.Enemies;
 using Game.MainGame;
 using PBLGame.Input.Devices;
@@ -95,6 +96,7 @@ namespace PBLGame
             graphics.PreferredBackBufferHeight = 768;
             graphics.PreferredBackBufferWidth = 1366;
             actualGameState = GameState.LevelTutorial;
+            //actualGameState = GameState.LevelOne;
         }
 
         protected override void Initialize()
@@ -133,8 +135,8 @@ namespace PBLGame
             apteczkaTexture = Content.Load<Texture2D>("apteczkaTex");
 
             root = new GameObject();
-            heart = new GameObject();
-            heart2 = new GameObject();
+            heart = new GameObject("Serce");
+            heart2 = new GameObject("Serce");
             mapRoot = new GameObject();
 
             refractiveObject = new GameObject();
@@ -215,8 +217,8 @@ namespace PBLGame
                 root.CreateColliders();
                 playerHat.SetAsColliderAndTrigger();
                 meleeEnemyHat.SetAsColliderAndTrigger();
-                heart.SetAsTrigger();
-                heart2.SetAsTrigger();
+                heart.SetAsTrigger(new ConsumableTrigger(heart));
+                heart2.SetAsTrigger(new ConsumableTrigger(heart2));
                 areCollidersAndTriggersSet = true;
             }
 

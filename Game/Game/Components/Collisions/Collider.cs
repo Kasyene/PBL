@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Game.Components.Collisions;
 using Microsoft.Xna.Framework.Graphics;
 using PBLGame.MainGame;
 
@@ -68,9 +69,7 @@ namespace PBLGame.SceneGraph
             {
                 if (other.isTrigger && !other.isCollider)
                 {
-                    other.isTrigger = false;
-                    other.isReadyToBeDisposed = true;
-                    other.owner.Dispose();
+                    other.owner.GetComponent<ConsumableTrigger>().OnTrigger();
                     return false;
                 }
                 return true;
