@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using Game.Components.Collisions;
 using Microsoft.Xna.Framework.Graphics;
 using PBLGame.MainGame;
@@ -423,12 +424,9 @@ namespace PBLGame.SceneGraph
         {
             if (this.HaveComponents)
             {
-                foreach (Component component in components)
+                foreach (T component in components.OfType<T>())
                 {
-                    if (component.GetType() == typeof(T))
-                    {
-                        return component as T;
-                    }
+                    return component;
                 }
             }
                 return null;
