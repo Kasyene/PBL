@@ -24,7 +24,7 @@ namespace Game.Components
             {
                 parent.UnSetModelQuat();
                 parent.RotationZ += 0.2f * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (parent.RotationZ > 1.5f)
+                if (parent.RotationZ > MathHelper.PiOver2)
                 {
                     dropBridge = false;
                 }
