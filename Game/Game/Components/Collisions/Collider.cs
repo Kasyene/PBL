@@ -97,9 +97,13 @@ namespace PBLGame.SceneGraph
                         }
 
                         this.penetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
-
                         if (col.owner.tag == "Ground")
                         {
+                            if (Math.Abs(this.boundingBox.Min.Y - col.boundingBox.Max.Y) < 5)
+                            {
+                                this.penetrationDepth.X = 0.0f;
+                                this.penetrationDepth.Z = 0.0f;
+                            }
                             this.owner.Parent.Position = this.owner.Parent.Position - this.penetrationDepth;
                         }
                         else
