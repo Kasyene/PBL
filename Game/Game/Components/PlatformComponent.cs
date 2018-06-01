@@ -27,6 +27,7 @@ namespace Game.Components
             targetPosition = _target;
             stayTime = _stayTime;
             hideTime = _hideTime;
+            time = stayTime;
             moveStep = startPosition.X - targetPosition.X / 3000;
         }
 
@@ -50,7 +51,7 @@ namespace Game.Components
                     if (parent.PositionX > startPosition.X)
                     {
                         stay = true;
-                        time = hideTime;
+                        time = stayTime;
                     }
                 }
             }
