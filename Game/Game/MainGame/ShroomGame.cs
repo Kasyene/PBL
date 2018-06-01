@@ -544,7 +544,7 @@ namespace PBLGame
             plat1.name = platforma1.Meshes[0].Name;
             ModelComponent modelPlat1 = new ModelComponent(platforma1, standardEffect, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
             plat1.AddComponent(modelPlat1);
-            PlatformComponent plat1Comp = new PlatformComponent(plat1, plat1.Position - new Vector3(150f, 0f, 0f), 2f, 3f);
+            PlatformComponent plat1Comp = new PlatformComponent(plat1, plat1.Position - new Vector3(150f, 0f, 0f), 1.7f, 3f);
             plat1.AddComponent(plat1Comp);
             updateComponents.Add(plat1Comp);
             mapRoot.AddChildNode(plat1);
@@ -558,7 +558,7 @@ namespace PBLGame
             plat2.name = platforma2.Meshes[0].Name;
             ModelComponent modelPlat2 = new ModelComponent(platforma2, standardEffect, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
             plat2.AddComponent(modelPlat2);
-            PlatformComponent plat2Comp = new PlatformComponent(plat2, plat2.Position - new Vector3(150f, 0f, 0f), 1f, 4f);
+            PlatformComponent plat2Comp = new PlatformComponent(plat2, plat2.Position - new Vector3(150f, 0f, 0f), 0.7f, 4f);
             plat2.AddComponent(plat2Comp);
             updateComponents.Add(plat2Comp);
             mapRoot.AddChildNode(plat2);
