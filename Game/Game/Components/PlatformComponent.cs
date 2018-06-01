@@ -33,7 +33,6 @@ namespace Game.Components
 
         public override void Update(GameTime gameTime)
         {
-            System.Diagnostics.Debug.WriteLine("Tu jestem: " + parent.Position);
             if (!stay)
             {
                 if (direction)
