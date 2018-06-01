@@ -103,6 +103,7 @@ namespace PBLGame.SceneGraph
                             {
                                 this.penetrationDepth.X = 0.0f;
                                 this.penetrationDepth.Z = 0.0f;
+                                this.penetrationDepth.Y = 0.0f;
                             }
                             this.owner.Parent.Position = this.owner.Parent.Position - this.penetrationDepth;
                         }
