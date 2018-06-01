@@ -15,6 +15,7 @@ namespace PBLGame.MainGame
         private float playerSpeed;
         private int hp = 100;
         private int timeEnergy = 100;
+        private int count = 0;
         GameObject playerHat;
         GameObject playerLeg;
 
@@ -141,10 +142,27 @@ namespace PBLGame.MainGame
 
         private void PlayerAttacks()
         {
+            
             if (inputManager.Mouse[SupportedMouseButtons.Left].WasPressed && playerHat.GetComponent<AnimationManager>().isReady)
             {
-                playerHat.GetComponent<AnimationManager>().PlayAnimation("slash");
-                playerLeg.GetComponent<AnimationManager>().PlayAnimation("slash");
+                switch (count)
+                {
+                    case 0:
+                        playerHat.GetComponent<AnimationManager>().PlayAnimation("slash");
+                        playerLeg.GetComponent<AnimationManager>().PlayAnimation("slash");
+                        break;
+                    case 1:
+                        playerHat.GetComponent<AnimationManager>().PlayAnimation("slashL");
+                        playerLeg.GetComponent<AnimationManager>().PlayAnimation("slashL");
+                        break;
+                    case 2:
+                        playerHat.GetComponent<AnimationManager>().PlayAnimation("slashR");
+                        playerLeg.GetComponent<AnimationManager>().PlayAnimation("slashR");
+                        break;
+                    default:
+                        break;
+                }
+                count = (count + 1) % 3;
             }
 
             if (inputManager.Mouse[SupportedMouseButtons.Right].WasPressed && playerHat.GetComponent<AnimationManager>().isReady)
