@@ -275,6 +275,11 @@ namespace PBLGame.SceneGraph
             transform.modelQuat = quat;
         }
 
+        public void UnSetModelQuat()
+        {
+            transform.useModelQuat = false;
+        }
+
         public float ScaleX
         {
             get { return transform.scale.X; }

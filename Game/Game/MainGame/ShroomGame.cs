@@ -581,6 +581,16 @@ namespace PBLGame
             CreateHierarchyOfLevel(mostList, mapRoot);
             AssignTagsForMapElements(mostList);
 
+            foreach(GameObject obj in mostList)
+            {
+                if(obj.name == "Most1")
+                {
+                    BridgeComponent comp = new BridgeComponent(obj);
+                    obj.AddComponent(comp);
+                    updateComponents.Add(comp);
+                }
+            }
+
             Model kolek1 = Content.Load<Model>("Level1/levelStrefa3Kolek1");
             List<GameObject> kolek1List = SplitModelIntoSmallerPieces(kolek1, hierarchiaStrefa3Tex, hierarchiaStrefa3Normal);
             CreateHierarchyOfLevel(kolek1List, mapRoot);

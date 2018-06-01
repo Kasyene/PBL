@@ -44,6 +44,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Components\BridgeComponent.cs" />
     <Compile Include="Components\Collisions\ConsumableTrigger.cs" />
     <Compile Include="Components\Collisions\Trigger.cs" />
     <Compile Include="Components\Pawns\Enemies\Enemy.cs" />
