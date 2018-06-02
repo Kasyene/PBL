@@ -752,7 +752,7 @@ namespace PBLGame
             meleeEnemyModel.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyUmarl", Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal).AnimationClips[0], "death");
 
             // TODO: ANIM LOAD SYSTEM / SELECTOR
-            rangedEnemyLeg.GetComponent<AnimationManager>().PlayAnimation("idle");
+            meleeEnemyModel.GetComponent<AnimationManager>().PlayAnimation("idle");
 
             meleeEnemy1.AddComponent(new MeleeEnemy(meleeEnemy1));
             root.AddChildNode(meleeEnemy1);
