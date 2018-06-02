@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Game.Misc.Time;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -58,13 +59,56 @@ namespace PBLGame.MainGame
         {
             if (!isMoving)
             {
-                isMoving = true;
-                Vector3 direction = new Vector3((float)System.Math.Cos(parentGameObject.RotationZ), 0.0f ,(float)System.Math.Sin(parentGameObject.RotationZ));
-                //parentGameObject.Translate(new Vector3(direction.Y * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0f, direction.X * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds));
-                parentGameObject.Translate(move * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds);
-               
-                CheckCollider();
-                isMoving = false;
+                Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ), (float)System.Math.Sin(parentGameObject.RotationZ));
+                float speed = Math.Max(Math.Abs(move.X), Math.Abs(move.Z));
+
+                // LEFT
+                if (move.X > 0 && Math.Abs(move.Z) < 0.1f)
+                {
+                    MoveLeft(speed);
+                }
+
+                // RIGHT
+                if (move.X < 0 && Math.Abs(move.Z) < 0.1f)
+                {
+                    MoveRight(speed);
+                }
+
+                // FORWARD
+                if (Math.Abs(move.X) < 0.1f && move.Z > 0)
+                {
+                    MoveForward(speed);
+                }
+
+                // BACK
+                if (Math.Abs(move.X) < 0.1f && move.Z < 0)
+                {
+                    MoveBack(speed);
+                }
+
+                // FORWARD RIGHT
+                if (move.X > 0 && move.Z > 0)
+                {
+                    MoveWD(speed);
+                }
+
+                // FORWARD LEFT
+                if (move.X < 0 && move.Z > 0)
+                {
+                    MoveWA(speed);
+                }
+
+                // BACK RIGHT
+                if (move.X > 0 && move.Z < 0)
+                {
+                    MoveSD(speed);
+                }
+
+                // BACK LEFT
+                if (move.X < 0 && move.Z < 0)
+                {
+                    MoveSA(speed);
+                }
             }
         }
 

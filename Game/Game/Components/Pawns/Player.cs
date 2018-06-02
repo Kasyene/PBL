@@ -71,148 +71,46 @@ namespace PBLGame.MainGame
 
         private void PlayerMovement()
         {
-            #region NoIfTree
-            //Vector3 movement = new Vector3();
+            Vector3 movement = new Vector3();
 
-            //if (inputManager.Keyboard[Keys.W] || inputManager.Keyboard[Keys.S] || inputManager.Keyboard[Keys.A] ||
-            //    inputManager.Keyboard[Keys.D])
-            //{
-            //    if (playerHat.GetComponent<AnimationManager>().defaultKey != "walk")
-            //    {
-            //        playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
-            //        playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
-            //    }
-            //}
-            //else
-            //{
-            //    if (playerHat.GetComponent<AnimationManager>().defaultKey != "idle")
-            //    {
-            //        playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
-            //        playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
-            //    }
-            //}
-
-            //if (inputManager.Keyboard[Keys.W])
-            //{
-            //    movement.Z += playerSpeed;
-            //}
-
-            //if (inputManager.Keyboard[Keys.S])
-            //{
-            //    movement.Z += -playerSpeed;
-            //}
-
-            //if (inputManager.Keyboard[Keys.A])
-            //{
-            //    movement.X += -playerSpeed;
-            //}
-
-            //if (inputManager.Keyboard[Keys.D])
-            //{
-            //    movement.X += playerSpeed;
-            //}
-
-            //Move(movement); 
-            #endregion
-
-            #region IfTree
-
-            if (inputManager.Keyboard[Keys.W] && inputManager.Keyboard[Keys.A])
+            if (inputManager.Keyboard[Keys.W])
             {
-                MoveWA(playerSpeed);
+                movement.Z += playerSpeed;
+            }
+
+            if (inputManager.Keyboard[Keys.S])
+            {
+                movement.Z += -playerSpeed;
+            }
+
+            if (inputManager.Keyboard[Keys.A])
+            {
+                movement.X += -playerSpeed;
+            }
+
+            if (inputManager.Keyboard[Keys.D])
+            {
+                movement.X += playerSpeed;
+            }
+
+            if (movement != Vector3.Zero)
+            {
                 if (playerHat.GetComponent<AnimationManager>().defaultKey != "walk")
                 {
                     playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
                     playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
                 }
             }
-            else if (inputManager.Keyboard[Keys.W] && inputManager.Keyboard[Keys.D])
+            else
             {
-                MoveWD(playerSpeed);
-                if (playerHat.GetComponent<AnimationManager>().defaultKey != "walk")
+                if (playerHat.GetComponent<AnimationManager>().defaultKey != "idle")
                 {
-                    playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
-                    playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
+                    playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
+                    playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
                 }
-            }
-            else if (inputManager.Keyboard[Keys.S] && inputManager.Keyboard[Keys.A])
-            {
-                MoveSA(playerSpeed);
-                if (playerHat.GetComponent<AnimationManager>().defaultKey != "walk")
-                {
-                    playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
-                    playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
-                }
-            }
-            else if (inputManager.Keyboard[Keys.S] && inputManager.Keyboard[Keys.D])
-            {
-                MoveSD(playerSpeed);
-                if (playerHat.GetComponent<AnimationManager>().defaultKey != "walk")
-                {
-                    playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
-                    playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
-                }
-            }
-            else if (inputManager.Keyboard[Keys.A] && inputManager.Keyboard[Keys.D])
-            {
-                playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
-                playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
-                return;
-            }
-            else if (inputManager.Keyboard[Keys.W] && inputManager.Keyboard[Keys.S])
-            {
-                playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
-                playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
-                return;
-            }
-            else if (inputManager.Keyboard[Keys.W])
-            {
-                MoveForward(playerSpeed);
-                if (playerHat.GetComponent<AnimationManager>().defaultKey != "walk")
-                {
-                    playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
-                    playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
-                }
-            }
-            else if (inputManager.Keyboard[Keys.S])
-            {
-                MoveBack(playerSpeed);
-                if (playerHat.GetComponent<AnimationManager>().defaultKey != "walk")
-                {
-                    playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
-                    playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
-                }
-            }
-            else if (inputManager.Keyboard[Keys.A])
-            {
-                MoveRight(playerSpeed);
-                if (playerHat.GetComponent<AnimationManager>().defaultKey != "walk")
-                {
-                    playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
-                    playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
-                }
-            }
-            else if (inputManager.Keyboard[Keys.D])
-            {
-                MoveLeft(playerSpeed);
-                if (playerHat.GetComponent<AnimationManager>().defaultKey != "walk")
-                {
-                    playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
-                    playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
-                }
-            }
-            else if (true)
-            {
-                //TODO CHANGE CONDITION
-                playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
-                playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
             }
 
-            if (parentGameObject.isGrounded && inputManager.Keyboard[Keys.Space])
-            {
-                isJumping = true;
-            }
-            #endregion
+            Move(movement);
 
             Rotate(inputManager.Mouse.PositionsDelta.X * 0.01f);
         }
