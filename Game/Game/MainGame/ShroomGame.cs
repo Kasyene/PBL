@@ -244,11 +244,6 @@ namespace PBLGame
             inputManager.Update();
             camera.Update();
 
-            foreach(Component comp in updateComponents)
-            {
-                comp.Update(gameTime);
-            }
-
             // Pawns update
             player.Update();
             player.Update(gameTime);
@@ -256,6 +251,10 @@ namespace PBLGame
             {
                 rangedEnemy1.Update(gameTime);
                 meleeEnemy1.Update(gameTime);
+                foreach (Component comp in updateComponents)
+                {
+                    comp.Update(gameTime);
+                }
             }
 
             if (inputManager.Keyboard[Keys.Escape])
