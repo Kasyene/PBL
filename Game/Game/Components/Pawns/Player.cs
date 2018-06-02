@@ -112,6 +112,11 @@ namespace PBLGame.MainGame
 
             Move(movement);
 
+            if (parentGameObject.isGrounded && inputManager.Keyboard[Keys.Space])
+            {
+                isJumping = true;
+            }
+
             Rotate(inputManager.Mouse.PositionsDelta.X * 0.01f);
         }
 
