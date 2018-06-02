@@ -525,6 +525,27 @@ namespace PBLGame
             CreateHierarchyOfLevel(dzwigniaList, mapRoot);
             AssignTagsForMapElements(dzwigniaList);
 
+            LeverComponent lever = null;
+            foreach (GameObject obj in dzwigniaList)
+            {
+                if (obj.name == "Zebatka1")
+                {
+                    lever = new LeverComponent(obj);
+                    obj.AddComponent(lever);
+                    updateComponents.Add(lever);
+                }
+            }
+
+            foreach (GameObject obj in dzwigniaList)
+            { 
+                if (obj.name == "Uchwyt1")
+                {
+                    obj.CreateColliders();
+                    LeverTrigger comp = new LeverTrigger(obj, lever);
+                    obj.SetAsTrigger(comp);
+                }
+            }
+
             Model hierarchiaStrefa2 = Content.Load<Model>("Level1/levelStrefa2");
             Texture2D hierarchiaStrefa2Tex = Content.Load<Texture2D>("Level1/levelStrefa2Tex");
             Texture2D hierarchiaStrefa2Normal = Content.Load<Texture2D>("Level1/levelStrefa2Normal");

@@ -13,7 +13,6 @@ namespace Game.Components.Collisions
 
         public RopeTrigger(GameObject owner, BridgeComponent _component) : base(owner)
         {
-            System.Diagnostics.Debug.WriteLine("Rope Trigger Żyje");
             component = _component;
         }
 
