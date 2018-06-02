@@ -23,6 +23,11 @@ namespace PBLGame.Misc.Anim
         private float position = 0;
 
         /// <summary>
+        /// Scales position change in time in the clip
+        /// </summary>
+        private float multiplier = 1.0f;
+
+        /// <summary>
         /// The clip we are playing
         /// </summary>
         private AnimationClip clip = null;
@@ -130,6 +135,10 @@ namespace PBLGame.Misc.Anim
 
         #region Update and Transport Controls
 
+        public void SetMultiplier(float _multiplier = 1.0f)
+        {
+            multiplier = _multiplier;
+        }
 
         /// <summary>
         /// Reset back to time zero.
@@ -145,7 +154,7 @@ namespace PBLGame.Misc.Anim
         /// <param name="delta"></param>
         public void Update(GameTime gameTime)
         {
-            Position = Position + (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Position = Position + ((float)gameTime.ElapsedGameTime.TotalSeconds * multiplier);
             if (looping && Position >= Duration)
                 Position = 0;
         }

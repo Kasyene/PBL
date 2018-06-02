@@ -32,7 +32,15 @@ namespace PBLGame.MainGame
         {
             base.Update(time);
             PlayerAttacks();
-            PlayerMovement();     
+            PlayerMovement();
+
+            // ANIMATION REVERSING - TEST
+
+            if (inputManager.Keyboard[Keys.R])
+            {
+                playerHat.GetComponent<AnimationManager>().SetPlaybackMultiplier(-1);
+                playerLeg.GetComponent<AnimationManager>().SetPlaybackMultiplier(-1);
+            }
         }
 
         public Player GetPlayer()

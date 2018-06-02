@@ -74,14 +74,24 @@ namespace PBLGame.Misc.Anim
             return animationClips;
         }
 
+        public void SetPlaybackMultiplier(float multiplier = 1.0f)
+        {
+            animationPlayer?.SetMultiplier(multiplier);
+        }
+
         public override void Update(GameTime gameTime)
         {
             if (animationPlayer != null)
             {
-                animationPlayer.Looping = isLooping;
+                //animationPlayer.Looping = isLooping;
 
-                if (animationPlayer.Position >= animationPlayer.Duration)
+                if (animationPlayer.Position >= animationPlayer.Duration || animationPlayer.Position < 0 )
                 {
+                    if (animationPlayer.Position < 0)
+                    {
+                        animationPlayer.SetMultiplier();
+                    }
+
                     isReady = true;
 
                     if (animQueue.Count > 0)
