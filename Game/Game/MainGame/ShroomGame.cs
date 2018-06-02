@@ -403,7 +403,7 @@ namespace PBLGame
         void DrawHpBar()
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(hpTexture, new Rectangle(20, graphics.GraphicsDevice.Viewport.Height - 60, player.GetComponent<Player>().GetHP() * 2, 20), Color.White);
+            spriteBatch.Draw(hpTexture, new Rectangle(20, graphics.GraphicsDevice.Viewport.Height - 60, player.GetComponent<Player>().Hp * 2, 20), Color.White);
             spriteBatch.End();
         }
 

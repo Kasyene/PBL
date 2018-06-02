@@ -13,7 +13,6 @@ namespace PBLGame.MainGame
     {
         private readonly InputManager inputManager;
         private float playerSpeed;
-        private int hp = 100;
         private int count = 0;
         private int timeEnergy = 100;
         public bool timeStop = false;
@@ -24,6 +23,7 @@ namespace PBLGame.MainGame
 
         public Player(GameObject parent) : base()
         {
+            Hp = 100;
             parentGameObject = parent;
             inputManager = InputManager.Instance;
             playerSpeed = 0.1f;
@@ -202,11 +202,6 @@ namespace PBLGame.MainGame
                 playerHat.GetComponent<AnimationManager>().PlayAnimation("throw");
                 playerLeg.GetComponent<AnimationManager>().PlayAnimation("throw");
             }
-        }
-
-        public int GetHP()
-        {
-            return hp;
         }
 
         public int GetTimeEnergy()
