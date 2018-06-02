@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Game.Misc.Time;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -14,16 +15,17 @@ namespace PBLGame.MainGame
         private readonly InputManager inputManager;
         private float playerSpeed;
         private int count = 0;
-        private int timeEnergy = 100;
+        private int timeEnergy = 10;
         public bool timeStop = false;
-
         private bool timeEnergyRegeneration = false;
+        private double previousTimeEnergyUpdate;
         GameObject playerHat;
         GameObject playerLeg;
 
         public Player(GameObject parent) : base()
         {
             Hp = 100;
+            previousTimeEnergyUpdate = 0d;
             parentGameObject = parent;
             inputManager = InputManager.Instance;
             playerSpeed = 0.1f;
@@ -35,6 +37,7 @@ namespace PBLGame.MainGame
         {
             base.Update(time);
 
+            TimeEnergyManagement(time);
             //special abilities energy management
             if (timeEnergy == 0)
             {
@@ -207,6 +210,24 @@ namespace PBLGame.MainGame
         public int GetTimeEnergy()
         {
             return timeEnergy;
+        }
+
+        private void TimeEnergyManagement(GameTime time)
+        {
+            previousTimeEnergyUpdate += (time.ElapsedGameTime.TotalMilliseconds / 1000.0d);
+            if (previousTimeEnergyUpdate > 1)
+            {
+                previousTimeEnergyUpdate = 0.0d;
+                if (timeStop)
+                {
+                    timeEnergy -= 1;
+                }
+                else if(timeEnergy < 10)
+                {
+                    timeEnergy += 1;
+                }
+            }
+           
         }
     }
 }

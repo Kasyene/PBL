@@ -410,7 +410,7 @@ namespace PBLGame
         void DrawTimeBar()
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(timeTexture, new Rectangle(20, graphics.GraphicsDevice.Viewport.Height - 30, player.GetComponent<Player>().GetTimeEnergy() * 2, 20), Color.White);
+            spriteBatch.Draw(timeTexture, new Rectangle(20, graphics.GraphicsDevice.Viewport.Height - 30, player.GetComponent<Player>().GetTimeEnergy() * 20, 20), Color.White);
             spriteBatch.End();
         }
 
@@ -895,6 +895,15 @@ namespace PBLGame
             // THROW
             playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaRzutKapeluszem", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "throw");
             playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszRzutKapeluszem", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "throw");
+
+            // JUMPATTACK1
+            playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaRzutKapeluszem", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpAttack1");
+            playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszRzutKapeluszem", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpAttack1");
+
+
+            // JUMPATTACK2
+            playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaRzutKapeluszem", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpAttack2");
+            playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszRzutKapeluszem", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpAttack2");
 
             // TODO: ANIM LOAD SYSTEM / SELECTOR
             playerHat.GetComponent<AnimationManager>().PlayAnimation("idle");
