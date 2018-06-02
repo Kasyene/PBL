@@ -108,6 +108,7 @@ namespace PBLGame.Misc.Anim
                     }
                     else
                     {
+                        currentKey = null;
                         animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClipDefault);
                     }
                 }
