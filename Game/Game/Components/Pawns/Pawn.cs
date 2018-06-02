@@ -54,6 +54,20 @@ namespace PBLGame.MainGame
         }
 
 
+        protected void Move(Vector3 move)
+        {
+            if (!isMoving)
+            {
+                isMoving = true;
+                Vector3 direction = new Vector3((float)System.Math.Cos(parentGameObject.RotationZ), 0.0f ,(float)System.Math.Sin(parentGameObject.RotationZ));
+                //parentGameObject.Translate(new Vector3(direction.Y * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0f, direction.X * speed * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds));
+                parentGameObject.Translate(move * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds);
+               
+                CheckCollider();
+                isMoving = false;
+            }
+        }
+
         protected void MoveForward(float speed)
         {
             if (!isMoving)

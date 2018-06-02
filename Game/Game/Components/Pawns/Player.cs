@@ -77,6 +77,52 @@ namespace PBLGame.MainGame
 
         private void PlayerMovement()
         {
+            #region NoIfTree
+            //Vector3 movement = new Vector3();
+
+            //if (inputManager.Keyboard[Keys.W] || inputManager.Keyboard[Keys.S] || inputManager.Keyboard[Keys.A] ||
+            //    inputManager.Keyboard[Keys.D])
+            //{
+            //    if (playerHat.GetComponent<AnimationManager>().defaultKey != "walk")
+            //    {
+            //        playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
+            //        playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
+            //    }
+            //}
+            //else
+            //{
+            //    if (playerHat.GetComponent<AnimationManager>().defaultKey != "idle")
+            //    {
+            //        playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
+            //        playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
+            //    }
+            //}
+
+            //if (inputManager.Keyboard[Keys.W])
+            //{
+            //    movement.Z += playerSpeed;
+            //}
+
+            //if (inputManager.Keyboard[Keys.S])
+            //{
+            //    movement.Z += -playerSpeed;
+            //}
+
+            //if (inputManager.Keyboard[Keys.A])
+            //{
+            //    movement.X += -playerSpeed;
+            //}
+
+            //if (inputManager.Keyboard[Keys.D])
+            //{
+            //    movement.X += playerSpeed;
+            //}
+
+            //Move(movement); 
+            #endregion
+
+            #region IfTree
+
             if (inputManager.Keyboard[Keys.W] && inputManager.Keyboard[Keys.A])
             {
                 MoveWA(playerSpeed);
@@ -172,6 +218,8 @@ namespace PBLGame.MainGame
             {
                 isJumping = true;
             }
+            #endregion
+
             Rotate(inputManager.Mouse.PositionsDelta.X * 0.01f);
         }
 
