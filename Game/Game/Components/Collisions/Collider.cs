@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Game.Components.Collisions;
 using Microsoft.Xna.Framework.Graphics;
 using PBLGame.MainGame;
+using PBLGame.Misc.Anim;
 
 namespace PBLGame.SceneGraph
 {
@@ -73,10 +74,10 @@ namespace PBLGame.SceneGraph
                     return false;
                 }
 
-                if (!other.isTrigger && this.isTrigger && this.isCollider && (other.owner.tag == "Wall" || other.owner.tag == "Ground") && this.owner.tag == "Hat")
+                if (!other.isTrigger && this.isTrigger && this.isCollider && (other.owner.tag == "Wall" || other.owner.tag == "Ground") && this.owner.tag == "Hat" && this.owner.GetComponent<AnimationManager>().isCurrentAnimation("throw"))
                 {
                     this.owner.hatAnimationCollision = true;
-                    //return false;
+                    return false;
                 }
                 return true;
             }
