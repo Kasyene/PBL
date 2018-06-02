@@ -18,7 +18,9 @@ namespace PBLGame.Misc.Anim
 
         public string defaultKey {get; private set; }
 
-        private Queue<AnimationClip> animQueue = new Queue<AnimationClip>();
+        private string currentKey;
+
+        private Queue<string> animQueue = new Queue<string>();
 
         private AnimationPlayer animationPlayer;
 
@@ -35,7 +37,7 @@ namespace PBLGame.Misc.Anim
 
         public void PlayAnimation(string _key)
         {
-            animQueue.Enqueue(animationClips[_key]);
+            animQueue.Enqueue(_key);
             isReady = false;
 
             if (animationPlayer == null)
@@ -69,6 +71,11 @@ namespace PBLGame.Misc.Anim
             animationClips.Add(_key,_animClip);
         }
 
+        public bool isCurrentAnimation(string _key)
+        {
+            return _key == currentKey;
+        }
+
         public Dictionary<string, AnimationClip> GetAnimationDictionary()
         {
             return animationClips;
@@ -83,8 +90,6 @@ namespace PBLGame.Misc.Anim
         {
             if (animationPlayer != null)
             {
-                //animationPlayer.Looping = isLooping;
-
                 if (animationPlayer.Position >= animationPlayer.Duration || animationPlayer.Position < 0 )
                 {
                     if (animationPlayer.Position < 0)
@@ -96,7 +101,9 @@ namespace PBLGame.Misc.Anim
 
                     if (animQueue.Count > 0)
                     {
-                        animationClip = animQueue.Dequeue();
+                       currentKey = animQueue.Dequeue();
+                       animationClip = animationClips[currentKey];
+                       
                         animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClip);
                     }
                     else
