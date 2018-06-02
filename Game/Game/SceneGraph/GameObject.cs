@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Game.Components.Collisions;
 using Microsoft.Xna.Framework.Graphics;
@@ -391,9 +392,26 @@ namespace PBLGame.SceneGraph
             {
                 if(component.GetType() == typeof(ModelComponent) || component.GetType() == typeof(ModelAnimatedComponent))
                 {
+                    bool duplikat = false;
                     BoundingBox currBox = component.GetBoundingBox(this, localTransform, worldTransform);
                     var a = new Collider(currBox, component, this);
-                    colliders.Add(a);
+                    foreach (var collider in colliders)
+                    {
+                        if (collider.Component.Equals(a.Component))
+                        {
+                            duplikat = true;
+                        }
+                    }
+
+                    if (!duplikat)
+                    {
+                        colliders.Add(a);
+                    }
+                    else
+                    {
+                        duplikat = false;
+                    }
+                    
                     if (this.parent.CheckIfPawn())
                     {
                         this.parent.colliders.Add(a);
