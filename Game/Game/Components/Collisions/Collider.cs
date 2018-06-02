@@ -73,7 +73,7 @@ namespace PBLGame.SceneGraph
                     return false;
                 }
 
-                if (!other.isTrigger && this.isTrigger && this.isCollider && (other.owner.tag == "Wall" || other.owner.tag == "Ground"))
+                if (!other.isTrigger && this.isTrigger && this.isCollider && (other.owner.tag == "Wall" || other.owner.tag == "Ground") && this.owner.tag == "Hat")
                 {
                     this.owner.hatAnimationCollision = true;
                     //return false;
