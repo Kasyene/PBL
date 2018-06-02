@@ -15,6 +15,7 @@ namespace Game.Components
         float startRotation;
         float endRotation = MathHelper.PiOver2;
         public int numberOfSteps;
+        float stepSize = 0.1f;
 
         public LeverComponent(GameObject _parent)
         {
@@ -22,7 +23,7 @@ namespace Game.Components
             parent.UnSetModelQuat();
             parent.RotationY = MathHelper.PiOver2;
             startRotation = parent.RotationZ;
-            numberOfSteps = (int) Math.Abs((startRotation - endRotation) / 0.1f);
+            numberOfSteps = (int) Math.Abs((startRotation - endRotation) / stepSize);
             System.Diagnostics.Debug.WriteLine(numberOfSteps);
         }
 
@@ -30,7 +31,7 @@ namespace Game.Components
         {
             if (direction)
             {
-                parent.RotationZ += 0.4f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                parent.RotationZ += 4* stepSize * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (parent.RotationZ > endRotation)
                 {
                     direction = false;
@@ -40,7 +41,7 @@ namespace Game.Components
             {
                 if(parent.RotationZ >= startRotation)
                 {
-                    parent.RotationZ -= 0.1f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    parent.RotationZ -= stepSize * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
             }
         }

@@ -558,10 +558,10 @@ namespace PBLGame
             gate.name = gateModel.Meshes[0].Name;
             ModelComponent modelGate = new ModelComponent(gateModel, standardEffect, hierarchiaStrefa1Tex, hierarchiaStrefa1Normal);
             gate.AddComponent(modelGate);
-            //PlatformComponent gateComponent = new PlatformComponent(plat1, plat1.Position - new Vector3(150f, 0f, 0f), 1.7f, 3f);
-            //gate.AddComponent(gateComponent);
-            //updateComponents.Add(gateComponent);
-            //mapRoot.AddChildNode(gate); //TU ODKOMENTOWA BY BRAMA SIĘ POJAWIŁA
+            GateComponent gateComponent = new GateComponent(gate, lever);
+            gate.AddComponent(gateComponent);
+            updateComponents.Add(gateComponent);
+            mapRoot.AddChildNode(gate); //TU ODKOMENTOWA BY BRAMA SIĘ POJAWIŁA
 
             Model hierarchiaStrefa2 = Content.Load<Model>("Level1/levelStrefa2");
             Texture2D hierarchiaStrefa2Tex = Content.Load<Texture2D>("Level1/levelStrefa2Tex");
