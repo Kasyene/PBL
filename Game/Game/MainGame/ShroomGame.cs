@@ -233,8 +233,8 @@ namespace PBLGame
                 playerHat.SetAsColliderAndTrigger();
                 rangedEnemyHat.SetAsColliderAndTrigger();
                 meleeEnemyModel.SetAsColliderAndTrigger();
-                heart.SetAsTrigger(new ConsumableTrigger(heart));
-                heart2.SetAsTrigger(new ConsumableTrigger(heart2));
+                heart.SetAsTrigger(new HeartConsumableTrigger(heart));
+                heart2.SetAsTrigger(new HeartConsumableTrigger(heart2));
 
                 areCollidersAndTriggersSet = true;
             }

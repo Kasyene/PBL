@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Components\BridgeComponent.cs" />
     <Compile Include="Components\Collisions\ConsumableTrigger.cs" />
+    <Compile Include="Components\Collisions\HeartConsumableTrigger.cs" />
     <Compile Include="Components\Collisions\LeverTrigger.cs" />
     <Compile Include="Components\Collisions\RopeTrigger.cs" />
     <Compile Include="Components\Collisions\Trigger.cs" />

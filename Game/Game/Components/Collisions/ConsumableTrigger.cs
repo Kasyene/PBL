@@ -16,11 +16,6 @@ namespace Game.Components.Collisions
 
         public override void OnTrigger()
         {
-            if (owner.tag.Contains("Serce"))
-            {
-                Debug.WriteLine("Increase Hp of player");
-            }
-
             foreach (var ownerCollider in owner.colliders)
             {
                 ownerCollider.isTrigger = false;
