@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Game.Misc.Time;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,44 +20,37 @@ namespace PBLGame.MainGame
         public bool timeStop = false;
         private bool timeEnergyRegeneration = false;
         private double previousTimeEnergyUpdate;
+        private double previousTimePositonSaved;
+        private List<Vector3> lastPositions;
+        private List<int> lastHPs;
         GameObject playerHat;
         GameObject playerLeg;
 
         public Player(GameObject parent) : base()
         {
-            Hp = 100;
+            Hp = 20;
             previousTimeEnergyUpdate = 0d;
             parentGameObject = parent;
             inputManager = InputManager.Instance;
             playerSpeed = 0.1f;
             playerHat = parentGameObject.FindChildNodeByTag("Hat");
             playerLeg = parentGameObject.FindChildNodeByTag("Leg");
+            lastPositions = new List<Vector3>();
+            lastHPs = new List<int>();
+            for (int x = 0; x < 8; x++)
+            {
+                lastPositions.Add(this.parentGameObject.Position);
+                lastHPs.Add(Hp);
+
+            }
         }
 
         public override void Update(GameTime time)
         {
             base.Update(time);
-
+            SaveLastPosition(time);
             TimeEnergyManagement(time);
-            //special abilities energy management
-            if (timeEnergy == 0)
-            {
-                timeStop = false;
-            }
-            // special abilities
-            if (inputManager.Keyboard[Keys.Q].WasPressed)
-            {
-                if (timeStop || timeEnergy == 0)
-                {
-                    timeStop = false;
-                }
-                else if (!timeStop && timeEnergy > 1)
-                {
-                    timeStop = true;
-                }
-
-
-            }
+            SpecialTimeAbilities();
             PlayerAttacks();
             PlayerMovement();
 
@@ -263,7 +257,15 @@ namespace PBLGame.MainGame
         private void TimeEnergyManagement(GameTime time)
         {
             previousTimeEnergyUpdate += (time.ElapsedGameTime.TotalMilliseconds / 1000.0d);
-            if (previousTimeEnergyUpdate > 1)
+
+            // when timeEnergy ends
+            if (timeEnergy == 0)
+            {
+                timeStop = false;
+            }
+
+            // timeEnergy management
+            if (previousTimeEnergyUpdate >= 2.0d)
             {
                 previousTimeEnergyUpdate = 0.0d;
                 if (timeStop)
@@ -275,7 +277,53 @@ namespace PBLGame.MainGame
                     timeEnergy += 1;
                 }
             }
-           
+        }
+
+        private void SpecialTimeAbilities()
+        {
+            // timeStop
+            if (inputManager.Keyboard[Keys.Q].WasPressed)
+            {
+                if (timeStop || timeEnergy == 0)
+                {
+                    timeStop = false;
+                }
+                else if (!timeStop && timeEnergy > 1)
+                {
+                    timeStop = true;
+                }
+            }
+
+            if (inputManager.Keyboard[Keys.E].WasPressed && timeEnergy >= 5)
+            {
+                timeEnergy -= 5;
+               this.parentGameObject.Position = lastPositions[lastPositions.Count / 2];
+                Hp = lastHPs[lastHPs.Count / 2];
+                ReLocateIndicies(lastPositions);
+                ReLocateIndicies(lastHPs);
+
+            }
+        }
+
+        private void SaveLastPosition(GameTime time)
+        {
+            previousTimePositonSaved += (time.ElapsedGameTime.TotalMilliseconds / 1000.0d);
+            if (previousTimePositonSaved >= 0.5d)
+            {
+                previousTimePositonSaved = 0.0d;
+                lastPositions.RemoveAt(0);
+                lastPositions.Add(this.parentGameObject.Position);
+                lastHPs.RemoveAt(0);
+                lastHPs.Add(Hp);
+            }
+        }
+
+        private void ReLocateIndicies<T>(List<T> list)
+        {
+            for (int x = 0; x <= list.Count / 2 - 1; x++)
+            {
+                list[list.Count / 2 + x] = list[x];
+            }
         }
     }
 }
