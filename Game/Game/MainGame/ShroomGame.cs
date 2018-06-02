@@ -581,13 +581,14 @@ namespace PBLGame
             CreateHierarchyOfLevel(mostList, mapRoot);
             AssignTagsForMapElements(mostList);
 
-            foreach(GameObject obj in mostList)
+            BridgeComponent bridgeComp = null;
+            foreach (GameObject obj in mostList)
             {
                 if(obj.name == "Most1")
                 {
-                    BridgeComponent comp = new BridgeComponent(obj);
-                    obj.AddComponent(comp);
-                    updateComponents.Add(comp);
+                    bridgeComp = new BridgeComponent(obj);
+                    obj.AddComponent(bridgeComp);
+                    updateComponents.Add(bridgeComp);
                 }
             }
 
@@ -605,6 +606,16 @@ namespace PBLGame
             List<GameObject> linaList = SplitModelIntoSmallerPieces(lina, hierarchiaStrefa3Tex, hierarchiaStrefa3Normal);
             CreateHierarchyOfLevel(linaList, mapRoot);
             AssignTagsForMapElements(linaList);
+
+            foreach (GameObject obj in linaList)
+            {
+                if (obj.name == "Lina1")
+                {
+                    RopeTrigger comp = new RopeTrigger(obj, bridgeComp);
+                    obj.AddComponent(comp);
+                    updateComponents.Add(comp);
+                }
+            }
 
             Model hierarchiaStrefa4 = Content.Load<Model>("Level1/levelStrefa4");
             Texture2D hierarchiaStrefa4Tex = Content.Load<Texture2D>("Level1/levelStrefa4Tex");

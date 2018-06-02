@@ -11,7 +11,7 @@ namespace Game.Components
     class BridgeComponent : Component
     {
         GameObject parent;
-        public bool dropBridge = true;
+        public bool dropBridge = false;
 
         public BridgeComponent(GameObject _parent)
         {
