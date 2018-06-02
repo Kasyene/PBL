@@ -20,6 +20,11 @@ namespace Game.Components.Collisions
         {
             System.Diagnostics.Debug.WriteLine("Lina trafiona");
             component.dropBridge = true;
+            foreach (var ownerCollider in owner.colliders)
+            {
+                ownerCollider.isTrigger = false;
+                ownerCollider.isReadyToBeDisposed = true;
+            }
             owner.Dispose();
         }
     }
