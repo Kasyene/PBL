@@ -235,6 +235,7 @@ namespace PBLGame
                 meleeEnemyModel.SetAsColliderAndTrigger();
                 heart.SetAsTrigger(new ConsumableTrigger(heart));
                 heart2.SetAsTrigger(new ConsumableTrigger(heart2));
+
                 areCollidersAndTriggersSet = true;
             }
 
@@ -611,8 +612,9 @@ namespace PBLGame
             {
                 if (obj.name == "Lina1")
                 {
+                    obj.CreateColliders();
                     RopeTrigger comp = new RopeTrigger(obj, bridgeComp);
-                    obj.AddComponent(comp);
+                    obj.SetAsTrigger(comp);
                     updateComponents.Add(comp);
                 }
             }
