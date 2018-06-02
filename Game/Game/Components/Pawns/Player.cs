@@ -14,8 +14,11 @@ namespace PBLGame.MainGame
         private readonly InputManager inputManager;
         private float playerSpeed;
         private int hp = 100;
-        private int timeEnergy = 100;
         private int count = 0;
+        private int timeEnergy = 100;
+        public bool timeStop = false;
+
+        private bool timeEnergyRegeneration = false;
         GameObject playerHat;
         GameObject playerLeg;
 
@@ -31,6 +34,26 @@ namespace PBLGame.MainGame
         public override void Update(GameTime time)
         {
             base.Update(time);
+
+            //special abilities energy management
+            if (timeEnergy == 0)
+            {
+                timeStop = false;
+            }
+            // special abilities
+            if (inputManager.Keyboard[Keys.Q].WasPressed)
+            {
+                if (timeStop || timeEnergy == 0)
+                {
+                    timeStop = false;
+                }
+                else if (!timeStop && timeEnergy > 1)
+                {
+                    timeStop = true;
+                }
+
+
+            }
             PlayerAttacks();
             PlayerMovement();
 

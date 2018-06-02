@@ -248,11 +248,15 @@ namespace PBLGame
             {
                 comp.Update(gameTime);
             }
-            // Player update
+
+            // Pawns update
             player.Update();
             player.Update(gameTime);
-            rangedEnemy1.Update(gameTime);
-            meleeEnemy1.Update(gameTime);
+            if (!GameServices.GetService<GameObject>().GetComponent<Player>().timeStop)
+            {
+                rangedEnemy1.Update(gameTime);
+                meleeEnemy1.Update(gameTime);
+            }
 
             if (inputManager.Keyboard[Keys.Escape])
             {
