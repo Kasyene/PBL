@@ -34,6 +34,7 @@ namespace PBLGame.SceneGraph
         protected uint transformVersion = 0;
         public uint TransformVersion { get { return transformVersion; } }
         protected uint parentTransformVersion = 0;
+        public bool hatAnimationCollision = false;
 
         public GameObject()
         {

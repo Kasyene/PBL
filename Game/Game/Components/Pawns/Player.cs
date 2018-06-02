@@ -36,10 +36,11 @@ namespace PBLGame.MainGame
 
             // ANIMATION REVERSING - TEST
 
-            if (inputManager.Keyboard[Keys.R])
+            if (playerHat.hatAnimationCollision)
             {
                 playerHat.GetComponent<AnimationManager>().SetPlaybackMultiplier(-1);
                 playerLeg.GetComponent<AnimationManager>().SetPlaybackMultiplier(-1);
+                playerHat.hatAnimationCollision = false;
             }
         }
 

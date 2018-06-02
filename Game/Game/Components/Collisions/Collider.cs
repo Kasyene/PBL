@@ -72,6 +72,12 @@ namespace PBLGame.SceneGraph
                     other.owner.GetComponent<Trigger>().OnTrigger();
                     return false;
                 }
+
+                if (!other.isTrigger && this.isTrigger && this.isCollider && (other.owner.tag == "Wall" || other.owner.tag == "Ground"))
+                {
+                    this.owner.hatAnimationCollision = true;
+                    //return false;
+                }
                 return true;
             }
 
@@ -89,7 +95,7 @@ namespace PBLGame.SceneGraph
                     {
                         if ((this.isCollider && this.isTrigger))
                         {
-                            if (col.owner.tag != "Ground" && col.owner.tag != "Wall")
+                            if (col.owner.tag != "Ground" && col.owner.tag != "Wall" && col.owner.tag != "Leg")
                             {
                                 Debug.WriteLine("TriggerCollider interaction");
                                 return null;
