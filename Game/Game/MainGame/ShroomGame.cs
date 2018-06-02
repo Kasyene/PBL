@@ -546,6 +546,23 @@ namespace PBLGame
                 }
             }
 
+            GameObject gate = new GameObject();
+            Model gateModel = Content.Load<Model>("Level1/levelStrefa1Brama");
+            Vector3 position;
+            Vector3 scale;
+            Quaternion quat;
+            gateModel.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
+            gate.Position = position;
+            gate.Scale = scale;
+            gate.SetModelQuat(quat);
+            gate.name = gateModel.Meshes[0].Name;
+            ModelComponent modelGate = new ModelComponent(gateModel, standardEffect, hierarchiaStrefa1Tex, hierarchiaStrefa1Normal);
+            gate.AddComponent(modelGate);
+            //PlatformComponent gateComponent = new PlatformComponent(plat1, plat1.Position - new Vector3(150f, 0f, 0f), 1.7f, 3f);
+            //gate.AddComponent(gateComponent);
+            //updateComponents.Add(gateComponent);
+            //mapRoot.AddChildNode(gate); //TU ODKOMENTOWA BY BRAMA SIĘ POJAWIŁA
+
             Model hierarchiaStrefa2 = Content.Load<Model>("Level1/levelStrefa2");
             Texture2D hierarchiaStrefa2Tex = Content.Load<Texture2D>("Level1/levelStrefa2Tex");
             Texture2D hierarchiaStrefa2Normal = Content.Load<Texture2D>("Level1/levelStrefa2Normal");
@@ -556,9 +573,6 @@ namespace PBLGame
 
             GameObject plat1 = new GameObject();
             Model platforma1 = Content.Load<Model>("Level1/levelStrefa2Platforma1");
-            Vector3 position;
-            Vector3 scale;
-            Quaternion quat;
             platforma1.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
             plat1.Position = position;
             plat1.Scale = scale;
