@@ -39,7 +39,8 @@ namespace Game.Components.Pawns.Enemies
 
         public override void OnTrigger(GameObject triggered)
         {
-            if (triggered.tag == "player" || triggered.tag == "Wall" || triggered.tag == "Ground")
+
+            if (triggered.tag == "Wall" || triggered.tag == "Ground")
             {
                 base.OnTrigger(null);
             }
@@ -47,6 +48,7 @@ namespace Game.Components.Pawns.Enemies
             if (triggered.tag == "player")
             {
                 GameServices.GetService<GameObject>().GetComponent<Player>().Hp -= dmg;
+                base.OnTrigger(null);
             }           
         }
 
