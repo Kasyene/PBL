@@ -29,6 +29,7 @@ namespace Game.Components.Pawns.Enemies
 
         public override void Update(GameTime time)
         {
+            owner.CollisionUpdate();
             owner.Translate(new Vector3(direction.Y * bulletSpeed * (float)time.ElapsedGameTime.TotalMilliseconds, 0f, direction.X * bulletSpeed * (float)time.ElapsedGameTime.TotalMilliseconds));
             if (Vector3.Distance(basePosition, this.owner.Position) >= (rangedEnemyOwner.GetComponent<RangedEnemy>().range * 1.5))
             {
@@ -38,7 +39,7 @@ namespace Game.Components.Pawns.Enemies
 
         public override void OnTrigger(GameObject triggered)
         {
-            if (triggered.tag == "player" || triggered.tag == "Wall" && triggered.tag == "Ground")
+            if (triggered.tag == "player" || triggered.tag == "Wall" || triggered.tag == "Ground")
             {
                 base.OnTrigger(null);
             }
