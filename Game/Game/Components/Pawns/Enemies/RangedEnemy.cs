@@ -67,16 +67,20 @@ namespace Game.Components.Pawns.Enemies
         public override void Update(GameTime time)
         {
             base.Update(time);
-            foreach (var bullet in bullets)
+            for (int i = bullets.Count - 1; i >= 0; i--)
             {
-                if (bullet == null)
+                if (bullets[i].Parent == null)
                 {
-                    bullets?.Remove(bullet);
+                    bullets.RemoveAt(i);
                 }
                 else
                 {
-                    bullet.Update(time);
+                    bullets[i].Update(time);
                 }
+            }
+            foreach (var bullet in bullets)
+            {
+               
             }
         }
 
