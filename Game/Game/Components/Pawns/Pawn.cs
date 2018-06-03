@@ -51,7 +51,7 @@ namespace PBLGame.MainGame
                 }
             }
 
-
+            parentGameObject.OnTransformationsSet();
 
             base.Update(time);
         }

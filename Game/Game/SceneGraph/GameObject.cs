@@ -154,7 +154,7 @@ namespace PBLGame.SceneGraph
             }
         }
 
-        protected virtual void OnTransformationsSet()
+        public virtual void OnTransformationsSet()
         {
             isDirty = true;
         }
