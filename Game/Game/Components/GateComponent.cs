@@ -29,13 +29,13 @@ namespace Game.Components
         {
             if (component.direction)
             {
-                parent.PositionY += 4 * stepSize * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                parent.PositionY += 6 * stepSize * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
             else
             {
                 if (parent.PositionY >= startPosition)
                 {
-                    parent.PositionY -= stepSize * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    parent.PositionY -= 6 * stepSize * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
             }
         }

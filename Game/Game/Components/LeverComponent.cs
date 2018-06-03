@@ -31,7 +31,7 @@ namespace Game.Components
         {
             if (direction)
             {
-                parent.RotationZ += 4* stepSize * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                parent.RotationZ += 6 * stepSize * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (parent.RotationZ > endRotation)
                 {
                     direction = false;
@@ -41,7 +41,7 @@ namespace Game.Components
             {
                 if(parent.RotationZ >= startRotation)
                 {
-                    parent.RotationZ -= stepSize * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    parent.RotationZ -= 6 * stepSize * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
             }
         }
