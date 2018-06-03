@@ -12,6 +12,7 @@ namespace Game.Components.Collisions
     class HeartConsumableTrigger : ConsumableTrigger
     {
         private int value;
+
         public HeartConsumableTrigger(GameObject owner) : base(owner)
         {
             value = 3;
@@ -23,7 +24,6 @@ namespace Game.Components.Collisions
             if (player.Hp < player.MaxHp)
             {
                 Debug.WriteLine("INCREASE HP");
-                base.OnTrigger();
                 if (player.Hp >= (player.MaxHp - value))
                 {
                     GameServices.GetService<GameObject>().GetComponent<Player>().Hp = player.MaxHp;
@@ -32,8 +32,9 @@ namespace Game.Components.Collisions
                 {
                     GameServices.GetService<GameObject>().GetComponent<Player>().Hp = player.Hp + value;
                 }
+
+                base.OnTrigger();
             }
-            
         }
     }
 }
