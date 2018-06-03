@@ -14,14 +14,13 @@ namespace Game.Components.Collisions
         {
         }
 
-        public override void OnTrigger()
+        public override void OnTrigger(GameObject triggered)
         {
             foreach (var ownerCollider in owner.colliders)
             {
                 ownerCollider.isTrigger = false;
                 ownerCollider.isReadyToBeDisposed = true;
             }
-
             owner.Dispose();
         }
     }

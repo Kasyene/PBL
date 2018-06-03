@@ -16,11 +16,11 @@ namespace Game.Components.Collisions
             component = _component;
         }
 
-        public override void OnTrigger()
+        public override void OnTrigger(GameObject triggered)
         {
             System.Diagnostics.Debug.WriteLine("Lina trafiona");
             component.dropBridge = true;
-            base.OnTrigger();
+            base.OnTrigger(null);
         }
     }
 }

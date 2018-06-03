@@ -18,23 +18,27 @@ namespace Game.Components.Collisions
             value = 3;
         }
 
-        public override void OnTrigger()
+        public override void OnTrigger(GameObject triggered)
         {
-            var player = GameServices.GetService<GameObject>().GetComponent<Player>();
-            if (player.Hp < player.MaxHp)
+            if (triggered.tag == "player")
             {
-                Debug.WriteLine("INCREASE HP");
-                if (player.Hp >= (player.MaxHp - value))
+                var player = triggered.GetComponent<Player>();
+                if (player.Hp < player.MaxHp)
                 {
-                    GameServices.GetService<GameObject>().GetComponent<Player>().Hp = player.MaxHp;
-                }
-                else
-                {
-                    GameServices.GetService<GameObject>().GetComponent<Player>().Hp = player.Hp + value;
-                }
+                    Debug.WriteLine("INCREASE HP");
+                    if (player.Hp >= (player.MaxHp - value))
+                    {
+                        GameServices.GetService<GameObject>().GetComponent<Player>().Hp = player.MaxHp;
+                    }
+                    else
+                    {
+                        GameServices.GetService<GameObject>().GetComponent<Player>().Hp = player.Hp + value;
+                    }
 
-                base.OnTrigger();
+                    base.OnTrigger(null);
+                }
             }
+           
         }
     }
 }

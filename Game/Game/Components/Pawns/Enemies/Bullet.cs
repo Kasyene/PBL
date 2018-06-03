@@ -30,17 +30,23 @@ namespace Game.Components.Pawns.Enemies
         public override void Update(GameTime time)
         {
             owner.Translate(new Vector3(direction.Y * bulletSpeed * (float)time.ElapsedGameTime.TotalMilliseconds, 0f, direction.X * bulletSpeed * (float)time.ElapsedGameTime.TotalMilliseconds));
-            if (Vector3.Distance(basePosition, this.owner.Position) >= rangedEnemyOwner.GetComponent<RangedEnemy>().range)
+            if (Vector3.Distance(basePosition, this.owner.Position) >= (rangedEnemyOwner.GetComponent<RangedEnemy>().range * 1.5))
             {
-                base.OnTrigger();
+                base.OnTrigger(null);
             }
         }
 
-        public override void OnTrigger()
+        public override void OnTrigger(GameObject triggered)
         {
-            base.OnTrigger();
-            GameServices.GetService<GameObject>().GetComponent<Player>().Hp -= dmg;
-            
+            if (triggered.tag == "player" || triggered.tag == "Wall" && triggered.tag == "Ground")
+            {
+                base.OnTrigger(null);
+            }
+
+            if (triggered.tag == "player")
+            {
+                GameServices.GetService<GameObject>().GetComponent<Player>().Hp -= dmg;
+            }           
         }
 
 

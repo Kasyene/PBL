@@ -259,7 +259,7 @@ namespace PBLGame
             if (!GameServices.GetService<GameObject>().GetComponent<Player>().timeStop)
             {
                 rangedEnemy1.Update(gameTime);
-                meleeEnemy1.Update(gameTime);
+                //meleeEnemy1.Update(gameTime);
                 foreach (Component comp in updateComponents)
                 {
                     comp.Update(gameTime);

@@ -16,7 +16,7 @@ namespace Game.Components.Collisions
             this.owner = owner;
         }
 
-        public virtual void OnTrigger()
+        public virtual void OnTrigger(GameObject triggered)
         {
 
         }

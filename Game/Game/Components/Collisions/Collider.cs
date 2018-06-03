@@ -68,9 +68,9 @@ namespace PBLGame.SceneGraph
             }
             if (boundingBox.Intersects(other.boundingBox))
             {
-                if (other.isTrigger && !other.isCollider && this.owner.Parent.tag == "player")
+                if (other.isTrigger && !other.isCollider)
                 {
-                    other.owner.GetComponent<Trigger>().OnTrigger();
+                    other.owner.GetComponent<Trigger>().OnTrigger(this.owner.Parent);
                     return false;
                 }
 

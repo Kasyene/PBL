@@ -15,7 +15,7 @@ namespace Game.Components.Collisions
             component = _component;
         }
 
-        public override void OnTrigger()
+        public override void OnTrigger(GameObject triggered)
         {
             component.direction = true;
         }
