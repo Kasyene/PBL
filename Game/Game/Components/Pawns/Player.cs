@@ -150,6 +150,12 @@ namespace PBLGame.MainGame
                 playerHat.GetComponent<AnimationManager>().PlayAnimation("throw");
                 playerLeg.GetComponent<AnimationManager>().PlayAnimation("throw");
             }
+
+            if (inputManager.Mouse[SupportedMouseButtons.Middle].WasPressed && playerHat.GetComponent<AnimationManager>().isReady)
+            {
+                playerHat.GetComponent<AnimationManager>().AnimationBreak();
+                playerLeg.GetComponent<AnimationManager>().AnimationBreak();
+            }
         }
 
         public int GetTimeEnergy()

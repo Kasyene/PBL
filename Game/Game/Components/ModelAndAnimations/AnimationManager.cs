@@ -13,6 +13,7 @@ namespace PBLGame.Misc.Anim
 
         private bool isLooping = false;
         private bool isAnimationUpdated = true;
+        private bool isStoped = false;
 
         public bool isReady { get; set; }
 
@@ -48,16 +49,35 @@ namespace PBLGame.Misc.Anim
             }
         }
 
+        public void AnimationBreak()
+        {
+            animQueue.Clear();
+            currentKey = null;
+            animationPlayer.Stop();
+        }
+
+        public void AnimationStop()
+        {
+            isStoped = true;
+        }
+
+        public void AnimationStart()
+        {
+            isStoped = false;
+        }
+
         public void PlayAnimation(string _key, bool forceChange)
         {
             if (forceChange)
             {
                 // TODO: FINISH CODE FOR SPECIFIC CASE SCENARIO
                 animQueue.Clear();
+                animationPlayer.Stop();
+                PlayAnimation(_key);
                 //animationPlayer?.Rewind();
                 //animationClipDefault = animationClips[_key];
                 //animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClipDefault);
-                
+
             }
             else
             {
@@ -88,7 +108,7 @@ namespace PBLGame.Misc.Anim
 
         public override void Update(GameTime gameTime)
         {
-            if (animationPlayer != null)
+            if (animationPlayer != null && !isStoped)
             {
                 if (animationPlayer.Position >= animationPlayer.Duration || animationPlayer.Position < 0 )
                 {

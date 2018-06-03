@@ -148,6 +148,11 @@ namespace PBLGame.Misc.Anim
             Position = 0;
         }
 
+        public void Stop()
+        {
+            Position = Duration;
+        }
+
         /// <summary>
         /// Update the clip position
         /// </summary>
