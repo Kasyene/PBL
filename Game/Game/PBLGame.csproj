@@ -48,7 +48,7 @@
     <Compile Include="Components\Collisions\ConsumableTrigger.cs" />
     <Compile Include="Components\Collisions\HeartConsumableTrigger.cs" />
     <Compile Include="Components\Collisions\LeverTrigger.cs" />
-    <Compile Include="Components\Collisions\RopeTrigger.cs" />
+    <Compile Include="Components\Collisions\RopeCutConsumableTrigger.cs" />
     <Compile Include="Components\Collisions\Trigger.cs" />
     <Compile Include="Components\GateComponent.cs" />
     <Compile Include="Components\LeverComponent.cs" />

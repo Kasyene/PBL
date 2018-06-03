@@ -144,7 +144,7 @@ namespace PBLGame.SceneGraph
             {
                 if (col != this)
                 {
-                    if (IsCollision(col) && col.owner.tag == "Ground")
+                    if (IsCollision(col) && col.owner.tag == "Ground" && (col.boundingBox.Max.Y - this.boundingBox.Min.Y) < 5)
                     {
                         this.owner.Parent.isGrounded = true;
                         return;

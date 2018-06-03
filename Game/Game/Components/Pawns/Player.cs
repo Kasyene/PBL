@@ -212,6 +212,13 @@ namespace PBLGame.MainGame
                 ReLocateIndicies(lastHPs);
 
             }
+            if (inputManager.Keyboard[Keys.R].WasPressed && timeEnergy >= 3)
+            {
+                timeEnergy -= 3;
+                this.parentGameObject.Position = new Vector3((this.playerHat.GetBoundingBox().Min.X + this.playerHat.GetBoundingBox().Max.X) / 2.0f, this.parentGameObject.Position.Y, (this.playerHat.GetBoundingBox().Min.Z + this.playerHat.GetBoundingBox().Max.Z) / 2.0f);
+                playerHat.GetComponent<AnimationManager>().PlayAnimation("idle", true);
+                playerLeg.GetComponent<AnimationManager>().PlayAnimation("idle", true);
+            }
         }
 
         private void SaveLastPosition(GameTime time)

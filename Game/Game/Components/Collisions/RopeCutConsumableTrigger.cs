@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Game.Components.Collisions
 {
-    class RopeTrigger : Trigger
+    class RopeCutConsumableTrigger : ConsumableTrigger
     {
         BridgeComponent component;
 
-        public RopeTrigger(GameObject owner, BridgeComponent _component) : base(owner)
+        public RopeCutConsumableTrigger(GameObject owner, BridgeComponent _component) : base(owner)
         {
             component = _component;
         }
@@ -20,12 +20,7 @@ namespace Game.Components.Collisions
         {
             System.Diagnostics.Debug.WriteLine("Lina trafiona");
             component.dropBridge = true;
-            foreach (var ownerCollider in owner.colliders)
-            {
-                ownerCollider.isTrigger = false;
-                ownerCollider.isReadyToBeDisposed = true;
-            }
-            owner.Dispose();
+            base.OnTrigger();
         }
     }
 }
