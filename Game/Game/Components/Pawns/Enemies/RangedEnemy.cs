@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using PBLGame.Misc.Anim;
 using PBLGame.SceneGraph;
 
@@ -13,15 +15,23 @@ namespace Game.Components.Pawns.Enemies
     {
         private GameObject enemyHat;
         private GameObject enemyLeg;
+        public List<GameObject> bullets;
+        public Model bulletModel { get; set; }
+        public Texture2D bulletEnemyTex { get; set; }
+        public Texture2D bulletEnemyNormal { get; set; }
+        public Effect standardEffect { get; set; }
+
 
         public RangedEnemy(GameObject parent) : base(parent)
         {
+            attackDelay = 2.0d;
             parentGameObject = parent;
             enemySpeed = 0.07f;
             wakeUpDistance = 300f;
             range = 300f;
             enemyHat = parentGameObject.FindChildNodeByTag("Hat");
             enemyLeg = parentGameObject.FindChildNodeByTag("Leg");
+            bullets = new List<GameObject>();
         }
 
         protected override void EnemyBehaviour()
@@ -36,7 +46,10 @@ namespace Game.Components.Pawns.Enemies
                 }
                 else
                 {
-                    Attack();
+                    if (lastAttack >= attackDelay)
+                    {
+                        Attack();
+                    }
                 }
             }
         }
@@ -51,14 +64,45 @@ namespace Game.Components.Pawns.Enemies
             MoveBack(enemySpeed);
         }
 
+        public override void Update(GameTime time)
+        {
+            base.Update(time);
+            foreach (var bullet in bullets)
+            {
+                if (bullet == null)
+                {
+                    bullets?.Remove(bullet);
+                }
+                else
+                {
+                    bullet.Update(time);
+                }
+            }
+        }
+
         protected override void Attack()
         {
+            lastAttack = 0.0d;
             if (enemyHat.GetComponent<AnimationManager>().isReady)
             {
                 enemyHat.GetComponent<AnimationManager>().PlayAnimation("gotHit");
                 enemyLeg.GetComponent<AnimationManager>().PlayAnimation("gotHit");
             }
+            SpawnBullet();
             Debug.WriteLine("ATAK RANGED");
+        }
+
+        protected void SpawnBullet()
+        {
+            GameObject bullet = new GameObject("bullet");
+            bullet.AddComponent(new ModelComponent(bulletModel,standardEffect,bulletEnemyTex,bulletEnemyNormal));
+            bullet.Rotation = this.parentGameObject.Rotation;
+            bullet.Position = new Vector3(this.parentGameObject.Position.X, this.parentGameObject.Position.Y + 55f, this.parentGameObject.Position.Z);
+            bullet.AddComponent(new Bullet(bullet, this.parentGameObject));
+            this.parentGameObject.Parent.AddChildNode(bullet);
+            bullet.CreateColliders();
+            bullet.SetAsTrigger(bullet.GetComponent<Bullet>());
+            bullets.Add(bullet);
         }
     }
 }

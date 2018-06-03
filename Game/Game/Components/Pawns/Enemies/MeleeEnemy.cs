@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using PBLGame.Misc.Anim;
 using PBLGame.SceneGraph;
 
@@ -14,6 +15,7 @@ namespace Game.Components.Enemies
         private GameObject enemyModel;
         public MeleeEnemy(GameObject parent) : base(parent)
         {
+            attackDelay = 2.0d;
             parentGameObject = parent;
             enemySpeed = 0.05f;
             wakeUpDistance = 150f;
@@ -28,7 +30,10 @@ namespace Game.Components.Enemies
             {
                 if (distance < range)
                 {
-                    Attack();
+                    if (lastAttack >= attackDelay)
+                    {
+                        Attack();
+                    }
                 }
                 else
                 {
@@ -48,6 +53,7 @@ namespace Game.Components.Enemies
 
         protected override void Attack()
         {
+            lastAttack = 0.0d;
             if (enemyModel.GetComponent<AnimationManager>().isReady)
             {
                 enemyModel.GetComponent<AnimationManager>().PlayAnimation("attack");

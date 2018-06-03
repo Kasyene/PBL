@@ -17,6 +17,8 @@ namespace Game.Components
         public float distance;
         public float heightDifference;
         public float enemySpeed;
+        public double attackDelay;
+        public double lastAttack = 0.0d;
 
         protected Enemy(GameObject parent) : base()
         {
@@ -32,6 +34,7 @@ namespace Game.Components
         public override void Update(GameTime time)
         {
             base.Update(time);
+            lastAttack += (time.ElapsedGameTime.TotalMilliseconds / 1000.0d);
             CheckIfDead();
             EnemyBehaviour();
         }
