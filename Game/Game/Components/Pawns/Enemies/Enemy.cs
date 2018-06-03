@@ -16,7 +16,6 @@ namespace Game.Components
         public float wakeUpDistance;
         public float distance;
         public float heightDifference;
-        public int maxHpValue;
         public float enemySpeed;
 
         protected Enemy(GameObject parent) : base()
@@ -27,7 +26,7 @@ namespace Game.Components
         // Use this for initialization
         protected void Start()
         {
-            maxHpValue = this.Hp;
+            MaxHp = this.Hp;
             wakeUpDistance = 20;
         }
         public override void Update(GameTime time)

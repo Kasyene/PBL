@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
 using Game.Misc.Time;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -28,7 +29,8 @@ namespace PBLGame.MainGame
 
         public Player(GameObject parent) : base()
         {
-            Hp = 20;
+            MaxHp = 20;
+            Hp = MaxHp;
             previousTimeEnergyUpdate = 0d;
             parentGameObject = parent;
             inputManager = InputManager.Instance;

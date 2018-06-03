@@ -17,6 +17,8 @@ namespace PBLGame.MainGame
         protected GameObject parentGameObject;
         protected Vector3 lastPosition;
         public int Hp { get; internal set; } = 10;
+        public int MaxHp { get; internal set; } = 10;
+
         public Pawn() : base()
         {
             lastPosition = new Vector3(0f, 0f, 0f);
