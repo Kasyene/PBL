@@ -651,7 +651,7 @@ namespace PBLGame
                 if (obj.name == "Lina1")
                 {
                     obj.CreateColliders();
-                    RopeTrigger comp = new RopeTrigger(obj, bridgeComp);
+                    RopeCutConsumableTrigger comp = new RopeCutConsumableTrigger(obj, bridgeComp);
                     obj.SetAsTrigger(comp);
                     updateComponents.Add(comp);
                 }
