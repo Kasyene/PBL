@@ -20,7 +20,7 @@ namespace Game.Components.Collisions
 
         public override void OnTrigger(GameObject triggered)
         {
-            if (triggered.tag == "player")
+            if (triggered?.tag == "player")
             {
                 var player = triggered.GetComponent<Player>();
                 if (player.Hp < player.MaxHp)

@@ -573,19 +573,21 @@ namespace PBLGame.SceneGraph
         public void Dispose()
         {
             parent?.childs.Remove(this);
-
             parent = null;
-
-            colliders.Clear();
-
-            foreach (Component component in components)
+            foreach (var col in colliders)
             {
-                component?.Dispose();
+                col.isTrigger = false;
+                col.isCollider = false;
+                col.isReadyToBeDisposed = true;
             }
-
-            foreach (GameObject gameObject in childs)
+            colliders.Clear();
+            for (int i = components.Count - 1; i >= 0; i--)
             {
-                gameObject?.Dispose();
+                components[i].Dispose();
+            }
+            for (int i = childs.Count - 1; i >= 0; i--)
+            {
+                childs[i].Dispose();
             }
         }
     }

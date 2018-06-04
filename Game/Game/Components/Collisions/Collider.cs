@@ -104,7 +104,7 @@ namespace PBLGame.SceneGraph
                         {
                             if (col.owner.tag != "Ground" && col.owner.tag != "Wall" && col.owner.tag != "Leg")
                             {
-                                Debug.WriteLine("TriggerCollider interaction");
+                                //Debug.WriteLine("TriggerCollider interaction");
                                 return null;
                             }
                         }

@@ -24,6 +24,7 @@ namespace Game.Components.Pawns.Enemies
 
         public RangedEnemy(GameObject parent) : base(parent)
         {
+            Hp = 5;
             attackDelay = 2.0d;
             parentGameObject = parent;
             enemySpeed = 0.07f;
@@ -93,19 +94,38 @@ namespace Game.Components.Pawns.Enemies
                 enemyLeg.GetComponent<AnimationManager>().PlayAnimation("gotHit");
             }
             SpawnBullet();
-            Debug.WriteLine("ATAK RANGED");
+            Debug.WriteLine("ATAK RANGED" + Hp);
+            Hp -= 1;
         }
 
         protected void SpawnBullet()
         {
-            GameObject bullet = new GameObject("bullet");
-            bullet.AddComponent(new ModelComponent(bulletModel,standardEffect,bulletEnemyTex,bulletEnemyNormal));
-            bullet.Rotation = this.parentGameObject.Rotation;
-            bullet.Position = new Vector3(this.parentGameObject.Position.X, this.parentGameObject.Position.Y + 55f, this.parentGameObject.Position.Z);
-            this.parentGameObject.Parent.AddChildNode(bullet);
-            bullet.CreateColliders();
-            bullet.SetAsTrigger(new Bullet(bullet, this.parentGameObject));
-            bullets.Add(bullet);
+            if (this.parentGameObject.Parent != null)
+            {
+                GameObject bullet = new GameObject("bullet");
+                bullet.AddComponent(new ModelComponent(bulletModel, standardEffect, bulletEnemyTex, bulletEnemyNormal));
+                bullet.Rotation = this.parentGameObject.Rotation;
+                bullet.Position = new Vector3(this.parentGameObject.Position.X, this.parentGameObject.Position.Y + 55f, this.parentGameObject.Position.Z);
+                this.parentGameObject?.Parent?.AddChildNode(bullet);
+                bullet.CreateColliders();
+                bullet.SetAsTrigger(new Bullet(bullet, this.parentGameObject));
+                bullets.Add(bullet);
+            }
+        }
+
+        public override void Dispose()
+        {
+            bulletModel = null;
+            standardEffect = null;
+            bulletEnemyTex = null;
+            bulletEnemyNormal = null;
+            enemyHat.Dispose();
+            enemyLeg.Dispose();
+            for (int i = bullets.Count - 1; i >= 0; i--)
+            {
+                bullets[i].Dispose();
+            }
+            base.Dispose();
         }
     }
 }

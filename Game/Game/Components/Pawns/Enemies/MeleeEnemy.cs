@@ -58,7 +58,8 @@ namespace Game.Components.Enemies
             {
                 enemyModel.GetComponent<AnimationManager>().PlayAnimation("attack");
             }
-            Debug.WriteLine("ATAK MELEE");
+            Debug.WriteLine("ATAK MELEE" + Hp);
+            Hp -= 1;
         }
     }
 }

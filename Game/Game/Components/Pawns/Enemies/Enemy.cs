@@ -52,7 +52,7 @@ namespace Game.Components
             if (this.Hp == 0)
             {
                 RollForHpPickUp();
-                //TODO destroy this enemy
+                Die();
             }
         }
 
@@ -75,6 +75,11 @@ namespace Game.Components
         protected virtual void Attack()
         {
             // to override
+        }
+
+        protected void Die()
+        {
+            parentGameObject.Dispose();
         }
 
     }

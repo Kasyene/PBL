@@ -36,7 +36,7 @@ namespace PBLGame.SceneGraph
 
         public virtual void Dispose()
         {
-            
+            GC.SuppressFinalize(this);
         }
     }
 }
