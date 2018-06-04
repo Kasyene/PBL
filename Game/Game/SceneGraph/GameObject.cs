@@ -546,11 +546,12 @@ namespace PBLGame.SceneGraph
             }
         }
 
-        public void SetAsColliderAndTrigger()
+        public void SetAsColliderAndTrigger(Trigger triggerType)
         {
             if (this.CheckIfPawn())
             {
                 var hat = this.FindChildNodeByTag("Hat");
+                hat.AddComponent(triggerType);
                 foreach (var col in hat.colliders)
                 {
                     col.isTrigger = true;
@@ -559,6 +560,7 @@ namespace PBLGame.SceneGraph
             }
             else
             {
+                AddComponent(triggerType);
                 foreach (var col in colliders)
                 {
                     col.isTrigger = true;

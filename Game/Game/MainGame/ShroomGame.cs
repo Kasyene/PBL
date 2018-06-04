@@ -239,9 +239,9 @@ namespace PBLGame
             if (!areCollidersAndTriggersSet)
             {
                 root.CreateColliders();
-                playerHat.SetAsColliderAndTrigger();
-                rangedEnemyHat.SetAsColliderAndTrigger();
-                meleeEnemyModel.SetAsColliderAndTrigger();
+                playerHat.SetAsColliderAndTrigger(new Trigger(playerHat));
+                rangedEnemyHat.SetAsColliderAndTrigger(new Trigger(rangedEnemyHat));
+                meleeEnemyModel.SetAsColliderAndTrigger(new Trigger(meleeEnemyModel));
                 heart.SetAsTrigger(new HeartConsumableTrigger(heart));
                 heart2.SetAsTrigger(new HeartConsumableTrigger(heart2));
 
