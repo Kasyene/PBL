@@ -67,22 +67,22 @@ namespace Game.Components.Pawns.Enemies
 
         public override void Update(GameTime time)
         {
-            base.Update(time);
-            for (int i = bullets.Count - 1; i >= 0; i--)
+            if (!isDead)
             {
-                if (bullets[i].Parent == null)
+                base.Update(time);
+                for (int i = bullets.Count - 1; i >= 0; i--)
                 {
-                    bullets.RemoveAt(i);
-                }
-                else
-                {
-                    bullets[i].Update(time);
+                    if (bullets[i].Parent == null)
+                    {
+                        bullets.RemoveAt(i);
+                    }
+                    else
+                    {
+                        bullets[i].Update(time);
+                    }
                 }
             }
-            foreach (var bullet in bullets)
-            {
-               
-            }
+
         }
 
         protected override void Attack()
@@ -100,17 +100,14 @@ namespace Game.Components.Pawns.Enemies
 
         protected void SpawnBullet()
         {
-            if (this.parentGameObject.Parent != null)
-            {
-                GameObject bullet = new GameObject("bullet");
-                bullet.AddComponent(new ModelComponent(bulletModel, standardEffect, bulletEnemyTex, bulletEnemyNormal));
-                bullet.Rotation = this.parentGameObject.Rotation;
-                bullet.Position = new Vector3(this.parentGameObject.Position.X, this.parentGameObject.Position.Y + 55f, this.parentGameObject.Position.Z);
-                this.parentGameObject?.Parent?.AddChildNode(bullet);
-                bullet.CreateColliders();
-                bullet.SetAsTrigger(new Bullet(bullet, this.parentGameObject));
-                bullets.Add(bullet);
-            }
+            GameObject bullet = new GameObject("bullet");
+            bullet.AddComponent(new ModelComponent(bulletModel, standardEffect, bulletEnemyTex, bulletEnemyNormal));
+            bullet.Rotation = this.parentGameObject.Rotation;
+            bullet.Position = new Vector3(this.parentGameObject.Position.X, this.parentGameObject.Position.Y + 55f, this.parentGameObject.Position.Z);
+            this.parentGameObject?.Parent?.AddChildNode(bullet);
+            bullet.CreateColliders();
+            bullet.SetAsTrigger(new Bullet(bullet, this.parentGameObject));
+            bullets.Add(bullet);
         }
 
         public override void Dispose()

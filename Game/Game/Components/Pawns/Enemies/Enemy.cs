@@ -12,6 +12,7 @@ namespace Game.Components
 {
     abstract class Enemy : Pawn
     {
+        public bool isDead = false;
         public float range;
         public float wakeUpDistance;
         public float distance;
@@ -33,10 +34,13 @@ namespace Game.Components
         }
         public override void Update(GameTime time)
         {
-            base.Update(time);
-            lastAttack += (time.ElapsedGameTime.TotalMilliseconds / 1000.0d);
-            CheckIfDead();
-            EnemyBehaviour();
+            if (!isDead)
+            {
+                base.Update(time);
+                lastAttack += (time.ElapsedGameTime.TotalMilliseconds / 1000.0d);
+                CheckIfDead();
+                EnemyBehaviour();
+            }
         }
 
         protected virtual void EnemyBehaviour()
@@ -79,6 +83,7 @@ namespace Game.Components
 
         protected void Die()
         {
+            isDead = true;
             parentGameObject.Dispose();
         }
 
