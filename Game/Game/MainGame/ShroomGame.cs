@@ -76,6 +76,7 @@ namespace PBLGame
         GameObject meleeEnemyModel;
         GameObject meleeEnemyWalk;
         Model bulletModel;
+        Model heartModel;
         Camera camera;
 
         Texture2D playerTex;
@@ -84,9 +85,10 @@ namespace PBLGame
         Texture2D rangedEnemyNormal;
         Texture2D meleeEnemyTex;
         Texture2D meleeEnemyNormal;
-        Texture2D apteczkaTexture;
+
         Texture2D bulletEnemyTex;
         Texture2D bulletEnemyNormal;
+        Texture2D heartTexture;
 
         Effect standardEffect;
         Effect animatedEffect;
@@ -145,7 +147,7 @@ namespace PBLGame
             rangedEnemyNormal = Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyNormal");
             meleeEnemyTex = Content.Load<Texture2D>("models/enemies/muchomorStadny/muchomorStadnyTex");
             meleeEnemyNormal = Content.Load<Texture2D>("models/enemies/muchomorStadny/muchomorStadnyNormal");
-            apteczkaTexture = Content.Load<Texture2D>("apteczkaTex");
+            heartTexture = Content.Load<Texture2D>("apteczkaTex");
 
             bulletEnemyTex = Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyTex");
             bulletEnemyNormal = Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyNormal");
@@ -183,12 +185,12 @@ namespace PBLGame
             pointLights = new List<Lights.PointLight>();
             directionalLight = new Lights.DirectionalLight();
             missingTexture = Content.Load<Texture2D>("Missing");
-            Model apteczka = Content.Load<Model>("apteczka");
+            heartModel = Content.Load<Model>("apteczka");
             bulletModel = Content.Load<Model>("models/enemies/muchomorRzucajacy/Kulka");
 
             // Add static models
-            heart.AddComponent(new ModelComponent(apteczka, standardEffect, apteczkaTexture));
-            heart2.AddComponent(new ModelComponent(apteczka, standardEffect, apteczkaTexture));
+            heart.AddComponent(new ModelComponent(heartModel, standardEffect, heartTexture));
+            heart2.AddComponent(new ModelComponent(heartModel, standardEffect, heartTexture));
 
 
             root.AddChildNode(heart);
@@ -699,8 +701,7 @@ namespace PBLGame
         }
 
         void LoadRangedEnemy()
-        {
-            //rangedEnemy          
+        {       
             // Load anim models
             rangedEnemy1.AddChildNode(rangedEnemyLeg);
             rangedEnemy1.AddChildNode(rangedEnemyHat);
@@ -733,12 +734,18 @@ namespace PBLGame
             // TODO: ANIM LOAD SYSTEM / SELECTOR
             rangedEnemyLeg.GetComponent<AnimationManager>().PlayAnimation("idle");
             rangedEnemyHat.GetComponent<AnimationManager>().PlayAnimation("idle");
-
             rangedEnemy1.AddComponent(new RangedEnemy(rangedEnemy1));
+
+            //bullet
             rangedEnemy1.GetComponent<RangedEnemy>().bulletEnemyNormal = bulletEnemyNormal;
             rangedEnemy1.GetComponent<RangedEnemy>().bulletEnemyTex = bulletEnemyTex;
             rangedEnemy1.GetComponent<RangedEnemy>().bulletModel = bulletModel;
             rangedEnemy1.GetComponent<RangedEnemy>().standardEffect = standardEffect;
+
+            //heart
+            rangedEnemy1.GetComponent<RangedEnemy>().heartTex = heartTexture;
+            rangedEnemy1.GetComponent<RangedEnemy>().heartModel = heartModel;
+
             root.AddChildNode(rangedEnemy1);
             rangedEnemy1.Position = new Vector3(-20f, 40f, -550f);
         }
@@ -769,8 +776,12 @@ namespace PBLGame
 
             // TODO: ANIM LOAD SYSTEM / SELECTOR
             meleeEnemyModel.GetComponent<AnimationManager>().PlayAnimation("idle");
-
             meleeEnemy1.AddComponent(new MeleeEnemy(meleeEnemy1));
+
+            //heart
+            meleeEnemy1.GetComponent<MeleeEnemy>().standardEffect = standardEffect;
+            meleeEnemy1.GetComponent<MeleeEnemy>().heartTex = heartTexture;
+            meleeEnemy1.GetComponent<MeleeEnemy>().heartModel = heartModel;
             root.AddChildNode(meleeEnemy1);
             meleeEnemy1.Position = new Vector3(100f, 40f, -350f);
         }
@@ -868,7 +879,7 @@ namespace PBLGame
 
         void LoadPlayer()
         {
-            hpTexture = apteczkaTexture;
+            hpTexture = heartTexture;
             timeTexture = playerNormal;
 
             // Load anim models

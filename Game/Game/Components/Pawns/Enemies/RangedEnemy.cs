@@ -19,7 +19,6 @@ namespace Game.Components.Pawns.Enemies
         public Model bulletModel { get; set; }
         public Texture2D bulletEnemyTex { get; set; }
         public Texture2D bulletEnemyNormal { get; set; }
-        public Effect standardEffect { get; set; }
 
 
         public RangedEnemy(GameObject parent) : base(parent)

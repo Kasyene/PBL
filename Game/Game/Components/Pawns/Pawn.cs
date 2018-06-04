@@ -10,6 +10,7 @@ namespace PBLGame.MainGame
 {
     class Pawn : Component
     {
+        public bool isDead = false;
         private bool isMoving = false;
         protected bool isJumping = false;
         private float positionYBeforeJump = 0.0f;

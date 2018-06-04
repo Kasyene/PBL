@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Game.Components.Collisions;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using PBLGame.MainGame;
 using PBLGame.SceneGraph;
 
@@ -12,7 +14,6 @@ namespace Game.Components
 {
     abstract class Enemy : Pawn
     {
-        public bool isDead = false;
         public float range;
         public float wakeUpDistance;
         public float distance;
@@ -20,6 +21,9 @@ namespace Game.Components
         public float enemySpeed;
         public double attackDelay;
         public double lastAttack = 0.0d;
+        public Model heartModel { get; set; }
+        public Texture2D heartTex { get; set; }
+        public Effect standardEffect { get; set; }
 
         protected Enemy(GameObject parent) : base()
         {
@@ -64,11 +68,23 @@ namespace Game.Components
         {
             Random rnd = new Random();
             int a = rnd.Next(0, 6);
-            if (a == 0 || a == 5)
+            if (a == 0 || a == 3 || a == 5)
             {
                 Debug.WriteLine("HP pickup spawn");
-               //TODO spawn hp pickup
+                SpawnHp();
             }
+        }
+
+        protected void SpawnHp()
+        {
+            GameObject heart = new GameObject("Serce");
+            heart.AddComponent(new ModelComponent(heartModel, standardEffect, heartTex));
+            heart.Rotation = this.parentGameObject.Rotation;
+            heart.Position = new Vector3(this.parentGameObject.Position.X, this.parentGameObject.Position.Y + 6.0f, this.parentGameObject.Position.Z);
+            heart.Scale = new Vector3(0.4f);
+            this.parentGameObject?.Parent?.AddChildNode(heart);
+            heart.CreateColliders();
+            heart.SetAsTrigger(new HeartConsumableTrigger(heart));
         }
 
         protected virtual void Movement()
