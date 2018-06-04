@@ -102,10 +102,9 @@ namespace Game.Components.Pawns.Enemies
             bullet.AddComponent(new ModelComponent(bulletModel,standardEffect,bulletEnemyTex,bulletEnemyNormal));
             bullet.Rotation = this.parentGameObject.Rotation;
             bullet.Position = new Vector3(this.parentGameObject.Position.X, this.parentGameObject.Position.Y + 55f, this.parentGameObject.Position.Z);
-            bullet.AddComponent(new Bullet(bullet, this.parentGameObject));
             this.parentGameObject.Parent.AddChildNode(bullet);
             bullet.CreateColliders();
-            bullet.SetAsTrigger(bullet.GetComponent<Bullet>());
+            bullet.SetAsTrigger(new Bullet(bullet, this.parentGameObject));
             bullets.Add(bullet);
         }
     }
