@@ -9,7 +9,7 @@ namespace PBLGame.MainGame
 {
     public class DialogueString
     {
-        private float sizeLimit = 35f;
+        private float sizeLimit = 45f;
         static Queue<string> dialoguesQueue = new Queue<string>();
         public DialogueString(string text)
         {

@@ -74,6 +74,7 @@
     <Compile Include="Components\ModelAndAnimations\ModelAnimatedComponent.cs" />
     <Compile Include="Lights\DirectionalLight.cs" />
     <Compile Include="Lights\PointLight.cs" />
+    <Compile Include="MainGame\Cutscene.cs" />
     <Compile Include="MainGame\DialogueString.cs" />
     <Compile Include="MainGame\GameServices.cs" />
     <Compile Include="MainGame\Resolution.cs" />

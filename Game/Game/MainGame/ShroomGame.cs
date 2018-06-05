@@ -15,6 +15,7 @@ using Game.Components.Collisions;
 using Game.Components.Enemies;
 using Game.Components.Pawns.Enemies;
 using Game.MainGame;
+using System.Collections;
 
 namespace PBLGame
 {
@@ -47,6 +48,9 @@ namespace PBLGame
         private string actualDialogueText = "";
         private Texture2D hpTexture;
         private Texture2D timeTexture;
+
+        private Texture2D actualCutsceneTexture;
+        private float cutsceneDisplayTime;
 
         List<Component> updateComponents;
 
@@ -289,9 +293,7 @@ namespace PBLGame
                     //skybox.SetSkyBoxTexture(refractionTarget);
                     GraphicsDevice.SetRenderTarget(screenRenderTarget);
                     DrawWithShadow(camera.CalcViewMatrix());
-                    DrawOutline();
-                    DrawHpBar();
-                    DrawTimeBar();
+                    DrawScreen(gameTime);
 
                     DrawText(gameTime);
                     break;
@@ -326,6 +328,37 @@ namespace PBLGame
             spriteBatch.Begin(0, BlendState.Opaque, null, null, null, outlineEffect);
             spriteBatch.Draw(screenRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
+        }
+
+        void DrawScreen(GameTime gameTime)
+        {
+            cutsceneDisplayTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (cutsceneDisplayTime < 0f || actualCutsceneTexture == null)
+            {
+                Cutscene cutscene = Cutscene.GetActualCutscene();
+                if(cutscene != null)
+                {
+                    actualCutsceneTexture = cutscene.texture;
+                    cutsceneDisplayTime = cutscene.time;
+                }
+                else
+                {
+                    actualCutsceneTexture = null;
+                }
+            }
+
+            if (actualCutsceneTexture == null)
+            {
+                DrawOutline();
+                DrawHpBar();
+                DrawTimeBar();
+            }
+            else
+            {
+                spriteBatch.Begin(0, BlendState.Opaque, null, null, null);
+                spriteBatch.Draw(actualCutsceneTexture, new Rectangle(new Point(0, 0), new Point(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight)), Color.White);
+                spriteBatch.End();
+            }
         }
 
         void DrawRefraction()
@@ -522,6 +555,10 @@ namespace PBLGame
 
         void LoadLevel1()
         {
+            new Cutscene(Content.Load<Texture2D>("Cutscene/1.1"), 3f);
+            new Cutscene(Content.Load<Texture2D>("Cutscene/1.2"), 2f);
+            new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 2f);
+
             updateComponents = new List<Component>();
             Model hierarchiaStrefa1 = Content.Load<Model>("Level1/levelStrefa1");
             Texture2D hierarchiaStrefa1Tex = Content.Load<Texture2D>("Level1/levelStrefa1Tex");
