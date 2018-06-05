@@ -15,7 +15,7 @@ namespace Game.Components.Pawns.Enemies
     {
         private int dmg;
         private Vector2 direction;
-        private float bulletSpeed = 0.09f;
+        private float bulletSpeed = 0.1f;
         private Vector3 basePosition;
         private GameObject rangedEnemyOwner;
 

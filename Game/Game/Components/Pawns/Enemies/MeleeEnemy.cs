@@ -16,7 +16,7 @@ namespace Game.Components.Enemies
         private GameObject enemyModel;
         public MeleeEnemy(GameObject parent) : base(parent)
         {
-            attackDelay = 2.0d;
+            attackDelay = 1.0d;
             parentGameObject = parent;
             enemySpeed = 0.05f;
             wakeUpDistance = 150f;

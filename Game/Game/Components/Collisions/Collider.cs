@@ -110,6 +110,11 @@ namespace PBLGame.SceneGraph
                             }
                         }
 
+                        if (col.isCollider && col.isTrigger)
+                        {
+                            return null;
+                        }
+
                         this.penetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
                         if (col.owner.tag == "Ground")
                         {
