@@ -19,7 +19,7 @@ namespace PBLGame.SceneGraph
         {
             inputManager = InputManager.Instance;
             visible = false;
-            Position = new Vector3(0f, 30f, minZoom);
+            Position = new Vector3(0f, 30f, maxZoom);
             RotationY = minYRotation;
             //colliders.Add(new Collider(new BoundingBox(), null, this));
             TransformationsOrder = TransformationOrder.ScalePositionRotation;
