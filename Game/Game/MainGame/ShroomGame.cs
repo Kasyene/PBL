@@ -557,7 +557,7 @@ namespace PBLGame
                 }
             }
 
-            GameObject gate = new GameObject();
+            GameObject gate = new GameObject("Wall");
             Model gateModel = Content.Load<Model>("Level1/levelStrefa1Brama");
             Vector3 position;
             Vector3 scale;
