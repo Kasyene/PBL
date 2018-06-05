@@ -1,8 +1,6 @@
 ﻿using System;
-using AnimationAux;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Game.Misc;
 using Game.Misc.Time;
@@ -10,16 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PBLGame.Input;
 using PBLGame.MainGame;
-using PBLGame.Misc;
 using PBLGame.Misc.Anim;
 using PBLGame.SceneGraph;
-using System.IO;
 using Game.Components;
 using Game.Components.Collisions;
 using Game.Components.Enemies;
 using Game.Components.Pawns.Enemies;
 using Game.MainGame;
-using PBLGame.Input.Devices;
 
 namespace PBLGame
 {
@@ -241,12 +236,14 @@ namespace PBLGame
             if (!areCollidersAndTriggersSet)
             {
                 root.CreateColliders();
-                playerHat.SetAsColliderAndTrigger(new Trigger(playerHat));
-                rangedEnemyHat.SetAsColliderAndTrigger(new Trigger(rangedEnemyHat));
-                meleeEnemyModel.SetAsColliderAndTrigger(new Trigger(meleeEnemyModel));
+                playerHat.SetAsColliderAndTrigger(new HitTrigger(playerHat));
+                player.GetComponent<Pawn>().ObjectSide = Side.Player;
+                rangedEnemyHat.SetAsColliderAndTrigger(new HitTrigger(rangedEnemyHat));
+                rangedEnemy1.GetComponent<Pawn>().ObjectSide = Side.Enemy;
+                meleeEnemyModel.SetAsColliderAndTrigger(new HitTrigger(meleeEnemyModel));
+                meleeEnemy1.GetComponent<Pawn>().ObjectSide = Side.Enemy;
                 heart.SetAsTrigger(new HeartConsumableTrigger(heart));
                 heart2.SetAsTrigger(new HeartConsumableTrigger(heart2));
-
                 areCollidersAndTriggersSet = true;
             }
 
@@ -735,6 +732,7 @@ namespace PBLGame
             rangedEnemyLeg.GetComponent<AnimationManager>().PlayAnimation("idle");
             rangedEnemyHat.GetComponent<AnimationManager>().PlayAnimation("idle");
             rangedEnemy1.AddComponent(new RangedEnemy(rangedEnemy1));
+            rangedEnemy1.GetComponent<RangedEnemy>().ObjectSide = Side.Enemy;
 
             //bullet
             rangedEnemy1.GetComponent<RangedEnemy>().bulletEnemyNormal = bulletEnemyNormal;
@@ -777,6 +775,7 @@ namespace PBLGame
             // TODO: ANIM LOAD SYSTEM / SELECTOR
             meleeEnemyModel.GetComponent<AnimationManager>().PlayAnimation("idle");
             meleeEnemy1.AddComponent(new MeleeEnemy(meleeEnemy1));
+            meleeEnemy1.GetComponent<MeleeEnemy>().ObjectSide = Side.Enemy;
 
             //heart
             meleeEnemy1.GetComponent<MeleeEnemy>().standardEffect = standardEffect;

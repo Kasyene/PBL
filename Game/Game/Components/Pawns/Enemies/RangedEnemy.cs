@@ -23,7 +23,7 @@ namespace Game.Components.Pawns.Enemies
 
         public RangedEnemy(GameObject parent) : base(parent)
         {
-            Hp = 5;
+            Hp = 8;
             attackDelay = 2.0d;
             parentGameObject = parent;
             enemySpeed = 0.07f;
@@ -94,7 +94,6 @@ namespace Game.Components.Pawns.Enemies
             }
             SpawnBullet();
             Debug.WriteLine("ATAK RANGED" + Hp);
-            Hp -= 1;
         }
 
         protected void SpawnBullet()

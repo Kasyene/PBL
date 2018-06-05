@@ -471,7 +471,7 @@ namespace PBLGame.SceneGraph
                 return null;
         }
 
-        private bool CheckIfPawn()
+        public bool CheckIfPawn()
         {
             foreach (Component component in components)
             {

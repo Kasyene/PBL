@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
+using Game.Components.Collisions;
 using Game.Misc.Time;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -124,9 +125,10 @@ namespace PBLGame.MainGame
 
         private void PlayerAttacks()
         {
-            
             if (inputManager.Mouse[SupportedMouseButtons.Left].WasPressed && playerHat.GetComponent<AnimationManager>().isReady)
             {
+                playerHat.GetComponent<HitTrigger>().ClearBoxList();
+                isAttacking = true;
                 switch (count)
                 {
                     case 0:
@@ -149,6 +151,8 @@ namespace PBLGame.MainGame
 
             if (inputManager.Mouse[SupportedMouseButtons.Right].WasPressed && playerHat.GetComponent<AnimationManager>().isReady)
             {
+                playerHat.GetComponent<HitTrigger>().ClearBoxList();
+                isAttacking = true;
                 playerHat.GetComponent<AnimationManager>().PlayAnimation("throw");
                 playerLeg.GetComponent<AnimationManager>().PlayAnimation("throw");
             }

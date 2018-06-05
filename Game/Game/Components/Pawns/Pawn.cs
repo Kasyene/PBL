@@ -8,26 +8,31 @@ using Game = Microsoft.Xna.Framework.Game;
 
 namespace PBLGame.MainGame
 {
-    class Pawn : Component
+    public enum Side { Enemy, Player, Other };
+    public class Pawn : Component
     {
         public bool isDead = false;
         private bool isMoving = false;
         protected bool isJumping = false;
+        public bool isAttacking = false;
         private float positionYBeforeJump = 0.0f;
         public float AccelerationDueToGravity;
         protected GameObject parentGameObject;
         protected Vector3 lastPosition;
         public int Hp { get; internal set; } = 10;
         public int MaxHp { get; internal set; } = 10;
+        public Side ObjectSide;
+        public int dmg = 2;
+
 
         public Pawn() : base()
         {
             lastPosition = new Vector3(0f, 0f, 0f);
         }
 
-        public virtual void Damage()
+        public int getDamage()
         {
-            this.Hp -= 1;
+            return dmg;
         }
 
         public override void Update(GameTime time)

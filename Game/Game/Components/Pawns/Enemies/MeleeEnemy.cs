@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Game.Components.Collisions;
 using Microsoft.Xna.Framework;
 using PBLGame.Misc.Anim;
 using PBLGame.SceneGraph;
@@ -54,12 +55,12 @@ namespace Game.Components.Enemies
         protected override void Attack()
         {
             lastAttack = 0.0d;
+            isAttacking = true;
+            enemyModel.GetComponent<HitTrigger>().ClearBoxList();
             if (enemyModel.GetComponent<AnimationManager>().isReady)
             {
                 enemyModel.GetComponent<AnimationManager>().PlayAnimation("attack");
             }
-            Debug.WriteLine("ATAK MELEE" + Hp);
-            Hp -= 1;
         }
     }
 }
