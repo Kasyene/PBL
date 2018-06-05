@@ -20,14 +20,14 @@ namespace Game.Components.Enemies
             parentGameObject = parent;
             enemySpeed = 0.05f;
             wakeUpDistance = 150f;
-            range = 30f;
+            range = 35f;
             enemyModel = parentGameObject.FindChildNodeByTag("meleeEnemy");
         }
 
         protected override void EnemyBehaviour()
         {
             base.EnemyBehaviour();
-            if (distance < wakeUpDistance && heightDifference < 5.0f)
+            if (distance < wakeUpDistance && heightDifference < 70.0f)
             {
                 if (distance < range)
                 {
@@ -61,6 +61,7 @@ namespace Game.Components.Enemies
             {
                 enemyModel.GetComponent<AnimationManager>().PlayAnimation("attack");
             }
+            Debug.WriteLine("MELEEATAK");
         }
     }
 }

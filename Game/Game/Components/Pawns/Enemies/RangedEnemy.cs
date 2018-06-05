@@ -27,8 +27,8 @@ namespace Game.Components.Pawns.Enemies
             attackDelay = 2.0d;
             parentGameObject = parent;
             enemySpeed = 0.07f;
-            wakeUpDistance = 300f;
-            range = 300f;
+            wakeUpDistance = 400f;
+            range = 250f;
             enemyHat = parentGameObject.FindChildNodeByTag("Hat");
             enemyLeg = parentGameObject.FindChildNodeByTag("Leg");
             bullets = new List<GameObject>();
@@ -37,12 +37,18 @@ namespace Game.Components.Pawns.Enemies
         protected override void EnemyBehaviour()
         {
             base.EnemyBehaviour();
-            if (distance < wakeUpDistance && heightDifference < 5.0f)
+            if (distance < wakeUpDistance && heightDifference < 70.0f)
             {
                 if (distance < 100f )
                 {
                     Movement();
+                    MoveBack(enemySpeed);
                     
+                }
+                else if (distance > range)
+                {
+                    Movement();
+                    MoveForward(enemySpeed);
                 }
                 else
                 {
@@ -61,7 +67,6 @@ namespace Game.Components.Pawns.Enemies
                 enemyHat.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
                 enemyLeg.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
             }
-            MoveBack(enemySpeed);
         }
 
         public override void Update(GameTime time)
