@@ -77,6 +77,7 @@ namespace PBLGame
         Model bulletModel;
         Model heartModel;
         Camera camera;
+        GameObject cameraCollision;
 
         Texture2D playerTex;
         Texture2D playerNormal;
@@ -180,7 +181,10 @@ namespace PBLGame
 
             camera = new Camera();
             camera.SetCameraTarget(player);
-
+            GameServices.AddService(camera);
+            cameraCollision = new GameObject("cameraCollision");
+            cameraCollision.AddComponent(new CameraCollisions(cameraCollision));
+            
             pointLights = new List<Lights.PointLight>();
             directionalLight = new Lights.DirectionalLight();
             missingTexture = Content.Load<Texture2D>("Missing");
@@ -240,6 +244,7 @@ namespace PBLGame
             if (!areCollidersAndTriggersSet)
             {
                 root.CreateColliders();
+                cameraCollision.SetAsTrigger();
                 playerHat.SetAsColliderAndTrigger(new HitTrigger(playerHat));
                 player.GetComponent<Pawn>().ObjectSide = Side.Player;
                 rangedEnemyHat.SetAsColliderAndTrigger(new HitTrigger(rangedEnemyHat));
@@ -259,6 +264,7 @@ namespace PBLGame
             // Pawns update
             if (areCollidersAndTriggersSet)
             {
+                cameraCollision.Update();
                 camera.Update();
                 player.Update();
                 player.Update(gameTime);
@@ -557,9 +563,9 @@ namespace PBLGame
 
         void LoadLevel1()
         {
-            new Cutscene(Content.Load<Texture2D>("Cutscene/1.1"), 3f);
-            new Cutscene(Content.Load<Texture2D>("Cutscene/1.2"), 2f);
-            new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 2f);
+            //new Cutscene(Content.Load<Texture2D>("Cutscene/1.1"), 3f);
+            //new Cutscene(Content.Load<Texture2D>("Cutscene/1.2"), 2f);
+            //new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 2f);
 
             updateComponents = new List<Component>();
             Model hierarchiaStrefa1 = Content.Load<Model>("Level1/levelStrefa1");
@@ -973,6 +979,7 @@ namespace PBLGame
             player.AddComponent(new Player(player));
             root.AddChildNode(player);
 
+            player.AddChildNode(cameraCollision);
             player.AddChildNode(camera);
             player.RotationZ = 1.5f;
 

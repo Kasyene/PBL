@@ -391,7 +391,7 @@ namespace PBLGame.SceneGraph
         {
             foreach (Component component in components)
             {
-                if(component.GetType() == typeof(ModelComponent) || component.GetType() == typeof(ModelAnimatedComponent))
+                if(component.GetType() == typeof(ModelComponent) || component.GetType() == typeof(ModelAnimatedComponent) || component.GetType() == typeof(CameraCollisions))
                 {
                     bool duplikat = false;
                     BoundingBox currBox = component.GetBoundingBox(this, localTransform, worldTransform);
@@ -539,6 +539,15 @@ namespace PBLGame.SceneGraph
         public void SetAsTrigger(Trigger triggerType)
         {
             AddComponent(triggerType);
+            foreach (var col in colliders)
+            {
+                col.isTrigger = true;
+                col.isCollider = false;
+            }
+        }
+
+        public void SetAsTrigger()
+        {
             foreach (var col in colliders)
             {
                 col.isTrigger = true;

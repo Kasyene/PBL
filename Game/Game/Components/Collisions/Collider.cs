@@ -58,6 +58,8 @@ namespace PBLGame.SceneGraph
 
         public bool IsCollision(Collider other)
         {
+
+            
             if (!other.isCollider && !other.isTrigger)
             {
                 return false;
@@ -68,6 +70,10 @@ namespace PBLGame.SceneGraph
             }
             if (boundingBox.Intersects(other.boundingBox))
             {
+                if (this.owner.tag == "cameraCollision" && other.owner.tag == "Wall")
+                {
+                    bool pies = true;
+                }
 
                 if (other.isTrigger && !other.isCollider) //e.g. player hits trigger
                 {
