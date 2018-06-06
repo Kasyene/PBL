@@ -11,7 +11,7 @@ float Threshold = 0.25f;
 
 float GammaValue = 1.0f;
 
-float getGray(float4 c)
+float GetGray(float4 c)
 {
 	return(dot(c.rgb,((0.33333).xxx)));
 }
@@ -21,7 +21,7 @@ float4 PixelShaderFunction(float4 pos : SV_POSITION, float4 color1 : COLOR0, flo
 	float4 Color = ScreenTexture.Sample(screenTextureSampler, texCoord.xy);
 	float2 uv = texCoord.xy;
 
-	float4 CC = ScreenTexture.Sample(screenTextureSampler, uv);			float g11 = getGray(CC);
+	float4 actualSample = ScreenTexture.Sample(screenTextureSampler, uv);			float g11 = GetGray(actualSample);
 
 	if (g11 < 0.3)
 	{
@@ -32,19 +32,19 @@ float4 PixelShaderFunction(float4 pos : SV_POSITION, float4 color1 : COLOR0, flo
 	float2 ox = float2(Thickness / ScreenSize.x, 0.0);
 	float2 oy = float2(0.0, Thickness / ScreenSize.y);
 
-	float2 PP = uv - oy;
-	CC = ScreenTexture.Sample(screenTextureSampler, PP-ox);	float g00 = getGray(CC);
-	CC = ScreenTexture.Sample(screenTextureSampler, PP);			float g01 = getGray(CC);
-	CC = ScreenTexture.Sample(screenTextureSampler, PP+ox);			float g02 = getGray(CC);
+	float2 pointPosition = uv - oy;
+	actualSample = ScreenTexture.Sample(screenTextureSampler, pointPosition -ox);		float g00 = GetGray(actualSample);
+	actualSample = ScreenTexture.Sample(screenTextureSampler, pointPosition);			float g01 = GetGray(actualSample);
+	actualSample = ScreenTexture.Sample(screenTextureSampler, pointPosition +ox);		float g02 = GetGray(actualSample);
 
-	PP = uv;
-	CC = ScreenTexture.Sample(screenTextureSampler, PP-ox);			float g10 = getGray(CC);
-	CC = ScreenTexture.Sample(screenTextureSampler, PP+ox);			float g12 = getGray(CC);
+	pointPosition = uv;
+	actualSample = ScreenTexture.Sample(screenTextureSampler, pointPosition -ox);		float g10 = GetGray(actualSample);
+	actualSample = ScreenTexture.Sample(screenTextureSampler, pointPosition +ox);		float g12 = GetGray(actualSample);
 
-	PP = uv + oy;
-	CC = ScreenTexture.Sample(screenTextureSampler, PP-ox);			float g20 = getGray(CC);
-	CC = ScreenTexture.Sample(screenTextureSampler, PP);			float g21 = getGray(CC);
-	CC = ScreenTexture.Sample(screenTextureSampler, PP+ox);			float g22 = getGray(CC);
+	pointPosition = uv + oy;
+	actualSample = ScreenTexture.Sample(screenTextureSampler, pointPosition -ox);		float g20 = GetGray(actualSample);
+	actualSample = ScreenTexture.Sample(screenTextureSampler, pointPosition);			float g21 = GetGray(actualSample);
+	actualSample = ScreenTexture.Sample(screenTextureSampler, pointPosition +ox);		float g22 = GetGray(actualSample);
 
 	float K00 = -1;
 	float K01 = -2;
