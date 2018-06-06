@@ -12,7 +12,6 @@ namespace PBLGame.MainGame
     public class Pawn : Component
     {
         public bool isDead = false;
-        public bool gravityWorking = false;
         private bool isMoving = false;
         protected bool isJumping = false;
         public bool isAttacking = false;
@@ -39,14 +38,10 @@ namespace PBLGame.MainGame
         public override void Update(GameTime time)
         {
             CheckCollider();
-            if (!parentGameObject.isGrounded && gravityWorking)
+            if (!parentGameObject.isGrounded)
             {
                 AccelerationDueToGravity = -0.12f;
                 parentGameObject.Translate(new Vector3(0.0f, AccelerationDueToGravity * (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0.0f));
-            }
-            if (!gravityWorking && Timer.gameTime.TotalGameTime.Seconds > 4 && Timer.gameTime.TotalGameTime.Seconds < 6)
-            {
-                gravityWorking = true;
             }
 
             if (!isJumping)

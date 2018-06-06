@@ -254,30 +254,32 @@ namespace PBLGame
             // Our Timer Class
             Timer.Update(gameTime);
             inputManager.Update();
-            camera.Update();
+
 
             // Pawns update
-            player.Update();
-            player.Update(gameTime);
-            if (!GameServices.GetService<GameObject>().GetComponent<Player>().timeStop)
+            if (areCollidersAndTriggersSet)
             {
-                rangedEnemy1.Update(gameTime);
-                meleeEnemy1.Update(gameTime);
-                foreach (Component comp in updateComponents)
+                camera.Update();
+                player.Update();
+                player.Update(gameTime);
+                if (!GameServices.GetService<GameObject>().GetComponent<Player>().timeStop)
                 {
-                    comp.Update(gameTime);
+                    rangedEnemy1.Update(gameTime);
+                    meleeEnemy1.Update(gameTime);
+                    foreach (Component comp in updateComponents)
+                    {
+                        comp.Update(gameTime);
+                    }
                 }
+                base.Update(gameTime);
             }
+           
 
             if (inputManager.Keyboard[Keys.Escape])
             {
                 Exit();
             }
 
-            if (areCollidersAndTriggersSet)
-            {
-                base.Update(gameTime);
-            }
         }
 
         protected override void Draw(GameTime gameTime)
