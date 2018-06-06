@@ -104,7 +104,16 @@ namespace PBLGame.SceneGraph
             {
                 PositionZ += direction * 2.0f;
             }
-           
+
+            if (PositionZ >= maxZoom)
+            {
+                if (RotationY < maxYRotation && RotationY > minYRotation)
+                {
+                    RotationY += 0.5f;
+                }
+            }
+
+
         }
     }
 }
