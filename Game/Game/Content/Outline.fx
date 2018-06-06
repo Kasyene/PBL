@@ -7,7 +7,7 @@ sampler screenTextureSampler = sampler_state
 float2 ScreenSize = float2(600, 600);
 
 float Thickness = 0.4f;
-float Threshold = 0.25f;
+float Threshold = 0.3f;
 
 float GammaValue = 1.0f;
 

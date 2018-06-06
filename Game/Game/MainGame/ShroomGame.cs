@@ -139,7 +139,7 @@ namespace PBLGame
                new Vector2(GraphicsDevice.Viewport.Bounds.Width, GraphicsDevice.Viewport.Bounds.Height));
             dialoguesFont = Content.Load<SpriteFont>("Dialogues");
 
-            skybox = new Skybox("skybox/Sunset", Content);
+            skybox = new Skybox("skybox/SkyBox", Content);
             playerTex = Content.Load<Texture2D>("models/player/borowikTex");
             playerNormal = Content.Load<Texture2D>("models/player/borowikNormal");
             rangedEnemyTex = Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyTex");
@@ -710,8 +710,8 @@ namespace PBLGame
             CreateHierarchyOfLevel(strefa4List, mapRoot);
             AssignTagsForMapElements(strefa4List);
 
-            //pointLights.Add(new Lights.PointLight(new Vector3(0.0f, 8.0f, 0.0f)));
-            pointLights.Add(new Lights.PointLight(new Vector3(15.0f, 8.0f, -60.0f)));
+            pointLights.Add(new Lights.PointLight(new Vector3(0.0f, 8.0f, 0.0f)));
+            pointLights.Add(new Lights.PointLight(new Vector3(90.0f, -25.0f, -1350.0f), new Vector3(1.8f, 0.0002f, 0.00004f)));
 
             root.AddChildNode(mapRoot);
 
