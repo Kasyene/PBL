@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Game.Misc.Time;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PBLGame.SceneGraph;
@@ -29,17 +30,49 @@ namespace Game.Components.Collisions
             Quaternion rotation;
             Vector3 cameraPosition;
             GameServices.GetService<Camera>().WorldTransformations
-                .Decompose(out scale, out rotation, out cameraPosition);           
-            Vector3 min = cameraPosition;
-            Vector3 max = GameServices.GetService<GameObject>().Position;   
+                .Decompose(out scale, out rotation, out cameraPosition); 
+            Vector3 playerPos = GameServices.GetService<GameObject>().Position;
+            Vector3 min = new Vector3();
+            Vector3 max = new Vector3();
+            if (cameraPosition.X <= playerPos.X)
+            {
+                min.X = cameraPosition.X;
+                max.X = playerPos.X;
+            }
+            else
+            {
+                min.X = playerPos.X;
+                max.X = cameraPosition.X;
+            }
+            if (cameraPosition.Y <= playerPos.Y)
+            {
+                min.Y = cameraPosition.Y;
+                max.Y = playerPos.Y;
+            }
+            else
+            {
+                min.Y = playerPos.Y;
+                max.Y = cameraPosition.Y;
+            }
+            if (cameraPosition.Z <= playerPos.Z)
+            {
+                min.Z = cameraPosition.Z;
+                max.Z = playerPos.Z;
+            }
+            else
+            {
+                min.Z = playerPos.Z;
+                max.Z = cameraPosition.Z;
+            }
             return new BoundingBox(min, max);
         }
 
         public override void OnTrigger(GameObject triggered)
         {
-            if (triggered.tag != "player")
+            if (triggered.tag == "Wall")
             {
-                //Debug.WriteLine("WoofWoof");
+                GameServices.GetService<Camera>().Scroll(1.0f);
+                Debug.WriteLine("WoofWoof" + Timer.gameTime.TotalGameTime);
             }
             base.OnTrigger(triggered);
         }
@@ -82,7 +115,7 @@ namespace Game.Components.Collisions
 
         public override void Draw(GameObject parent, Camera camera, Matrix localTransformations, Matrix worldTransformations, bool createShadowMap = false)
         {
-            //DrawBoundingBox(parent, localTransformations, worldTransformations, camera);   
+            DrawBoundingBox(parent, localTransformations, worldTransformations, camera);   
         }
     }
 }

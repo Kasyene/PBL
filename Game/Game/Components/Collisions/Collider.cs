@@ -58,8 +58,6 @@ namespace PBLGame.SceneGraph
 
         public bool IsCollision(Collider other)
         {
-
-            
             if (!other.isCollider && !other.isTrigger)
             {
                 return false;

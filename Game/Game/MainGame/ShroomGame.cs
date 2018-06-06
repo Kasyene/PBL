@@ -218,7 +218,7 @@ namespace PBLGame
             //resolutionChange
             if (inputManager.Keyboard[Keys.P])
             {
-                resolution.SetFullscreen(true);
+                resolution.SetResolution(1920, 1080);
                 screenRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, graphics.GraphicsDevice.Viewport.Width,
                                                    graphics.GraphicsDevice.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
             }

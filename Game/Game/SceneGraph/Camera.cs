@@ -97,5 +97,14 @@ namespace PBLGame.SceneGraph
                 RotationY = rotY;
             }
         }
+
+        public void Scroll(float direction)
+        {
+            if (PositionZ > minZoom && PositionZ < maxZoom)
+            {
+                PositionZ += direction * 2.0f;
+            }
+           
+        }
     }
 }
