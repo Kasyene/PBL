@@ -68,11 +68,6 @@ namespace PBLGame.SceneGraph
             }
             if (boundingBox.Intersects(other.boundingBox))
             {
-                if (this.owner.tag == "cameraCollision" && other.owner.tag == "Wall")
-                {
-                    bool pies = true;
-                }
-
                 if (other.isTrigger && !other.isCollider) //e.g. player hits trigger
                 {
                     other.owner.GetComponent<Trigger>().OnTrigger(this.owner.Parent);
@@ -81,7 +76,14 @@ namespace PBLGame.SceneGraph
 
                 if (this.isTrigger && !this.isCollider) //e.g. trigger hits wall
                 {
-                    this.owner.GetComponent<Trigger>().OnTrigger(other.owner.Parent);
+                    if (this.owner.tag == "cameraCollision")
+                    {
+                        this.owner.GetComponent<Trigger>().OnTrigger(other.owner);
+                    }
+                    else
+                    {
+                        this.owner.GetComponent<Trigger>().OnTrigger(other.owner.Parent);
+                    }   
                     return false;
                 }
 
