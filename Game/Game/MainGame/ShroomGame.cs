@@ -563,9 +563,9 @@ namespace PBLGame
 
         void LoadLevel1()
         {
-            //new Cutscene(Content.Load<Texture2D>("Cutscene/1.1"), 3f);
-            //new Cutscene(Content.Load<Texture2D>("Cutscene/1.2"), 2f);
-            //new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 2f);
+            new Cutscene(Content.Load<Texture2D>("Cutscene/1.1"), 3f);
+            new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 2f);
+            new Cutscene(Content.Load<Texture2D>("Cutscene/1.2"), 2f);
 
             updateComponents = new List<Component>();
             Model hierarchiaStrefa1 = Content.Load<Model>("Level1/levelStrefa1");

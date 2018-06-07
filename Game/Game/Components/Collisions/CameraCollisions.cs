@@ -64,12 +64,12 @@ namespace Game.Components.Collisions
                 min.Z = playerPos.Z;
                 max.Z = cameraPosition.Z;
             }
-            return new BoundingBox(min, max);
+            return new BoundingBox(min + new Vector3(0f, 50f, 0f), max);
         }
 
         public override void OnTrigger(GameObject triggered)
         {
-            if (triggered.tag == "Wall")
+            if (triggered.tag == "Wall" || triggered.tag == "Ground")
             {
                 GameServices.GetService<Camera>().Scroll(1.0f);
                 Debug.WriteLine("WoofWoof" + Timer.gameTime.TotalGameTime);
