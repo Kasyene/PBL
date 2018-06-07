@@ -77,191 +77,25 @@ namespace PBLGame.MainGame
             base.Update(time);
         }
 
-
         protected void Move(Vector3 move)
         {
             if (!isMoving)
             {
-                Vector2 direction = new Vector2((float) System.Math.Cos(parentGameObject.RotationZ),
-                    (float) System.Math.Sin(parentGameObject.RotationZ));
-                float speed = Math.Max(Math.Abs(move.X), Math.Abs(move.Z));
-
-                // LEFT
-                if (move.X > 0 && Math.Abs(move.Z) < 0.1f)
-                {
-                    MoveLeft(speed);
-                }
-
-                // RIGHT
-                if (move.X < 0 && Math.Abs(move.Z) < 0.1f)
-                {
-                    MoveRight(speed);
-                }
-
-                // FORWARD
-                if (Math.Abs(move.X) < 0.1f && move.Z > 0)
-                {
-                    MoveForward(speed);
-                }
-
-                // BACK
-                if (Math.Abs(move.X) < 0.1f && move.Z < 0)
-                {
-                    MoveBack(speed);
-                }
-
-                // FORWARD RIGHT
-                if (move.X > 0 && move.Z > 0)
-                {
-                    MoveWD(speed);
-                }
-
-                // FORWARD LEFT
-                if (move.X < 0 && move.Z > 0)
-                {
-                    MoveWA(speed);
-                }
-
-                // BACK RIGHT
-                if (move.X > 0 && move.Z < 0)
-                {
-                    MoveSD(speed);
-                }
-
-                // BACK LEFT
-                if (move.X < 0 && move.Z < 0)
-                {
-                    MoveSA(speed);
-                }
-            }
-        }
-
-        protected void MoveForward(float speed)
-        {
-            if (!isMoving)
-            {
                 isMoving = true;
-                Vector2 direction = new Vector2((float) System.Math.Cos(parentGameObject.RotationZ),
-                    (float) System.Math.Sin(parentGameObject.RotationZ));
-                parentGameObject.Translate(new Vector3(
-                    direction.Y * speed * (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0f,
-                    direction.X * speed * (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds));
+                Vector2 direction = new Vector2((float)System.Math.Cos(parentGameObject.RotationZ),
+                    (float)System.Math.Sin(parentGameObject.RotationZ));
+                if (move.X != 0f && move.Z != 0.0f)
+                {
+                    move.X = move.X / 2f;
+                    move.Z = move.Z / 2f;
+                }
+                parentGameObject.Translate(new Vector3((((-move.X) * direction.X) + (move.Z * direction.Y)) * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0f,
+                    ((move.Z * direction.X) + (move.X * direction.Y)) * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds));
                 CheckCollider();
                 isMoving = false;
             }
         }
 
-        protected void MoveBack(float speed)
-        {
-            if (!isMoving)
-            {
-                isMoving = true;
-                Vector2 direction = new Vector2((float) System.Math.Cos(parentGameObject.RotationZ),
-                    (float) System.Math.Sin(parentGameObject.RotationZ));
-                parentGameObject.Translate(new Vector3(
-                    -direction.Y * speed * (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0f,
-                    -direction.X * speed * (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds));
-                CheckCollider();
-                isMoving = false;
-            }
-        }
-
-        protected void MoveLeft(float speed)
-        {
-            if (!isMoving)
-            {
-                isMoving = true;
-                Vector2 direction = new Vector2((float) System.Math.Cos(parentGameObject.RotationZ),
-                    (float) System.Math.Sin(parentGameObject.RotationZ));
-                parentGameObject.Translate(new Vector3(
-                    -direction.X * speed * (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0f,
-                    direction.Y * speed * (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds));
-                CheckCollider();
-                isMoving = false;
-            }
-        }
-
-        protected void MoveRight(float speed)
-        {
-            if (!isMoving)
-            {
-                isMoving = true;
-                Vector2 direction = new Vector2((float) System.Math.Cos(parentGameObject.RotationZ),
-                    (float) System.Math.Sin(parentGameObject.RotationZ));
-                parentGameObject.Translate(new Vector3(
-                    direction.X * speed * (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0f,
-                    -direction.Y * speed * (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds));
-                CheckCollider();
-                isMoving = false;
-            }
-        }
-
-        protected void MoveWA(float speed)
-        {
-            if (!isMoving)
-            {
-                isMoving = true;
-                Vector2 direction = new Vector2((float) System.Math.Cos(parentGameObject.RotationZ),
-                    (float) System.Math.Sin(parentGameObject.RotationZ));
-                parentGameObject.Translate(new Vector3(
-                                               ((direction.Y + direction.X) * speed *
-                                                (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds) / 1.5f, 0f,
-                                               ((direction.X - direction.Y) * speed *
-                                                (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds)) / 1.5f);
-                CheckCollider();
-                isMoving = false;
-            }
-        }
-
-        protected void MoveWD(float speed)
-        {
-            if (!isMoving)
-            {
-                isMoving = true;
-                Vector2 direction = new Vector2((float) System.Math.Cos(parentGameObject.RotationZ),
-                    (float) System.Math.Sin(parentGameObject.RotationZ));
-                parentGameObject.Translate(new Vector3(
-                                               ((direction.Y - direction.X) * speed *
-                                                (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds) / 1.5f, 0f,
-                                               ((direction.X + direction.Y) * speed *
-                                                (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds)) / 1.5f);
-                CheckCollider();
-                isMoving = false;
-            }
-        }
-
-        protected void MoveSA(float speed)
-        {
-            if (!isMoving)
-            {
-                isMoving = true;
-                Vector2 direction = new Vector2((float) System.Math.Cos(parentGameObject.RotationZ),
-                    (float) System.Math.Sin(parentGameObject.RotationZ));
-                parentGameObject.Translate(new Vector3(
-                                               ((-direction.Y + direction.X) * speed *
-                                                (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds) / 1.5f, 0f,
-                                               ((-direction.X - direction.Y) * speed *
-                                                (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds)) / 1.5f);
-                isMoving = false;
-            }
-        }
-
-        protected void MoveSD(float speed)
-        {
-            if (!isMoving)
-            {
-                isMoving = true;
-                Vector2 direction = new Vector2((float) System.Math.Cos(parentGameObject.RotationZ),
-                    (float) System.Math.Sin(parentGameObject.RotationZ));
-                parentGameObject.Translate(new Vector3(
-                                               ((-direction.Y - direction.X) * speed *
-                                                (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds) / 1.5f, 0f,
-                                               ((-direction.X + direction.Y) * speed *
-                                                (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds)) / 1.5f);
-                CheckCollider();
-                isMoving = false;
-            }
-        }
 
         protected void CheckCollider()
         {

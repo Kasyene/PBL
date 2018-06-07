@@ -49,7 +49,7 @@ namespace Game.Components.Enemies
             {
                 enemyModel.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
             }
-            MoveForward(enemySpeed);
+            Move(new Vector3(0f, 0f, enemySpeed));
         }
 
         protected override void Attack()

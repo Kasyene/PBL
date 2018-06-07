@@ -42,13 +42,13 @@ namespace Game.Components.Pawns.Enemies
                 if (distance < 100f )
                 {
                     Movement();
-                    MoveBack(enemySpeed);
-                    
+                    Move(new Vector3(0f, 0f, -enemySpeed));
+
                 }
                 else if (distance > range)
                 {
                     Movement();
-                    MoveForward(enemySpeed);
+                    Move(new Vector3(0f, 0f, enemySpeed));
                 }
                 else
                 {

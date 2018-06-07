@@ -78,7 +78,7 @@ namespace PBLGame.MainGame
 
             if (inputManager.Keyboard[Keys.W])
             {
-                movement.Z += playerSpeed;
+                movement.Z +=  playerSpeed;
             }
 
             if (inputManager.Keyboard[Keys.S])
