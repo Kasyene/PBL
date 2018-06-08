@@ -31,6 +31,8 @@ namespace PBLGame.MainGame
         private bool qWasPressed = false;
         private bool eWasPressed = false;
         private bool rWasPressed = false;
+        private double timeSkillDoneTime = 0;
+        private float timeSkillsDelay = 150;
         private double timeOfPress = 0; 
 
         public Player(GameObject parent) : base()
@@ -195,6 +197,15 @@ namespace PBLGame.MainGame
 
         private void SpecialTimeAbilities()
         {
+            if (eWasPressed | rWasPressed)
+            {
+                ShroomGame.fadeAmount = MathHelper.Clamp((float)(Timer.gameTime.TotalGameTime.TotalMilliseconds - timeOfPress) / timeSkillsDelay, 0, 1);
+            }
+            else if (Timer.gameTime.TotalGameTime.TotalMilliseconds > timeSkillDoneTime + timeSkillsDelay)
+            {
+                ShroomGame.fadeAmount = 1.0f - MathHelper.Clamp((float)(Timer.gameTime.TotalGameTime.TotalMilliseconds - timeSkillDoneTime) / timeSkillsDelay, 0, 1);
+            }
+
             // timeStop
             if (inputManager.Keyboard[Keys.Q].WasPressed && !qWasPressed)
             {
@@ -213,7 +224,7 @@ namespace PBLGame.MainGame
                 timeOfPress = Timer.gameTime.TotalGameTime.TotalMilliseconds;
             }
 
-            if (qWasPressed && Timer.gameTime.TotalGameTime.TotalMilliseconds > timeOfPress + 150)
+            if (qWasPressed && Timer.gameTime.TotalGameTime.TotalMilliseconds > timeOfPress + timeSkillsDelay)
             {
                 qWasPressed = false;
                 if (timeStop || timeEnergy == 0)
@@ -226,8 +237,9 @@ namespace PBLGame.MainGame
                 }
             }
 
-            if (eWasPressed && Timer.gameTime.TotalGameTime.TotalMilliseconds > timeOfPress + 150)
+            if (eWasPressed && Timer.gameTime.TotalGameTime.TotalMilliseconds > timeOfPress + timeSkillsDelay)
             {
+                timeSkillDoneTime = Timer.gameTime.TotalGameTime.TotalMilliseconds;
                 eWasPressed = false;
                 timeEnergy -= 5;
                 this.parentGameObject.Position = lastPositions[lastPositions.Count / 2];
@@ -236,8 +248,9 @@ namespace PBLGame.MainGame
                 ReLocateIndicies(lastHPs);
             }
 
-            if (rWasPressed && Timer.gameTime.TotalGameTime.TotalMilliseconds > timeOfPress + 150)
+            if (rWasPressed && Timer.gameTime.TotalGameTime.TotalMilliseconds > timeOfPress + timeSkillsDelay)
             {
+                timeSkillDoneTime = Timer.gameTime.TotalGameTime.TotalMilliseconds;
                 rWasPressed = false;
                 timeEnergy -= 3;
                 this.parentGameObject.Position = new Vector3((this.playerHat.GetBoundingBox().Min.X + this.playerHat.GetBoundingBox().Max.X) / 2.0f, this.parentGameObject.Position.Y, (this.playerHat.GetBoundingBox().Min.Z + this.playerHat.GetBoundingBox().Max.Z) / 2.0f);

@@ -42,7 +42,7 @@ namespace PBLGame
         public static RenderTargetCube refractionTarget;
 
         private float gammaValue = 0.9f;
-        private float fadeAmount = 0.0f;
+        public static float fadeAmount = 0.0f;
         private bool areCollidersAndTriggersSet;
 
         private float textDisplayTime = 3f;
