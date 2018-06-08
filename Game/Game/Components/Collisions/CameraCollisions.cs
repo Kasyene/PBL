@@ -24,6 +24,15 @@ namespace Game.Components.Collisions
             Visible = true;
         }
 
+        private float setMinValue(float camera, float player)
+        {
+            return camera <= player ? camera : player;
+        }
+        private float setMaxValue(float camera, float player)
+        {
+            return camera <= player ? player : camera;
+        }
+
         public override BoundingBox GetBoundingBox(GameObject parent, Matrix localTransformations, Matrix worldTransformations)
         {
             Vector3 scale;
@@ -34,36 +43,12 @@ namespace Game.Components.Collisions
             Vector3 playerPos = GameServices.GetService<GameObject>().Position;
             Vector3 min = new Vector3();
             Vector3 max = new Vector3();
-            if (cameraPosition.X <= playerPos.X)
-            {
-                min.X = cameraPosition.X;
-                max.X = playerPos.X;
-            }
-            else
-            {
-                min.X = playerPos.X;
-                max.X = cameraPosition.X;
-            }
-            if (cameraPosition.Y <= playerPos.Y)
-            {
-                min.Y = cameraPosition.Y;
-                max.Y = playerPos.Y;
-            }
-            else
-            {
-                min.Y = playerPos.Y;
-                max.Y = cameraPosition.Y;
-            }
-            if (cameraPosition.Z <= playerPos.Z)
-            {
-                min.Z = cameraPosition.Z;
-                max.Z = playerPos.Z;
-            }
-            else
-            {
-                min.Z = playerPos.Z;
-                max.Z = cameraPosition.Z;
-            }
+            min.X = setMinValue(cameraPosition.X, playerPos.X);
+            max.X = setMaxValue(cameraPosition.X, playerPos.X);
+            min.Y = setMinValue(cameraPosition.Y, playerPos.Y);
+            max.Y = setMaxValue(cameraPosition.Y, playerPos.Y);
+            min.Z = setMinValue(cameraPosition.Z, playerPos.Z);
+            max.Z = setMaxValue(cameraPosition.Z, playerPos.Z);
             return new BoundingBox(min + new Vector3(0f, 50f, 0f), max);
         }
 
@@ -72,14 +57,8 @@ namespace Game.Components.Collisions
             if (triggered.tag == "Wall" || triggered.tag == "Ground")
             {
                 GameServices.GetService<Camera>().Scroll(1.0f);
-                Debug.WriteLine("WoofWoof" + Timer.gameTime.TotalGameTime);
             }
             base.OnTrigger(triggered);
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
         }
 
         public void DrawBoundingBox(GameObject parent, Matrix localTransformations, Matrix worldTransformations, Camera camera)
@@ -115,7 +94,7 @@ namespace Game.Components.Collisions
 
         public override void Draw(GameObject parent, Camera camera, Matrix localTransformations, Matrix worldTransformations, bool createShadowMap = false)
         {
-            DrawBoundingBox(parent, localTransformations, worldTransformations, camera);   
+            //DrawBoundingBox(parent, localTransformations, worldTransformations, camera);   
         }
     }
 }
