@@ -268,6 +268,7 @@ namespace PBLGame
                 camera.Update();
                 player.Update();
                 player.Update(gameTime);
+                outlineEffect.Parameters["TimeStop"].SetValue(GameServices.GetService<GameObject>().GetComponent<Player>().timeStop);
                 if (!GameServices.GetService<GameObject>().GetComponent<Player>().timeStop)
                 {
                     rangedEnemy1.Update(gameTime);
@@ -333,7 +334,8 @@ namespace PBLGame
         void DrawOutline()
         {
             outlineEffect.Parameters["GammaValue"].SetValue(gammaValue);
-            spriteBatch.Begin(0, BlendState.Opaque, null, null, null, outlineEffect);
+            outlineEffect.Parameters["ScreenSize"].SetValue(new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
+            spriteBatch.Begin(0, BlendState.Additive, null, null, null, outlineEffect);
             spriteBatch.Draw(screenRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
         }

@@ -11,14 +11,16 @@ float Threshold = 0.3f;
 
 float GammaValue = 1.0f;
 
+bool TimeStop = true;
+
 float GetGray(float4 c)
 {
 	return(dot(c.rgb,((0.33333).xxx)));
 }
 
-float4 PixelShaderFunction(float4 pos : SV_POSITION, float4 color1 : COLOR0, float2 texCoord : TEXCOORD0) : SV_TARGET0
+float4 PixelShaderOutline(float4 pos : SV_POSITION, float4 color1 : COLOR0, float2 texCoord : TEXCOORD0) : SV_TARGET0
 {
-	float4 Color = ScreenTexture.Sample(screenTextureSampler, texCoord.xy);
+	float4 color = ScreenTexture.Sample(screenTextureSampler, texCoord.xy);
 	float2 uv = texCoord.xy;
 
 	float4 actualSample = ScreenTexture.Sample(screenTextureSampler, uv);			float g11 = GetGray(actualSample);
@@ -87,14 +89,38 @@ float4 PixelShaderFunction(float4 pos : SV_POSITION, float4 color1 : COLOR0, flo
 		result = 0;
 	}
 	
-	Color = saturate(Color * Color * float4(result.xxxx));
-	return pow(Color, float4((1 / GammaValue).xxxx));
+	color = saturate(color * color * float4(result.xxxx));
+	return pow(color, float4((1 / GammaValue).xxxx));
+}
+
+float4 PixelShaderSepia(float4 pos : SV_POSITION, float4 color1 : COLOR0, float2 texCoord : TEXCOORD0) : SV_TARGET0
+{
+	if (TimeStop)
+	{
+		float4 color = ScreenTexture.Sample(screenTextureSampler, texCoord.xy);
+
+		float4 outputColor = color;
+		outputColor.r = (color.r * 0.393) + (color.g * 0.769) + (color.b * 0.189);
+		outputColor.g = (color.r * 0.349) + (color.g * 0.686) + (color.b * 0.168);
+		outputColor.b = (color.r * 0.272) + (color.g * 0.534) + (color.b * 0.131);
+
+		return outputColor * 0.7;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 technique PostOutline
 {
-    pass Pass1
+	pass Pass1
+	{
+		PixelShader = compile ps_4_0 PixelShaderSepia();
+	}
+
+    pass Pass2
     {
-        PixelShader = compile ps_4_0 PixelShaderFunction();
+        PixelShader = compile ps_4_0 PixelShaderOutline();
     }
 }
