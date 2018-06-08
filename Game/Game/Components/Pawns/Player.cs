@@ -28,6 +28,11 @@ namespace PBLGame.MainGame
         GameObject playerHat;
         GameObject playerLeg;
 
+        private bool qWasPressed = false;
+        private bool eWasPressed = false;
+        private bool rWasPressed = false;
+        private double timeOfPress = 0; 
+
         public Player(GameObject parent) : base()
         {
             MaxHp = 20;
@@ -191,8 +196,26 @@ namespace PBLGame.MainGame
         private void SpecialTimeAbilities()
         {
             // timeStop
-            if (inputManager.Keyboard[Keys.Q].WasPressed)
+            if (inputManager.Keyboard[Keys.Q].WasPressed && !qWasPressed)
             {
+                qWasPressed = true;
+                timeOfPress = Timer.gameTime.TotalGameTime.TotalMilliseconds;
+            }
+
+            if (inputManager.Keyboard[Keys.E].WasPressed && timeEnergy >= 5 && !eWasPressed)
+            {
+                eWasPressed = true;
+                timeOfPress = Timer.gameTime.TotalGameTime.TotalMilliseconds;
+            }
+            if (inputManager.Keyboard[Keys.R].WasPressed && timeEnergy >= 3 && !rWasPressed)
+            {
+                rWasPressed = true;
+                timeOfPress = Timer.gameTime.TotalGameTime.TotalMilliseconds;
+            }
+
+            if (qWasPressed && Timer.gameTime.TotalGameTime.TotalMilliseconds > timeOfPress + 150)
+            {
+                qWasPressed = false;
                 if (timeStop || timeEnergy == 0)
                 {
                     timeStop = false;
@@ -203,17 +226,19 @@ namespace PBLGame.MainGame
                 }
             }
 
-            if (inputManager.Keyboard[Keys.E].WasPressed && timeEnergy >= 5)
+            if (eWasPressed && Timer.gameTime.TotalGameTime.TotalMilliseconds > timeOfPress + 150)
             {
+                eWasPressed = false;
                 timeEnergy -= 5;
-               this.parentGameObject.Position = lastPositions[lastPositions.Count / 2];
+                this.parentGameObject.Position = lastPositions[lastPositions.Count / 2];
                 Hp = lastHPs[lastHPs.Count / 2];
                 ReLocateIndicies(lastPositions);
                 ReLocateIndicies(lastHPs);
-
             }
-            if (inputManager.Keyboard[Keys.R].WasPressed && timeEnergy >= 3)
+
+            if (rWasPressed && Timer.gameTime.TotalGameTime.TotalMilliseconds > timeOfPress + 150)
             {
+                rWasPressed = false;
                 timeEnergy -= 3;
                 this.parentGameObject.Position = new Vector3((this.playerHat.GetBoundingBox().Min.X + this.playerHat.GetBoundingBox().Max.X) / 2.0f, this.parentGameObject.Position.Y, (this.playerHat.GetBoundingBox().Min.Z + this.playerHat.GetBoundingBox().Max.Z) / 2.0f);
                 playerHat.GetComponent<AnimationManager>().PlayAnimation("idle", true);
