@@ -42,6 +42,7 @@ namespace PBLGame
         public static RenderTargetCube refractionTarget;
 
         private float gammaValue = 0.9f;
+        private float fadeAmount = 0.0f;
         private bool areCollidersAndTriggersSet;
 
         private float textDisplayTime = 3f;
@@ -334,6 +335,8 @@ namespace PBLGame
         void DrawOutline()
         {
             outlineEffect.Parameters["GammaValue"].SetValue(gammaValue);
+            //fadeAmount += 0.01f;
+            outlineEffect.Parameters["FadeAmount"].SetValue(fadeAmount);
             outlineEffect.Parameters["ScreenSize"].SetValue(new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
             spriteBatch.Begin(0, BlendState.Additive, null, null, null, outlineEffect);
             spriteBatch.Draw(screenRenderTarget, Vector2.Zero, Color.White);

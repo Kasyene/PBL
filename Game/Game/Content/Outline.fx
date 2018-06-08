@@ -9,6 +9,7 @@ float2 ScreenSize = float2(600, 600);
 float Thickness = 0.4f;
 float Threshold = 0.3f;
 
+float FadeAmount = 0.0f;
 float GammaValue = 1.0f;
 
 bool TimeStop = true;
@@ -104,11 +105,30 @@ float4 PixelShaderSepia(float4 pos : SV_POSITION, float4 color1 : COLOR0, float2
 		outputColor.g = (color.r * 0.349) + (color.g * 0.686) + (color.b * 0.168);
 		outputColor.b = (color.r * 0.272) + (color.g * 0.534) + (color.b * 0.131);
 
-		return outputColor * 0.7;
+		return pow(outputColor * 0.7, float4((1 / GammaValue).xxxx));
 	}
 	else
 	{
 		return 0;
+	}
+}
+
+float4 PixelShaderFade(float4 pos : SV_POSITION, float4 color1 : COLOR0, float2 texCoord : TEXCOORD0) : SV_TARGET0
+{
+	if (FadeAmount < 0.01)
+	{
+		return 0;
+	}
+	else
+	{
+	float4 color = tex2D(screenTextureSampler, texCoord.xy);
+	float4 color2 = float4(1,1,1,1);
+
+	float4 finalColor = lerp(color,color2,FadeAmount);
+
+	finalColor.a = 1;
+
+	return finalColor;
 	}
 }
 
@@ -123,4 +143,9 @@ technique PostOutline
     {
         PixelShader = compile ps_4_0 PixelShaderOutline();
     }
+
+	pass Pass3
+	{
+		PixelShader = compile ps_4_0 PixelShaderFade();
+	}
 }
