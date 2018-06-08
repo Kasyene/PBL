@@ -28,7 +28,6 @@ namespace PBLGame.MainGame
         GameObject playerHat;
         GameObject playerLeg;
 
-        private bool qWasPressed = false;
         private bool eWasPressed = false;
         private bool rWasPressed = false;
         private double timeSkillDoneTime = 0;
@@ -207,10 +206,16 @@ namespace PBLGame.MainGame
             }
 
             // timeStop
-            if (inputManager.Keyboard[Keys.Q].WasPressed && !qWasPressed)
+            if (inputManager.Keyboard[Keys.Q].WasPressed)
             {
-                qWasPressed = true;
-                timeOfPress = Timer.gameTime.TotalGameTime.TotalMilliseconds;
+                if (timeStop || timeEnergy == 0)
+                {
+                    timeStop = false;
+                }
+                else if (!timeStop && timeEnergy > 1)
+                {
+                    timeStop = true;
+                }
             }
 
             if (inputManager.Keyboard[Keys.E].WasPressed && timeEnergy >= 5 && !eWasPressed)
@@ -222,19 +227,6 @@ namespace PBLGame.MainGame
             {
                 rWasPressed = true;
                 timeOfPress = Timer.gameTime.TotalGameTime.TotalMilliseconds;
-            }
-
-            if (qWasPressed && Timer.gameTime.TotalGameTime.TotalMilliseconds > timeOfPress + timeSkillsDelay)
-            {
-                qWasPressed = false;
-                if (timeStop || timeEnergy == 0)
-                {
-                    timeStop = false;
-                }
-                else if (!timeStop && timeEnergy > 1)
-                {
-                    timeStop = true;
-                }
             }
 
             if (eWasPressed && Timer.gameTime.TotalGameTime.TotalMilliseconds > timeOfPress + timeSkillsDelay)
