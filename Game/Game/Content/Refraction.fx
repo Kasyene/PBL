@@ -136,7 +136,7 @@ float4 DirectionalLightCalculation(VertexShaderOutput input)
 	bumpNormal = normalize(bumpNormal);
 
 	float lightIntensity = dot(normalize(DirectionalLightDirection), bumpNormal);
-	lightIntensity = Toonify(lightIntensity);
+	//lightIntensity = Toonify(lightIntensity);
 
 	float3 light = normalize(DirectionalLightDirection);
 	float dotProduct = dot(normalize(2 * dot(light, bumpNormal) * bumpNormal - light), normalize(mul(normalize(ViewVector), World)));
@@ -166,7 +166,7 @@ float4 PointLightCalculation(VertexShaderOutput input)
 		bumpNormal = normalize(bumpNormal);
 
 		float lightIntensity = dot(normalize(PointLightPosition[i] - input.WorldPos), bumpNormal);
-		lightIntensity = Toonify(lightIntensity);
+		//lightIntensity = Toonify(lightIntensity);
 
 		float3 light = normalize(PointLightPosition[i] - input.WorldPos);
 

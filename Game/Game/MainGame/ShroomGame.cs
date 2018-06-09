@@ -304,6 +304,7 @@ namespace PBLGame
                 case GameState.LevelTutorial:
                 case GameState.LevelOne:
                     CreateShadowMap();
+                    GraphicsDevice.SetRenderTarget(screenRenderTarget);
                     DrawWithShadow(camera.CalcViewMatrix());
                     DrawScreen(gameTime);
 
@@ -328,7 +329,6 @@ namespace PBLGame
         void DrawWithShadow(Matrix viewMatrix)
         {
             GraphicsDevice.BlendState = BlendState.Opaque;
-            GraphicsDevice.SetRenderTarget(screenRenderTarget);
             GraphicsDevice.Clear(Color.White);
             DrawSkybox();
             camera.ViewMatrix = viewMatrix;
@@ -431,10 +431,7 @@ namespace PBLGame
             RasterizerState rasterizerState = new RasterizerState();
             rasterizerState.CullMode = CullMode.None;
             graphics.GraphicsDevice.RasterizerState = rasterizerState;
-            Vector3 scale;
-            Quaternion rotation;
-            Vector3 cameraPosition;
-            camera.WorldTransformations.Decompose(out scale, out rotation, out cameraPosition);
+            Vector3 cameraPosition = camera.GetWorldPosition();
             skybox.Draw(Matrix.CreateLookAt(cameraPosition, player.Position, Vector3.UnitY),
                 Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 1f, 0.1f, 4000f), cameraPosition);
             graphics.GraphicsDevice.RasterizerState = originalRasterizerState;
@@ -738,7 +735,7 @@ namespace PBLGame
 
             LoadPlayer();
             player.Position = new Vector3(0f, 60f, 0f);
-
+            //player.Position = position + new Vector3(-40f, 60f, 0f);
             LoadRangedEnemy();
             LoadMeleeEnemy();
 

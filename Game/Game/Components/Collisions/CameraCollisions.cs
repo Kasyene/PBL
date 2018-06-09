@@ -35,11 +35,7 @@ namespace Game.Components.Collisions
 
         public override BoundingBox GetBoundingBox(GameObject parent, Matrix localTransformations, Matrix worldTransformations)
         {
-            Vector3 scale;
-            Quaternion rotation;
-            Vector3 cameraPosition;
-            GameServices.GetService<Camera>().WorldTransformations
-                .Decompose(out scale, out rotation, out cameraPosition); 
+            Vector3 cameraPosition = GameServices.GetService<Camera>().GetWorldPosition();
             Vector3 playerPos = GameServices.GetService<GameObject>().Position;
             Vector3 min = new Vector3();
             Vector3 max = new Vector3();

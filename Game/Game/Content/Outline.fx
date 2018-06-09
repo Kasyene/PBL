@@ -90,7 +90,14 @@ float4 PixelShaderOutline(float4 pos : SV_POSITION, float4 color1 : COLOR0, floa
 		result = 0;
 	}
 	
-	color = saturate(color * color * float4(result.xxxx));
+	if (!TimeStop)
+	{
+		color = saturate(color * color * color * float4(result.xxxx));
+	}
+	else
+	{
+		color = saturate(color * color * float4(result.xxxx)) * 0.5;
+	}
 	return pow(color, float4((1 / GammaValue).xxxx));
 }
 
@@ -105,7 +112,7 @@ float4 PixelShaderSepia(float4 pos : SV_POSITION, float4 color1 : COLOR0, float2
 		outputColor.g = (color.r * 0.349) + (color.g * 0.686) + (color.b * 0.168);
 		outputColor.b = (color.r * 0.272) + (color.g * 0.534) + (color.b * 0.131);
 
-		return pow(outputColor * 0.7, float4((1 / GammaValue).xxxx));
+		return pow(outputColor * 0.5, float4((1 / GammaValue).xxxx));
 	}
 	else
 	{

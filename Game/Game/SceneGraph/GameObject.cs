@@ -241,6 +241,15 @@ namespace PBLGame.SceneGraph
             set { if (transform.position != value) OnTransformationsSet(); transform.position = value; }
         }
 
+        public Vector3 GetWorldPosition()
+        {
+            Vector3 pos;
+            Quaternion rot;
+            Vector3 scl;
+            WorldTransformations.Decompose(out scl, out rot, out pos);
+            return pos;
+        }
+
         public Vector3 Scale
         {
             get { return transform.scale; }
