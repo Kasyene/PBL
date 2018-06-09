@@ -304,7 +304,6 @@ namespace PBLGame
                 case GameState.LevelTutorial:
                 case GameState.LevelOne:
                     CreateShadowMap();
-                    GraphicsDevice.SetRenderTarget(screenRenderTarget);
                     DrawWithShadow(camera.CalcViewMatrix());
                     DrawScreen(gameTime);
 
@@ -328,6 +327,8 @@ namespace PBLGame
 
         void DrawWithShadow(Matrix viewMatrix)
         {
+            GraphicsDevice.BlendState = BlendState.Opaque;
+            GraphicsDevice.SetRenderTarget(screenRenderTarget);
             GraphicsDevice.Clear(Color.White);
             DrawSkybox();
             camera.ViewMatrix = viewMatrix;
@@ -340,7 +341,7 @@ namespace PBLGame
             outlineEffect.Parameters["GammaValue"].SetValue(gammaValue);
             outlineEffect.Parameters["FadeAmount"].SetValue(fadeAmount);
             outlineEffect.Parameters["ScreenSize"].SetValue(new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
-            spriteBatch.Begin(0, BlendState.Additive, null, null, null, outlineEffect);
+            spriteBatch.Begin(0, BlendState.AlphaBlend, null, null, null, outlineEffect);
             spriteBatch.Draw(screenRenderTarget, Vector2.Zero, Color.White);
             spriteBatch.End();
         }
