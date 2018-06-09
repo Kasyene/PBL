@@ -15,6 +15,9 @@ namespace PBLGame.Misc.Anim
         private bool isAnimationUpdated = true;
         private bool isStoped = false;
 
+        public float EstimatedTime { get; private set; }
+        public int AnimID { get; private set; }
+
         public bool isReady { get; set; }
 
         public string defaultKey {get; private set; }
@@ -54,6 +57,7 @@ namespace PBLGame.Misc.Anim
             animQueue.Clear();
             currentKey = null;
             animationPlayer.Stop();
+            AnimID = (AnimID + 1) % Int32.MaxValue;
         }
 
         public void AnimationStop()
@@ -110,12 +114,16 @@ namespace PBLGame.Misc.Anim
         {
             if (animationPlayer != null && !isStoped)
             {
+                EstimatedTime = (animationPlayer.Duration - animationPlayer.Position) * animationPlayer.GetMultiplier();
+
                 if (animationPlayer.Position >= animationPlayer.Duration || animationPlayer.Position < 0 )
                 {
                     if (animationPlayer.Position < 0)
                     {
                         animationPlayer.SetMultiplier();
                     }
+
+                    AnimID = (AnimID + 1) % Int32.MaxValue;
 
                     isReady = true;
 

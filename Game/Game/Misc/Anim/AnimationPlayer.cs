@@ -140,6 +140,11 @@ namespace PBLGame.Misc.Anim
             multiplier = _multiplier;
         }
 
+        public float GetMultiplier()
+        {
+            return multiplier;
+        }
+
         /// <summary>
         /// Reset back to time zero.
         /// </summary>
