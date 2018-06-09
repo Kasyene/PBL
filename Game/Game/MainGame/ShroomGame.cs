@@ -41,12 +41,14 @@ namespace PBLGame
         public static RenderTarget2D screenRenderTarget;
         public static RenderTargetCube refractionTarget;
 
-        private float gammaValue = 0.9f;
+        private float gammaValue = 1.0f;
         public static float fadeAmount = 0.0f;
         private bool areCollidersAndTriggersSet;
 
         private float textDisplayTime = 3f;
         private string actualDialogueText = "";
+        private Texture2D barsFront;
+        private Texture2D barsBack;
         private Texture2D hpTexture;
         private Texture2D timeTexture;
 
@@ -150,6 +152,11 @@ namespace PBLGame
             meleeEnemyNormal = Content.Load<Texture2D>("models/enemies/muchomorStadny/muchomorStadnyNormal");
             heartTexture = Content.Load<Texture2D>("apteczkaTex");
 
+            hpTexture = Content.Load<Texture2D>("hud/paskiZycie");
+            timeTexture = Content.Load<Texture2D>("hud/paskiCzas");
+            barsFront = Content.Load<Texture2D>("hud/paskiPrzod");
+            barsBack = Content.Load<Texture2D>("hud/paskiTyl");
+
             bulletEnemyTex = Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyTex");
             bulletEnemyNormal = Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyNormal");
 
@@ -168,14 +175,12 @@ namespace PBLGame
             playerLegWalk = new GameObject("Leg");
             playerHatWalk = new GameObject("Hat");
 
-
             rangedEnemy1 = new GameObject("rangedEnemy");
             rangedEnemyHat = new GameObject("Hat");
             rangedEnemyHatWalk = new GameObject("Hat");
             rangedEnemyLeg = new GameObject("Leg");
             rangedEnemyLegWalk = new GameObject("Leg");
             
-
             meleeEnemy1 = new GameObject("meleeEnemy");
             meleeEnemyModel = new GameObject("meleeEnemy");
             meleeEnemyWalk = new GameObject("meleeEnemy");
@@ -195,7 +200,6 @@ namespace PBLGame
             // Add static models
             heart.AddComponent(new ModelComponent(heartModel, standardEffect, heartTexture));
             heart2.AddComponent(new ModelComponent(heartModel, standardEffect, heartTexture));
-
 
             root.AddChildNode(heart);
             root.AddChildNode(heart2);
@@ -300,7 +304,6 @@ namespace PBLGame
                 case GameState.LevelTutorial:
                 case GameState.LevelOne:
                     CreateShadowMap();
-                    //skybox.SetSkyBoxTexture(refractionTarget);
                     GraphicsDevice.SetRenderTarget(screenRenderTarget);
                     DrawWithShadow(camera.CalcViewMatrix());
                     DrawScreen(gameTime);
@@ -335,7 +338,6 @@ namespace PBLGame
         void DrawOutline()
         {
             outlineEffect.Parameters["GammaValue"].SetValue(gammaValue);
-            //fadeAmount += 0.01f;
             outlineEffect.Parameters["FadeAmount"].SetValue(fadeAmount);
             outlineEffect.Parameters["ScreenSize"].SetValue(new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
             spriteBatch.Begin(0, BlendState.Additive, null, null, null, outlineEffect);
@@ -363,8 +365,7 @@ namespace PBLGame
             if (actualCutsceneTexture == null)
             {
                 DrawOutline();
-                DrawHpBar();
-                DrawTimeBar();
+                DrawHUDBars();
             }
             else
             {
@@ -453,17 +454,13 @@ namespace PBLGame
             spriteBatch.End();
         }
 
-        void DrawHpBar()
+        void DrawHUDBars()
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(hpTexture, new Rectangle(20, graphics.GraphicsDevice.Viewport.Height - 60, player.GetComponent<Player>().Hp * 10, 20), Color.White);
-            spriteBatch.End();
-        }
-
-        void DrawTimeBar()
-        {
-            spriteBatch.Begin();
-            spriteBatch.Draw(timeTexture, new Rectangle(20, graphics.GraphicsDevice.Viewport.Height - 30, player.GetComponent<Player>().GetTimeEnergy() * 20, 20), Color.White);
+            spriteBatch.Draw(barsBack, new Rectangle(20, graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().MaxHp * 15, 80), Color.White);
+            spriteBatch.Draw(hpTexture, new Rectangle(20 + (player.GetComponent<Player>().MaxHp -  player.GetComponent<Player>().Hp), graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().Hp * 15, 80), Color.White);
+            spriteBatch.Draw(timeTexture, new Rectangle(20 + (10 - player.GetComponent<Player>().GetTimeEnergy()), graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().GetTimeEnergy() * 30, 80), Color.White);
+            spriteBatch.Draw(barsFront, new Rectangle(20, graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().MaxHp * 15, 80), Color.White);
             spriteBatch.End();
         }
 
@@ -928,9 +925,6 @@ namespace PBLGame
 
         void LoadPlayer()
         {
-            hpTexture = heartTexture;
-            timeTexture = playerNormal;
-
             // Load anim models
             player.AddChildNode(playerLeg);
             player.AddChildNode(playerHat);
