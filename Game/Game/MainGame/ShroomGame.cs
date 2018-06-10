@@ -16,12 +16,14 @@ using Game.Components.Enemies;
 using Game.Components.Pawns.Enemies;
 using Game.MainGame;
 using System.Collections;
+using PBLGame.Misc;
 
 namespace PBLGame
 {
     enum GameState
     {
         MainMenu,
+        Options,
         LevelTutorial,
         LevelOne
     }
@@ -65,10 +67,6 @@ namespace PBLGame
         GameObject refractiveObject;
 
         GameObject player;
-        GameObject playerLeg;
-        GameObject playerHat;
-        GameObject playerLegWalk;
-        GameObject playerHatWalk;
         GameObject rangedEnemy1;
         GameObject rangedEnemyLeg;
         GameObject rangedEnemyHat;
@@ -82,8 +80,6 @@ namespace PBLGame
         Camera camera;
         GameObject cameraCollision;
 
-        Texture2D playerTex;
-        Texture2D playerNormal;
         Texture2D rangedEnemyTex;
         Texture2D rangedEnemyNormal;
         Texture2D meleeEnemyTex;
@@ -113,6 +109,7 @@ namespace PBLGame
             graphics.PreferredBackBufferWidth = 1366;
             //actualGameState = GameState.LevelTutorial;
             actualGameState = GameState.LevelOne;
+            root = new GameObject();
         }
 
         protected override void Initialize()
@@ -121,6 +118,7 @@ namespace PBLGame
             GameServices.AddService<GraphicsDevice>(GraphicsDevice);
             GameServices.AddService<GraphicsDeviceManager>(graphics);
             GameServices.AddService<Resolution>(resolution);
+            GameServices.AddService<ContentLoader>(new ContentLoader(Content, root));
         }
 
         protected override void LoadContent()
@@ -144,8 +142,6 @@ namespace PBLGame
             dialoguesFont = Content.Load<SpriteFont>("Dialogues");
 
             skybox = new Skybox("skybox/SkyBox", Content);
-            playerTex = Content.Load<Texture2D>("models/player/borowikTex");
-            playerNormal = Content.Load<Texture2D>("models/player/borowikNormal");
             rangedEnemyTex = Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyTex");
             rangedEnemyNormal = Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyNormal");
             meleeEnemyTex = Content.Load<Texture2D>("models/enemies/muchomorStadny/muchomorStadnyTex");
@@ -160,7 +156,6 @@ namespace PBLGame
             bulletEnemyTex = Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyTex");
             bulletEnemyNormal = Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyNormal");
 
-            root = new GameObject();
             heart = new GameObject("Serce");
             heart2 = new GameObject("Serce");
             
@@ -170,10 +165,6 @@ namespace PBLGame
             root.AddChildNode(refractiveObject);
 
             player = new GameObject("player");
-            playerLeg = new GameObject("Leg");
-            playerHat = new GameObject("Hat");
-            playerLegWalk = new GameObject("Leg");
-            playerHatWalk = new GameObject("Hat");
 
             rangedEnemy1 = new GameObject("rangedEnemy");
             rangedEnemyHat = new GameObject("Hat");
@@ -250,7 +241,7 @@ namespace PBLGame
             {
                 root.CreateColliders();
                 cameraCollision.SetAsTrigger();
-                playerHat.SetAsColliderAndTrigger(new HitTrigger(playerHat));
+                GameServices.GetService<ContentLoader>().SetAsColliderAndTrigger();
                 player.GetComponent<Pawn>().ObjectSide = Side.Player;
                 rangedEnemyHat.SetAsColliderAndTrigger(new HitTrigger(rangedEnemyHat));
                 rangedEnemy1.GetComponent<Pawn>().ObjectSide = Side.Enemy;
@@ -733,7 +724,7 @@ namespace PBLGame
             refract.refractive = true;
             refractiveObject.AddComponent(refract);
 
-            LoadPlayer();
+            GameServices.GetService<ContentLoader>().LoadPlayer(player);
             player.Position = new Vector3(0f, 60f, 0f);
             //player.Position = position + new Vector3(-40f, 60f, 0f);
             LoadRangedEnemy();
@@ -911,7 +902,7 @@ namespace PBLGame
             pointLights.Add(new Lights.PointLight(new Vector3(-20.0f, 150.0f, -1300.0f), new Vector3(2.8f, 0.0002f, 0.00004f)));
             pointLights.Add(new Lights.PointLight(new Vector3(-20.0f, 150.0f, -1900.0f), new Vector3(2.8f, 0.0002f, 0.00004f)));
 
-            LoadPlayer();
+            GameServices.GetService<ContentLoader>().LoadPlayer(player);
             player.Position = new Vector3(0f, 60f, -800f);
             LoadTutorialEnemies();
         }
@@ -919,68 +910,6 @@ namespace PBLGame
         void LoadTutorialEnemies()
         {
 
-        }
-
-        void LoadPlayer()
-        {
-            // Load anim models
-            player.AddChildNode(playerLeg);
-            player.AddChildNode(playerHat);
-
-            // models without anims have problems i guess ; /
-            playerLeg.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content, animatedEffect, playerTex, playerNormal));
-            playerLeg.AddComponent(new AnimationManager(playerLeg));
-            playerHat.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content, animatedEffect, playerTex, playerNormal));
-            playerHat.AddComponent(new AnimationManager(playerHat));
-
-            // ENABLE DYNAMIC COLLISION ON PLAYER HAT
-            playerHat.GetComponent<ModelAnimatedComponent>().ColliderDynamicUpdateEnable();
-
-            // IDLE
-            playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaIdle", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "idle");
-            playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszIdle", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "idle");
-
-            // WALK
-            playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaChod", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "walk");
-            playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszChod", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "walk");
-
-            // ATTACK MAIN
-            playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaSlash", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "slash");
-            playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszSlash", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "slash");
-
-            // ATTACK LEFT
-            playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaSlashLewo", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "slashL");
-            playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszSlashLewo", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "slashL");
-
-            // ATTACK RIGHT
-            playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaSlashPrawo", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "slashR");
-            playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszSlashPrawo", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "slashR");
-
-            // THROW
-            playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaRzutKapeluszem", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "throw");
-            playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszRzutKapeluszem", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "throw");
-
-            // JUMPATTACK1
-            playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaRzutKapeluszem", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpAttack1");
-            playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszRzutKapeluszem", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpAttack1");
-
-
-            // JUMPATTACK2
-            playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaRzutKapeluszem", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpAttack2");
-            playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszRzutKapeluszem", Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpAttack2");
-
-            // TODO: ANIM LOAD SYSTEM / SELECTOR
-            playerHat.GetComponent<AnimationManager>().PlayAnimation("idle");
-            playerLeg.GetComponent<AnimationManager>().PlayAnimation("idle");
-
-            player.AddComponent(new Player(player));
-            root.AddChildNode(player);
-
-            player.AddChildNode(cameraCollision);
-            player.AddChildNode(camera);
-            player.RotationZ = 1.5f;
-
-            GameServices.AddService(player);
         }
     }
 }

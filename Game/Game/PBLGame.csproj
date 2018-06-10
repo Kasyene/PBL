@@ -83,6 +83,7 @@
     <Compile Include="Components\ModelAndAnimations\AnimationManager.cs" />
     <Compile Include="Misc\Anim\AnimationPlayer.cs" />
     <Compile Include="Misc\Anim\Bone.cs" />
+    <Compile Include="Misc\ContentLoader.cs" />
     <Compile Include="Misc\Resources.cs" />
     <Compile Include="Misc\Time\Timer.cs" />
     <Compile Include="SceneGraph\Camera.cs" />
