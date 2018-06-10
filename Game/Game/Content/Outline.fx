@@ -6,8 +6,8 @@ sampler screenTextureSampler = sampler_state
 
 float2 ScreenSize = float2(600, 600);
 
-float Thickness = 0.4f;
-float Threshold = 0.3f;
+float Thickness = 0.3f;
+float Threshold = 0.2f;
 
 float FadeAmount = 0.0f;
 float GammaValue = 1.0f;
@@ -92,7 +92,7 @@ float4 PixelShaderOutline(float4 pos : SV_POSITION, float4 color1 : COLOR0, floa
 	
 	if (!TimeStop)
 	{
-		color = saturate(color * color * color * float4(result.xxxx));
+		color = saturate(color * color * float4(result.xxxx));
 	}
 	else
 	{
