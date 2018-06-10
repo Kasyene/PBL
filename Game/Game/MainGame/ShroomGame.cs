@@ -690,7 +690,7 @@ namespace PBLGame
             refract.refractive = true;
             refractiveObject.AddComponent(refract);
 
-            GameServices.GetService<ContentLoader>().LoadPlayer(player);
+            GameServices.GetService<ContentLoader>().LoadPlayer(player, cameraCollision);
             player.Position = new Vector3(0f, 60f, 0f);
             //player.Position = position + new Vector3(-40f, 60f, 0f);
             rangedEnemy1 = new GameObject();
@@ -782,7 +782,7 @@ namespace PBLGame
             pointLights.Add(new Lights.PointLight(new Vector3(-20.0f, 150.0f, -1300.0f), new Vector3(2.8f, 0.0002f, 0.00004f)));
             pointLights.Add(new Lights.PointLight(new Vector3(-20.0f, 150.0f, -1900.0f), new Vector3(2.8f, 0.0002f, 0.00004f)));
 
-            GameServices.GetService<ContentLoader>().LoadPlayer(player);
+            GameServices.GetService<ContentLoader>().LoadPlayer(player, cameraCollision);
             player.Position = new Vector3(0f, 60f, -800f);
             LoadTutorialEnemies();
         }

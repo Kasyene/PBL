@@ -70,7 +70,7 @@ namespace PBLGame.Misc
             }
         }
 
-        public void LoadPlayer(GameObject player)
+        public void LoadPlayer(GameObject player, GameObject cameraCollision)
         {
             GameObject playerLeg = new GameObject("Leg");
             GameObject playerHat = new GameObject("Hat");
@@ -131,7 +131,7 @@ namespace PBLGame.Misc
             player.AddComponent(new Player(player));
             root.AddChildNode(player);
 
-            //player.AddChildNode(cameraCollision);
+            player.AddChildNode(cameraCollision);
             player.AddChildNode(GameServices.GetService<Camera>());
             player.RotationZ = 1.5f;
 
