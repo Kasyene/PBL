@@ -44,6 +44,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Components\Audio\AudioComponent.cs" />
+    <Compile Include="Components\Audio\MusicManager.cs" />
     <Compile Include="Components\BridgeComponent.cs" />
     <Compile Include="Components\Collisions\CameraCollisions.cs" />
     <Compile Include="Components\Collisions\ConsumableTrigger.cs" />

@@ -2677,3 +2677,15 @@
 /processorParam:TextureFormat=Color
 /build:hud/paskiZycie.png
 
+#begin audio/music/5823.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:audio/music/5823.mp3
+
+#begin audio/sfx/roblox.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/roblox.mp3
+

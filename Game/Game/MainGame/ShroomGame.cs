@@ -1,21 +1,15 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using System.Linq;
+using Game.Components.Audio;
 using Game.Misc;
 using Game.Misc.Time;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PBLGame.Input;
 using PBLGame.MainGame;
-using PBLGame.Misc.Anim;
 using PBLGame.SceneGraph;
-using Game.Components;
 using Game.Components.Collisions;
-using Game.Components.Enemies;
-using Game.Components.Pawns.Enemies;
 using Game.MainGame;
-using System.Collections;
 using PBLGame.Misc;
 
 namespace PBLGame
@@ -70,6 +64,9 @@ namespace PBLGame
         Model heartModel;
         public Camera camera;
         public GameObject cameraCollision;
+        public GameObject MusicGameObject;
+
+        private MusicManager musicManager => MusicGameObject.GetComponent<MusicManager>();
 
         Texture2D heartTexture;
 
@@ -108,7 +105,11 @@ namespace PBLGame
         protected override void LoadContent()
         {
             Resources.Init(Content);
-
+            // MUSIC INIT
+            MusicGameObject = new GameObject("MusicManagerContainer");
+            MusicGameObject.AddComponent(new MusicManager());
+            musicManager.LoadContent(Content);
+            //
             spriteBatch = new SpriteBatch(GraphicsDevice);
             shadowRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, shadowMapWidthHeight, shadowMapWidthHeight,
                                                     false, SurfaceFormat.Single, DepthFormat.Depth24);
@@ -172,6 +173,24 @@ namespace PBLGame
             // TODO: Unload any non ContentManager content here
         }
 
+        private void OnLevelLoad(GameState gameState)
+        {
+            switch (gameState)
+            {
+                case GameState.MainMenu:
+                    break;
+                case GameState.Options:
+                    break;
+                case GameState.LevelTutorial:
+                    musicManager.PlaySong("ambient");
+                    break;
+                case GameState.LevelOne:
+                    musicManager.PlaySong("ambient");
+                    musicManager.IsRepeating = true;
+                    break;
+            }
+        }
+
 
         protected override void Update(GameTime gameTime)
         {
@@ -186,17 +205,20 @@ namespace PBLGame
             switch (actualGameState)
             {
                 case GameState.MainMenu:
+                    OnLevelLoad(actualGameState);
                     break;
                 case GameState.LevelTutorial:
                     if (!areCollidersAndTriggersSet)
                     {
                         GameServices.GetService<ContentLoader>().LoadTutorial();
+                        OnLevelLoad(actualGameState);
                     }
                     break;
                 case GameState.LevelOne:
                     if (!areCollidersAndTriggersSet)
                     {
                         GameServices.GetService<ContentLoader>().LoadLevel1();
+                        OnLevelLoad(actualGameState);
                     }
                     break;
             }
