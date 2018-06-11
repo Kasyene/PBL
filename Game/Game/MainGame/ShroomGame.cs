@@ -57,21 +57,19 @@ namespace PBLGame
         private Texture2D actualCutsceneTexture;
         private float cutsceneDisplayTime;
 
-        List<Component> updateComponents;
-
-        GameObject root;
+        public GameObject root;
         GameObject heart;
         GameObject heart2;
-        GameObject mapRoot;
 
-        GameObject refractiveObject;
+        public GameObject refractiveObject;
+        public List<Component> updateComponents;
 
-        GameObject player;
-        GameObject rangedEnemy1;
-        GameObject meleeEnemy1;
+        public GameObject player;
+        public GameObject rangedEnemy1;
+        public GameObject meleeEnemy1;
         Model heartModel;
-        Camera camera;
-        GameObject cameraCollision;
+        public Camera camera;
+        public GameObject cameraCollision;
 
         Texture2D heartTexture;
 
@@ -104,7 +102,7 @@ namespace PBLGame
             GameServices.AddService<GraphicsDevice>(GraphicsDevice);
             GameServices.AddService<GraphicsDeviceManager>(graphics);
             GameServices.AddService<Resolution>(resolution);
-            GameServices.AddService<ContentLoader>(new ContentLoader(Content, root));
+            GameServices.AddService<ContentLoader>(new ContentLoader(this));
         }
 
         protected override void LoadContent()
@@ -137,9 +135,7 @@ namespace PBLGame
             barsBack = Content.Load<Texture2D>("hud/paskiTyl");
 
             heart = new GameObject("Serce");
-            heart2 = new GameObject("Serce");
-            
-            mapRoot = new GameObject();
+            heart2 = new GameObject("Serce");           
 
             refractiveObject = new GameObject();
             root.AddChildNode(refractiveObject);
@@ -194,13 +190,13 @@ namespace PBLGame
                 case GameState.LevelTutorial:
                     if (!areCollidersAndTriggersSet)
                     {
-                        LoadTutorial();
+                        GameServices.GetService<ContentLoader>().LoadTutorial();
                     }
                     break;
                 case GameState.LevelOne:
                     if (!areCollidersAndTriggersSet)
                     {
-                        LoadLevel1();
+                        GameServices.GetService<ContentLoader>().LoadLevel1();
                     }
                     break;
             }
@@ -333,7 +329,7 @@ namespace PBLGame
             }
         }
 
-        void DrawRefraction()
+        public void DrawRefraction()
         {
             for (int i = 0; i < 6; i++)
             {
@@ -417,379 +413,6 @@ namespace PBLGame
             spriteBatch.Draw(timeTexture, new Rectangle(20 + (10 - player.GetComponent<Player>().GetTimeEnergy()), graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().GetTimeEnergy() * 30, 80), Color.White);
             spriteBatch.Draw(barsFront, new Rectangle(20, graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().MaxHp * 15, 80), Color.White);
             spriteBatch.End();
-        }
-
-        private List<GameObject> SplitModelIntoSmallerPieces(Model bigModel, Texture2D bigTex = null, Texture2D bigNormalTex = null)
-        {
-            if (bigModel.Meshes.Count >= 1)
-            {
-                List<GameObject> result = new List<GameObject>();
-                for (int i = 0; i < bigModel.Meshes.Count; i++)
-                {
-                    List<ModelBone> bones = new List<ModelBone>();
-                    List<ModelMesh> meshes = new List<ModelMesh>();
-                    bones.Add(bigModel.Meshes[i].ParentBone);
-                    meshes.Add(bigModel.Meshes[i]);
-                    ModelComponent newModel = new ModelComponent(new Model(GraphicsDevice, bones, meshes), standardEffect, bigTex, bigNormalTex);
-                    GameObject newObj = new GameObject();
-                    Vector3 position;
-                    Vector3 scale;
-                    Quaternion quat;
-                    newModel.model.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
-                    //  Debug.WriteLine("Position of new model " + position + " Rotation " + quat);
-                    newObj.Position = position;
-                    newObj.Scale = scale;
-                    newObj.SetModelQuat(quat);
-                    newObj.AddComponent(newModel);
-                    newObj.name = bigModel.Meshes[i].Name;
-                    newObj.Update();
-                    result.Add(newObj);
-                }
-                return result;
-            }
-            else
-            {
-                throw new Exception("There is no mesh in this model !!");
-            }
-        }
-
-        private void CreateHierarchyOfLevel(List<GameObject> mapa, GameObject rootMapy)
-        {
-            foreach (var newObj in mapa)
-            {
-                if (newObj.GetComponent<ModelComponent>().model.Bones[0].Children.Count > 0)
-                {
-                    for (int i = 0; i < newObj.GetComponent<ModelComponent>().model.Bones[0].Children.Count; i++)
-                    {
-                        foreach (var gameObject in mapa)
-                        {
-                            if (gameObject.GetComponent<ModelComponent>().model.Bones[0].Name ==
-                                newObj.GetComponent<ModelComponent>().model.Bones[0].Children[i].Name &&
-                                gameObject.Parent == null)
-                            {
-                                newObj.AddChildNode(gameObject);
-                            }
-                        }
-                    }
-                }
-            }
-
-            foreach (var newObj in mapa)
-            {
-                if (newObj.Parent == null)
-                {
-                    rootMapy.AddChildNode(newObj);
-                }
-            }
-        }
-
-        private void AssignTagsForMapElements(List<GameObject> mapa)
-        {
-            List<String> Groundy = new List<string>();
-            Groundy.Add("Most");
-            Groundy.Add("Platforma");
-            Groundy.Add("Ground");
-            Groundy.Add("OwinietaLina");
-
-            List<String> Walle = new List<string>();
-            Walle.Add("Brama");
-            Walle.Add("Dzwignia");
-            Walle.Add("Kolek");
-            Walle.Add("Lina");
-            Walle.Add("Flag");
-            Walle.Add("OwinietaLina");
-            Walle.Add("Pal");
-            Walle.Add("Wall");
-
-            tagAssigner(mapa, Walle, "Wall");
-            tagAssigner(mapa, Groundy, "Ground");
-
-        }
-
-        private void tagAssigner(List<GameObject> mapa, List<String> otagowaneNazwy, string tag)
-        {
-            foreach (var gameObj in mapa)
-            {
-                if (gameObj.tag != tag && otagowaneNazwy.Any(s => gameObj.name.Contains(s)))
-                {
-                    gameObj.tag = tag;
-                    //Debug.WriteLine(gameObj.tag);
-                }
-            }
-        }
-
-        void LoadLevel1()
-        {
-            //new Cutscene(Content.Load<Texture2D>("Cutscene/1.1"), 3f);
-            //new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 2f);
-            //new Cutscene(Content.Load<Texture2D>("Cutscene/1.2"), 2f);
-
-            updateComponents = new List<Component>();
-            Model hierarchiaStrefa1 = Content.Load<Model>("Level1/levelStrefa1");
-            Texture2D hierarchiaStrefa1Tex = Content.Load<Texture2D>("Level1/levelStrefa1Tex");
-            Texture2D hierarchiaStrefa1Normal = Content.Load<Texture2D>("Level1/levelStrefa1Normal");
-
-            List<GameObject> strefa1List = SplitModelIntoSmallerPieces(hierarchiaStrefa1, hierarchiaStrefa1Tex, hierarchiaStrefa1Normal);
-            CreateHierarchyOfLevel(strefa1List, mapRoot);
-            AssignTagsForMapElements(strefa1List);
-
-            Model dzwignia = Content.Load<Model>("Level1/levelStrefa1Dzwignia");
-            List<GameObject> dzwigniaList = SplitModelIntoSmallerPieces(dzwignia, hierarchiaStrefa1Tex, hierarchiaStrefa1Normal);
-            CreateHierarchyOfLevel(dzwigniaList, mapRoot);
-            AssignTagsForMapElements(dzwigniaList);
-
-            LeverComponent lever = null;
-            foreach (GameObject obj in dzwigniaList)
-            {
-                if (obj.name == "Zebatka1")
-                {
-                    lever = new LeverComponent(obj);
-                    obj.AddComponent(lever);
-                    updateComponents.Add(lever);
-                }
-            }
-
-            foreach (GameObject obj in dzwigniaList)
-            { 
-                if (obj.name == "Uchwyt1")
-                {
-                    obj.CreateColliders();
-                    LeverTrigger comp = new LeverTrigger(obj, lever);
-                    obj.SetAsTrigger(comp);
-                }
-            }
-
-            GameObject gate = new GameObject("Wall");
-            Model gateModel = Content.Load<Model>("Level1/levelStrefa1Brama");
-            Vector3 position;
-            Vector3 scale;
-            Quaternion quat;
-            gateModel.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
-            gate.Position = position;
-            gate.Scale = scale;
-            gate.SetModelQuat(quat);
-            gate.name = gateModel.Meshes[0].Name;
-            ModelComponent modelGate = new ModelComponent(gateModel, standardEffect, hierarchiaStrefa1Tex, hierarchiaStrefa1Normal);
-            gate.AddComponent(modelGate);
-            GateComponent gateComponent = new GateComponent(gate, lever);
-            gate.AddComponent(gateComponent);
-            updateComponents.Add(gateComponent);
-            mapRoot.AddChildNode(gate); //TU ODKOMENTOWA BY BRAMA SIĘ POJAWIŁA
-
-            Model hierarchiaStrefa2 = Content.Load<Model>("Level1/levelStrefa2");
-            Texture2D hierarchiaStrefa2Tex = Content.Load<Texture2D>("Level1/levelStrefa2Tex");
-            Texture2D hierarchiaStrefa2Normal = Content.Load<Texture2D>("Level1/levelStrefa2Normal");
-
-            List<GameObject> strefa2List = SplitModelIntoSmallerPieces(hierarchiaStrefa2, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
-            CreateHierarchyOfLevel(strefa2List, mapRoot);
-            AssignTagsForMapElements(strefa2List);
-
-            GameObject plat1 = new GameObject();
-            Model platforma1 = Content.Load<Model>("Level1/levelStrefa2Platforma1");
-            platforma1.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
-            plat1.Position = position;
-            plat1.Scale = scale;
-            plat1.SetModelQuat(quat);
-            plat1.name = platforma1.Meshes[0].Name;
-            ModelComponent modelPlat1 = new ModelComponent(platforma1, standardEffect, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
-            plat1.AddComponent(modelPlat1);
-            PlatformComponent plat1Comp = new PlatformComponent(plat1, plat1.Position - new Vector3(150f, 0f, 0f), 1.7f, 3f);
-            plat1.AddComponent(plat1Comp);
-            updateComponents.Add(plat1Comp);
-            mapRoot.AddChildNode(plat1);
-
-            GameObject plat2 = new GameObject();
-            Model platforma2 = Content.Load<Model>("Level1/levelStrefa2Platforma2");
-            platforma2.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
-            plat2.Position = position;
-            plat2.Scale = scale;
-            plat2.SetModelQuat(quat);
-            plat2.name = platforma2.Meshes[0].Name;
-            ModelComponent modelPlat2 = new ModelComponent(platforma2, standardEffect, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
-            plat2.AddComponent(modelPlat2);
-            PlatformComponent plat2Comp = new PlatformComponent(plat2, plat2.Position - new Vector3(150f, 0f, 0f), 0.7f, 4f);
-            plat2.AddComponent(plat2Comp);
-            updateComponents.Add(plat2Comp);
-            mapRoot.AddChildNode(plat2);
-
-            List<GameObject> list = new List<GameObject>();
-            list.Add(plat1);
-            list.Add(plat2);
-            AssignTagsForMapElements(list);
-
-            Model hierarchiaStrefa3 = Content.Load<Model>("Level1/levelStrefa3");
-            Texture2D hierarchiaStrefa3Tex = Content.Load<Texture2D>("Level1/levelStrefa3Tex");
-            Texture2D hierarchiaStrefa3Normal = Content.Load<Texture2D>("Level1/levelStrefa3Normal");
-
-            List<GameObject> strefa3List = SplitModelIntoSmallerPieces(hierarchiaStrefa3, hierarchiaStrefa3Tex, hierarchiaStrefa3Normal);
-            CreateHierarchyOfLevel(strefa3List, mapRoot);
-            AssignTagsForMapElements(strefa3List);
-
-            Model most = Content.Load<Model>("Level1/levelStrefa3Most");
-            List<GameObject> mostList = SplitModelIntoSmallerPieces(most, hierarchiaStrefa3Tex, hierarchiaStrefa3Normal);
-            CreateHierarchyOfLevel(mostList, mapRoot);
-            AssignTagsForMapElements(mostList);
-
-            BridgeComponent bridgeComp = null;
-            foreach (GameObject obj in mostList)
-            {
-                if(obj.name == "Most1")
-                {
-                    bridgeComp = new BridgeComponent(obj);
-                    obj.AddComponent(bridgeComp);
-                    updateComponents.Add(bridgeComp);
-                }
-            }
-
-            Model kolek1 = Content.Load<Model>("Level1/levelStrefa3Kolek1");
-            List<GameObject> kolek1List = SplitModelIntoSmallerPieces(kolek1, hierarchiaStrefa3Tex, hierarchiaStrefa3Normal);
-            CreateHierarchyOfLevel(kolek1List, mapRoot);
-            AssignTagsForMapElements(kolek1List);
-
-            Model kolek2 = Content.Load<Model>("Level1/levelStrefa3Kolek2");
-            List<GameObject> kolek2List = SplitModelIntoSmallerPieces(kolek2, hierarchiaStrefa3Tex, hierarchiaStrefa3Normal);
-            CreateHierarchyOfLevel(kolek2List, mapRoot);
-            AssignTagsForMapElements(kolek2List);
-
-            Model lina = Content.Load<Model>("Level1/levelStrefa3Lina");
-            List<GameObject> linaList = SplitModelIntoSmallerPieces(lina, hierarchiaStrefa3Tex, hierarchiaStrefa3Normal);
-            CreateHierarchyOfLevel(linaList, mapRoot);
-            AssignTagsForMapElements(linaList);
-
-            foreach (GameObject obj in linaList)
-            {
-                if (obj.name == "Lina1")
-                {
-                    obj.CreateColliders();
-                    RopeCutConsumableTrigger comp = new RopeCutConsumableTrigger(obj, bridgeComp);
-                    obj.SetAsTrigger(comp);
-                    updateComponents.Add(comp);
-                }
-            }
-
-            Model hierarchiaStrefa4 = Content.Load<Model>("Level1/levelStrefa4");
-            Texture2D hierarchiaStrefa4Tex = Content.Load<Texture2D>("Level1/levelStrefa4Tex");
-            Texture2D hierarchiaStrefa4Normal = Content.Load<Texture2D>("Level1/levelStrefa4Normal");
-
-            List<GameObject> strefa4List = SplitModelIntoSmallerPieces(hierarchiaStrefa4, hierarchiaStrefa4Tex, hierarchiaStrefa4Normal);
-            CreateHierarchyOfLevel(strefa4List, mapRoot);
-            AssignTagsForMapElements(strefa4List);
-
-            pointLights.Add(new Lights.PointLight(new Vector3(0.0f, 8.0f, 0.0f)));
-            pointLights.Add(new Lights.PointLight(new Vector3(90.0f, -25.0f, -1350.0f), new Vector3(1.8f, 0.0002f, 0.00004f)));
-
-            root.AddChildNode(mapRoot);
-
-            Model refr = Content.Load<Model>("Level1/levelStrefa4Rzezba");
-            refr.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
-            refractiveObject.Position = position;
-            refractiveObject.Scale = scale;
-            DrawRefraction();
-            ModelComponent refract = new ModelComponent(refr, refractionEffect,
-                Content.Load<Texture2D>("Level1/levelStrefa4RzezbaTex"), Content.Load<Texture2D>("Level1/levelStrefa4RzezbaNormal"));
-            refract.refractive = true;
-            refractiveObject.AddComponent(refract);
-
-            GameServices.GetService<ContentLoader>().LoadPlayer(player, cameraCollision);
-            player.Position = new Vector3(0f, 60f, 0f);
-            //player.Position = position + new Vector3(-40f, 60f, 0f);
-            rangedEnemy1 = new GameObject();
-            meleeEnemy1 = new GameObject();
-            GameServices.GetService<ContentLoader>().LoadRangedEnemy(rangedEnemy1);
-            GameServices.GetService<ContentLoader>().LoadMeleeEnemy(meleeEnemy1);
-
-            new DialogueString("I not have too much time, I need to find Borowikus quickly, there is no time to waste");
-        }
-
-        void LoadTutorial()
-        {
-            Model hierarchiaStrefa1 = Content.Load<Model>("LevelTut/zamekStrefa1");
-            Texture2D hierarchiaStrefa1Tex = Content.Load<Texture2D>("LevelTut/zamekStrefa1Tex");
-            Texture2D hierarchiaStrefa1Normal = Content.Load<Texture2D>("LevelTut/zamekStrefa1Normal");
-
-            List<GameObject> strefa1List = SplitModelIntoSmallerPieces(hierarchiaStrefa1, hierarchiaStrefa1Tex, hierarchiaStrefa1Normal);
-            CreateHierarchyOfLevel(strefa1List, mapRoot);
-            AssignTagsForMapElements(strefa1List);
-
-            GameObject plat1 = new GameObject();
-            Model platforma1 = Content.Load<Model>("LevelTut/zamekStrefa1Platforma");
-            Vector3 position;
-            Vector3 scale;
-            Quaternion quat;
-            platforma1.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
-            plat1.Position = position;
-            plat1.Scale = scale;
-            plat1.SetModelQuat(quat);
-            plat1.name = platforma1.Meshes[0].Name;
-            ModelComponent modelPlat1 = new ModelComponent(platforma1, standardEffect, hierarchiaStrefa1Tex, hierarchiaStrefa1Normal);
-            plat1.AddComponent(modelPlat1);
-            mapRoot.AddChildNode(plat1);
-
-            List<GameObject> list = new List<GameObject>();
-            list.Add(plat1);
-            AssignTagsForMapElements(list);
-
-            Model hierarchiaStrefa2 = Content.Load<Model>("LevelTut/zamekStrefa2");
-            Texture2D hierarchiaStrefa2Tex = Content.Load<Texture2D>("LevelTut/zamekStrefa2Tex");
-            Texture2D hierarchiaStrefa2Normal = Content.Load<Texture2D>("LevelTut/zamekStrefa2Normal");
-
-            List<GameObject> strefa2List = SplitModelIntoSmallerPieces(hierarchiaStrefa2, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
-            CreateHierarchyOfLevel(strefa2List, mapRoot);
-            AssignTagsForMapElements(strefa2List);
-
-            /*Model platforma1 = Content.Load<Model>("Level1/levelStrefa2Platforma1");
-            List<GameObject> platforma1List = SplitModelIntoSmallerPieces(platforma1, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
-            CreateHierarchyOfLevel(platforma1List, mapRoot);
-            AssignTagsForMapElements(platforma1List);
-
-            Model platforma2 = Content.Load<Model>("Level1/levelStrefa2Platforma2");
-            List<GameObject> platforma2List = SplitModelIntoSmallerPieces(platforma2, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
-            CreateHierarchyOfLevel(platforma2List, mapRoot);
-            AssignTagsForMapElements(platforma2List);*/
-
-            Model hierarchiaStrefa3 = Content.Load<Model>("LevelTut/zamekStrefa3");
-            Texture2D hierarchiaStrefa3Tex = Content.Load<Texture2D>("LevelTut/zamekStrefa3Tex");
-            Texture2D hierarchiaStrefa3Normal = Content.Load<Texture2D>("LevelTut/zamekStrefa3Normal");
-
-            List<GameObject> strefa3List = SplitModelIntoSmallerPieces(hierarchiaStrefa3, hierarchiaStrefa3Tex, hierarchiaStrefa3Normal);
-            CreateHierarchyOfLevel(strefa3List, mapRoot);
-            AssignTagsForMapElements(strefa3List);
-
-            Model hierarchiaStrefa4 = Content.Load<Model>("LevelTut/zamekStrefa4");
-            Texture2D hierarchiaStrefa4Tex = Content.Load<Texture2D>("LevelTut/zamekStrefa4Tex");
-            Texture2D hierarchiaStrefa4Normal = Content.Load<Texture2D>("LevelTut/zamekStrefa4Normal");
-
-            List<GameObject> strefa4List = SplitModelIntoSmallerPieces(hierarchiaStrefa4, hierarchiaStrefa4Tex, hierarchiaStrefa4Normal);
-            CreateHierarchyOfLevel(strefa4List, mapRoot);
-            AssignTagsForMapElements(strefa4List);
-
-            root.AddChildNode(mapRoot);
-
-            Model refr = Content.Load<Model>("LevelTut/zamekStrefa4Rzezby");
-            refr.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
-            //  Debug.WriteLine("Position of new model " + position + " Rotation " + quat);
-            refractiveObject.Position = position;
-            refractiveObject.Scale = scale;
-            DrawRefraction();
-            ModelComponent refract = new ModelComponent(refr, refractionEffect,
-                Content.Load<Texture2D>("LevelTut/zamekStrefa4RzezbyTex"), Content.Load<Texture2D>("LevelTut/zamekStrefa4RzezbyNormal"));
-            refract.refractive = true;
-            refractiveObject.AddComponent(refract);
-
-            pointLights = new List<Lights.PointLight>();
-
-            pointLights.Add(new Lights.PointLight(new Vector3(-20.0f, 150.0f, -620.0f), new Vector3(2.8f, 0.0002f, 0.00004f)));
-            pointLights.Add(new Lights.PointLight(new Vector3(-20.0f, 150.0f, -1300.0f), new Vector3(2.8f, 0.0002f, 0.00004f)));
-            pointLights.Add(new Lights.PointLight(new Vector3(-20.0f, 150.0f, -1900.0f), new Vector3(2.8f, 0.0002f, 0.00004f)));
-
-            GameServices.GetService<ContentLoader>().LoadPlayer(player, cameraCollision);
-            player.Position = new Vector3(0f, 60f, -800f);
-            LoadTutorialEnemies();
-        }
-
-        void LoadTutorialEnemies()
-        {
-
         }
     }
 }
