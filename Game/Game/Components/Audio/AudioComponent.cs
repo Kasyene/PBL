@@ -73,7 +73,10 @@ namespace Game.Components.Audio
 
         public float Volume
         {
-            get => _volume;
+            get
+            {
+                return _volume;
+            }
             set
             {
                 if (value > 1.0f || value < 0.0f)
@@ -93,7 +96,10 @@ namespace Game.Components.Audio
 
         public float MasterVolume
         {
-            get => SoundEffect.MasterVolume;
+            get
+            {
+                return SoundEffect.MasterVolume;
+            }
             set
             {
                 if (value > 1.0f || value < 0.0f)

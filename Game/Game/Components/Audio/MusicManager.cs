@@ -59,13 +59,22 @@ namespace Game.Components.Audio
 
         public bool IsRepeating
         {
-            get => MediaPlayer.IsRepeating;
-            set => MediaPlayer.IsRepeating = value;
+            get
+            {
+                return MediaPlayer.IsRepeating;
+            }
+            set
+            {
+                MediaPlayer.IsRepeating = value;
+            }
         }
 
         public float Volume
         {
-            get => MediaPlayer.Volume;
+            get
+            {
+                return MediaPlayer.Volume;
+            }
             set
             {
                 if (value > 1.0f || value < 0.0f)
