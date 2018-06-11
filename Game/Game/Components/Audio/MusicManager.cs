@@ -14,7 +14,8 @@ namespace Game.Components.Audio
 
         public MusicManager()
         {
-            Volume = 0.1f;
+            Volume = 0.07f;
+            LoadContent(Resources.Content);
         }
 
         public void PlaySong()
@@ -73,7 +74,7 @@ namespace Game.Components.Audio
 
         public override void LoadContent(ContentManager contentManager)
         {
-            songs.Add("ambient", contentManager.Load<Song>("audio/music/5823"));
+            songs.Add("5823", contentManager.Load<Song>("audio/music/5823"));
             base.LoadContent(contentManager);
         }
 

@@ -108,7 +108,6 @@ namespace PBLGame
             // MUSIC INIT
             MusicGameObject = new GameObject("MusicManagerContainer");
             MusicGameObject.AddComponent(new MusicManager());
-            musicManager.LoadContent(Content);
             //
             spriteBatch = new SpriteBatch(GraphicsDevice);
             shadowRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, shadowMapWidthHeight, shadowMapWidthHeight,
@@ -182,10 +181,9 @@ namespace PBLGame
                 case GameState.Options:
                     break;
                 case GameState.LevelTutorial:
-                    musicManager.PlaySong("ambient");
                     break;
                 case GameState.LevelOne:
-                    musicManager.PlaySong("ambient");
+                    musicManager.PlaySong("5823");
                     musicManager.IsRepeating = true;
                     break;
             }
@@ -201,6 +199,8 @@ namespace PBLGame
                 screenRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, graphics.GraphicsDevice.Viewport.Width,
                                                    graphics.GraphicsDevice.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
             }
+
+            Resources.CameraVector3 = camera.Position;
 
             switch (actualGameState)
             {

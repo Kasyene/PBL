@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Game.Components.Audio;
 using Game.Components.Collisions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,10 +25,13 @@ namespace Game.Components
         public Model heartModel { get; set; }
         public Texture2D heartTex { get; set; }
         public Effect standardEffect { get; set; }
+        protected AudioComponent audioComponent;
 
         protected Enemy(GameObject parent) : base()
         {
             parentGameObject = parent;
+            parent.AddComponent(new AudioComponent(parent));
+            audioComponent = parent.GetComponent<AudioComponent>();
         }
 
         // Use this for initialization
@@ -40,6 +44,7 @@ namespace Game.Components
         {
             if (!isDead)
             {
+                audioComponent.Update(time);
                 base.Update(time);
                 lastAttack += (time.ElapsedGameTime.TotalMilliseconds / 1000.0d);
                 CheckIfDead();
@@ -100,6 +105,7 @@ namespace Game.Components
         protected void Die()
         {
             isDead = true;
+            audioComponent?.PlaySound("roblox");
             parentGameObject.Dispose();
         }
 
