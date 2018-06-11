@@ -18,6 +18,18 @@ namespace Game.Components.Audio
             LoadContent(Resources.Content);
         }
 
+        public void AddSong(string _key, Song soundEffect)
+        {
+            if (songs.ContainsKey(_key)) return;
+            songs.Add(_key, soundEffect);
+        }
+
+        public void AddSong(string _key, string _path)
+        {
+            if (songs.ContainsKey(_key)) return;
+            songs.Add(_key, Resources.Content.Load<Song>(_path));
+        }
+
         public void PlaySong()
         {
             if(currentKey == null) return;

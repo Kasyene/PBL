@@ -27,6 +27,18 @@ namespace Game.Components.Audio
             LoadContent(Resources.Content);
         }
 
+        public void AddSound(string _key, SoundEffect soundEffect)
+        {
+            if(soundEffects.ContainsKey(_key)) return;
+            soundEffects.Add(_key,soundEffect);
+        }
+
+        public void AddSound(string _key, string _path)
+        {
+            if (soundEffects.ContainsKey(_key)) return;
+            soundEffects.Add(_key, Resources.Content.Load<SoundEffect>(_path));
+        }
+
         public void PlaySound(string _key)
         {
             if (!soundEffects.ContainsKey(_key)) return;
