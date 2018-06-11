@@ -109,6 +109,11 @@ namespace PBLGame.SceneGraph
                     {
                         if ((this.isCollider && this.isTrigger))
                         {
+                            if (this.owner.tag == "meleeEnemy" && col.owner.tag == "meleeEnemy")
+                            {
+                                this.penetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
+                                return col.owner;
+                            }
                             if (col.owner.tag != "Ground" && col.owner.tag != "Wall")
                             {
                                 this.owner.GetComponent<HitTrigger>().OnTrigger(col.owner.Parent);
@@ -116,7 +121,7 @@ namespace PBLGame.SceneGraph
                             }
                         }
 
-                        if (col.isCollider && col.isTrigger)
+                        if (col.isCollider && col.isTrigger && col.owner.tag != "meleeEnemy")
                         {
                             return null;
                         }
