@@ -59,8 +59,7 @@ namespace PBLGame
         public List<Component> updateComponents;
 
         public GameObject player;
-        public GameObject rangedEnemy1;
-        public GameObject meleeEnemy1;
+        public List<GameObject> enemyList;
         Model heartModel;
         public Camera camera;
         public GameObject cameraCollision;
@@ -141,6 +140,7 @@ namespace PBLGame
             root.AddChildNode(refractiveObject);
 
             player = new GameObject("player");
+            enemyList = new List<GameObject>();
 
             camera = new Camera();
             camera.SetCameraTarget(player);
@@ -229,8 +229,10 @@ namespace PBLGame
                 cameraCollision.SetAsTrigger();
                 GameServices.GetService<ContentLoader>().SetAsColliderAndTrigger();
                 player.GetComponent<Pawn>().ObjectSide = Side.Player;
-                rangedEnemy1.GetComponent<Pawn>().ObjectSide = Side.Enemy;
-                meleeEnemy1.GetComponent<Pawn>().ObjectSide = Side.Enemy;
+                foreach(GameObject obj in enemyList)
+                {
+                    obj.GetComponent<Pawn>().ObjectSide = Side.Enemy;
+                }
                 heart.SetAsTrigger(new HeartConsumableTrigger(heart));
                 heart2.SetAsTrigger(new HeartConsumableTrigger(heart2));
                 areCollidersAndTriggersSet = true;
@@ -251,8 +253,10 @@ namespace PBLGame
                 outlineEffect.Parameters["TimeStop"].SetValue(GameServices.GetService<GameObject>().GetComponent<Player>().timeStop);
                 if (!GameServices.GetService<GameObject>().GetComponent<Player>().timeStop)
                 {
-                    rangedEnemy1.Update(gameTime);
-                    meleeEnemy1.Update(gameTime);
+                    foreach (GameObject obj in enemyList)
+                    {
+                        obj.Update(gameTime);
+                    }
                     foreach (Component comp in updateComponents)
                     {
                         comp.Update(gameTime);

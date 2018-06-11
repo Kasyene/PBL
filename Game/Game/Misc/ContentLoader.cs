@@ -22,8 +22,7 @@ namespace PBLGame.Misc
 
         private List<GameObject> triggers;
 
-        Model heartModel;
-
+        #region Textures
         Texture2D playerTex;
         Texture2D playerNormal;
         Texture2D rangedEnemyTex;
@@ -33,6 +32,29 @@ namespace PBLGame.Misc
         Texture2D bulletEnemyTex;
         Texture2D bulletEnemyNormal;
         Texture2D heartTexture;
+        #endregion
+
+        #region Models
+        Model heartModel;
+        Model bulletModel;
+        ModelAnimatedComponent meleeIdle;
+        ModelAnimatedComponent meleeWalk;
+        ModelAnimatedComponent meleeAttack;
+        ModelAnimatedComponent meleeGotHit;
+        ModelAnimatedComponent meleeDeath;
+
+        ModelAnimatedComponent rangedHatIdle;
+        ModelAnimatedComponent rangedHatWalk;
+        ModelAnimatedComponent rangedHatAttack;
+        ModelAnimatedComponent rangedHatGotHit;
+        ModelAnimatedComponent rangedHatDeath;
+
+        ModelAnimatedComponent rangedLegIdle;
+        ModelAnimatedComponent rangedLegWalk;
+        ModelAnimatedComponent rangedLegAttack;
+        ModelAnimatedComponent rangedLegGotHit;
+        ModelAnimatedComponent rangedLegDeath;
+        #endregion
 
         Effect standardEffect;
         Effect animatedEffect;
@@ -47,6 +69,7 @@ namespace PBLGame.Misc
 
         public void LoadContent()
         {
+            heartTexture = game.Content.Load<Texture2D>("apteczkaTex");
             standardEffect = game.Content.Load<Effect>("Standard");
             animatedEffect = game.Content.Load<Effect>("StandardAnimated");
             refractionEffect = game.Content.Load<Effect>("Refraction");
@@ -58,7 +81,25 @@ namespace PBLGame.Misc
             meleeEnemyNormal = game.Content.Load<Texture2D>("models/enemies/muchomorStadny/muchomorStadnyNormal");
             bulletEnemyTex = game.Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyTex");
             bulletEnemyNormal = game.Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyNormal");
+
             heartModel = game.Content.Load<Model>("apteczka");
+            bulletModel = game.Content.Load<Model>("models/enemies/muchomorRzucajacy/Kulka");
+
+            meleeIdle = new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyIdle", game.Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal);
+            meleeWalk = new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyChod", game.Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal);
+            meleeAttack = new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyAtak", game.Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal);
+            meleeGotHit = new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyOberwal", game.Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal);
+            meleeDeath = new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyUmarl", game.Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal);
+
+            rangedHatIdle = new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszIdle", game.Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal);
+            rangedHatWalk = new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszChod", game.Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal);
+            rangedHatGotHit = new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszOberwal", game.Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal);
+            rangedHatDeath = new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszUmarl", game.Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal);
+
+            rangedLegIdle = new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaIdle", game.Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal);
+            rangedLegWalk = new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaChod", game.Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal);
+            rangedLegGotHit = new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaOberwal", game.Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal);
+            rangedLegDeath = new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaUmarl", game.Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal);
         }
 
         public void SetAsColliderAndTrigger()
@@ -137,8 +178,9 @@ namespace PBLGame.Misc
             GameServices.AddService(player);
         }
 
-        public void LoadRangedEnemy(GameObject rangedEnemy1)
+        public GameObject LoadRangedEnemy()
         {
+            GameObject rangedEnemy = new GameObject();
             GameObject rangedEnemyHat = new GameObject("Hat");
             GameObject rangedEnemyHatWalk = new GameObject("Hat");
             GameObject rangedEnemyLeg = new GameObject("Leg");
@@ -147,8 +189,8 @@ namespace PBLGame.Misc
             triggers.Add(rangedEnemyHat);
 
             // Load anim models
-            rangedEnemy1.AddChildNode(rangedEnemyLeg);
-            rangedEnemy1.AddChildNode(rangedEnemyHat);
+            rangedEnemy.AddChildNode(rangedEnemyLeg);
+            rangedEnemy.AddChildNode(rangedEnemyHat);
 
             // models without anims have problems i guess ; /
             rangedEnemyLeg.AddComponent(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaChod", game.Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal));
@@ -160,80 +202,83 @@ namespace PBLGame.Misc
             rangedEnemyHat.GetComponent<ModelAnimatedComponent>().ColliderDynamicUpdateEnable();
 
             // IDLE
-            rangedEnemyLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaIdle", game.Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "idle");
-            rangedEnemyHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszIdle", game.Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "idle");
+            rangedEnemyLeg.GetComponent<AnimationManager>().AddAnimation(rangedLegIdle.AnimationClips[0], "idle");
+            rangedEnemyHat.GetComponent<AnimationManager>().AddAnimation(rangedHatIdle.AnimationClips[0], "idle");
 
             // WALK
-            rangedEnemyLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaChod", game.Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "walk");
-            rangedEnemyHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszChod", game.Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "walk");
+            rangedEnemyLeg.GetComponent<AnimationManager>().AddAnimation(rangedLegWalk.AnimationClips[0], "walk");
+            rangedEnemyHat.GetComponent<AnimationManager>().AddAnimation(rangedHatWalk.AnimationClips[0], "walk");
 
             // GOTHIT
-            rangedEnemyLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaOberwal", game.Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "gotHit");
-            rangedEnemyHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszOberwal", game.Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "gotHit");
+            rangedEnemyLeg.GetComponent<AnimationManager>().AddAnimation(rangedLegGotHit.AnimationClips[0], "gotHit");
+            rangedEnemyHat.GetComponent<AnimationManager>().AddAnimation(rangedHatGotHit.AnimationClips[0], "gotHit");
 
             // DEATH
-            rangedEnemyLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyNozkaUmarl", game.Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "death");
-            rangedEnemyHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorRzucajacy/muchomorRzucajacyKapeluszUmarl", game.Content, animatedEffect, rangedEnemyTex, rangedEnemyNormal).AnimationClips[0], "death");
+            rangedEnemyLeg.GetComponent<AnimationManager>().AddAnimation(rangedLegDeath.AnimationClips[0], "death");
+            rangedEnemyHat.GetComponent<AnimationManager>().AddAnimation(rangedHatDeath.AnimationClips[0], "death");
 
             // TODO: ANIM LOAD SYSTEM / SELECTOR
             rangedEnemyLeg.GetComponent<AnimationManager>().PlayAnimation("idle");
             rangedEnemyHat.GetComponent<AnimationManager>().PlayAnimation("idle");
-            rangedEnemy1.AddComponent(new RangedEnemy(rangedEnemy1));
-            rangedEnemy1.GetComponent<RangedEnemy>().ObjectSide = Side.Enemy;
+            rangedEnemy.AddComponent(new RangedEnemy(rangedEnemy));
+            rangedEnemy.GetComponent<RangedEnemy>().ObjectSide = Side.Enemy;
 
             //bullet
-            rangedEnemy1.GetComponent<RangedEnemy>().bulletEnemyNormal = bulletEnemyNormal;
-            rangedEnemy1.GetComponent<RangedEnemy>().bulletEnemyTex = bulletEnemyTex;
-            rangedEnemy1.GetComponent<RangedEnemy>().bulletModel = game.Content.Load<Model>("models/enemies/muchomorRzucajacy/Kulka");
-            rangedEnemy1.GetComponent<RangedEnemy>().standardEffect = standardEffect;
+            rangedEnemy.GetComponent<RangedEnemy>().bulletEnemyNormal = bulletEnemyNormal;
+            rangedEnemy.GetComponent<RangedEnemy>().bulletEnemyTex = bulletEnemyTex;
+            rangedEnemy.GetComponent<RangedEnemy>().bulletModel = bulletModel;
+            rangedEnemy.GetComponent<RangedEnemy>().standardEffect = standardEffect;
 
             //heart
-            rangedEnemy1.GetComponent<RangedEnemy>().heartTex = heartTexture;
-            rangedEnemy1.GetComponent<RangedEnemy>().heartModel = heartModel;
+            rangedEnemy.GetComponent<RangedEnemy>().heartTex = heartTexture;
+            rangedEnemy.GetComponent<RangedEnemy>().heartModel = heartModel;
 
-            game.root.AddChildNode(rangedEnemy1);
-            rangedEnemy1.Position = new Vector3(-20f, 40f, -550f);
+            game.root.AddChildNode(rangedEnemy);
+            game.enemyList.Add(rangedEnemy);
+            return rangedEnemy;
         }
 
-        public void LoadMeleeEnemy(GameObject meleeEnemy1)
+        public GameObject LoadMeleeEnemy()
         {
+            GameObject meleeEnemy = new GameObject();
             GameObject meleeEnemyModel = new GameObject("meleeEnemy");
 
             triggers.Add(meleeEnemyModel);
             // Load anim models
-            meleeEnemy1.AddChildNode(meleeEnemyModel);
+            meleeEnemy.AddChildNode(meleeEnemyModel);
 
             // models without anims have problems i guess ; /
             meleeEnemyModel.AddComponent(new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyChod", game.Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal));
             meleeEnemyModel.AddComponent(new AnimationManager(meleeEnemyModel));
 
             // IDLE
-            meleeEnemyModel.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyIdle", game.Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal).AnimationClips[0], "idle");
+            meleeEnemyModel.GetComponent<AnimationManager>().AddAnimation(meleeIdle.AnimationClips[0], "idle");
 
             // WALK
-            meleeEnemyModel.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyChod", game.Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal).AnimationClips[0], "walk");
+            meleeEnemyModel.GetComponent<AnimationManager>().AddAnimation(meleeWalk.AnimationClips[0], "walk");
 
             // ATTACK
-            meleeEnemyModel.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyAtak", game.Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal).AnimationClips[0], "attack");
+            meleeEnemyModel.GetComponent<AnimationManager>().AddAnimation(meleeAttack.AnimationClips[0], "attack");
 
             // gotHit
-            meleeEnemyModel.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyOberwal", game.Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal).AnimationClips[0], "gotHit");
+            meleeEnemyModel.GetComponent<AnimationManager>().AddAnimation(meleeGotHit.AnimationClips[0], "gotHit");
 
             // DEATH
-            meleeEnemyModel.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyUmarl", game.Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal).AnimationClips[0], "death");
+            meleeEnemyModel.GetComponent<AnimationManager>().AddAnimation(meleeDeath.AnimationClips[0], "death");
 
             // TODO: ANIM LOAD SYSTEM / SELECTOR
             meleeEnemyModel.GetComponent<AnimationManager>().PlayAnimation("idle");
-            meleeEnemy1.AddComponent(new MeleeEnemy(meleeEnemy1));
-            meleeEnemy1.GetComponent<MeleeEnemy>().ObjectSide = Side.Enemy;
+            meleeEnemy.AddComponent(new MeleeEnemy(meleeEnemy));
+            meleeEnemy.GetComponent<MeleeEnemy>().ObjectSide = Side.Enemy;
 
             //heart
-            meleeEnemy1.GetComponent<MeleeEnemy>().standardEffect = standardEffect;
-            meleeEnemy1.GetComponent<MeleeEnemy>().heartTex = heartTexture;
-            meleeEnemy1.GetComponent<MeleeEnemy>().heartModel = heartModel;
+            meleeEnemy.GetComponent<MeleeEnemy>().standardEffect = standardEffect;
+            meleeEnemy.GetComponent<MeleeEnemy>().heartTex = heartTexture;
+            meleeEnemy.GetComponent<MeleeEnemy>().heartModel = heartModel;
 
-            game.root.AddChildNode(meleeEnemy1);
-            meleeEnemy1.Position = new Vector3(100f, 40f, -350f);
+            game.root.AddChildNode(meleeEnemy);
+            game.enemyList.Add(meleeEnemy);
+            return meleeEnemy;
         }
 
         private List<GameObject> SplitModelIntoSmallerPieces(Model bigModel, Texture2D bigTex = null, Texture2D bigNormalTex = null)
@@ -510,11 +555,16 @@ namespace PBLGame.Misc
 
             LoadPlayer(game.player, game.cameraCollision);
             game.player.Position = new Vector3(0f, 60f, 0f);
-            //player.Position = position + new Vector3(-40f, 60f, 0f);
-            game.rangedEnemy1 = new GameObject();
-            game.meleeEnemy1 = new GameObject();
-            LoadRangedEnemy(game.rangedEnemy1);
-            LoadMeleeEnemy(game.meleeEnemy1);
+
+            GameObject enemyRanged1 = LoadRangedEnemy();
+            enemyRanged1.Position = new Vector3(-20f, 40f, -550f);
+            GameObject enemyRanged2 = LoadRangedEnemy();
+            enemyRanged2.Position = new Vector3(100f, 40f, -1750f);
+
+            GameObject enemy1 = LoadMeleeEnemy();
+            enemy1.Position = new Vector3(100f, 40f, -350f);
+            GameObject enemy2 = LoadMeleeEnemy();
+            enemy2.Position = new Vector3(150f, 40f, -350f);
 
             new DialogueString("I not have too much time, I need to find Borowikus quickly, there is no time to waste");
         }
