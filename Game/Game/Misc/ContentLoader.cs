@@ -13,6 +13,7 @@ using PBLGame.MainGame;
 using Game.Components.Pawns.Enemies;
 using Game.Components.Enemies;
 using Game.Components;
+using Game.MainGame;
 
 namespace PBLGame.Misc
 {
@@ -381,9 +382,9 @@ namespace PBLGame.Misc
         public void LoadLevel1()
         {
             GameObject mapRoot = new GameObject();
-            //new Cutscene(Content.Load<Texture2D>("Cutscene/1.1"), 3f);
-            //new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 2f);
-            //new Cutscene(Content.Load<Texture2D>("Cutscene/1.2"), 2f);
+            //new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.1"), 3f);
+            //new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.3"), 2f);
+            //new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.2"), 2f);
 
             game.updateComponents = new List<Component>();
             Model hierarchiaStrefa1 = game.Content.Load<Model>("Level1/levelStrefa1");
