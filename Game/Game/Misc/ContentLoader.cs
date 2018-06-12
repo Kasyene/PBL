@@ -45,13 +45,11 @@ namespace PBLGame.Misc
 
         ModelAnimatedComponent rangedHatIdle;
         ModelAnimatedComponent rangedHatWalk;
-        ModelAnimatedComponent rangedHatAttack;
         ModelAnimatedComponent rangedHatGotHit;
         ModelAnimatedComponent rangedHatDeath;
 
         ModelAnimatedComponent rangedLegIdle;
         ModelAnimatedComponent rangedLegWalk;
-        ModelAnimatedComponent rangedLegAttack;
         ModelAnimatedComponent rangedLegGotHit;
         ModelAnimatedComponent rangedLegDeath;
         #endregion
@@ -572,6 +570,7 @@ namespace PBLGame.Misc
         public void LoadTutorial()
         {
             GameObject mapRoot = new GameObject();
+            game.updateComponents = new List<Component>();
             Model hierarchiaStrefa1 = game.Content.Load<Model>("LevelTut/zamekStrefa1");
             Texture2D hierarchiaStrefa1Tex = game.Content.Load<Texture2D>("LevelTut/zamekStrefa1Tex");
             Texture2D hierarchiaStrefa1Normal = game.Content.Load<Texture2D>("LevelTut/zamekStrefa1Normal");
@@ -652,7 +651,6 @@ namespace PBLGame.Misc
             ShroomGame.pointLights.Add(new Lights.PointLight(new Vector3(-20.0f, 150.0f, -1900.0f), new Vector3(2.8f, 0.0002f, 0.00004f)));
 
             LoadPlayer(game.player, game.cameraCollision);
-            game.player.Position = new Vector3(0f, 60f, -800f);
             LoadTutorialEnemies();
         }
 
