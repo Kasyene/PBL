@@ -52,26 +52,18 @@ namespace PBLGame
         private float cutsceneDisplayTime;
 
         public GameObject root;
-        GameObject heart;
-        GameObject heart2;
 
         public GameObject refractiveObject;
         public List<Component> updateComponents;
 
         public GameObject player;
         public List<GameObject> enemyList;
-        Model heartModel;
         public Camera camera;
         public GameObject cameraCollision;
         public GameObject MusicGameObject;
 
         private MusicManager musicManager => MusicGameObject.GetComponent<MusicManager>();
 
-        Texture2D heartTexture;
-
-        Effect standardEffect;
-        Effect animatedEffect;
-        Effect refractionEffect;
         Effect outlineEffect;
         SpriteFont dialoguesFont;
         const int shadowMapWidthHeight = 2048;
@@ -115,26 +107,17 @@ namespace PBLGame
                                                     graphics.GraphicsDevice.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
             refractionTarget = new RenderTargetCube(this.GraphicsDevice, shadowMapWidthHeight, true, SurfaceFormat.Color, DepthFormat.Depth24);
 
-
-            standardEffect = Content.Load<Effect>("Standard");
-            animatedEffect = Content.Load<Effect>("StandardAnimated");
-            refractionEffect = Content.Load<Effect>("Refraction");
             outlineEffect = Content.Load<Effect>("Outline");
             outlineEffect.Parameters["ScreenSize"].SetValue(
                new Vector2(GraphicsDevice.Viewport.Bounds.Width, GraphicsDevice.Viewport.Bounds.Height));
             dialoguesFont = Content.Load<SpriteFont>("Dialogues");
 
             skybox = new Skybox("skybox/SkyBox", Content);
-            heartModel = Content.Load<Model>("apteczka");
-            heartTexture = Content.Load<Texture2D>("apteczkaTex");
 
             hpTexture = Content.Load<Texture2D>("hud/paskiZycie");
             timeTexture = Content.Load<Texture2D>("hud/paskiCzas");
             barsFront = Content.Load<Texture2D>("hud/paskiPrzod");
-            barsBack = Content.Load<Texture2D>("hud/paskiTyl");
-
-            heart = new GameObject("Serce");
-            heart2 = new GameObject("Serce");           
+            barsBack = Content.Load<Texture2D>("hud/paskiTyl");        
 
             refractiveObject = new GameObject();
             root.AddChildNode(refractiveObject);
@@ -151,20 +134,6 @@ namespace PBLGame
             pointLights = new List<Lights.PointLight>();
             directionalLight = new Lights.DirectionalLight();
             missingTexture = Content.Load<Texture2D>("Missing");
-
-            // Add static models
-            heart.AddComponent(new ModelComponent(heartModel, standardEffect, heartTexture));
-            heart2.AddComponent(new ModelComponent(heartModel, standardEffect, heartTexture));
-
-            root.AddChildNode(heart);
-            root.AddChildNode(heart2);
-            heart.TransformationsOrder = TransformationOrder.ScalePositionRotation;
-            heart2.TransformationsOrder = TransformationOrder.ScalePositionRotation;
-            heart.Position = new Vector3(15.0f, 4.0f, -10.0f);
-            heart2.Position = new Vector3(-15.0f, 4.0f, -10.0f);
-            heart.Scale = new Vector3(0.4f);
-            heart2.Scale = new Vector3(0.4f);
-
         }
 
         protected override void UnloadContent()
@@ -233,15 +202,12 @@ namespace PBLGame
                 {
                     obj.GetComponent<Pawn>().ObjectSide = Side.Enemy;
                 }
-                heart.SetAsTrigger(new HeartConsumableTrigger(heart));
-                heart2.SetAsTrigger(new HeartConsumableTrigger(heart2));
                 areCollidersAndTriggersSet = true;
             }
 
             // Our Timer Class
             Timer.Update(gameTime);
             inputManager.Update();
-
 
             // Pawns update
             if (areCollidersAndTriggersSet)
