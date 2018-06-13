@@ -193,7 +193,7 @@ namespace PBLGame.Misc
 
         public GameObject LoadRangedEnemy()
         {
-            GameObject rangedEnemy = new GameObject();
+            GameObject rangedEnemy = new GameObject("rangedEnemy");
             GameObject rangedEnemyHat = new GameObject("Hat");
             GameObject rangedEnemyHatWalk = new GameObject("Hat");
             GameObject rangedEnemyLeg = new GameObject("Leg");
@@ -253,7 +253,7 @@ namespace PBLGame.Misc
 
         public GameObject LoadMeleeEnemy()
         {
-            GameObject meleeEnemy = new GameObject();
+            GameObject meleeEnemy = new GameObject("meleeEnemy");
             GameObject meleeEnemyModel = new GameObject("meleeEnemy");
 
             triggers.Add(meleeEnemyModel);
