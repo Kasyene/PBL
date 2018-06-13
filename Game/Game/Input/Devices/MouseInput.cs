@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using Game = Microsoft.Xna.Framework.Game;
 
 namespace PBLGame.Input.Devices
 {
@@ -66,10 +67,12 @@ namespace PBLGame.Input.Devices
         {
             this._lastState = this._state;
             this._state = Mouse.GetState();
-
             this._lastPosition = new Vector2(GameServices.GetService<GraphicsDevice>().Viewport.Width / 2, GameServices.GetService<GraphicsDevice>().Viewport.Height / 2);
             this._currentPosition = new Vector2(this._state.X, this._state.Y);
-            Mouse.SetPosition(GameServices.GetService<GraphicsDevice>().Viewport.Width / 2, GameServices.GetService<GraphicsDevice>().Viewport.Height / 2);
+            if (GameServices.GetService<ShroomGame>().IsActive)
+            {
+                Mouse.SetPosition(GameServices.GetService<GraphicsDevice>().Viewport.Width / 2, GameServices.GetService<GraphicsDevice>().Viewport.Height / 2);
+            }
 
             this.ScrollTotal = this._state.ScrollWheelValue;
             this.ScrollValue = this._state.ScrollWheelValue - this._lastState.ScrollWheelValue;

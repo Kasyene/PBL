@@ -91,6 +91,7 @@ namespace PBLGame
             GameServices.AddService<GraphicsDeviceManager>(graphics);
             GameServices.AddService<Resolution>(resolution);
             GameServices.AddService<ContentLoader>(new ContentLoader(this));
+            GameServices.AddService<ShroomGame>(this);
         }
 
         protected override void LoadContent()
