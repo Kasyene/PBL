@@ -89,27 +89,31 @@ namespace PBLGame.MainGame
                     move.X = move.X / 2f;
                     move.Z = move.Z / 2f;
                 }
-                parentGameObject.Translate(new Vector3((((-move.X) * direction.X) + (move.Z * direction.Y)) * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0f,
-                    ((move.Z * direction.X) + (move.X * direction.Y)) * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds));
-                CheckCollider();
+                Vector3 moveBy = new Vector3((((-move.X) * direction.X) + (move.Z * direction.Y)) * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0f,
+                    ((move.Z * direction.X) + (move.X * direction.Y)) * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds);
+                if (!CheckCollider(moveBy))
+                {
+                    parentGameObject.Translate(moveBy);
+                }
                 isMoving = false;
             }
         }
 
 
-        protected void CheckCollider()
+        protected bool CheckCollider(Vector3 vec = new Vector3())
         {
             foreach (Collider col in parentGameObject.colliders)
             {
                 col.checkIfGrounded();
-                GameObject temp = col.CollisionUpdate();
+                GameObject temp = col.CollisionUpdate(vec);
                 if (temp != null && (temp.tag != "Ground" || temp.Parent.tag != "Ground"))
                 {
-                    parentGameObject.Position = parentGameObject.Position - col.penetrationDepth;
+                    parentGameObject.Position = parentGameObject.Position + (vec - col.penetrationDepth);
+                    return true;
                 }
             }
-
             lastPosition = parentGameObject.Position;
+            return false;
         }
 
 

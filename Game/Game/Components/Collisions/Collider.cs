@@ -56,7 +56,7 @@ namespace PBLGame.SceneGraph
             this.owner = owner;
         }
 
-        public bool IsCollision(Collider other)
+        public bool IsCollision(Collider other, Vector3 vec = new Vector3())
         {
             if (!other.isCollider && !other.isTrigger)
             {
@@ -66,8 +66,12 @@ namespace PBLGame.SceneGraph
             {
                 return false;
             }
-            if (boundingBox.Intersects(other.boundingBox))
+            if (new BoundingBox(this.boundingBox.Min + vec, this.boundingBox.Max + vec).Intersects(other.boundingBox))
             {
+                if (this.owner.tag == "meleeEnemy" && other.owner.tag == "meleeEnemy")
+                {
+
+                }
                 if (other.isTrigger && !other.isCollider) //e.g. player hits trigger
                 {
                     other.owner.GetComponent<Trigger>().OnTrigger(this.owner.Parent);
@@ -98,20 +102,21 @@ namespace PBLGame.SceneGraph
             return false;
         }
 
-        public GameObject CollisionUpdate()
+        public GameObject CollisionUpdate(Vector3 vec = new Vector3())
         {
             List<Collider> triggered = new List<Collider>();
             foreach (Collider col in collidersList)
             {
+
                 if (col != this)
                 {
-                    if (IsCollision(col))
+                    if (IsCollision(col, vec))
                     {
                         if ((this.isCollider && this.isTrigger))
                         {
                             if (this.owner.tag == "meleeEnemy" && col.owner.tag == "meleeEnemy")
                             {
-                                this.penetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
+                                this.penetrationDepth = PenetrationDepth(new BoundingBox(this.boundingBox.Min + vec, this.boundingBox.Max + vec), col.boundingBox);
                                 return col.owner;
                             }
                             if (col.owner.tag != "Ground" && col.owner.tag != "Wall")
@@ -126,7 +131,7 @@ namespace PBLGame.SceneGraph
                             return null;
                         }
 
-                        this.penetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
+                        this.penetrationDepth = PenetrationDepth(new BoundingBox(this.boundingBox.Min + vec, this.boundingBox.Max + vec), col.boundingBox);
                         if (col.owner.tag == "Ground")
                         {
                             if (Math.Abs(this.boundingBox.Min.Y - col.boundingBox.Max.Y) < 5)
