@@ -47,6 +47,7 @@ namespace PBLGame
         private Texture2D barsBack;
         private Texture2D hpTexture;
         private Texture2D timeTexture;
+        private Texture2D icons;
 
         private Texture2D actualCutsceneTexture;
         private float cutsceneDisplayTime;
@@ -118,8 +119,8 @@ namespace PBLGame
             hpTexture = Content.Load<Texture2D>("hud/paskiZycie");
             timeTexture = Content.Load<Texture2D>("hud/paskiCzas");
             barsFront = Content.Load<Texture2D>("hud/paskiPrzod");
-            barsBack = Content.Load<Texture2D>("hud/paskiTyl");        
-
+            barsBack = Content.Load<Texture2D>("hud/paskiTyl");
+            icons = Content.Load<Texture2D>("hud/ikonki");
             refractiveObject = new GameObject();
             root.AddChildNode(refractiveObject);
 
@@ -405,6 +406,7 @@ namespace PBLGame
             spriteBatch.Draw(hpTexture, new Rectangle(20 + (player.GetComponent<Player>().MaxHp -  player.GetComponent<Player>().Hp), graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().Hp * 15, 80), Color.White);
             spriteBatch.Draw(timeTexture, new Rectangle(20 + (10 - player.GetComponent<Player>().GetTimeEnergy()), graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().GetTimeEnergy() * 30, 80), Color.White);
             spriteBatch.Draw(barsFront, new Rectangle(20, graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().MaxHp * 15, 80), Color.White);
+            spriteBatch.Draw(icons, new Rectangle(graphics.GraphicsDevice.Viewport.Width - 380, graphics.GraphicsDevice.Viewport.Height - 120, 400, 120), Color.White);
             spriteBatch.End();
         }
     }
