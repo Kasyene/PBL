@@ -200,18 +200,17 @@ namespace PBLGame.MainGame
             }
 
             // timeEnergy management
-            if (previousTimeEnergyUpdate >= 2.0d)
+            if (previousTimeEnergyUpdate >= 1.0d && timeStop)
             {
+                timeEnergy -= 1;
                 previousTimeEnergyUpdate = 0.0d;
-                if (timeStop)
-                {
-                    timeEnergy -= 1;
-                }
-                else if(timeEnergy < 10)
-                {
-                    timeEnergy += 1;
-                }
             }
+            if (previousTimeEnergyUpdate >= 2.0d && !timeStop && timeEnergy < 10)
+            {
+                timeEnergy += 1;
+                previousTimeEnergyUpdate = 0.0d;
+            }
+
         }
 
         private void SpecialTimeAbilities()
