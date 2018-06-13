@@ -86,7 +86,7 @@ namespace PBLGame.SceneGraph
         public override void Update()
         {
             base.Update();
-            float rotY = RotationY + inputManager.Mouse.PositionsDelta.Y * 0.01f;
+            float rotY = RotationY - inputManager.Mouse.PositionsDelta.Y * 0.00166f; //6x slower than 0.01
             float posZ = PositionZ + inputManager.Mouse.ScrollValue * 0.1f; ;
             if(posZ > minZoom && posZ <  maxZoom)
             {
