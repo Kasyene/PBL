@@ -102,16 +102,41 @@ namespace PBLGame.MainGame
                 movement.X += playerSpeed;
             }
 
-            if (movement != Vector3.Zero)
+            if (parentGameObject.isGrounded && inputManager.Keyboard[Keys.Space] && playerHat.GetComponent<AnimationManager>().isReady)
             {
-                if (playerHat.GetComponent<AnimationManager>().defaultKey != "walk")
+                if (!isJumping)
                 {
-                    playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
-                    playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
+                    isJumping = true;
+                    playerLeg.GetComponent<AnimationManager>().PlayAnimation("jumpStart",true);
+                    playerHat.GetComponent<AnimationManager>().PlayAnimation("jumpStart",true);
+                    playerLeg.GetComponent<AnimationManager>().PlayAnimation("jumpLand");
+                    playerHat.GetComponent<AnimationManager>().PlayAnimation("jumpLand");
                 }
+            }
+
+
+            if (!isJumping && parentGameObject.isGrounded)
+            {
+                if (movement != Vector3.Zero)
+                {
+                    if (playerHat.GetComponent<AnimationManager>().defaultKey != "walk")
+                    {
+                        playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
+                        playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
+                    }
+                }
+                else
+                {
+                    if (playerHat.GetComponent<AnimationManager>().defaultKey != "idle")
+                    {
+                        playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
+                        playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
+                    }
+                } 
             }
             else
             {
+                //TODO: FIX JUMP FALLING ANIMATION OR LEAVE IT IN PEACE
                 if (playerHat.GetComponent<AnimationManager>().defaultKey != "idle")
                 {
                     playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
@@ -120,11 +145,6 @@ namespace PBLGame.MainGame
             }
 
             Move(movement);
-
-            if (parentGameObject.isGrounded && inputManager.Keyboard[Keys.Space])
-            {
-                isJumping = true;
-            }
 
             Rotate(inputManager.Mouse.PositionsDelta.X * 0.01f);
         }

@@ -165,6 +165,18 @@ namespace PBLGame.Misc
             playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaRzutKapeluszem", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpAttack2");
             playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszRzutKapeluszem", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpAttack2");
 
+            // JUMP START
+            playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaSkok1", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpStart");
+            playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszSkok1", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpStart");
+
+            // JUMP FALL
+            playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaSkok2", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpFall");
+            playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszSkok2", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpFall");
+
+            // JUMP LAND
+            playerLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaSkok3", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpLand");
+            playerHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszSkok3", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpLand");
+
             // TODO: ANIM LOAD SYSTEM / SELECTOR
             playerHat.GetComponent<AnimationManager>().PlayAnimation("idle");
             playerLeg.GetComponent<AnimationManager>().PlayAnimation("idle");
