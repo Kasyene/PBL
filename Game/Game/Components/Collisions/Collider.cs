@@ -116,7 +116,7 @@ namespace PBLGame.SceneGraph
                     {
                         if ((this.isCollider && this.isTrigger))
                         {
-                            if (col.owner.tag != "Ground" && col.owner.tag != "Wall")
+                           if (col.owner.tag != "Ground" && col.owner.tag != "Wall" && (this.owner.tag != "meleeEnemy" || col.owner.tag != "meleeEnemy"))
                             {
                                 this.owner.GetComponent<HitTrigger>().OnTrigger(col.owner.Parent);
                             }
