@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Game.Misc.Time;
 using Microsoft.Xna.Framework;
@@ -44,37 +45,35 @@ namespace PBLGame.MainGame
 
         public override void Update(GameTime time)
         {
-            CheckCollider();
-            if (!parentGameObject.isGrounded && gravityWorking)
+            if (Timer.gameTime.TotalGameTime.TotalSeconds > 2)
             {
-                AccelerationDueToGravity = -0.12f;
-                parentGameObject.Translate(new Vector3(0.0f,
-                    AccelerationDueToGravity * (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0.0f));
-            }
-
-            if (!gravityWorking && Timer.gameTime.TotalGameTime.Seconds > 2 && Timer.gameTime.TotalGameTime.Seconds < 4)
-            {
-                gravityWorking = true;
-            }
-
-            if (!isJumping)
-            {
-                positionYBeforeJump = parentGameObject.PositionY;
-            }
-
-            if (isJumping)
-            {
-                parentGameObject.Translate(new Vector3(0.0f,
-                    0.20f * (float) Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0.0f));
-                if (parentGameObject.PositionY > positionYBeforeJump + 75.0f)
+                CheckCollider();
+                if (!parentGameObject.isGrounded)
                 {
-                    isJumping = false;
+                    AccelerationDueToGravity = -0.12f;
+                    parentGameObject.Translate(new Vector3(0.0f,
+                        AccelerationDueToGravity * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0.0f));
                 }
+
+                if (!isJumping)
+                {
+                    positionYBeforeJump = parentGameObject.PositionY;
+                }
+
+                if (isJumping)
+                {
+                    parentGameObject.Translate(new Vector3(0.0f,
+                        0.20f * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0.0f));
+                    if (parentGameObject.PositionY > positionYBeforeJump + 75.0f)
+                    {
+                        isJumping = false;
+                    }
+                }
+
+                parentGameObject.OnTransformationsSet();
+
+                base.Update(time);
             }
-
-            parentGameObject.OnTransformationsSet();
-
-            base.Update(time);
         }
 
         protected void Move(Vector3 move)
@@ -105,8 +104,8 @@ namespace PBLGame.MainGame
             foreach (Collider col in parentGameObject.colliders)
             {
                 col.checkIfGrounded();
-                GameObject temp = col.CollisionUpdate(vec);
-                if (temp != null && (temp.tag != "Ground" || temp.Parent.tag != "Ground"))
+                List<GameObject> temp = col.CollisionUpdate(vec);
+                if (temp.Count > 0)
                 {
                     parentGameObject.Position = parentGameObject.Position + (vec - col.penetrationDepth);
                     return true;

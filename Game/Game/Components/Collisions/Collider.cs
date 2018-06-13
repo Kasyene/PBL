@@ -102,8 +102,10 @@ namespace PBLGame.SceneGraph
             return false;
         }
 
-        public GameObject CollisionUpdate(Vector3 vec = new Vector3())
+        public List<GameObject> CollisionUpdate(Vector3 vec = new Vector3())
         {
+            penetrationDepth = new Vector3(0.0f);
+            List<GameObject> collided = new List<GameObject>();
             List<Collider> triggered = new List<Collider>();
             foreach (Collider col in collidersList)
             {
@@ -114,43 +116,42 @@ namespace PBLGame.SceneGraph
                     {
                         if ((this.isCollider && this.isTrigger))
                         {
-                            if (this.owner.tag == "meleeEnemy" && col.owner.tag == "meleeEnemy")
-                            {
-                                this.penetrationDepth = PenetrationDepth(new BoundingBox(this.boundingBox.Min + vec, this.boundingBox.Max + vec), col.boundingBox);
-                                return col.owner;
-                            }
                             if (col.owner.tag != "Ground" && col.owner.tag != "Wall")
                             {
                                 this.owner.GetComponent<HitTrigger>().OnTrigger(col.owner.Parent);
-                                return null;
                             }
-                        }
-
-                        if (col.isCollider && col.isTrigger && col.owner.tag != "meleeEnemy")
-                        {
-                            return null;
-                        }
-
-                        this.penetrationDepth = PenetrationDepth(new BoundingBox(this.boundingBox.Min + vec, this.boundingBox.Max + vec), col.boundingBox);
-                        if (col.owner.tag == "Ground")
-                        {
-                            if (Math.Abs(this.boundingBox.Min.Y - col.boundingBox.Max.Y) < 5)
+                            else
                             {
-                                this.penetrationDepth.X = 0.0f;
-                                this.penetrationDepth.Z = 0.0f;
-                                this.penetrationDepth.Y = 0.0f;
+                                this.penetrationDepth += PenetrationDepth(new BoundingBox(this.boundingBox.Min + vec, this.boundingBox.Max + vec), col.boundingBox);
+                                collided.Add(col.owner);
                             }
-                            this.owner.Parent.Position = this.owner.Parent.Position - this.penetrationDepth;
                         }
                         else
                         {
-                            this.penetrationDepth.Y = 0.0f;
-                            return col.owner;
+                            if (col.isCollider && col.isTrigger && col.owner.tag != "meleeEnemy")
+                            {
+                                // do nothing
+                            }
+                            else
+                            {
+                                this.penetrationDepth += PenetrationDepth(new BoundingBox(this.boundingBox.Min + vec, this.boundingBox.Max + vec), col.boundingBox);
+                                if (col.owner.tag == "Ground")
+                                {
+                                    if (Math.Abs(this.boundingBox.Min.Y - col.boundingBox.Max.Y) > 5)
+                                    {
+                                        this.owner.Parent.Position = this.owner.Parent.Position - this.penetrationDepth;
+                                    }
+                                }
+                                else
+                                {
+                                    //this.penetrationDepth.Y = 0.0f; NAPRAWIC 
+                                    collided.Add(col.owner);
+                                }
+                            }
                         }
                     }
                     else
                     {
-
                         if (col.isReadyToBeDisposed)
                         {
                             triggered.Add(col);
@@ -163,7 +164,8 @@ namespace PBLGame.SceneGraph
             {
                 collidersList.Remove(trig);
             }
-            return null;
+
+            return collided;
         }
 
         public void checkIfGrounded()

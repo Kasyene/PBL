@@ -80,8 +80,8 @@ namespace PBLGame
             resolution = new Resolution();
             graphics.PreferredBackBufferHeight = 768;
             graphics.PreferredBackBufferWidth = 1366;
-            actualGameState = GameState.LevelTutorial;
-            //actualGameState = GameState.LevelOne;
+            //actualGameState = GameState.LevelTutorial;
+            actualGameState = GameState.LevelOne;
             root = new GameObject();
         }
 
@@ -298,13 +298,13 @@ namespace PBLGame
             cutsceneDisplayTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (cutsceneDisplayTime < 0f || actualCutsceneTexture == null)
             {
-                Cutscene cutscene = Cutscene.GetActualCutscene();
+/*                Cutscene cutscene = Cutscene.GetActualCutscene();
                 if(cutscene != null)
                 {
                     actualCutsceneTexture = cutscene.texture;
                     cutsceneDisplayTime = cutscene.time;
-                }
-                else
+                }*/
+                //else
                 {
                     actualCutsceneTexture = null;
                 }
