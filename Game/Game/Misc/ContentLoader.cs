@@ -14,6 +14,8 @@ using Game.Components.Pawns.Enemies;
 using Game.Components.Enemies;
 using Game.Components;
 using Game.MainGame;
+using Game.Components.Coliisions;
+using Game.Components.MapElements;
 
 namespace PBLGame.Misc
 {
@@ -593,6 +595,13 @@ namespace PBLGame.Misc
             ModelComponent modelPlat1 = new ModelComponent(platforma1, standardEffect, hierarchiaStrefa1Tex, hierarchiaStrefa1Normal);
             plat1.AddComponent(modelPlat1);
             mapRoot.AddChildNode(plat1);
+
+            GameObject tutTrigger = new GameObject();
+            TutorialTrigger trigger = new TutorialTrigger(tutTrigger, position + new Vector3(-40f, 10f, -100f), position + new Vector3(40f, 100f, -140f));
+            tutTrigger.AddComponent(trigger);
+            tutTrigger.SetAsTrigger();
+            mapRoot.AddChildNode(tutTrigger);
+
 
             List<GameObject> list = new List<GameObject>();
             list.Add(plat1);

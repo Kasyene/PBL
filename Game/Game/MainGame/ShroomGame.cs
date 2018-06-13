@@ -79,8 +79,8 @@ namespace PBLGame
             resolution = new Resolution();
             graphics.PreferredBackBufferHeight = 768;
             graphics.PreferredBackBufferWidth = 1366;
-            //actualGameState = GameState.LevelTutorial;
-            actualGameState = GameState.LevelOne;
+            actualGameState = GameState.LevelTutorial;
+            //actualGameState = GameState.LevelOne;
             root = new GameObject();
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PBLGame.SceneGraph;
+using Game.Components.MapElements;
 
 namespace Game.Components.Collisions
 {

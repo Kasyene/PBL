@@ -57,6 +57,7 @@
     <Compile Include="Components\MapElements\GateComponent.cs" />
     <Compile Include="Components\MapElements\LeverComponent.cs" />
     <Compile Include="Components\MapElements\PlatformComponent.cs" />
+    <Compile Include="Components\Collisions\TutorialTrigger.cs" />
     <Compile Include="Components\Pawns\Enemies\Bullet.cs" />
     <Compile Include="Components\Pawns\Enemies\Enemy.cs" />
     <Compile Include="Components\Pawns\Enemies\MeleeEnemy.cs" />
