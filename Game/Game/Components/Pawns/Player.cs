@@ -107,8 +107,12 @@ namespace PBLGame.MainGame
                 if (!isJumping)
                 {
                     isJumping = true;
+                    playerLeg.GetComponent<AnimationManager>().SetPlaybackMultiplier(0.7f);
+                    playerHat.GetComponent<AnimationManager>().SetPlaybackMultiplier(0.7f);
                     playerLeg.GetComponent<AnimationManager>().PlayAnimation("jumpStart",true);
                     playerHat.GetComponent<AnimationManager>().PlayAnimation("jumpStart",true);
+                    playerLeg.GetComponent<AnimationManager>().SetPlaybackMultiplier(0.8f);
+                    playerHat.GetComponent<AnimationManager>().SetPlaybackMultiplier(0.8f);
                     playerLeg.GetComponent<AnimationManager>().PlayAnimation("jumpLand");
                     playerHat.GetComponent<AnimationManager>().PlayAnimation("jumpLand");
                 }
@@ -172,6 +176,7 @@ namespace PBLGame.MainGame
                     default:
                         break;
                 }
+
                 count = (count + 1) % 3;
             }
 

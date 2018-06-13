@@ -14,9 +14,11 @@ namespace PBLGame.Misc.Anim
         private bool isLooping = false;
         private bool isAnimationUpdated = true;
         private bool isStoped = false;
+        private bool isMultiplierDequeued = true;
 
         public float EstimatedTime { get; private set; }
         public int AnimID { get; private set; }
+        private int previousAnimID = -1;
 
         public bool isReady { get; set; }
 
@@ -25,6 +27,7 @@ namespace PBLGame.Misc.Anim
         private string currentKey;
 
         private Queue<string> animQueue = new Queue<string>();
+        private Queue<float> multiplierQueue = new Queue<float>();
 
         private AnimationPlayer animationPlayer;
 
@@ -107,7 +110,7 @@ namespace PBLGame.Misc.Anim
 
         public void SetPlaybackMultiplier(float multiplier = 1.0f)
         {
-            animationPlayer?.SetMultiplier(multiplier);
+            multiplierQueue.Enqueue(multiplier);
         }
 
         public override void Update(GameTime gameTime)
@@ -123,6 +126,8 @@ namespace PBLGame.Misc.Anim
                         animationPlayer.SetMultiplier();
                     }
 
+                    isMultiplierDequeued = false;
+
                     AnimID = (AnimID + 1) % Int32.MaxValue;
 
                     isReady = true;
@@ -132,13 +137,19 @@ namespace PBLGame.Misc.Anim
                        currentKey = animQueue.Dequeue();
                        animationClip = animationClips[currentKey];
                        
-                        animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClip);
+                       animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClip);
                     }
                     else
                     {
-                        currentKey = null;
-                        animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClipDefault);
+                       currentKey = null;
+                       animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClipDefault);
                     }
+                }
+
+                if (multiplierQueue.Count > 0)
+                {
+                    animationPlayer?.SetMultiplier(multiplierQueue.Dequeue());
+                    isMultiplierDequeued = true;
                 }
             }
            
