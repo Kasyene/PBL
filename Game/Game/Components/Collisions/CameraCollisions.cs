@@ -13,7 +13,8 @@ namespace Game.Components.Collisions
 {
     class CameraCollisions : Trigger
     {
-        short[] bBoxIndices = {
+        short[] bBoxIndices =
+        {
             0, 1, 1, 2, 2, 3, 3, 0, // Front edges
             4, 5, 5, 6, 6, 7, 7, 4, // Back edges
             0, 4, 1, 5, 2, 6, 3, 7 // Side edges connecting front and back
@@ -28,12 +29,14 @@ namespace Game.Components.Collisions
         {
             return camera <= player ? camera : player;
         }
+
         private float setMaxValue(float camera, float player)
         {
             return camera <= player ? player : camera;
         }
 
-        public override BoundingBox GetBoundingBox(GameObject parent, Matrix localTransformations, Matrix worldTransformations)
+        public override BoundingBox GetBoundingBox(GameObject parent, Matrix localTransformations,
+            Matrix worldTransformations)
         {
             Vector3 cameraPosition = GameServices.GetService<Camera>().GetWorldPosition();
             Vector3 playerPos = GameServices.GetService<GameObject>().Position;
@@ -54,14 +57,13 @@ namespace Game.Components.Collisions
             {
                 GameServices.GetService<Camera>().Scroll(1.0f);
             }
-            base.OnTrigger(triggered);
         }
 
-        public void DrawBoundingBox(GameObject parent, Matrix localTransformations, Matrix worldTransformations, Camera camera)
+        public void DrawBoundingBox(GameObject parent, Matrix localTransformations, Matrix worldTransformations,
+            Camera camera)
         {
             if (System.Diagnostics.Debugger.IsAttached)
             {
-
                 BasicEffect lineEffect = new BasicEffect(GameServices.GetService<GraphicsDevice>());
 
                 BoundingBox box = GetBoundingBox(parent, localTransformations, worldTransformations);
@@ -88,7 +90,8 @@ namespace Game.Components.Collisions
             }
         }
 
-        public override void Draw(GameObject parent, Camera camera, Matrix localTransformations, Matrix worldTransformations, bool createShadowMap = false)
+        public override void Draw(GameObject parent, Camera camera, Matrix localTransformations,
+            Matrix worldTransformations, bool createShadowMap = false)
         {
             //DrawBoundingBox(parent, localTransformations, worldTransformations, camera);   
         }
