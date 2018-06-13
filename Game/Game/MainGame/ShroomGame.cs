@@ -219,12 +219,12 @@ namespace PBLGame
                 player.Update();
                 player.Update(gameTime);
                 outlineEffect.Parameters["TimeStop"].SetValue(GameServices.GetService<GameObject>().GetComponent<Player>().timeStop);
+                foreach (GameObject obj in enemyList)
+                {
+                    obj.Update(gameTime);
+                }
                 if (!GameServices.GetService<GameObject>().GetComponent<Player>().timeStop)
                 {
-                    foreach (GameObject obj in enemyList)
-                    {
-                        obj.Update(gameTime);
-                    }
                     foreach (Component comp in updateComponents)
                     {
                         comp.Update(gameTime);

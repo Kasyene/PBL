@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using PBLGame.MainGame;
 using PBLGame.Misc.Anim;
 using PBLGame.SceneGraph;
 
@@ -71,20 +72,29 @@ namespace Game.Components.Pawns.Enemies
 
         public override void Update(GameTime time)
         {
+            base.Update(time);
             if (!isDead)
             {
-                base.Update(time);
-                for (int i = bullets.Count - 1; i >= 0; i--)
+                if (!GameServices.GetService<GameObject>().GetComponent<Player>().timeStop)
                 {
-                    if (bullets[i].Parent == null)
+                    for (int i = bullets.Count - 1; i >= 0; i--)
                     {
-                        bullets.RemoveAt(i);
-                    }
-                    else
-                    {
-                        bullets[i].Update(time);
+                        if (bullets[i].Parent == null)
+                        {
+                            bullets.RemoveAt(i);
+                        }
+                        else
+                        {
+                            bullets[i].Update(time);
+                        }
                     }
                 }
+                else
+                {
+                    enemyHat.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
+                    enemyLeg.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
+                }
+                    
             }
 
         }

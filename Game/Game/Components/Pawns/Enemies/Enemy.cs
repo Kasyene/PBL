@@ -44,11 +44,14 @@ namespace Game.Components
         {
             if (!isDead)
             {
-                audioComponent.Update(time);
-                base.Update(time);
-                lastAttack += (time.ElapsedGameTime.TotalMilliseconds / 1000.0d);
                 CheckIfDead();
-                EnemyBehaviour();
+                if (!GameServices.GetService<GameObject>().GetComponent<Player>().timeStop)
+                {
+                    audioComponent.Update(time);
+                    base.Update(time);
+                    lastAttack += (time.ElapsedGameTime.TotalMilliseconds / 1000.0d);
+                    EnemyBehaviour();
+                }
             }
         }
 

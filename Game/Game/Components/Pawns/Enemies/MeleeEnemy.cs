@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Game.Components.Collisions;
 using Microsoft.Xna.Framework;
+using PBLGame.MainGame;
 using PBLGame.Misc.Anim;
 using PBLGame.SceneGraph;
 
@@ -50,6 +51,20 @@ namespace Game.Components.Enemies
                 enemyModel.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
             }
             Move(new Vector3(0f, 0f, enemySpeed));
+        }
+
+        public override void Update(GameTime time)
+        {
+            base.Update(time);
+            if (!isDead)
+            {
+                if (GameServices.GetService<GameObject>().GetComponent<Player>().timeStop)
+                {
+                    enemyModel.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
+                }
+
+            }
+
         }
 
         protected override void Attack()
