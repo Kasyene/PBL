@@ -50,7 +50,7 @@ namespace PBLGame.MainGame
                 CheckCollider();
                 if (!parentGameObject.isGrounded)
                 {
-                    AccelerationDueToGravity = -0.12f;
+                    AccelerationDueToGravity = -0.15f;
                     parentGameObject.Translate(new Vector3(0.0f,
                         AccelerationDueToGravity * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0.0f));
                 }
@@ -63,7 +63,7 @@ namespace PBLGame.MainGame
                 if (isJumping)
                 {
                     parentGameObject.Translate(new Vector3(0.0f,
-                        0.20f * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0.0f));
+                        0.25f * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0.0f));
                     if (parentGameObject.PositionY > positionYBeforeJump + 75.0f)
                     {
                         isJumping = false;
