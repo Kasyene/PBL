@@ -46,16 +46,17 @@
   <ItemGroup>
     <Compile Include="Components\Audio\AudioComponent.cs" />
     <Compile Include="Components\Audio\MusicManager.cs" />
-    <Compile Include="Components\BridgeComponent.cs" />
     <Compile Include="Components\Collisions\CameraCollisions.cs" />
     <Compile Include="Components\Collisions\ConsumableTrigger.cs" />
     <Compile Include="Components\Collisions\HeartConsumableTrigger.cs" />
     <Compile Include="Components\Collisions\LeverTrigger.cs" />
     <Compile Include="Components\Collisions\RopeCutConsumableTrigger.cs" />
     <Compile Include="Components\Collisions\Trigger.cs" />
-    <Compile Include="Components\GateComponent.cs" />
     <Compile Include="Components\Collisions\HitTrigger.cs" />
-    <Compile Include="Components\LeverComponent.cs" />
+    <Compile Include="Components\MapElements\BridgeComponent.cs" />
+    <Compile Include="Components\MapElements\GateComponent.cs" />
+    <Compile Include="Components\MapElements\LeverComponent.cs" />
+    <Compile Include="Components\MapElements\PlatformComponent.cs" />
     <Compile Include="Components\Pawns\Enemies\Bullet.cs" />
     <Compile Include="Components\Pawns\Enemies\Enemy.cs" />
     <Compile Include="Components\Pawns\Enemies\MeleeEnemy.cs" />
@@ -65,7 +66,6 @@
     <Compile Include="Components\Pawns\Enemies\RangedEnemy.cs" />
     <Compile Include="Components\Pawns\Pawn.cs" />
     <Compile Include="Components\Pawns\Player.cs" />
-    <Compile Include="Components\PlatformComponent.cs" />
     <Compile Include="Input\Devices\KeyboardInput.cs" />
     <Compile Include="Input\Devices\KeyboardKey.cs" />
     <Compile Include="Input\Devices\SupportedMouseButtons.cs" />
