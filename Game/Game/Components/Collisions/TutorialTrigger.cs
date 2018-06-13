@@ -34,7 +34,6 @@ namespace Game.Components.Coliisions
                 System.Diagnostics.Debug.WriteLine("Triggered by player!!!");
             }
             System.Diagnostics.Debug.WriteLine("Triggered!!!");
-            base.OnTrigger(triggered);
         }
 
         public override BoundingBox GetBoundingBox(GameObject parent, Matrix localTransformations, Matrix worldTransformations)

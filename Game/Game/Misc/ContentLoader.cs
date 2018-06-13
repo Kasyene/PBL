@@ -596,9 +596,10 @@ namespace PBLGame.Misc
             plat1.AddComponent(modelPlat1);
             mapRoot.AddChildNode(plat1);
 
-            GameObject tutTrigger = new GameObject();
+            GameObject tutTrigger = new GameObject("tutTrigger");
             TutorialTrigger trigger = new TutorialTrigger(tutTrigger, position + new Vector3(-40f, 10f, -100f), position + new Vector3(40f, 100f, -140f));
             tutTrigger.AddComponent(trigger);
+            tutTrigger.CreateColliders();
             tutTrigger.SetAsTrigger();
             mapRoot.AddChildNode(tutTrigger);
 

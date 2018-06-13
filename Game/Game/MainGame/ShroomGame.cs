@@ -195,7 +195,7 @@ namespace PBLGame
 
             if (!areCollidersAndTriggersSet)
             {
-                root.CreateColliders();
+                root.CreateColliders();       
                 cameraCollision.SetAsTrigger();
                 GameServices.GetService<ContentLoader>().SetAsColliderAndTrigger();
                 player.GetComponent<Pawn>().ObjectSide = Side.Player;

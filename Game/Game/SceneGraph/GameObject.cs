@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Game.Components.Coliisions;
 using Game.Components.Collisions;
 using Microsoft.Xna.Framework.Graphics;
 using PBLGame.MainGame;
@@ -400,7 +401,7 @@ namespace PBLGame.SceneGraph
         {
             foreach (Component component in components)
             {
-                if(component.GetType() == typeof(ModelComponent) || component.GetType() == typeof(ModelAnimatedComponent) || component.GetType() == typeof(CameraCollisions))
+                if(component.GetType() == typeof(ModelComponent) || component.GetType() == typeof(ModelAnimatedComponent) || component.GetType() == typeof(CameraCollisions) || component.GetType() == typeof(TutorialTrigger))
                 {
                     bool duplikat = false;
                     BoundingBox currBox = component.GetBoundingBox(this, localTransform, worldTransform);
@@ -421,10 +422,13 @@ namespace PBLGame.SceneGraph
                     {
                         duplikat = false;
                     }
-                    
-                    if (this.parent.CheckIfPawn())
+
+                    if (this.parent != null)
                     {
-                        this.parent.colliders.Add(a);
+                        if (this.parent.CheckIfPawn())
+                        {
+                            this.parent.colliders.Add(a);
+                        }
                     }
                     break;
                 }
