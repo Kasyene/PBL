@@ -67,6 +67,12 @@ namespace Game.Components.Enemies
 
         }
 
+        public override void ReceiveHit()
+        {
+            base.ReceiveHit();
+            enemyModel.GetComponent<AnimationManager>().PlayAnimation("gotHit", true);
+        }
+
         protected override void Attack()
         {
             lastAttack = 0.0d;

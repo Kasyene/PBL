@@ -2821,3 +2821,9 @@
 /processorParam:TextureFormat=Compressed
 /build:models/player/borowikNozkaSkok3.FBX
 
+#begin audio/sfx/hit_mono.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/hit_mono.wav
+

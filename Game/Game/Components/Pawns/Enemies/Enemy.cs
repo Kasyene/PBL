@@ -112,5 +112,10 @@ namespace Game.Components
             parentGameObject.Dispose();
         }
 
+        public override void ReceiveHit()
+        {
+            base.ReceiveHit();
+            audioComponent?.PlaySound("hit");
+        }
     }
 }

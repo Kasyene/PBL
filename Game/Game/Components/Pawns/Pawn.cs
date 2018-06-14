@@ -121,6 +121,11 @@ namespace PBLGame.MainGame
             parentGameObject.RotationZ += angle;
         }
 
+        public virtual void ReceiveHit()
+        {
+
+        }
+
         protected void LookAtTarget(Vector3 targetPosition, Vector3 position)
         {
             float x = position.X - targetPosition.X;

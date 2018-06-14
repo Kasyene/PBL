@@ -78,9 +78,12 @@ namespace PBLGame.Misc.Anim
             if (forceChange)
             {
                 // TODO: FINISH CODE FOR SPECIFIC CASE SCENARIO
-                float tempPeek = multiplierQueue.Peek();
-                multiplierQueue.Clear();
-                multiplierQueue.Enqueue(tempPeek);
+                if (multiplierQueue.Count > 0)
+                {
+                    float tempPeek = multiplierQueue.Dequeue();
+                    multiplierQueue.Clear();
+                    multiplierQueue.Enqueue(tempPeek);
+                }
                 animQueue.Clear();
                 animationPlayer.Stop();
                 PlayAnimation(_key);

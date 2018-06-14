@@ -137,5 +137,12 @@ namespace Game.Components.Pawns.Enemies
             }
             base.Dispose();
         }
+
+        public override void ReceiveHit()
+        {
+            base.ReceiveHit();
+            enemyHat.GetComponent<AnimationManager>().PlayAnimation("gotHit", true);
+            enemyLeg.GetComponent<AnimationManager>().PlayAnimation("gotHit", true);
+        }
     }
 }

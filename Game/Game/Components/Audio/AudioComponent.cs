@@ -121,6 +121,7 @@ namespace Game.Components.Audio
         {
             // TEST SOUND
             soundEffects.Add("roblox", contentManager.Load<SoundEffect>("audio/sfx/roblox_mono"));
+            soundEffects.Add("hit", contentManager.Load<SoundEffect>("audio/sfx/hit_mono"));
             base.LoadContent(contentManager);
         }
 
