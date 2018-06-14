@@ -11,6 +11,7 @@ using PBLGame.SceneGraph;
 using Game.Components.Collisions;
 using Game.MainGame;
 using PBLGame.Misc;
+using System;
 
 namespace PBLGame
 {
@@ -36,14 +37,13 @@ namespace PBLGame
             START_BUTTON_INDEX = 0,
             OPTIONS_BUTTON_INDEX = 1,
             CREDITS_BUTTON_INDEX = 2,
-            EXIT_BUTTON_INDEX = 3,
-            BUTTON_HEIGHT = 80,
-            BUTTON_WIDTH = 150;
+            EXIT_BUTTON_INDEX = 3;
         Color background_color;
         Color[] button_color = new Color[NUMBER_OF_BUTTONS];
         Rectangle[] button_rectangle = new Rectangle[NUMBER_OF_BUTTONS];
         BState[] button_state = new BState[NUMBER_OF_BUTTONS];
         Texture2D[] button_texture = new Texture2D[NUMBER_OF_BUTTONS];
+        Texture2D menuTexture;
         double[] button_timer = new double[NUMBER_OF_BUTTONS];
         //mouse pressed and mouse just pressed
         bool mpressed, prev_mpressed = false;
@@ -108,19 +108,38 @@ namespace PBLGame
             graphics.PreferredBackBufferHeight = 768;
             graphics.PreferredBackBufferWidth = 1366;
             //actualGameState = GameState.LevelTutorial;
-            actualGameState = GameState.LevelOne;
-            //actualGameState = GameState.MainMenu;
+            //actualGameState = GameState.LevelOne;
+            actualGameState = GameState.MainMenu;
             root = new GameObject();
         }
 
         protected override void Initialize()
         {
+            CalcButtonSize();
+            IsMouseVisible = true;
+            background_color = Color.CornflowerBlue;
             base.Initialize();
             GameServices.AddService<GraphicsDevice>(GraphicsDevice);
             GameServices.AddService<GraphicsDeviceManager>(graphics);
             GameServices.AddService<Resolution>(resolution);
             GameServices.AddService<ContentLoader>(new ContentLoader(this));
             GameServices.AddService<ShroomGame>(this);
+        }
+
+        private void CalcButtonSize()
+        {
+            int BUTTON_HEIGHT = Window.ClientBounds.Height / 9;
+            int BUTTON_WIDTH = Window.ClientBounds.Width / 4 ;
+            int x = Window.ClientBounds.Width / 2 - BUTTON_WIDTH / 2;
+            int y = (Window.ClientBounds.Height / 2 - NUMBER_OF_BUTTONS / 2 * BUTTON_HEIGHT - (NUMBER_OF_BUTTONS % 2) * BUTTON_HEIGHT / 2) + BUTTON_HEIGHT;
+            for (int i = 0; i < NUMBER_OF_BUTTONS; i++)
+            {
+                button_state[i] = BState.UP;
+                button_color[i] = Color.White;
+                button_timer[i] = 0.0;
+                button_rectangle[i] = new Rectangle(x, y, BUTTON_WIDTH, BUTTON_HEIGHT);
+                y += BUTTON_HEIGHT + 20;
+            }
         }
 
         protected override void LoadContent()
@@ -141,6 +160,12 @@ namespace PBLGame
             outlineEffect.Parameters["ScreenSize"].SetValue(
                new Vector2(GraphicsDevice.Viewport.Bounds.Width, GraphicsDevice.Viewport.Bounds.Height));
             dialoguesFont = Content.Load<SpriteFont>("Dialogues");
+
+            menuTexture = Content.Load<Texture2D>("Menus/menuTlo");
+            button_texture[START_BUTTON_INDEX] = Content.Load<Texture2D>("Menus/menuStart");
+            button_texture[OPTIONS_BUTTON_INDEX] = Content.Load<Texture2D>("Menus/menuOptions");
+            button_texture[CREDITS_BUTTON_INDEX] = Content.Load<Texture2D>("Menus/menuCredits");
+            button_texture[EXIT_BUTTON_INDEX] = Content.Load<Texture2D>("Menus/menuExit");
 
             skybox = new Skybox("skybox/SkyBox", Content);
 
@@ -197,6 +222,7 @@ namespace PBLGame
                 resolution.SetResolution(1920, 1080);
                 screenRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, graphics.GraphicsDevice.Viewport.Width,
                                                    graphics.GraphicsDevice.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
+                CalcButtonSize();
             }
 
             Resources.CameraVector3 = camera.Position;
@@ -298,6 +324,7 @@ namespace PBLGame
             switch(actualGameState)
             {
                 case GameState.MainMenu:
+                    DrawMenu(gameTime);
                     break;
 
                 case GameState.LevelTutorial:
@@ -310,6 +337,20 @@ namespace PBLGame
                     DrawText(gameTime);
                     break;
             }
+            base.Draw(gameTime);
+        }
+
+        private void DrawMenu(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(background_color);
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(menuTexture, new Rectangle(new Point(0, 0), new Point(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight)), Color.White);
+            for (int i = 0; i < NUMBER_OF_BUTTONS; i++)
+            { 
+                spriteBatch.Draw(button_texture[i], button_rectangle[i], button_color[i]);
+            }
+            spriteBatch.End();
             base.Draw(gameTime);
         }
 
