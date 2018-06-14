@@ -59,7 +59,7 @@ namespace PBLGame.Misc.Anim
         {
             animQueue.Clear();
             currentKey = null;
-            animationPlayer.Stop();
+            animationPlayer?.Stop();
             AnimID = (AnimID + 1) % Int32.MaxValue;
         }
 

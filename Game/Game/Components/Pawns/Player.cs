@@ -272,6 +272,8 @@ namespace PBLGame.MainGame
                 rWasPressed = false;
                 timeEnergy -= 3;
                 this.parentGameObject.Position = new Vector3((this.playerHat.GetBoundingBox().Min.X + this.playerHat.GetBoundingBox().Max.X) / 2.0f, playerPositionYBeforeThrow, (this.playerHat.GetBoundingBox().Min.Z + this.playerHat.GetBoundingBox().Max.Z) / 2.0f);
+                playerHat.GetComponent<AnimationManager>().AnimationBreak();
+                playerLeg.GetComponent<AnimationManager>().AnimationBreak();
                 playerHat.GetComponent<AnimationManager>().PlayAnimation("idle", true);
                 playerLeg.GetComponent<AnimationManager>().PlayAnimation("idle", true);
             }
