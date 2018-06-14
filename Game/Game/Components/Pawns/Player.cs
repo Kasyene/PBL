@@ -34,6 +34,7 @@ namespace PBLGame.MainGame
         private float timeSkillsDelay = 150;
         private double timeOfPress = 0;
         private float playerPositionYBeforeThrow;
+        private int tempCount = 0;
 
         public Player(GameObject parent) : base()
         {
@@ -108,12 +109,12 @@ namespace PBLGame.MainGame
                 if (!isJumping)
                 {
                     isJumping = true;
-                    playerLeg.GetComponent<AnimationManager>().SetPlaybackMultiplier(0.7f);
-                    playerHat.GetComponent<AnimationManager>().SetPlaybackMultiplier(0.7f);
+                    playerLeg.GetComponent<AnimationManager>().SetPlaybackMultiplier(0.9f);
+                    playerHat.GetComponent<AnimationManager>().SetPlaybackMultiplier(0.9f);
                     playerLeg.GetComponent<AnimationManager>().PlayAnimation("jumpStart",true);
                     playerHat.GetComponent<AnimationManager>().PlayAnimation("jumpStart",true);
-                    playerLeg.GetComponent<AnimationManager>().SetPlaybackMultiplier(0.8f);
-                    playerHat.GetComponent<AnimationManager>().SetPlaybackMultiplier(0.8f);
+                    playerLeg.GetComponent<AnimationManager>().SetPlaybackMultiplier(0.9f);
+                    playerHat.GetComponent<AnimationManager>().SetPlaybackMultiplier(0.9f);
                     playerLeg.GetComponent<AnimationManager>().PlayAnimation("jumpLand");
                     playerHat.GetComponent<AnimationManager>().PlayAnimation("jumpLand");
                 }
@@ -142,10 +143,24 @@ namespace PBLGame.MainGame
             else
             {
                 //TODO: FIX JUMP FALLING ANIMATION OR LEAVE IT IN PEACE
+                //if (playerHat.GetComponent<AnimationManager>().defaultKey != "jumpFall")
+                //{
+                //    playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("jumpFall");
+                //    playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("jumpFall");
+                //}
+
                 if (playerHat.GetComponent<AnimationManager>().defaultKey != "idle")
                 {
                     playerHat.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
                     playerLeg.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
+                }
+
+                if (parentGameObject.isGrounded)
+                {
+                        //playerLeg.GetComponent<AnimationManager>().SetPlaybackMultiplier(0.8f);
+                        //playerHat.GetComponent<AnimationManager>().SetPlaybackMultiplier(0.8f);
+                        //playerLeg.GetComponent<AnimationManager>().PlayAnimation("jumpLand");
+                        //playerHat.GetComponent<AnimationManager>().PlayAnimation("jumpLand");
                 }
             }
 
