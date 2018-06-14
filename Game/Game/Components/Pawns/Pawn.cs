@@ -101,6 +101,7 @@ namespace PBLGame.MainGame
 
         protected bool CheckCollider(Vector3 vec = new Vector3())
         {
+            bool collision = false;
             foreach (Collider col in parentGameObject.colliders)
             {
                 col.checkIfGrounded();
@@ -108,11 +109,11 @@ namespace PBLGame.MainGame
                 if (temp.Count > 0)
                 {
                     parentGameObject.Position = parentGameObject.Position + (vec - col.penetrationDepth);
-                    return true;
+                    collision = true;
                 }
             }
             lastPosition = parentGameObject.Position;
-            return false;
+            return collision;
         }
 
 
