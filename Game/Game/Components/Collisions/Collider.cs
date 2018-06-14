@@ -56,7 +56,7 @@ namespace PBLGame.SceneGraph
             this.owner = owner;
         }
 
-        public bool IsCollision(Collider other, Vector3 vec = new Vector3())
+        public bool IsCollision(Collider other)
         {
             if (!other.isCollider && !other.isTrigger)
             {
@@ -66,12 +66,8 @@ namespace PBLGame.SceneGraph
             {
                 return false;
             }
-            if (new BoundingBox(this.boundingBox.Min + vec, this.boundingBox.Max + vec).Intersects(other.boundingBox))
+            if (boundingBox.Intersects(other.boundingBox))
             {
-                if (this.owner.tag == "meleeEnemy" && other.owner.tag == "meleeEnemy")
-                {
-
-                }
                 if (other.isTrigger && !other.isCollider) //e.g. player hits trigger
                 {
                     other.owner.GetComponent<Trigger>().OnTrigger(this.owner.Parent);
@@ -87,7 +83,7 @@ namespace PBLGame.SceneGraph
                     else
                     {
                         this.owner.GetComponent<Trigger>().OnTrigger(other.owner.Parent);
-                    }   
+                    }
                     return false;
                 }
 
@@ -102,56 +98,54 @@ namespace PBLGame.SceneGraph
             return false;
         }
 
-        public List<GameObject> CollisionUpdate(Vector3 vec = new Vector3())
+        public GameObject CollisionUpdate()
         {
-            penetrationDepth = new Vector3(0.0f);
-            List<GameObject> collided = new List<GameObject>();
             List<Collider> triggered = new List<Collider>();
             foreach (Collider col in collidersList)
             {
-
                 if (col != this)
                 {
-                    if (IsCollision(col, vec))
+                    if (IsCollision(col))
                     {
                         if ((this.isCollider && this.isTrigger))
                         {
-                           if (col.owner.tag != "Ground" && col.owner.tag != "Wall" && (this.owner.tag != "meleeEnemy" || col.owner.tag != "meleeEnemy"))
+                            if (this.owner.tag == "meleeEnemy" && col.owner.tag == "meleeEnemy")
+                            {
+                                this.penetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
+                                return col.owner;
+                            }
+                            if (col.owner.tag != "Ground" && col.owner.tag != "Wall")
                             {
                                 this.owner.GetComponent<HitTrigger>().OnTrigger(col.owner.Parent);
+                                return null;
                             }
-                            else
+                        }
+
+                        if (col.isCollider && col.isTrigger && col.owner.tag != "meleeEnemy")
+                        {
+                            return null;
+                        }
+
+                        this.penetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
+                        if (col.owner.tag == "Ground")
+                        {
+                            if (Math.Abs(this.boundingBox.Min.Y - col.boundingBox.Max.Y) < 5)
                             {
-                                this.penetrationDepth += PenetrationDepth(new BoundingBox(this.boundingBox.Min + vec, this.boundingBox.Max + vec), col.boundingBox);
-                                collided.Add(col.owner);
+                                this.penetrationDepth.X = 0.0f;
+                                this.penetrationDepth.Z = 0.0f;
+                                this.penetrationDepth.Y = 0.0f;
                             }
+                            this.owner.Parent.Position = this.owner.Parent.Position - this.penetrationDepth;
                         }
                         else
                         {
-                            if (col.isCollider && col.isTrigger && col.owner.tag != "meleeEnemy")
-                            {
-                                // do nothing
-                            }
-                            else
-                            {
-                                if (col.owner.tag == "Ground")
-                                {
-                                    if (Math.Abs(this.boundingBox.Min.Y - col.boundingBox.Max.Y) > 5)
-                                    {
-                                        this.owner.Parent.Position = this.owner.Parent.Position - PenetrationDepth(new BoundingBox(this.boundingBox.Min + vec, this.boundingBox.Max + vec), col.boundingBox);
-                                    }
-                                }
-                                else
-                                {
-                                    this.penetrationDepth += PenetrationDepth(new BoundingBox(this.boundingBox.Min + vec, this.boundingBox.Max + vec), col.boundingBox);
-                                    //this.penetrationDepth.Y = 0.0f; NAPRAWIC 
-                                    collided.Add(col.owner);
-                                }
-                            }
+                            this.penetrationDepth.Y = 0.0f;
+                            return col.owner;
                         }
                     }
                     else
                     {
+
                         if (col.isReadyToBeDisposed)
                         {
                             triggered.Add(col);
@@ -164,8 +158,7 @@ namespace PBLGame.SceneGraph
             {
                 collidersList.Remove(trig);
             }
-
-            return collided;
+            return null;
         }
 
         public void checkIfGrounded()

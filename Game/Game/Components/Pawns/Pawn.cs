@@ -88,38 +88,26 @@ namespace PBLGame.MainGame
                     move.X = move.X / 2f;
                     move.Z = move.Z / 2f;
                 }
-                Vector3 moveBy = new Vector3((((-move.X) * direction.X) + (move.Z * direction.Y)) * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0f,
-                    ((move.Z * direction.X) + (move.X * direction.Y)) * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds);
-                if (!CheckCollider(moveBy))
-                {
-                    parentGameObject.Translate(moveBy);
-                }
+                parentGameObject.Translate(new Vector3((((-move.X) * direction.X) + (move.Z * direction.Y)) * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds, 0f,
+                    ((move.Z * direction.X) + (move.X * direction.Y)) * (float)Timer.gameTime.ElapsedGameTime.TotalMilliseconds));
+                CheckCollider();
                 isMoving = false;
             }
         }
 
 
-        protected bool CheckCollider(Vector3 vec = new Vector3())
+        protected void CheckCollider()
         {
-            bool collision = false;
-            Vector3 allPenDepth = new Vector3();
             foreach (Collider col in parentGameObject.colliders)
             {
                 col.checkIfGrounded();
-                List<GameObject> temp = col.CollisionUpdate(vec);
-                if (temp.Count > 0)
+                GameObject temp = col.CollisionUpdate();
+                if (temp != null && (temp.tag != "Ground" || temp.Parent.tag != "Ground"))
                 {
-                    allPenDepth += col.penetrationDepth;
-                    collision = true;
+                    parentGameObject.Position = parentGameObject.Position - col.penetrationDepth;
                 }
             }
-
-            if (collision)
-            {
-                parentGameObject.Position = parentGameObject.Position + (vec - allPenDepth);
-            }
             lastPosition = parentGameObject.Position;
-            return collision;
         }
 
 
