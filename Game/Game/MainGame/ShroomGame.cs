@@ -297,7 +297,7 @@ namespace PBLGame
 
             if (inputManager.Keyboard[Keys.Escape])
             {
-                Exit();
+                actualGameState = GameState.MainMenu;
             }
 
         }
