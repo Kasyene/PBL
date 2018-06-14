@@ -68,8 +68,11 @@ namespace PBLGame.Input.Devices
                 this._lastPosition = new Vector2(GameServices.GetService<GraphicsDevice>().Viewport.Width / 2,
                     GameServices.GetService<GraphicsDevice>().Viewport.Height / 2);
                 this._currentPosition = new Vector2(this._state.X, this._state.Y);
-                Mouse.SetPosition(GameServices.GetService<GraphicsDevice>().Viewport.Width / 2,
-                    GameServices.GetService<GraphicsDevice>().Viewport.Height / 2);
+                if(ShroomGame.actualGameState != GameState.MainMenu)
+                {
+                    Mouse.SetPosition(GameServices.GetService<GraphicsDevice>().Viewport.Width / 2,
+                   GameServices.GetService<GraphicsDevice>().Viewport.Height / 2);
+                }
                 this.ScrollTotal = this._state.ScrollWheelValue;
                 this.ScrollValue = this._state.ScrollWheelValue - this._lastState.ScrollWheelValue;
                 if (this.ScrollValue != 0)

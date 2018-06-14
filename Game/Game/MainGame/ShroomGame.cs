@@ -15,7 +15,7 @@ using System;
 
 namespace PBLGame
 {
-    enum GameState
+    public enum GameState
     {
         MainMenu,
         Options,
@@ -38,18 +38,13 @@ namespace PBLGame
             OPTIONS_BUTTON_INDEX = 1,
             CREDITS_BUTTON_INDEX = 2,
             EXIT_BUTTON_INDEX = 3;
-        Color background_color;
-        Color[] button_color = new Color[NUMBER_OF_BUTTONS];
-        Rectangle[] button_rectangle = new Rectangle[NUMBER_OF_BUTTONS];
-        BState[] button_state = new BState[NUMBER_OF_BUTTONS];
-        Texture2D[] button_texture = new Texture2D[NUMBER_OF_BUTTONS];
+        Color[] menuButtonColor = new Color[NUMBER_OF_BUTTONS];
+        Rectangle[] menuButtonRectangle = new Rectangle[NUMBER_OF_BUTTONS];
+        BState[] menuButtonState = new BState[NUMBER_OF_BUTTONS];
+        Texture2D[] menuButtonTexture = new Texture2D[NUMBER_OF_BUTTONS];
         Texture2D menuTexture;
-        double[] button_timer = new double[NUMBER_OF_BUTTONS];
-        //mouse pressed and mouse just pressed
-        bool mpressed, prev_mpressed = false;
-        //mouse location in window
-        int mx, my;
-        double frame_time;
+        bool mousePressed, prevMousePressed = false;
+        int mouseX, mouseY;
 
         GraphicsDeviceManager graphics;
         Resolution resolution;
@@ -96,7 +91,7 @@ namespace PBLGame
         SpriteFont dialoguesFont;
         const int shadowMapWidthHeight = 2048;
 
-        GameState actualGameState;
+        public static GameState actualGameState;
 
         public ShroomGame()
         {
@@ -116,30 +111,12 @@ namespace PBLGame
         protected override void Initialize()
         {
             CalcButtonSize();
-            IsMouseVisible = true;
-            background_color = Color.CornflowerBlue;
             base.Initialize();
             GameServices.AddService<GraphicsDevice>(GraphicsDevice);
             GameServices.AddService<GraphicsDeviceManager>(graphics);
             GameServices.AddService<Resolution>(resolution);
             GameServices.AddService<ContentLoader>(new ContentLoader(this));
             GameServices.AddService<ShroomGame>(this);
-        }
-
-        private void CalcButtonSize()
-        {
-            int BUTTON_HEIGHT = Window.ClientBounds.Height / 9;
-            int BUTTON_WIDTH = Window.ClientBounds.Width / 4 ;
-            int x = Window.ClientBounds.Width / 2 - BUTTON_WIDTH / 2;
-            int y = (Window.ClientBounds.Height / 2 - NUMBER_OF_BUTTONS / 2 * BUTTON_HEIGHT - (NUMBER_OF_BUTTONS % 2) * BUTTON_HEIGHT / 2) + BUTTON_HEIGHT;
-            for (int i = 0; i < NUMBER_OF_BUTTONS; i++)
-            {
-                button_state[i] = BState.UP;
-                button_color[i] = Color.White;
-                button_timer[i] = 0.0;
-                button_rectangle[i] = new Rectangle(x, y, BUTTON_WIDTH, BUTTON_HEIGHT);
-                y += BUTTON_HEIGHT + 20;
-            }
         }
 
         protected override void LoadContent()
@@ -162,10 +139,10 @@ namespace PBLGame
             dialoguesFont = Content.Load<SpriteFont>("Dialogues");
 
             menuTexture = Content.Load<Texture2D>("Menus/menuTlo");
-            button_texture[START_BUTTON_INDEX] = Content.Load<Texture2D>("Menus/menuStart");
-            button_texture[OPTIONS_BUTTON_INDEX] = Content.Load<Texture2D>("Menus/menuOptions");
-            button_texture[CREDITS_BUTTON_INDEX] = Content.Load<Texture2D>("Menus/menuCredits");
-            button_texture[EXIT_BUTTON_INDEX] = Content.Load<Texture2D>("Menus/menuExit");
+            menuButtonTexture[START_BUTTON_INDEX] = Content.Load<Texture2D>("Menus/menuStart");
+            menuButtonTexture[OPTIONS_BUTTON_INDEX] = Content.Load<Texture2D>("Menus/menuOptions");
+            menuButtonTexture[CREDITS_BUTTON_INDEX] = Content.Load<Texture2D>("Menus/menuCredits");
+            menuButtonTexture[EXIT_BUTTON_INDEX] = Content.Load<Texture2D>("Menus/menuExit");
 
             skybox = new Skybox("skybox/SkyBox", Content);
 
@@ -235,6 +212,12 @@ namespace PBLGame
             {
                 case GameState.MainMenu:
                     OnLevelLoad(actualGameState);
+                    MouseState mouse_state = Mouse.GetState();
+                    mouseX = mouse_state.X;
+                    mouseY = mouse_state.Y;
+                    prevMousePressed = mousePressed;
+                    mousePressed = mouse_state.LeftButton == ButtonState.Pressed;
+                    UpdateButtons();
                     break;
 
                 case GameState.LevelTutorial:
@@ -325,10 +308,12 @@ namespace PBLGame
             {
                 case GameState.MainMenu:
                     DrawMenu(gameTime);
+                    IsMouseVisible = true;
                     break;
 
                 case GameState.LevelTutorial:
                 case GameState.LevelOne:
+                    IsMouseVisible = false;
                     CreateShadowMap();
                     GraphicsDevice.SetRenderTarget(screenRenderTarget);
                     DrawWithShadow(camera.CalcViewMatrix());
@@ -342,13 +327,12 @@ namespace PBLGame
 
         private void DrawMenu(GameTime gameTime)
         {
-            GraphicsDevice.Clear(background_color);
-
+            GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             spriteBatch.Draw(menuTexture, new Rectangle(new Point(0, 0), new Point(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight)), Color.White);
             for (int i = 0; i < NUMBER_OF_BUTTONS; i++)
             { 
-                spriteBatch.Draw(button_texture[i], button_rectangle[i], button_color[i]);
+                spriteBatch.Draw(menuButtonTexture[i], menuButtonRectangle[i], menuButtonColor[i]);
             }
             spriteBatch.End();
             base.Draw(gameTime);
@@ -494,13 +478,125 @@ namespace PBLGame
 
         void DrawHUDBars()
         {
-            spriteBatch.Begin();
-            spriteBatch.Draw(barsBack, new Rectangle(20, graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().MaxHp * 15, 80), Color.White);
-            spriteBatch.Draw(hpTexture, new Rectangle(20 + (player.GetComponent<Player>().MaxHp -  player.GetComponent<Player>().Hp), graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().Hp * 15, 80), Color.White);
-            spriteBatch.Draw(timeTexture, new Rectangle(20 + (10 - player.GetComponent<Player>().GetTimeEnergy()), graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().GetTimeEnergy() * 30, 80), Color.White);
-            spriteBatch.Draw(barsFront, new Rectangle(20, graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().MaxHp * 15, 80), Color.White);
-            spriteBatch.Draw(icons, new Rectangle(graphics.GraphicsDevice.Viewport.Width - 380, graphics.GraphicsDevice.Viewport.Height - 120, 400, 120), Color.White);
-            spriteBatch.End();
+            if (areCollidersAndTriggersSet)
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(barsBack, new Rectangle(20, graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().MaxHp * 15, 80), Color.White);
+                spriteBatch.Draw(hpTexture, new Rectangle(20 + (player.GetComponent<Player>().MaxHp - player.GetComponent<Player>().Hp), graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().Hp * 15, 80), Color.White);
+                spriteBatch.Draw(timeTexture, new Rectangle(20 + (10 - player.GetComponent<Player>().GetTimeEnergy()), graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().GetTimeEnergy() * 30, 80), Color.White);
+                spriteBatch.Draw(barsFront, new Rectangle(20, graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().MaxHp * 15, 80), Color.White);
+                spriteBatch.Draw(icons, new Rectangle(graphics.GraphicsDevice.Viewport.Width - 380, graphics.GraphicsDevice.Viewport.Height - 120, 400, 120), Color.White);
+                spriteBatch.End();
+            }
+        }
+
+        private void CalcButtonSize()
+        {
+            int BUTTON_HEIGHT = Window.ClientBounds.Height / 9;
+            int BUTTON_WIDTH = Window.ClientBounds.Width / 4;
+            int x = Window.ClientBounds.Width / 2 - BUTTON_WIDTH / 2;
+            int y = (Window.ClientBounds.Height / 2 - NUMBER_OF_BUTTONS / 2 * BUTTON_HEIGHT - (NUMBER_OF_BUTTONS % 2) * BUTTON_HEIGHT / 2) + BUTTON_HEIGHT;
+            for (int i = 0; i < NUMBER_OF_BUTTONS; i++)
+            {
+                menuButtonState[i] = BState.UP;
+                menuButtonColor[i] = Color.White;
+                menuButtonRectangle[i] = new Rectangle(x, y, BUTTON_WIDTH, BUTTON_HEIGHT);
+                y += BUTTON_HEIGHT + 20;
+            }
+        }
+
+        Boolean HitImageAlpha(Rectangle rect, Texture2D tex, int x, int y)
+        {
+            return HitImageAlpha(0, 0, tex, tex.Width * (x - rect.X) /
+                rect.Width, tex.Height * (y - rect.Y) / rect.Height);
+        }
+
+        Boolean HitImageAlpha(float tx, float ty, Texture2D tex, int x, int y)
+        {
+            if (HitImage(tx, ty, tex, x, y))
+            {
+                uint[] data = new uint[tex.Width * tex.Height];
+                tex.GetData<uint>(data);
+                if ((x - (int)tx) + (y - (int)ty) *
+                    tex.Width < tex.Width * tex.Height)
+                {
+                    return ((data[
+                        (x - (int)tx) + (y - (int)ty) * tex.Width
+                        ] &
+                                0xFF000000) >> 24) > 20;
+                }
+            }
+            return false;
+        }
+
+        Boolean HitImage(float tx, float ty, Texture2D tex, int x, int y)
+        {
+            return (x >= tx &&
+                x <= tx + tex.Width &&
+                y >= ty &&
+                y <= ty + tex.Height);
+        }
+
+        void UpdateButtons()
+        {
+            for (int i = 0; i < NUMBER_OF_BUTTONS; i++)
+            {
+                if (HitImageAlpha(menuButtonRectangle[i], menuButtonTexture[i], mouseX, mouseY))
+                {
+                    if (mousePressed)
+                    {
+                        menuButtonState[i] = BState.DOWN;
+                        menuButtonColor[i] = Color.DarkKhaki;
+                    }
+                    else if (!mousePressed && prevMousePressed)
+                    {
+                        if (menuButtonState[i] == BState.DOWN)
+                        {
+                            menuButtonState[i] = BState.JUST_RELEASED;
+                        }
+                    }
+                    else
+                    {
+                        menuButtonState[i] = BState.HOVER;
+                        menuButtonColor[i] = Color.LightYellow;
+                    }
+                }
+                else
+                {
+                    menuButtonState[i] = BState.UP;
+                    menuButtonColor[i] = Color.White;
+                }
+
+                if (menuButtonState[i] == BState.JUST_RELEASED)
+                {
+                    ButtonActions(i);
+                }
+            }
+        }
+
+        void ButtonActions(int i)
+        {
+            switch (i)
+            {
+                case START_BUTTON_INDEX:
+                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.1"), 3f);
+                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 2f);
+                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.2"), 2f);
+                    actualGameState = GameState.LevelTutorial;
+                    System.Diagnostics.Debug.WriteLine("START");
+                    break;
+                case OPTIONS_BUTTON_INDEX:
+                    System.Diagnostics.Debug.WriteLine("OPTIONS");
+                    break;
+                case CREDITS_BUTTON_INDEX:
+                    System.Diagnostics.Debug.WriteLine("CREDITS");
+                    break;
+                case EXIT_BUTTON_INDEX:
+                    Exit();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
