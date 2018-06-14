@@ -134,16 +134,16 @@ namespace PBLGame.SceneGraph
                             }
                             else
                             {
-                                this.penetrationDepth += PenetrationDepth(new BoundingBox(this.boundingBox.Min + vec, this.boundingBox.Max + vec), col.boundingBox);
                                 if (col.owner.tag == "Ground")
                                 {
                                     if (Math.Abs(this.boundingBox.Min.Y - col.boundingBox.Max.Y) > 5)
                                     {
-                                        this.owner.Parent.Position = this.owner.Parent.Position - this.penetrationDepth;
+                                        this.owner.Parent.Position = this.owner.Parent.Position - PenetrationDepth(new BoundingBox(this.boundingBox.Min + vec, this.boundingBox.Max + vec), col.boundingBox);
                                     }
                                 }
                                 else
                                 {
+                                    this.penetrationDepth += PenetrationDepth(new BoundingBox(this.boundingBox.Min + vec, this.boundingBox.Max + vec), col.boundingBox);
                                     //this.penetrationDepth.Y = 0.0f; NAPRAWIC 
                                     collided.Add(col.owner);
                                 }
