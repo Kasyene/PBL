@@ -247,13 +247,13 @@ namespace PBLGame.MainGame
                 eWasPressed = true;
                 timeOfPress = Timer.gameTime.TotalGameTime.TotalMilliseconds;
             }
-            if (inputManager.Keyboard[Keys.R].WasPressed && timeEnergy >= 3 && !rWasPressed)
+            if (inputManager.Keyboard[Keys.R].WasPressed && timeEnergy >= 3 && !rWasPressed && playerHat.GetComponent<AnimationManager>().isCurrentAnimation("throw"))
             {
                 rWasPressed = true;
                 timeOfPress = Timer.gameTime.TotalGameTime.TotalMilliseconds;
             }
 
-            if (eWasPressed && Timer.gameTime.TotalGameTime.TotalMilliseconds > timeOfPress + timeSkillsDelay && playerHat.GetComponent<AnimationManager>().isCurrentAnimation("throw"))
+            if (eWasPressed && Timer.gameTime.TotalGameTime.TotalMilliseconds > timeOfPress + timeSkillsDelay)
             {
                 timeSkillDoneTime = Timer.gameTime.TotalGameTime.TotalMilliseconds;
                 eWasPressed = false;
