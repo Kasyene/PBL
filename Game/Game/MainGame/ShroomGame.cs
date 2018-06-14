@@ -19,6 +19,7 @@ namespace PBLGame
     {
         MainMenu,
         Options,
+        Credits,
         LevelTutorial,
         LevelOne
     }
@@ -33,18 +34,37 @@ namespace PBLGame
 
     public class ShroomGame : Microsoft.Xna.Framework.Game
     {
-        const int NUMBER_OF_BUTTONS = 4,
-            START_BUTTON_INDEX = 0,
-            OPTIONS_BUTTON_INDEX = 1,
-            CREDITS_BUTTON_INDEX = 2,
-            EXIT_BUTTON_INDEX = 3;
-        Color[] menuButtonColor = new Color[NUMBER_OF_BUTTONS];
-        Rectangle[] menuButtonRectangle = new Rectangle[NUMBER_OF_BUTTONS];
-        BState[] menuButtonState = new BState[NUMBER_OF_BUTTONS];
-        Texture2D[] menuButtonTexture = new Texture2D[NUMBER_OF_BUTTONS];
+        #region Menu
+        const int NumberOfMenuButtons = 4,
+            StartButtonIndex = 0,
+            OptionsButtonIndex = 1,
+            CreditsButtonIndex = 2,
+            ExitButtonIndex = 3;
+
+        const int NumberOfOptionButtons = 3,
+          FullscreenButtonIndex = 0,
+          BackButtonIndex = 1,
+          ExitOptionButtonIndex = 2;
+
+        Color[] menuButtonColor = new Color[NumberOfMenuButtons];
+        Rectangle[] menuButtonRectangle = new Rectangle[NumberOfMenuButtons];
+        BState[] menuButtonState = new BState[NumberOfMenuButtons];
+        Texture2D[] menuButtonTexture = new Texture2D[NumberOfMenuButtons];
         Texture2D menuTexture;
+        Texture2D optionsTexture;
+        Texture2D creditsTexture;
+        Color[] menuOptionButtonColor = new Color[NumberOfOptionButtons];
+        Rectangle[] menuOptionButtonRectangle = new Rectangle[NumberOfOptionButtons];
+        BState[] menuOptionButtonState = new BState[NumberOfOptionButtons];
+        Texture2D[] menuOptionButtonTexture = new Texture2D[NumberOfOptionButtons];
+        Color backButtonColor = new Color();
+        Rectangle backButtonRectangle = new Rectangle();
+        BState backButtonState = new BState();
+        Texture2D backButtonTexture;
         bool mousePressed, prevMousePressed = false;
+        bool fullscreen = false;
         int mouseX, mouseY;
+        #endregion
 
         GraphicsDeviceManager graphics;
         Resolution resolution;
@@ -92,6 +112,7 @@ namespace PBLGame
         const int shadowMapWidthHeight = 2048;
 
         public static GameState actualGameState;
+        public static GameState lastGameState;
 
         public ShroomGame()
         {
@@ -105,6 +126,7 @@ namespace PBLGame
             //actualGameState = GameState.LevelTutorial;
             //actualGameState = GameState.LevelOne;
             actualGameState = GameState.MainMenu;
+            lastGameState = GameState.MainMenu;
             root = new GameObject();
         }
 
@@ -139,10 +161,19 @@ namespace PBLGame
             dialoguesFont = Content.Load<SpriteFont>("Dialogues");
 
             menuTexture = Content.Load<Texture2D>("Menus/menuTlo");
-            menuButtonTexture[START_BUTTON_INDEX] = Content.Load<Texture2D>("Menus/menuStart");
-            menuButtonTexture[OPTIONS_BUTTON_INDEX] = Content.Load<Texture2D>("Menus/menuOptions");
-            menuButtonTexture[CREDITS_BUTTON_INDEX] = Content.Load<Texture2D>("Menus/menuCredits");
-            menuButtonTexture[EXIT_BUTTON_INDEX] = Content.Load<Texture2D>("Menus/menuExit");
+            optionsTexture = Content.Load<Texture2D>("Menus/inneTlo");
+            creditsTexture = Content.Load<Texture2D>("Menus/inneTlo");
+
+            menuButtonTexture[StartButtonIndex] = Content.Load<Texture2D>("Menus/menuStart");
+            menuButtonTexture[OptionsButtonIndex] = Content.Load<Texture2D>("Menus/menuOptions");
+            menuButtonTexture[CreditsButtonIndex] = Content.Load<Texture2D>("Menus/menuCredits");
+            menuButtonTexture[ExitButtonIndex] = Content.Load<Texture2D>("Menus/menuExit");
+
+            menuOptionButtonTexture[FullscreenButtonIndex] = Content.Load<Texture2D>("Menus/menuStart");
+            menuOptionButtonTexture[BackButtonIndex] = Content.Load<Texture2D>("Menus/inneBack");
+            menuOptionButtonTexture[ExitOptionButtonIndex] = Content.Load<Texture2D>("Menus/menuExit");
+
+            backButtonTexture = Content.Load<Texture2D>("Menus/inneBack");
 
             skybox = new Skybox("skybox/SkyBox", Content);
 
@@ -211,16 +242,39 @@ namespace PBLGame
             switch (actualGameState)
             {
                 case GameState.MainMenu:
+                    lastGameState = actualGameState;
                     OnLevelLoad(actualGameState);
                     MouseState mouse_state = Mouse.GetState();
                     mouseX = mouse_state.X;
                     mouseY = mouse_state.Y;
                     prevMousePressed = mousePressed;
                     mousePressed = mouse_state.LeftButton == ButtonState.Pressed;
-                    UpdateButtons();
+                    UpdateMainMenuButtons();
+                    break;
+
+                case GameState.Options:
+                    OnLevelLoad(actualGameState);
+                    mouse_state = Mouse.GetState();
+                    mouseX = mouse_state.X;
+                    mouseY = mouse_state.Y;
+                    prevMousePressed = mousePressed;
+                    mousePressed = mouse_state.LeftButton == ButtonState.Pressed;
+                    UpdateOptionsButtons();
+                    break;
+
+                case GameState.Credits:
+                    OnLevelLoad(actualGameState);
+                    mouse_state = Mouse.GetState();
+                    mouseX = mouse_state.X;
+                    mouseY = mouse_state.Y;
+                    prevMousePressed = mousePressed;
+                    mousePressed = mouse_state.LeftButton == ButtonState.Pressed;
+                    UpdateCreditsButton();
+           
                     break;
 
                 case GameState.LevelTutorial:
+                    lastGameState = actualGameState;
                     if (!areCollidersAndTriggersSet)
                     {
                         GameServices.GetService<ContentLoader>().LoadTutorial();
@@ -258,6 +312,7 @@ namespace PBLGame
                     break;
 
                 case GameState.LevelOne:
+                    lastGameState = actualGameState;
                     if (!areCollidersAndTriggersSet)
                     {
                         GameServices.GetService<ContentLoader>().LoadLevel1();
@@ -297,7 +352,7 @@ namespace PBLGame
 
             if (inputManager.Keyboard[Keys.Escape])
             {
-                actualGameState = GameState.MainMenu;
+                actualGameState = GameState.Options;
             }
 
         }
@@ -306,8 +361,16 @@ namespace PBLGame
         {
             switch(actualGameState)
             {
+                case GameState.Options:
+                    DrawOptions();
+                    IsMouseVisible = true;
+                    break;
+                case GameState.Credits:
+                    DrawCredits();
+                    IsMouseVisible = true;
+                    break;
                 case GameState.MainMenu:
-                    DrawMenu(gameTime);
+                    DrawMenu();
                     IsMouseVisible = true;
                     break;
 
@@ -325,18 +388,39 @@ namespace PBLGame
             base.Draw(gameTime);
         }
 
-        private void DrawMenu(GameTime gameTime)
+        private void DrawMenu()
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             spriteBatch.Draw(menuTexture, new Rectangle(new Point(0, 0), new Point(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight)), Color.White);
-            for (int i = 0; i < NUMBER_OF_BUTTONS; i++)
+            for (int i = 0; i < NumberOfMenuButtons; i++)
             { 
                 spriteBatch.Draw(menuButtonTexture[i], menuButtonRectangle[i], menuButtonColor[i]);
             }
             spriteBatch.End();
-            base.Draw(gameTime);
         }
+
+        private void DrawOptions()
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin();
+            spriteBatch.Draw(optionsTexture, new Rectangle(new Point(0, 0), new Point(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight)), Color.White);
+            for (int i = 0; i < NumberOfOptionButtons; i++)
+            {
+                spriteBatch.Draw(menuOptionButtonTexture[i], menuOptionButtonRectangle[i], menuOptionButtonColor[i]);
+            }
+            spriteBatch.End();
+        }
+
+        private void DrawCredits()
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin();
+            spriteBatch.Draw(creditsTexture, new Rectangle(new Point(0, 0), new Point(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight)), Color.White);
+            spriteBatch.Draw(backButtonTexture, backButtonRectangle, backButtonColor);
+            spriteBatch.End();
+        }
+
 
         void CreateShadowMap()
         {
@@ -495,14 +579,25 @@ namespace PBLGame
             int BUTTON_HEIGHT = Window.ClientBounds.Height / 9;
             int BUTTON_WIDTH = Window.ClientBounds.Width / 4;
             int x = Window.ClientBounds.Width / 2 - BUTTON_WIDTH / 2;
-            int y = (Window.ClientBounds.Height / 2 - NUMBER_OF_BUTTONS / 2 * BUTTON_HEIGHT - (NUMBER_OF_BUTTONS % 2) * BUTTON_HEIGHT / 2) + BUTTON_HEIGHT;
-            for (int i = 0; i < NUMBER_OF_BUTTONS; i++)
+            int y = (Window.ClientBounds.Height / 2 - NumberOfMenuButtons / 2 * BUTTON_HEIGHT - (NumberOfMenuButtons % 2) * BUTTON_HEIGHT / 2) + BUTTON_HEIGHT;
+            for (int i = 0; i < NumberOfMenuButtons; i++)
             {
                 menuButtonState[i] = BState.UP;
                 menuButtonColor[i] = Color.White;
                 menuButtonRectangle[i] = new Rectangle(x, y, BUTTON_WIDTH, BUTTON_HEIGHT);
                 y += BUTTON_HEIGHT + 20;
             }
+            y = (Window.ClientBounds.Height / 2 - NumberOfOptionButtons / 2 * BUTTON_HEIGHT - (NumberOfOptionButtons % 2) * BUTTON_HEIGHT / 2) + BUTTON_HEIGHT;
+            for (int i = 0; i < NumberOfOptionButtons; i++)
+            {
+                menuOptionButtonState[i] = BState.UP;
+                menuOptionButtonColor[i] = Color.White;
+                menuOptionButtonRectangle[i] = new Rectangle(x, y, BUTTON_WIDTH, BUTTON_HEIGHT);
+                y += BUTTON_HEIGHT + 20;
+            }
+            backButtonState = BState.UP;
+            backButtonColor = Color.White;
+            backButtonRectangle = menuButtonRectangle[NumberOfMenuButtons - 1];
         }
 
         Boolean HitImageAlpha(Rectangle rect, Texture2D tex, int x, int y)
@@ -537,9 +632,9 @@ namespace PBLGame
                 y <= ty + tex.Height);
         }
 
-        void UpdateButtons()
+        void UpdateMainMenuButtons()
         {
-            for (int i = 0; i < NUMBER_OF_BUTTONS; i++)
+            for (int i = 0; i < NumberOfMenuButtons; i++)
             {
                 if (HitImageAlpha(menuButtonRectangle[i], menuButtonTexture[i], mouseX, mouseY))
                 {
@@ -569,29 +664,126 @@ namespace PBLGame
 
                 if (menuButtonState[i] == BState.JUST_RELEASED)
                 {
-                    ButtonActions(i);
+                    MainMenuButtonActions(i);
                 }
             }
         }
 
-        void ButtonActions(int i)
+        void UpdateOptionsButtons()
+        {
+            for (int i = 0; i < NumberOfOptionButtons; i++)
+            {
+                if (HitImageAlpha(menuOptionButtonRectangle[i], menuOptionButtonTexture[i], mouseX, mouseY))
+                {
+                    if (mousePressed)
+                    {
+                        menuOptionButtonState[i] = BState.DOWN;
+                        menuOptionButtonColor[i] = Color.DarkKhaki;
+                    }
+                    else if (!mousePressed && prevMousePressed)
+                    {
+                        if (menuOptionButtonState[i] == BState.DOWN)
+                        {
+                            menuOptionButtonState[i] = BState.JUST_RELEASED;
+                        }
+                    }
+                    else
+                    {
+                        menuOptionButtonState[i] = BState.HOVER;
+                        menuOptionButtonColor[i] = Color.LightYellow;
+                    }
+                }
+                else
+                {
+                    menuOptionButtonState[i] = BState.UP;
+                    menuOptionButtonColor[i] = Color.White;
+                }
+
+                if (menuOptionButtonState[i] == BState.JUST_RELEASED)
+                {
+                    OptionsButtonActions(i);
+                }
+            }
+        }
+
+        void UpdateCreditsButton()
+        {
+            if (HitImageAlpha(backButtonRectangle, backButtonTexture, mouseX, mouseY))
+            {
+                if (mousePressed)
+                {
+                    backButtonState = BState.DOWN;
+                    backButtonColor = Color.DarkKhaki;
+                }
+                else if (!mousePressed && prevMousePressed)
+                {
+                    if (backButtonState == BState.DOWN)
+                    {
+                        backButtonState = BState.JUST_RELEASED;
+                    }
+                }
+                else
+                {
+                    backButtonState = BState.HOVER;
+                    backButtonColor = Color.LightYellow;
+                }
+            }
+            else
+            {
+                backButtonState = BState.UP;
+                backButtonColor = Color.White;
+            }
+
+            if (backButtonState == BState.JUST_RELEASED)
+            {
+                BackButtonAction();
+            }
+        }
+
+        void BackButtonAction()
+        {
+            actualGameState = lastGameState;
+        }
+
+        void MainMenuButtonActions(int i)
         {
             switch (i)
             {
-                case START_BUTTON_INDEX:
+                case StartButtonIndex:
                     new Cutscene(Content.Load<Texture2D>("Cutscene/1.1"), 3f);
                     new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 2f);
                     new Cutscene(Content.Load<Texture2D>("Cutscene/1.2"), 2f);
                     actualGameState = GameState.LevelTutorial;
                     System.Diagnostics.Debug.WriteLine("START");
                     break;
-                case OPTIONS_BUTTON_INDEX:
+                case OptionsButtonIndex:
                     System.Diagnostics.Debug.WriteLine("OPTIONS");
+                    actualGameState = GameState.Options;
                     break;
-                case CREDITS_BUTTON_INDEX:
+                case CreditsButtonIndex:
                     System.Diagnostics.Debug.WriteLine("CREDITS");
+                    actualGameState = GameState.Credits;
                     break;
-                case EXIT_BUTTON_INDEX:
+                case ExitButtonIndex:
+                    Exit();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        void OptionsButtonActions(int i)
+        {
+            switch (i)
+            {
+                case FullscreenButtonIndex:
+                    fullscreen = !fullscreen;
+                    resolution.SetFullscreen(fullscreen);
+                    break;
+                case BackButtonIndex:
+                    actualGameState = lastGameState;
+                    break;
+                case ExitOptionButtonIndex:
                     Exit();
                     break;
                 default:
