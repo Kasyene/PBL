@@ -253,7 +253,7 @@ namespace PBLGame.MainGame
                 timeOfPress = Timer.gameTime.TotalGameTime.TotalMilliseconds;
             }
 
-            if (eWasPressed && Timer.gameTime.TotalGameTime.TotalMilliseconds > timeOfPress + timeSkillsDelay)
+            if (eWasPressed && Timer.gameTime.TotalGameTime.TotalMilliseconds > timeOfPress + timeSkillsDelay && playerHat.GetComponent<AnimationManager>().isCurrentAnimation("throw"))
             {
                 timeSkillDoneTime = Timer.gameTime.TotalGameTime.TotalMilliseconds;
                 eWasPressed = false;
