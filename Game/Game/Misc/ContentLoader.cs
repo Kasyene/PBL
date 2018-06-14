@@ -370,7 +370,7 @@ namespace PBLGame.Misc
             Walle.Add("Brama");
             Walle.Add("Dzwignia");
             Walle.Add("Kolek");
-            Walle.Add("Lina");
+            //Walle.Add("Lina");
             Walle.Add("Flag");
             Walle.Add("OwinietaLina");
             Walle.Add("Pal");

@@ -26,14 +26,17 @@ namespace Game.Components.Collisions
 
         public override void OnTrigger(GameObject whoHaveIHit)
         {
-            if (owner.Parent.GetComponent<Pawn>().isAttacking && whoHaveIHit.CheckIfPawn() && whoHaveIHit.GetComponent<Pawn>().ObjectSide != owner.Parent.GetComponent<Pawn>().ObjectSide 
-                && whoHaveIHit.GetComponent<Pawn>().ObjectSide != Side.Other && !opponentsHit.Contains(whoHaveIHit))
+            if (whoHaveIHit != null)
             {
-                opponentsHit.Add(whoHaveIHit);
-                whoHaveIHit.GetComponent<Pawn>().Hp -= owner.Parent.GetComponent<Pawn>().getDamage();
-                whoHaveIHit.GetComponent<Pawn>().ReceiveHit();
-                //TODO change isattacking after this instance of animation is finished in owner
-                owner.Parent.GetComponent<Pawn>().isAttacking = false;
+                if (owner.Parent.GetComponent<Pawn>().isAttacking && whoHaveIHit.CheckIfPawn() && whoHaveIHit.GetComponent<Pawn>().ObjectSide != owner.Parent.GetComponent<Pawn>().ObjectSide
+                    && whoHaveIHit.GetComponent<Pawn>().ObjectSide != Side.Other && !opponentsHit.Contains(whoHaveIHit))
+                {
+                    opponentsHit.Add(whoHaveIHit);
+                    whoHaveIHit.GetComponent<Pawn>().Hp -= owner.Parent.GetComponent<Pawn>().getDamage();
+                    whoHaveIHit.GetComponent<Pawn>().ReceiveHit();
+                    //TODO change isattacking after this instance of animation is finished in owner
+                    owner.Parent.GetComponent<Pawn>().isAttacking = false;
+                }
             }
         }
     }
