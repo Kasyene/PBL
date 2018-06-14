@@ -32,7 +32,8 @@ namespace PBLGame.MainGame
         private bool rWasPressed = false;
         private double timeSkillDoneTime = 0;
         private float timeSkillsDelay = 150;
-        private double timeOfPress = 0; 
+        private double timeOfPress = 0;
+        private float playerPositionYBeforeThrow;
 
         public Player(GameObject parent) : base()
         {
@@ -182,6 +183,7 @@ namespace PBLGame.MainGame
 
             if (inputManager.Mouse[SupportedMouseButtons.Right].WasPressed && playerHat.GetComponent<AnimationManager>().isReady)
             {
+                playerPositionYBeforeThrow = this.parentGameObject.Position.Y;
                 playerHat.GetComponent<HitTrigger>().ClearBoxList();
                 isAttacking = true;
                 playerHat.GetComponent<AnimationManager>().PlayAnimation("throw");
@@ -269,7 +271,7 @@ namespace PBLGame.MainGame
                 timeSkillDoneTime = Timer.gameTime.TotalGameTime.TotalMilliseconds;
                 rWasPressed = false;
                 timeEnergy -= 3;
-                this.parentGameObject.Position = new Vector3((this.playerHat.GetBoundingBox().Min.X + this.playerHat.GetBoundingBox().Max.X) / 2.0f, this.parentGameObject.Position.Y, (this.playerHat.GetBoundingBox().Min.Z + this.playerHat.GetBoundingBox().Max.Z) / 2.0f);
+                this.parentGameObject.Position = new Vector3((this.playerHat.GetBoundingBox().Min.X + this.playerHat.GetBoundingBox().Max.X) / 2.0f, playerPositionYBeforeThrow, (this.playerHat.GetBoundingBox().Min.Z + this.playerHat.GetBoundingBox().Max.Z) / 2.0f);
                 playerHat.GetComponent<AnimationManager>().PlayAnimation("idle", true);
                 playerLeg.GetComponent<AnimationManager>().PlayAnimation("idle", true);
             }
