@@ -22,8 +22,35 @@ namespace PBLGame
         LevelOne
     }
 
+    enum BState
+    {
+        HOVER,
+        UP,
+        JUST_RELEASED,
+        DOWN
+    }
+
     public class ShroomGame : Microsoft.Xna.Framework.Game
     {
+        const int NUMBER_OF_BUTTONS = 4,
+            START_BUTTON_INDEX = 0,
+            OPTIONS_BUTTON_INDEX = 1,
+            CREDITS_BUTTON_INDEX = 2,
+            EXIT_BUTTON_INDEX = 3,
+            BUTTON_HEIGHT = 80,
+            BUTTON_WIDTH = 150;
+        Color background_color;
+        Color[] button_color = new Color[NUMBER_OF_BUTTONS];
+        Rectangle[] button_rectangle = new Rectangle[NUMBER_OF_BUTTONS];
+        BState[] button_state = new BState[NUMBER_OF_BUTTONS];
+        Texture2D[] button_texture = new Texture2D[NUMBER_OF_BUTTONS];
+        double[] button_timer = new double[NUMBER_OF_BUTTONS];
+        //mouse pressed and mouse just pressed
+        bool mpressed, prev_mpressed = false;
+        //mouse location in window
+        int mx, my;
+        double frame_time;
+
         GraphicsDeviceManager graphics;
         Resolution resolution;
         SpriteBatch spriteBatch;
@@ -82,6 +109,7 @@ namespace PBLGame
             graphics.PreferredBackBufferWidth = 1366;
             //actualGameState = GameState.LevelTutorial;
             actualGameState = GameState.LevelOne;
+            //actualGameState = GameState.MainMenu;
             root = new GameObject();
         }
 
@@ -173,66 +201,90 @@ namespace PBLGame
 
             Resources.CameraVector3 = camera.Position;
 
+            // Our Timer Class
+            Timer.Update(gameTime);
+            inputManager.Update();
+
             switch (actualGameState)
             {
                 case GameState.MainMenu:
                     OnLevelLoad(actualGameState);
                     break;
+
                 case GameState.LevelTutorial:
                     if (!areCollidersAndTriggersSet)
                     {
                         GameServices.GetService<ContentLoader>().LoadTutorial();
                         OnLevelLoad(actualGameState);
+                        player.GetComponent<Pawn>().ObjectSide = Side.Player;
+                        root.CreateColliders();
+                        cameraCollision.SetAsTrigger();
+                        GameServices.GetService<ContentLoader>().SetAsColliderAndTrigger();
+                        foreach (GameObject obj in enemyList)
+                        {
+                            obj.GetComponent<Pawn>().ObjectSide = Side.Enemy;
+                        }
+                        areCollidersAndTriggersSet = true;
+                    }
+                    else
+                    {
+                        cameraCollision.Update();
+                        camera.Update();
+                        player.Update();
+                        player.Update(gameTime);
+                        outlineEffect.Parameters["TimeStop"].SetValue(player.GetComponent<Player>().timeStop);
+                        foreach (GameObject obj in enemyList)
+                        {
+                            obj.Update(gameTime);
+                        }
+                        if (!GameServices.GetService<GameObject>().GetComponent<Player>().timeStop)
+                        {
+                            foreach (Component comp in updateComponents)
+                            {
+                                comp.Update(gameTime);
+                            }
+                        }
+                        base.Update(gameTime);
                     }
                     break;
+
                 case GameState.LevelOne:
                     if (!areCollidersAndTriggersSet)
                     {
                         GameServices.GetService<ContentLoader>().LoadLevel1();
                         OnLevelLoad(actualGameState);
+                        player.GetComponent<Pawn>().ObjectSide = Side.Player;
+                        root.CreateColliders();
+                        cameraCollision.SetAsTrigger();
+                        GameServices.GetService<ContentLoader>().SetAsColliderAndTrigger();
+                        foreach (GameObject obj in enemyList)
+                        {
+                            obj.GetComponent<Pawn>().ObjectSide = Side.Enemy;
+                        }
+                        areCollidersAndTriggersSet = true;
+                    }
+                    else
+                    {
+                        cameraCollision.Update();
+                        camera.Update();
+                        player.Update();
+                        player.Update(gameTime);
+                        outlineEffect.Parameters["TimeStop"].SetValue(player.GetComponent<Player>().timeStop);
+                        foreach (GameObject obj in enemyList)
+                        {
+                            obj.Update(gameTime);
+                        }
+                        if (!GameServices.GetService<GameObject>().GetComponent<Player>().timeStop)
+                        {
+                            foreach (Component comp in updateComponents)
+                            {
+                                comp.Update(gameTime);
+                            }
+                        }
+                        base.Update(gameTime);
                     }
                     break;
             }
-
-            if (!areCollidersAndTriggersSet)
-            {
-                root.CreateColliders();       
-                cameraCollision.SetAsTrigger();
-                GameServices.GetService<ContentLoader>().SetAsColliderAndTrigger();
-                player.GetComponent<Pawn>().ObjectSide = Side.Player;
-                foreach(GameObject obj in enemyList)
-                {
-                    obj.GetComponent<Pawn>().ObjectSide = Side.Enemy;
-                }
-                areCollidersAndTriggersSet = true;
-            }
-
-            // Our Timer Class
-            Timer.Update(gameTime);
-            inputManager.Update();
-
-            // Pawns update
-            if (areCollidersAndTriggersSet)
-            {
-                cameraCollision.Update();
-                camera.Update();
-                player.Update();
-                player.Update(gameTime);
-                outlineEffect.Parameters["TimeStop"].SetValue(GameServices.GetService<GameObject>().GetComponent<Player>().timeStop);
-                foreach (GameObject obj in enemyList)
-                {
-                    obj.Update(gameTime);
-                }
-                if (!GameServices.GetService<GameObject>().GetComponent<Player>().timeStop)
-                {
-                    foreach (Component comp in updateComponents)
-                    {
-                        comp.Update(gameTime);
-                    }
-                }
-                base.Update(gameTime);
-            }
-           
 
             if (inputManager.Keyboard[Keys.Escape])
             {
@@ -298,13 +350,13 @@ namespace PBLGame
             cutsceneDisplayTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (cutsceneDisplayTime < 0f || actualCutsceneTexture == null)
             {
-/*                Cutscene cutscene = Cutscene.GetActualCutscene();
+                Cutscene cutscene = Cutscene.GetActualCutscene();
                 if(cutscene != null)
                 {
                     actualCutsceneTexture = cutscene.texture;
                     cutsceneDisplayTime = cutscene.time;
-                }*/
-                //else
+                }
+                else
                 {
                     actualCutsceneTexture = null;
                 }
