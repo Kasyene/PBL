@@ -694,6 +694,7 @@ namespace PBLGame.Misc
         void ResetMap()
         {
             game.areCollidersAndTriggersSet = false;
+            Collider.ClearColliders();
             game.root = new GameObject();
             game.player = new GameObject("player");
             game.camera.SetCameraTarget(game.player);

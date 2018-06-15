@@ -56,6 +56,11 @@ namespace PBLGame.SceneGraph
             this.owner = owner;
         }
 
+        public static void ClearColliders()
+        {
+            collidersList = new List<Collider>();
+        }
+
         public bool IsCollision(Collider other)
         {
             if (!other.isCollider && !other.isTrigger)
