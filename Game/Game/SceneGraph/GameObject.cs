@@ -401,7 +401,7 @@ namespace PBLGame.SceneGraph
         {
             foreach (Component component in components)
             {
-                if(component.GetType() == typeof(ModelComponent) || component.GetType() == typeof(ModelAnimatedComponent) || component.GetType() == typeof(CameraCollisions) || component.GetType() == typeof(TutorialTrigger))
+                if(component.GetType() == typeof(ModelComponent) || component.GetType() == typeof(EndLevelTrigger) || component.GetType() == typeof(ModelAnimatedComponent) || component.GetType() == typeof(CameraCollisions) || component.GetType() == typeof(TutorialTrigger))
                 {
                     bool duplikat = false;
                     BoundingBox currBox = component.GetBoundingBox(this, localTransform, worldTransform);

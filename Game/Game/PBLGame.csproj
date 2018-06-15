@@ -48,6 +48,7 @@
     <Compile Include="Components\Audio\MusicManager.cs" />
     <Compile Include="Components\Collisions\CameraCollisions.cs" />
     <Compile Include="Components\Collisions\ConsumableTrigger.cs" />
+    <Compile Include="Components\Collisions\EndLevelTrigger.cs" />
     <Compile Include="Components\Collisions\HeartConsumableTrigger.cs" />
     <Compile Include="Components\Collisions\LeverTrigger.cs" />
     <Compile Include="Components\Collisions\RopeCutConsumableTrigger.cs" />

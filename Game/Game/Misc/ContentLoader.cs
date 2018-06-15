@@ -551,6 +551,13 @@ namespace PBLGame.Misc
             CreateHierarchyOfLevel(strefa4List, mapRoot);
             AssignTagsForMapElements(strefa4List);
 
+            GameObject endTrigger = new GameObject("endTrigger");
+            EndLevelTrigger trigger = new EndLevelTrigger(endTrigger, new Vector3(1000f, 0f, -1800f), new Vector3(1300f, 100f, -1500f));
+            endTrigger.AddComponent(trigger);
+            endTrigger.CreateColliders();
+            endTrigger.SetAsTrigger();
+            mapRoot.AddChildNode(endTrigger);
+
             ShroomGame.pointLights.Add(new Lights.PointLight(new Vector3(0.0f, 8.0f, 0.0f)));
             ShroomGame.pointLights.Add(new Lights.PointLight(new Vector3(90.0f, -25.0f, -1350.0f), new Vector3(1.8f, 0.0002f, 0.00004f)));
 
