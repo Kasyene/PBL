@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using PBLGame.SceneGraph;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Game.MainGame;
+using PBLGame;
 
 namespace Game.Components.Collisions
 {
-    class EndLevelTrigger : Trigger
+    class EndLevelTrigger : ConsumableTrigger
     {
         short[] bBoxIndices = {
             0, 1, 1, 2, 2, 3, 3, 0, // Front edges
@@ -19,11 +21,13 @@ namespace Game.Components.Collisions
 
         Vector3 minimumPosition;
         Vector3 maximumPosition;
+        ShroomGame game;
 
-        public EndLevelTrigger(GameObject owner, Vector3 minPos, Vector3 maxPos) : base(owner)
+        public EndLevelTrigger(GameObject owner, Vector3 minPos, Vector3 maxPos, ShroomGame game) : base(owner)
         {
             minimumPosition = minPos;
             maximumPosition = maxPos;
+            this.game = game;
         }
 
         public override void OnTrigger(GameObject triggered)
@@ -31,7 +35,14 @@ namespace Game.Components.Collisions
             if (triggered?.tag == "player")
             {
                 System.Diagnostics.Debug.WriteLine("Triggered by player!!!");
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.1"), 4f);
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.2"), 3f);
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.3"), 3f);
+                game.areCollidersAndTriggersSet = false;
+                ShroomGame.actualGameState = GameState.LevelTutorial;
+                base.OnTrigger(null);
             }
+
         }
 
         public override BoundingBox GetBoundingBox(GameObject parent, Matrix localTransformations, Matrix worldTransformations)

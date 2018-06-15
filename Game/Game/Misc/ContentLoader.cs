@@ -188,6 +188,7 @@ namespace PBLGame.Misc
             player.AddChildNode(GameServices.GetService<Camera>());
             player.RotationZ = 1.5f;
 
+            GameServices.RemoveService<GameObject>();
             GameServices.AddService(player);
         }
 
@@ -396,6 +397,7 @@ namespace PBLGame.Misc
         public void LoadLevel1()
         {
             GameObject mapRoot = new GameObject();
+            ResetMap();
             //new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.1"), 3f);
             //new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.3"), 2f);
             //new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.2"), 2f);
@@ -552,7 +554,7 @@ namespace PBLGame.Misc
             AssignTagsForMapElements(strefa4List);
 
             GameObject endTrigger = new GameObject("endTrigger");
-            EndLevelTrigger trigger = new EndLevelTrigger(endTrigger, new Vector3(1000f, 0f, -1800f), new Vector3(1300f, 100f, -1500f));
+            EndLevelTrigger trigger = new EndLevelTrigger(endTrigger, new Vector3(1100f, 10f, -1800f), new Vector3(1300f, 100f, -1500f), game);
             endTrigger.AddComponent(trigger);
             endTrigger.CreateColliders();
             endTrigger.SetAsTrigger();
@@ -591,8 +593,8 @@ namespace PBLGame.Misc
 
         public void LoadTutorial()
         {
+            ResetMap();
             GameObject mapRoot = new GameObject();
-            game.updateComponents = new List<Component>();
             Model hierarchiaStrefa1 = game.Content.Load<Model>("LevelTut/zamekStrefa1");
             Texture2D hierarchiaStrefa1Tex = game.Content.Load<Texture2D>("LevelTut/zamekStrefa1Tex");
             Texture2D hierarchiaStrefa1Normal = game.Content.Load<Texture2D>("LevelTut/zamekStrefa1Normal");
@@ -687,6 +689,21 @@ namespace PBLGame.Misc
         void LoadTutorialEnemies()
         {
 
+        }
+
+        void ResetMap()
+        {
+            game.areCollidersAndTriggersSet = false;
+            game.root = new GameObject();
+            game.player = new GameObject("player");
+            game.camera.SetCameraTarget(game.player);
+            game.cameraCollision = new GameObject("cameraCollision");
+            game.cameraCollision.AddComponent(new CameraCollisions(game.cameraCollision));
+            game.enemyList = new List<GameObject>();
+            game.refractiveObject = new GameObject();
+            game.root.AddChildNode(game.refractiveObject);
+            ShroomGame.pointLights = new List<Lights.PointLight>();
+            ShroomGame.directionalLight = new Lights.DirectionalLight();
         }
     }
 }

@@ -81,7 +81,7 @@ namespace PBLGame
 
         private float gammaValue = 1.0f;
         public static float fadeAmount = 0.0f;
-        private bool areCollidersAndTriggersSet;
+        public bool areCollidersAndTriggersSet;
 
         private float textDisplayTime = 3f;
         private string actualDialogueText = "";
@@ -295,17 +295,20 @@ namespace PBLGame
                         camera.Update();
                         player.Update();
                         player.Update(gameTime);
-                        outlineEffect.Parameters["TimeStop"].SetValue(player.GetComponent<Player>().timeStop);
+                        if (player.GetComponent<Player>() != null)
+                        {
+                            outlineEffect.Parameters["TimeStop"].SetValue(player.GetComponent<Player>().timeStop);
+                            if (!GameServices.GetService<GameObject>().GetComponent<Player>().timeStop)
+                            {
+                                foreach (Component comp in updateComponents)
+                                {
+                                    comp.Update(gameTime);
+                                }
+                            }
+                        }
                         foreach (GameObject obj in enemyList)
                         {
                             obj.Update(gameTime);
-                        }
-                        if (!GameServices.GetService<GameObject>().GetComponent<Player>().timeStop)
-                        {
-                            foreach (Component comp in updateComponents)
-                            {
-                                comp.Update(gameTime);
-                            }
                         }
                         base.Update(gameTime);
                     }
@@ -333,17 +336,20 @@ namespace PBLGame
                         camera.Update();
                         player.Update();
                         player.Update(gameTime);
-                        outlineEffect.Parameters["TimeStop"].SetValue(player.GetComponent<Player>().timeStop);
+                        if (player.GetComponent<Player>() != null)
+                        {
+                            outlineEffect.Parameters["TimeStop"].SetValue(player.GetComponent<Player>().timeStop);
+                            if (!GameServices.GetService<GameObject>().GetComponent<Player>().timeStop)
+                            {
+                                foreach (Component comp in updateComponents)
+                                {
+                                    comp.Update(gameTime);
+                                }
+                            }
+                        }
                         foreach (GameObject obj in enemyList)
                         {
                             obj.Update(gameTime);
-                        }
-                        if (!GameServices.GetService<GameObject>().GetComponent<Player>().timeStop)
-                        {
-                            foreach (Component comp in updateComponents)
-                            {
-                                comp.Update(gameTime);
-                            }
                         }
                         base.Update(gameTime);
                     }

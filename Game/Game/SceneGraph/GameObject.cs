@@ -106,7 +106,8 @@ namespace PBLGame.SceneGraph
         {
             if (node.parent != null)
             {
-                throw new System.Exception("Can't add");
+                //throw new System.Exception("Can't add");
+                node.SetParent(null);
             }
             childs.Add(node);
             node.SetParent(this);
@@ -160,7 +161,7 @@ namespace PBLGame.SceneGraph
             isDirty = true;
         }
 
-        protected virtual void SetParent(GameObject newParent)
+        public void SetParent(GameObject newParent)
         {
             parent = newParent;
             parentTransformVersion = newParent != null ? newParent.transformVersion - 1 : 1;
