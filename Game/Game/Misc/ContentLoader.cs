@@ -737,12 +737,11 @@ namespace PBLGame.Misc
             LoadPlayer(game.player, game.cameraCollision);
             if(game.levelOneCompleted)
             {
-                game.player.Position = new Vector3(-20f, 60f, -700f);
+                game.player.Position = new Vector3(-20f, 100f, -700f);
             }
             else
             {
-                game.player.Position = new Vector3(-20f, 60f, -700f);
-                //game.player.Position = new Vector3(-20f, 60f, -1600f);
+                game.player.Position = new Vector3(-20f, 100f, -1600f);
             }
             LoadTutorialEnemies();
         }

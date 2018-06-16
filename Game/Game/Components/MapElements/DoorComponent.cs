@@ -12,6 +12,7 @@ namespace Game.Components.MapElements
     {
         GameObject parent;
         float startRotation;
+        Vector3 startPosition;
         float openRotation;
         Vector3 openPosition;
         public bool closed = false;
@@ -22,6 +23,7 @@ namespace Game.Components.MapElements
             parent.UnSetModelQuat();
             parent.RotationY = -MathHelper.PiOver2;
             startRotation = 0;
+            startPosition = parent.Position;
             this.openRotation = targetRotation;
             this.openPosition = parent.Position + openPosition;
         }
@@ -31,6 +33,7 @@ namespace Game.Components.MapElements
             if (closed)
             {
                 parent.RotationZ = startRotation;
+                parent.Position = startPosition;
             }
             else
             {
