@@ -55,6 +55,7 @@
     <Compile Include="Components\Collisions\Trigger.cs" />
     <Compile Include="Components\Collisions\HitTrigger.cs" />
     <Compile Include="Components\MapElements\BridgeComponent.cs" />
+    <Compile Include="Components\MapElements\DoorComponent.cs" />
     <Compile Include="Components\MapElements\GateComponent.cs" />
     <Compile Include="Components\MapElements\LeverComponent.cs" />
     <Compile Include="Components\MapElements\PlatformComponent.cs" />

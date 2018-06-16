@@ -38,6 +38,7 @@ namespace Game.Components.Collisions
                 new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.1"), 4f);
                 new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.2"), 3f);
                 new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.3"), 3f);
+                game.levelOneCompleted = true;
                 game.areCollidersAndTriggersSet = false;
                 ShroomGame.actualGameState = GameState.LevelTutorial;
                 base.OnTrigger(null);

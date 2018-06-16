@@ -398,9 +398,6 @@ namespace PBLGame.Misc
         {
             GameObject mapRoot = new GameObject();
             ResetMap();
-            //new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.1"), 3f);
-            //new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.3"), 2f);
-            //new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.2"), 2f);
 
             game.updateComponents = new List<Component>();
             Model hierarchiaStrefa1 = game.Content.Load<Model>("Level1/levelStrefa1");
@@ -637,15 +634,70 @@ namespace PBLGame.Misc
             CreateHierarchyOfLevel(strefa2List, mapRoot);
             AssignTagsForMapElements(strefa2List);
 
-            /*Model platforma1 = Content.Load<Model>("Level1/levelStrefa2Platforma1");
-            List<GameObject> platforma1List = SplitModelIntoSmallerPieces(platforma1, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
-            CreateHierarchyOfLevel(platforma1List, mapRoot);
-            AssignTagsForMapElements(platforma1List);
+            GameObject door1 = new GameObject();
+            Model door1Model = game.Content.Load<Model>("LevelTut/zamekStrefa2Drzwi1");
+            door1Model.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
+            door1.Position = position;
+            door1.Scale = scale;
+            door1.SetModelQuat(quat);
+            door1.name = door1Model.Meshes[0].Name;
+            ModelComponent door1ModelComp = new ModelComponent(door1Model, standardEffect, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
+            door1.AddComponent(door1ModelComp);
+            DoorComponent door1Comp = new DoorComponent(door1, MathHelper.PiOver2, new Vector3(-25f,0f,-25f));
+            if (game.levelOneCompleted) door1Comp.closed = true;
+            door1.AddComponent(door1Comp);
+            game.updateComponents.Add(door1Comp);
+            mapRoot.AddChildNode(door1);
 
-            Model platforma2 = Content.Load<Model>("Level1/levelStrefa2Platforma2");
-            List<GameObject> platforma2List = SplitModelIntoSmallerPieces(platforma2, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
-            CreateHierarchyOfLevel(platforma2List, mapRoot);
-            AssignTagsForMapElements(platforma2List);*/
+            GameObject door2 = new GameObject();
+            Model door2Model = game.Content.Load<Model>("LevelTut/zamekStrefa2Drzwi2");
+            door2Model.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
+            door2.Position = position;
+            door2.Scale = scale;
+            door2.SetModelQuat(quat);
+            door2.name = door2Model.Meshes[0].Name;
+            ModelComponent door2ModelComp = new ModelComponent(door2Model, standardEffect, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
+            door2.AddComponent(door2ModelComp);
+            DoorComponent door2Comp = new DoorComponent(door2, -MathHelper.PiOver2, new Vector3(25f, 0f, -25f));
+            if (game.levelOneCompleted) door2Comp.closed = true;
+            door2.AddComponent(door2Comp);
+            game.updateComponents.Add(door2Comp);
+            mapRoot.AddChildNode(door2);
+
+            GameObject door3 = new GameObject();
+            Model door3Model = game.Content.Load<Model>("LevelTut/zamekStrefa2Drzwi3");
+            door3Model.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
+            door3.Position = position;
+            door3.Scale = scale;
+            door3.SetModelQuat(quat);
+            door3.name = door3Model.Meshes[0].Name;
+            ModelComponent door3ModelComp = new ModelComponent(door3Model, standardEffect, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
+            door3.AddComponent(door3ModelComp);
+            DoorComponent door3Comp = new DoorComponent(door3, MathHelper.PiOver2, new Vector3(-45f, 0f, -45f));
+            door3.AddComponent(door3Comp);
+            game.updateComponents.Add(door3Comp);
+            mapRoot.AddChildNode(door3);
+
+            GameObject door4 = new GameObject();
+            Model door4Model = game.Content.Load<Model>("LevelTut/zamekStrefa2Drzwi4");
+            door4Model.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
+            door4.Position = position;
+            door4.Scale = scale;
+            door4.SetModelQuat(quat);
+            door4.name = door4Model.Meshes[0].Name;
+            ModelComponent door4ModelComp = new ModelComponent(door4Model, standardEffect, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
+            door4.AddComponent(door4ModelComp);
+            DoorComponent door4Comp = new DoorComponent(door4, -MathHelper.PiOver2, new Vector3(45f, 0f, -45f));
+            door4.AddComponent(door4Comp);
+            game.updateComponents.Add(door4Comp);
+            mapRoot.AddChildNode(door4);
+
+            List<GameObject> doorList = new List<GameObject>();
+            list.Add(door1);
+            list.Add(door2);
+            list.Add(door3);
+            list.Add(door4);
+            AssignTagsForMapElements(doorList);
 
             Model hierarchiaStrefa3 = game.Content.Load<Model>("LevelTut/zamekStrefa3");
             Texture2D hierarchiaStrefa3Tex = game.Content.Load<Texture2D>("LevelTut/zamekStrefa3Tex");
@@ -683,6 +735,15 @@ namespace PBLGame.Misc
             ShroomGame.pointLights.Add(new Lights.PointLight(new Vector3(-20.0f, 150.0f, -1900.0f), new Vector3(2.8f, 0.0002f, 0.00004f)));
 
             LoadPlayer(game.player, game.cameraCollision);
+            if(game.levelOneCompleted)
+            {
+                game.player.Position = new Vector3(-20f, 60f, -700f);
+            }
+            else
+            {
+                game.player.Position = new Vector3(-20f, 60f, -700f);
+                //game.player.Position = new Vector3(-20f, 60f, -1600f);
+            }
             LoadTutorialEnemies();
         }
 

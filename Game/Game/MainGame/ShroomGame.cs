@@ -66,6 +66,10 @@ namespace PBLGame
         int mouseX, mouseY;
         #endregion
 
+        #region GameProgress
+        public bool levelOneCompleted = false;
+        #endregion
+
         GraphicsDeviceManager graphics;
         Resolution resolution;
         SpriteBatch spriteBatch;
@@ -83,6 +87,7 @@ namespace PBLGame
         public static float fadeAmount = 0.0f;
         public bool areCollidersAndTriggersSet;
 
+        #region HUD
         private float textDisplayTime = 3f;
         private string actualDialogueText = "";
         private Texture2D barsFront;
@@ -90,6 +95,7 @@ namespace PBLGame
         private Texture2D hpTexture;
         private Texture2D timeTexture;
         private Texture2D icons;
+        #endregion
 
         private Texture2D actualCutsceneTexture;
         private float cutsceneDisplayTime;
@@ -124,8 +130,8 @@ namespace PBLGame
             graphics.PreferredBackBufferHeight = 768;
             graphics.PreferredBackBufferWidth = 1366;
             //actualGameState = GameState.LevelTutorial;
-            actualGameState = GameState.LevelOne;
-            //actualGameState = GameState.MainMenu;
+            //actualGameState = GameState.LevelOne;
+            actualGameState = GameState.MainMenu;
             lastGameState = GameState.MainMenu;
             root = new GameObject();
         }
@@ -197,6 +203,7 @@ namespace PBLGame
             pointLights = new List<Lights.PointLight>();
             directionalLight = new Lights.DirectionalLight();
             missingTexture = Content.Load<Texture2D>("Missing");
+            updateComponents = new List<Component>();
         }
 
         protected override void UnloadContent()
@@ -756,9 +763,9 @@ namespace PBLGame
             switch (i)
             {
                 case StartButtonIndex:
-                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.1"), 3f);
-                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 2f);
-                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.2"), 2f);
+                    //new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 3f);
+                    //new Cutscene(Content.Load<Texture2D>("Cutscene/1.1"), 2f);
+                    //new Cutscene(Content.Load<Texture2D>("Cutscene/1.2"), 2f);
                     actualGameState = GameState.LevelTutorial;
                     System.Diagnostics.Debug.WriteLine("START");
                     break;
