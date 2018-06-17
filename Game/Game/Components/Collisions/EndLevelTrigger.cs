@@ -34,7 +34,6 @@ namespace Game.Components.Collisions
         {
             if (triggered?.tag == "player")
             {
-                System.Diagnostics.Debug.WriteLine("Triggered by player!!!");
                 new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.1"), 4f);
                 new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.2"), 3f);
                 new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.3"), 3f);

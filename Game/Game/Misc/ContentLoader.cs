@@ -551,6 +551,14 @@ namespace PBLGame.Misc
             CreateHierarchyOfLevel(strefa4List, mapRoot);
             AssignTagsForMapElements(strefa4List);
 
+            Model podest = game.Content.Load<Model>("Level1/levelStrefa4Podest");
+            Texture2D podestTex = game.Content.Load<Texture2D>("Level1/levelStrefa4PodestTex");
+            Texture2D podestNormal = game.Content.Load<Texture2D>("Level1/levelStrefa4PodestNormal");
+
+            List<GameObject> podestList = SplitModelIntoSmallerPieces(podest, podestTex, podestNormal);
+            CreateHierarchyOfLevel(podestList, mapRoot);
+            AssignTagsForMapElements(podestList);
+
             GameObject endTrigger = new GameObject("endTrigger");
             EndLevelTrigger trigger = new EndLevelTrigger(endTrigger, new Vector3(1100f, 10f, -1800f), new Vector3(1300f, 100f, -1500f), game);
             endTrigger.AddComponent(trigger);
