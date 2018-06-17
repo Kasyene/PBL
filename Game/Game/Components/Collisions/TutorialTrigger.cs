@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PBLGame;
 using PBLGame.MainGame;
+using Game.Misc.Time;
 
 namespace Game.Components.Coliisions
 {
@@ -23,6 +24,7 @@ namespace Game.Components.Coliisions
         Vector3 minimumPosition;
         Vector3 maximumPosition;
         ShroomGame game;
+        double time;
 
         public TutorialTrigger(GameObject owner, Vector3 minPos, Vector3 maxPos, ShroomGame game) : base(owner)
         {
@@ -47,16 +49,17 @@ namespace Game.Components.Coliisions
                 {
                     new DialogueString("Try to throw hat.");
                     new DialogueString("Then use 'R' to teleport");
+                    double time = Timer.gameTime.TotalGameTime.Seconds;
                     game.player.GetComponent<Player>().canUseR = true;
                 }
 
-                if (game.usedR == true && game.usedQ == false && game.player.GetComponent<Player>().canUseQ == false)
+                if (game.usedR == true && game.usedQ == false && game.player.GetComponent<Player>().canUseQ == false && Timer.gameTime.TotalGameTime.Seconds - time > 2)
                 {
                     new DialogueString("Use Q to stop time");
                     game.player.GetComponent<Player>().canUseQ = true;
                 }
 
-                System.Diagnostics.Debug.WriteLine("Triggered!!!");
+                System.Diagnostics.Debug.WriteLine("Triggered at time: " + Timer.gameTime.TotalGameTime.Seconds);
             }
         }
 
