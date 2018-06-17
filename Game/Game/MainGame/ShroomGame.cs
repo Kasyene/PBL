@@ -68,6 +68,7 @@ namespace PBLGame
 
         #region GameProgress
         public bool levelOneCompleted = false;
+        public bool tutorialCompleted = false;
         #endregion
 
         GraphicsDeviceManager graphics;
@@ -119,6 +120,7 @@ namespace PBLGame
 
         public static GameState actualGameState;
         public static GameState lastGameState;
+        public static double loadLevelTime = 0.0;
 
         public ShroomGame()
         {
@@ -130,8 +132,8 @@ namespace PBLGame
             graphics.PreferredBackBufferHeight = 768;
             graphics.PreferredBackBufferWidth = 1366;
             //actualGameState = GameState.LevelTutorial;
-            actualGameState = GameState.LevelOne;
-            //actualGameState = GameState.MainMenu;
+            //actualGameState = GameState.LevelOne;
+            actualGameState = GameState.MainMenu;
             lastGameState = GameState.MainMenu;
             root = new GameObject();
         }

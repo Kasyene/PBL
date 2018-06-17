@@ -51,6 +51,7 @@
     <Compile Include="Components\Collisions\EndLevelTrigger.cs" />
     <Compile Include="Components\Collisions\HeartConsumableTrigger.cs" />
     <Compile Include="Components\Collisions\LeverTrigger.cs" />
+    <Compile Include="Components\Collisions\LoadLevel1Trigger.cs" />
     <Compile Include="Components\Collisions\RopeCutConsumableTrigger.cs" />
     <Compile Include="Components\Collisions\Trigger.cs" />
     <Compile Include="Components\Collisions\HitTrigger.cs" />

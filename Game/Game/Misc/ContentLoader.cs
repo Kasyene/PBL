@@ -16,6 +16,7 @@ using Game.Components;
 using Game.MainGame;
 using Game.Components.Coliisions;
 using Game.Components.MapElements;
+using Game.Misc.Time;
 
 namespace PBLGame.Misc
 {
@@ -699,6 +700,16 @@ namespace PBLGame.Misc
             list.Add(door4);
             AssignTagsForMapElements(doorList);
 
+            if(!game.levelOneCompleted)
+            {
+                GameObject level1Trigger = new GameObject("level1Trigger");
+                LoadLevel1Trigger triggerLevel = new LoadLevel1Trigger(level1Trigger, new Vector3(-120f, 10f, -900f), new Vector3(-60f, 100f, -550f), game);
+                level1Trigger.AddComponent(triggerLevel);
+                level1Trigger.CreateColliders();
+                level1Trigger.SetAsTrigger();
+                mapRoot.AddChildNode(level1Trigger);
+            }
+
             Model hierarchiaStrefa3 = game.Content.Load<Model>("LevelTut/zamekStrefa3");
             Texture2D hierarchiaStrefa3Tex = game.Content.Load<Texture2D>("LevelTut/zamekStrefa3Tex");
             Texture2D hierarchiaStrefa3Normal = game.Content.Load<Texture2D>("LevelTut/zamekStrefa3Normal");
@@ -754,6 +765,7 @@ namespace PBLGame.Misc
         void ResetMap()
         {
             game.areCollidersAndTriggersSet = false;
+            ShroomGame.loadLevelTime = Timer.gameTime.TotalGameTime.TotalSeconds;
             Collider.ClearColliders();
             game.root = new GameObject();
             game.player = new GameObject("player");
