@@ -61,8 +61,10 @@
     <Compile Include="Components\MapElements\LeverComponent.cs" />
     <Compile Include="Components\MapElements\PlatformComponent.cs" />
     <Compile Include="Components\Collisions\TutorialTrigger.cs" />
+    <Compile Include="Components\Pawns\Enemies\BorowikusEnemy.cs" />
     <Compile Include="Components\Pawns\Enemies\Bullet.cs" />
     <Compile Include="Components\Pawns\Enemies\Enemy.cs" />
+    <Compile Include="Components\Pawns\Enemies\BossEnemy.cs" />
     <Compile Include="Components\Pawns\Enemies\MeleeEnemy.cs" />
     <Compile Include="Components\Particles\ParticleEmitter.cs" />
     <Compile Include="Components\Particles\ParticleSystem.cs" />
