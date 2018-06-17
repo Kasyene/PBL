@@ -754,6 +754,12 @@ namespace PBLGame.Misc
             {
                 game.player.Position = new Vector3(-20f, 100f, -1600f);
             }
+            if (!game.tutorialCompleted)
+            {
+                game.player.GetComponent<Player>().canUseE = false;
+                game.player.GetComponent<Player>().canUseR = false;
+                game.player.GetComponent<Player>().canUseQ = false;
+            }
             LoadTutorialEnemies();
         }
 

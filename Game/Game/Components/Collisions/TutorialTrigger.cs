@@ -8,6 +8,7 @@ using PBLGame.SceneGraph;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PBLGame;
+using PBLGame.MainGame;
 
 namespace Game.Components.Coliisions
 {
@@ -34,9 +35,29 @@ namespace Game.Components.Coliisions
         {
             if (triggered?.tag == "player")
             {
-                System.Diagnostics.Debug.WriteLine("Triggered by player!!!");
+                if(game.usedE == false && game.player.GetComponent<Player>().canUseE == false)
+                {
+                    new DialogueString("Try to jump.");
+                    new DialogueString("Don't worry.");
+                    new DialogueString("If u fall use 'E' to back in time");
+                    game.player.GetComponent<Player>().canUseE = true;
+                }
+
+                if (game.usedE == true && game.usedR == false && game.player.GetComponent<Player>().canUseR == false)
+                {
+                    new DialogueString("Try to throw hat.");
+                    new DialogueString("Then use 'R' to teleport");
+                    game.player.GetComponent<Player>().canUseR = true;
+                }
+
+                if (game.usedR == true && game.usedQ == false && game.player.GetComponent<Player>().canUseQ == false)
+                {
+                    new DialogueString("Use Q to stop time");
+                    game.player.GetComponent<Player>().canUseQ = true;
+                }
+
+                System.Diagnostics.Debug.WriteLine("Triggered!!!");
             }
-            System.Diagnostics.Debug.WriteLine("Triggered!!!");
         }
 
         public override BoundingBox GetBoundingBox(GameObject parent, Matrix localTransformations, Matrix worldTransformations)

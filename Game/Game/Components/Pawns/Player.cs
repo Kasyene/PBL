@@ -255,6 +255,7 @@ namespace PBLGame.MainGame
             {
                 if (inputManager.Keyboard[Keys.Q].WasPressed)
                 {
+                    GameServices.GetService<ShroomGame>().usedQ = true;
                     if (timeStop || timeEnergy == 0)
                     {
                         timeStop = false;
@@ -270,6 +271,7 @@ namespace PBLGame.MainGame
             {
                 if (inputManager.Keyboard[Keys.E].WasPressed && timeEnergy >= 5 && !eWasPressed)
                 {
+                    GameServices.GetService<ShroomGame>().usedE = true;
                     eWasPressed = true;
                     timeOfPress = Timer.gameTime.TotalGameTime.TotalMilliseconds;
                 }
@@ -278,6 +280,7 @@ namespace PBLGame.MainGame
             {
                 if (inputManager.Keyboard[Keys.R].WasPressed && timeEnergy >= 3 && !rWasPressed && playerHat.GetComponent<AnimationManager>().isCurrentAnimation("throw"))
                 {
+                    GameServices.GetService<ShroomGame>().usedR = true;
                     rWasPressed = true;
                     timeOfPress = Timer.gameTime.TotalGameTime.TotalMilliseconds;
                 }
