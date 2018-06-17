@@ -29,6 +29,10 @@ namespace PBLGame.Misc
         #region Textures
         Texture2D playerTex;
         Texture2D playerNormal;
+        Texture2D borowikusTex;
+        Texture2D borowikusNormal;
+        Texture2D kingTex;
+        Texture2D kingNormal;
         Texture2D rangedEnemyTex;
         Texture2D rangedEnemyNormal;
         Texture2D meleeEnemyTex;
@@ -46,6 +50,12 @@ namespace PBLGame.Misc
         ModelAnimatedComponent meleeAttack;
         ModelAnimatedComponent meleeGotHit;
         ModelAnimatedComponent meleeDeath;
+
+        ModelAnimatedComponent kingIdle;
+        ModelAnimatedComponent kingWalk;
+        ModelAnimatedComponent kingGotHit;
+        ModelAnimatedComponent kingDeath;
+        ModelAnimatedComponent kingDeathIdle;
 
         ModelAnimatedComponent rangedHatIdle;
         ModelAnimatedComponent rangedHatWalk;
@@ -77,6 +87,10 @@ namespace PBLGame.Misc
             refractionEffect = game.Content.Load<Effect>("Refraction");
             playerTex = game.Content.Load<Texture2D>("models/player/borowikTex");
             playerNormal = game.Content.Load<Texture2D>("models/player/borowikNormal");
+            borowikusTex = game.Content.Load<Texture2D>("models/player/borowikusTex");
+            borowikusNormal = game.Content.Load<Texture2D>("models/player/borowikusNormal");
+            kingTex = game.Content.Load<Texture2D>("models/enemies/krol/krolTex");
+            kingNormal = game.Content.Load<Texture2D>("models/enemies/krol/krolNormal");
             rangedEnemyTex = game.Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyTex");
             rangedEnemyNormal = game.Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyNormal");
             meleeEnemyTex = game.Content.Load<Texture2D>("models/enemies/muchomorStadny/muchomorStadnyTex");
@@ -86,6 +100,12 @@ namespace PBLGame.Misc
 
             heartModel = game.Content.Load<Model>("apteczka");
             bulletModel = game.Content.Load<Model>("models/enemies/muchomorRzucajacy/Kulka");
+
+            kingIdle = new ModelAnimatedComponent("models/enemies/krol/krolIdle",game.Content,animatedEffect,kingTex,kingNormal);
+            kingWalk = new ModelAnimatedComponent("models/enemies/krol/krolChod", game.Content, animatedEffect, kingTex, kingNormal);
+            kingGotHit = new ModelAnimatedComponent("models/enemies/krol/krolOberwal", game.Content, animatedEffect, kingTex, kingNormal);
+            kingDeath = new ModelAnimatedComponent("models/enemies/krol/krolUmarl", game.Content, animatedEffect, kingTex, kingNormal);
+            kingDeathIdle = new ModelAnimatedComponent("models/enemies/krol/krolUmarlIdle", game.Content, animatedEffect, kingTex, kingNormal); 
 
             meleeIdle = new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyIdle", game.Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal);
             meleeWalk = new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyChod", game.Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal);
@@ -117,8 +137,6 @@ namespace PBLGame.Misc
             GameObject playerLeg = new GameObject("Leg");
             GameObject playerHat = new GameObject("Hat");
             triggers.Add(playerHat);
-            GameObject playerLegWalk = new GameObject("Leg");
-            GameObject playerHatWalk = new GameObject("Hat");
 
             // Load anim models
             player.AddChildNode(playerLeg);
@@ -191,6 +209,127 @@ namespace PBLGame.Misc
 
             GameServices.RemoveService<GameObject>();
             GameServices.AddService(player);
+        }
+
+        public GameObject LoadBorowikus()
+        {
+            GameObject borowikus = new GameObject("borowikus");
+            GameObject borowikusLeg = new GameObject("Leg");
+            GameObject borowikusHat = new GameObject("Hat");
+            triggers.Add(borowikusHat);
+
+            // Load anim models
+            borowikus.AddChildNode(borowikusLeg);
+            borowikus.AddChildNode(borowikusHat);
+
+            // models without anims have problems i guess ; /
+            borowikusLeg.AddComponent(new ModelAnimatedComponent("models/player/borowikNozkaChod", game.Content, animatedEffect, borowikusTex, borowikusNormal));
+            borowikusLeg.AddComponent(new AnimationManager(borowikusLeg));
+            borowikusHat.AddComponent(new ModelAnimatedComponent("models/player/borowikKapeluszChod", game.Content, animatedEffect, borowikusTex, bulletEnemyNormal));
+            borowikusHat.AddComponent(new AnimationManager(borowikusHat));
+
+            // ENABLE DYNAMIC COLLISION ON BOROWIKUS HAT
+            borowikusHat.GetComponent<ModelAnimatedComponent>().ColliderDynamicUpdateEnable();
+
+            // IDLE
+            borowikusLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaIdle", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "idle");
+            borowikusHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszIdle", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "idle");
+
+            // WALK
+            borowikusLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaChod", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "walk");
+            borowikusHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszChod", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "walk");
+
+            // ATTACK MAIN
+            borowikusLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaSlash", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "slash");
+            borowikusHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszSlash", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "slash");
+
+            // ATTACK LEFT
+            borowikusLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaSlashLewo", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "slashL");
+            borowikusHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszSlashLewo", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "slashL");
+
+            // ATTACK RIGHT
+            borowikusLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaSlashPrawo", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "slashR");
+            borowikusHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszSlashPrawo", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "slashR");
+
+            // THROW
+            borowikusLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaRzutKapeluszem", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "throw");
+            borowikusHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszRzutKapeluszem", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "throw");
+
+            // JUMPATTACK1
+            borowikusLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaRzutKapeluszem", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpAttack1");
+            borowikusHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszRzutKapeluszem", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpAttack1");
+
+
+            // JUMPATTACK2
+            borowikusLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaRzutKapeluszem", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpAttack2");
+            borowikusHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszRzutKapeluszem", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpAttack2");
+
+            // JUMP START
+            borowikusLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaSkok1", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpStart");
+            borowikusHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszSkok1", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpStart");
+
+            // JUMP FALL
+            borowikusLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaSkok2", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpFall");
+            borowikusHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszSkok2", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpFall");
+
+            // JUMP LAND
+            borowikusLeg.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikNozkaSkok3", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpLand");
+            borowikusHat.GetComponent<AnimationManager>().AddAnimation(new ModelAnimatedComponent("models/player/borowikKapeluszSkok3", game.Content, animatedEffect, playerTex, playerNormal).AnimationClips[0], "jumpLand");
+
+            borowikusHat.GetComponent<AnimationManager>().PlayAnimation("idle");
+            borowikusLeg.GetComponent<AnimationManager>().PlayAnimation("idle");
+
+            // TODO: CHANGE CLASS TO BOROWIKUS
+            borowikus.AddComponent(new RangedEnemy(borowikus));
+            game.root.AddChildNode(borowikus);
+
+            borowikus.RotationZ = 1.5f;
+
+            return borowikus;
+        }
+
+        public GameObject LoadKing()
+        {
+            GameObject king = new GameObject("king");
+            GameObject kingModel = new GameObject("king");
+
+            triggers.Add(kingModel);
+            // Load anim models
+            king.AddChildNode(kingModel);
+
+            kingModel.AddComponent(new ModelAnimatedComponent("models/enemies/krol/krolIdle", game.Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal));
+            kingModel.AddComponent(new AnimationManager(kingModel));
+
+            // IDLE
+            kingModel.GetComponent<AnimationManager>().AddAnimation(kingIdle.AnimationClips[0], "idle");
+
+            // WALK
+            kingModel.GetComponent<AnimationManager>().AddAnimation(kingWalk.AnimationClips[0], "walk");
+
+            // DAMAGED
+            kingModel.GetComponent<AnimationManager>().AddAnimation(kingIdle.AnimationClips[0], "gotHit");
+
+            // DEATH
+            kingModel.GetComponent<AnimationManager>().AddAnimation(kingDeath.AnimationClips[0], "death");
+
+            // DEATH IDLE
+            kingModel.GetComponent<AnimationManager>().AddAnimation(kingDeathIdle.AnimationClips[0], "deathIdle");
+
+            kingModel.GetComponent<AnimationManager>().PlayAnimation("idle");
+
+            // TODO: CHANGE TO KING CLASS
+            king.AddComponent(new MeleeEnemy(king));
+            king.GetComponent<MeleeEnemy>().ObjectSide = Side.Enemy;
+
+            //heart
+            king.GetComponent<MeleeEnemy>().standardEffect = standardEffect;
+            king.GetComponent<MeleeEnemy>().heartTex = heartTexture;
+            king.GetComponent<MeleeEnemy>().heartModel = heartModel;
+
+            game.root.AddChildNode(king);
+            game.enemyList.Add(king);
+
+            return king;
         }
 
         public GameObject LoadRangedEnemy()
