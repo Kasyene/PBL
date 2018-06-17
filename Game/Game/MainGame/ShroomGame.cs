@@ -69,6 +69,9 @@ namespace PBLGame
         #region GameProgress
         public bool levelOneCompleted = false;
         public bool tutorialCompleted = false;
+        public bool usedQ = false;
+        public bool usedE = false;
+        public bool usedR = false;
         #endregion
 
         GraphicsDeviceManager graphics;

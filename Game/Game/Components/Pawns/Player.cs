@@ -36,6 +36,10 @@ namespace PBLGame.MainGame
         private float playerPositionYBeforeThrow;
         private int tempCount = 0;
 
+        public bool canUseQ = true;
+        public bool canUseE = true;
+        public bool canUseR = true;
+
         public Player(GameObject parent) : base()
         {
             MaxHp = 20;
@@ -247,27 +251,36 @@ namespace PBLGame.MainGame
             }
 
             // timeStop
-            if (inputManager.Keyboard[Keys.Q].WasPressed)
+            if (canUseQ)
             {
-                if (timeStop || timeEnergy == 0)
+                if (inputManager.Keyboard[Keys.Q].WasPressed)
                 {
-                    timeStop = false;
-                }
-                else if (!timeStop && timeEnergy > 1)
-                {
-                    timeStop = true;
+                    if (timeStop || timeEnergy == 0)
+                    {
+                        timeStop = false;
+                    }
+                    else if (!timeStop && timeEnergy > 1)
+                    {
+                        timeStop = true;
+                    }
                 }
             }
 
-            if (inputManager.Keyboard[Keys.E].WasPressed && timeEnergy >= 5 && !eWasPressed)
+            if (canUseE)
             {
-                eWasPressed = true;
-                timeOfPress = Timer.gameTime.TotalGameTime.TotalMilliseconds;
+                if (inputManager.Keyboard[Keys.E].WasPressed && timeEnergy >= 5 && !eWasPressed)
+                {
+                    eWasPressed = true;
+                    timeOfPress = Timer.gameTime.TotalGameTime.TotalMilliseconds;
+                }
             }
-            if (inputManager.Keyboard[Keys.R].WasPressed && timeEnergy >= 3 && !rWasPressed && playerHat.GetComponent<AnimationManager>().isCurrentAnimation("throw"))
+            if (canUseR)
             {
-                rWasPressed = true;
-                timeOfPress = Timer.gameTime.TotalGameTime.TotalMilliseconds;
+                if (inputManager.Keyboard[Keys.R].WasPressed && timeEnergy >= 3 && !rWasPressed && playerHat.GetComponent<AnimationManager>().isCurrentAnimation("throw"))
+                {
+                    rWasPressed = true;
+                    timeOfPress = Timer.gameTime.TotalGameTime.TotalMilliseconds;
+                }
             }
 
             if (eWasPressed && Timer.gameTime.TotalGameTime.TotalMilliseconds > timeOfPress + timeSkillsDelay)

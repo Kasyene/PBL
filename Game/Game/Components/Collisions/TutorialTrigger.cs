@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using PBLGame.SceneGraph;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using PBLGame;
 
 namespace Game.Components.Coliisions
 {
@@ -20,11 +21,13 @@ namespace Game.Components.Coliisions
 
         Vector3 minimumPosition;
         Vector3 maximumPosition;
+        ShroomGame game;
 
-        public TutorialTrigger(GameObject owner, Vector3 minPos, Vector3 maxPos) : base(owner)
+        public TutorialTrigger(GameObject owner, Vector3 minPos, Vector3 maxPos, ShroomGame game) : base(owner)
         {
             minimumPosition = minPos;
             maximumPosition = maxPos;
+            this.game = game;
         }
 
         public override void OnTrigger(GameObject triggered)
