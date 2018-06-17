@@ -506,6 +506,7 @@ namespace PBLGame.Misc
             Groundy.Add("Platforma");
             Groundy.Add("Ground");
             Groundy.Add("OwinietaLina");
+            Groundy.Add("Tron");
 
             List<String> Walle = new List<string>();
             Walle.Add("Brama");
@@ -907,7 +908,9 @@ namespace PBLGame.Misc
                 game.player.GetComponent<Player>().canUseR = false;
                 game.player.GetComponent<Player>().canUseQ = false;
             }
-            LoadTutorialEnemies();
+            GameObject king = LoadKing();
+            king.Position = new Vector3(0f, 40f, -1850f);
+
         }
 
         void LoadTutorialEnemies()
