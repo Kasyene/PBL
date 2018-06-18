@@ -101,10 +101,10 @@ namespace PBLGame.MainGame
             foreach (Collider col in parentGameObject.colliders)
             {
                 col.checkIfGrounded();
-                GameObject temp = col.CollisionUpdate();
-                if (temp != null && (temp.tag != "Ground" || temp.Parent.tag != "Ground"))
+                List <GameObject> temp = col.CollisionUpdate();
+                if (temp.Count != 0)
                 {
-                    parentGameObject.Position = parentGameObject.Position - col.penetrationDepth;
+                    parentGameObject.Translate(-col.penetrationDepth);
                 }
             }
             lastPosition = parentGameObject.Position;

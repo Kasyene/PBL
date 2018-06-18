@@ -25,31 +25,23 @@ namespace PBLGame.SceneGraph
 
         public BoundingBox BoundingBox
         {
-            get
-            {
-                return boundingBox;
-            }
+            get { return boundingBox; }
 
-            set
-            {
-                boundingBox = value;
-            }
+            set { boundingBox = value; }
         }
 
         public Component Component
         {
-            get
-            {
-                return component;
-            }
+            get { return component; }
         }
 
         public Collider(BoundingBox bounding, Component comp, GameObject owner)
         {
-            if(collidersList == null)
+            if (collidersList == null)
             {
                 collidersList = new List<Collider>();
             }
+
             component = comp;
             boundingBox = bounding;
             collidersList.Add(this);
@@ -67,10 +59,12 @@ namespace PBLGame.SceneGraph
             {
                 return false;
             }
+
             if (this.owner.Parent == other.owner.Parent)
             {
                 return false;
             }
+
             if (boundingBox.Intersects(other.boundingBox))
             {
                 if (other.isTrigger && !other.isCollider) //e.g. player hits trigger
@@ -89,23 +83,29 @@ namespace PBLGame.SceneGraph
                     {
                         this.owner.GetComponent<Trigger>().OnTrigger(other.owner.Parent);
                     }
+
                     return false;
                 }
 
-                if (!other.isTrigger && this.isTrigger && this.isCollider && (other.owner.tag == "Wall" || other.owner.tag == "Ground") && this.owner.tag == "Hat" && this.owner.GetComponent<AnimationManager>().isCurrentAnimation("throw"))
+                if (!other.isTrigger && this.isTrigger && this.isCollider &&
+                    (other.owner.tag == "Wall" || other.owner.tag == "Ground") && this.owner.tag == "Hat" &&
+                    this.owner.GetComponent<AnimationManager>().isCurrentAnimation("throw"))
                 {
                     this.owner.hatAnimationCollision = true;
                     return false;
                 }
+
                 return true;
             }
 
             return false;
         }
 
-        public GameObject CollisionUpdate()
+        public List<GameObject> CollisionUpdate()
         {
+            List<GameObject> collided = new List<GameObject>();
             List<Collider> triggered = new List<Collider>();
+            penetrationDepth = new Vector3();
             foreach (Collider col in collidersList)
             {
                 if (col != this)
@@ -116,41 +116,46 @@ namespace PBLGame.SceneGraph
                         {
                             if (this.owner.tag == "meleeEnemy" && col.owner.tag == "meleeEnemy")
                             {
-                                this.penetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
-                                return col.owner;
+                                this.penetrationDepth += PenetrationDepth(this.boundingBox, col.boundingBox);
+                                collided.Add(col.owner);
                             }
-                            if (col.owner.tag != "Ground" && col.owner.tag != "Wall")
+                            else if (col.owner.tag != "Ground" && col.owner.tag != "Wall")
                             {
                                 this.owner.GetComponent<HitTrigger>().OnTrigger(col.owner.Parent);
-                                return null;
                             }
-                        }
-
-                        if (col.isCollider && col.isTrigger && col.owner.tag != "meleeEnemy")
-                        {
-                            return null;
-                        }
-
-                        this.penetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
-                        if (col.owner.tag == "Ground")
-                        {
-                            if (Math.Abs(this.boundingBox.Min.Y - col.boundingBox.Max.Y) < 5)
+                            else
                             {
-                                this.penetrationDepth.X = 0.0f;
-                                this.penetrationDepth.Z = 0.0f;
-                                this.penetrationDepth.Y = 0.0f;
+                                this.penetrationDepth += PenetrationDepth(this.boundingBox, col.boundingBox);
+                                collided.Add(col.owner);
                             }
-                            this.owner.Parent.Position = this.owner.Parent.Position - this.penetrationDepth;
                         }
                         else
                         {
-                            this.penetrationDepth.Y = 0.0f;
-                            return col.owner;
+                            if (!(col.isCollider && col.isTrigger && col.owner.tag != "meleeEnemy"))
+                            {
+                                Vector3 tempPenetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
+                                if (col.owner.tag == "Ground")
+                                {
+                                    if (Math.Abs(this.boundingBox.Min.Y - col.boundingBox.Max.Y) < 5)
+                                    {
+                                        tempPenetrationDepth.X = 0.0f;
+                                        tempPenetrationDepth.Z = 0.0f;
+                                        tempPenetrationDepth.Y = 0.0f;
+                                    }
+
+                                    this.owner.Parent.Translate(-tempPenetrationDepth);
+                                }
+                                else
+                                {
+                                    tempPenetrationDepth.Y = 0.0f;
+                                    penetrationDepth += tempPenetrationDepth;
+                                    collided.Add(col.owner);
+                                }
+                            }
                         }
                     }
                     else
                     {
-
                         if (col.isReadyToBeDisposed)
                         {
                             triggered.Add(col);
@@ -163,7 +168,8 @@ namespace PBLGame.SceneGraph
             {
                 collidersList.Remove(trig);
             }
-            return null;
+
+            return collided;
         }
 
         public void checkIfGrounded()
@@ -172,7 +178,8 @@ namespace PBLGame.SceneGraph
             {
                 if (col != this)
                 {
-                    if (IsCollision(col) && col.owner.tag == "Ground" && (col.boundingBox.Max.Y - this.boundingBox.Min.Y) < 5)
+                    if (IsCollision(col) && col.owner.tag == "Ground" &&
+                        (col.boundingBox.Max.Y - this.boundingBox.Min.Y) < 5)
                     {
                         this.owner.Parent.isGrounded = true;
                         return;
@@ -184,7 +191,6 @@ namespace PBLGame.SceneGraph
             {
                 this.owner.Parent.isGrounded = false;
             }
-            
         }
 
         public Vector3 PenetrationDepth(BoundingBox boxA, BoundingBox boxB)
@@ -216,7 +222,7 @@ namespace PBLGame.SceneGraph
             {
                 result.Y = 0.0f;
             }
-           
+
 
             return result;
         }
@@ -228,6 +234,7 @@ namespace PBLGame.SceneGraph
             {
                 return result;
             }
+
             result = ((maxA - minB) > (maxB - minA)) ? -(maxB - minA) : (maxA - minB);
             return result;
         }
@@ -243,6 +250,7 @@ namespace PBLGame.SceneGraph
                 collider?.Dispose();
                 collidersList.Remove(collider);
             }
+
             base.Dispose();
         }
     }
