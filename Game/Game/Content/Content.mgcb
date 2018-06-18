@@ -2614,12 +2614,6 @@
 /processorParam:Quality=Best
 /build:audio/music/5823.mp3
 
-#begin audio/sfx/roblox.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:audio/sfx/roblox.mp3
-
 #begin audio/sfx/roblox_mono.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
