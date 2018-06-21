@@ -63,10 +63,16 @@ namespace PBLGame.SceneGraph
             if (this.owner.Parent == other.owner.Parent)
             {
                 return false;
+
             }
 
             if (boundingBox.Intersects(other.boundingBox))
             {
+
+                if (this.owner.tag == "player"  && other.owner.tag == "tutTrigger")
+                {
+
+                }
                 if (other.isTrigger && !other.isCollider) //e.g. player hits trigger
                 {
                     other.owner.GetComponent<Trigger>().OnTrigger(this.owner.Parent);
