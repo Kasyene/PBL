@@ -170,7 +170,7 @@ namespace PBLGame.MainGame
 
             Move(movement);
 
-            Rotate(inputManager.Mouse.PositionsDelta.X * 0.01f);
+            Rotate(ShroomGame.mouseXAxis * inputManager.Mouse.PositionsDelta.X * 0.01f);
         }
 
         private void PlayerAttacks()

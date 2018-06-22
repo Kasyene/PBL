@@ -12,6 +12,7 @@ using Game.Components.Collisions;
 using Game.MainGame;
 using PBLGame.Misc;
 using System;
+using PBLGame.Input.Devices;
 
 namespace PBLGame
 {
@@ -41,10 +42,16 @@ namespace PBLGame
             CreditsButtonIndex = 2,
             ExitButtonIndex = 3;
 
-        const int NumberOfOptionButtons = 3,
-          FullscreenButtonIndex = 0,
-          BackButtonIndex = 1,
-          ExitOptionButtonIndex = 2;
+        const int NumberOfOptionButtons = 9,
+          BiggestResolutionButtonIndex = 0,
+          BigResolutionButtonIndex = 1,
+          MediumResolutionButton = 2,
+          SmallResolutionButton = 3,
+          FullscreenButtonIndex = 4,
+          InvertAxisXButtonIndex = 5,
+          InvertAxisYButtonIndex = 6,
+          BackButtonIndex = 7,
+          ExitOptionButtonIndex = 8;
 
         Color[] menuButtonColor = new Color[NumberOfMenuButtons];
         Rectangle[] menuButtonRectangle = new Rectangle[NumberOfMenuButtons];
@@ -61,6 +68,7 @@ namespace PBLGame
         Rectangle backButtonRectangle = new Rectangle();
         BState backButtonState = new BState();
         Texture2D backButtonTexture;
+        static public int mouseXAxis = 1, mouseYAxis = 1;
         bool mousePressed, prevMousePressed = false;
         bool fullscreen = false;
         int mouseX, mouseY;
@@ -125,6 +133,8 @@ namespace PBLGame
         public static GameState lastGameState;
         public static double loadLevelTime = 0.0;
 
+        private Vector2 nativResolution; 
+
         public ShroomGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -132,8 +142,9 @@ namespace PBLGame
             inputManager = InputManager.Instance;
             Content.RootDirectory = "Content";
             resolution = new Resolution();
-            graphics.PreferredBackBufferHeight = 768;
-            graphics.PreferredBackBufferWidth = 1366;
+            nativResolution = new Vector2(1280, 720);
+            graphics.PreferredBackBufferHeight = (int)nativResolution.Y;
+            graphics.PreferredBackBufferWidth = (int)nativResolution.X;
             //actualGameState = GameState.LevelOne;
             actualGameState = GameState.MainMenu;
             lastGameState = GameState.MainMenu;
@@ -171,17 +182,23 @@ namespace PBLGame
             dialoguesFont = Content.Load<SpriteFont>("Dialogues");
 
             menuTexture = Content.Load<Texture2D>("Menus/menuTlo");
-            optionsTexture = Content.Load<Texture2D>("Menus/inneTlo");
-            creditsTexture = Content.Load<Texture2D>("Menus/inneTlo");
+            optionsTexture = Content.Load<Texture2D>("Menus/opcjeTlo");
+            creditsTexture = Content.Load<Texture2D>("Menus/autorzy");
 
             menuButtonTexture[StartButtonIndex] = Content.Load<Texture2D>("Menus/menuStart");
             menuButtonTexture[OptionsButtonIndex] = Content.Load<Texture2D>("Menus/menuOptions");
             menuButtonTexture[CreditsButtonIndex] = Content.Load<Texture2D>("Menus/menuCredits");
             menuButtonTexture[ExitButtonIndex] = Content.Load<Texture2D>("Menus/menuExit");
 
-            menuOptionButtonTexture[FullscreenButtonIndex] = Content.Load<Texture2D>("Menus/menuStart");
+            menuOptionButtonTexture[FullscreenButtonIndex] = Content.Load<Texture2D>("Menus/full");
             menuOptionButtonTexture[BackButtonIndex] = Content.Load<Texture2D>("Menus/inneBack");
             menuOptionButtonTexture[ExitOptionButtonIndex] = Content.Load<Texture2D>("Menus/menuExit");
+            menuOptionButtonTexture[BiggestResolutionButtonIndex] = Content.Load<Texture2D>("Menus/roz1");
+            menuOptionButtonTexture[BigResolutionButtonIndex] = Content.Load<Texture2D>("Menus/roz2");
+            menuOptionButtonTexture[MediumResolutionButton] = Content.Load<Texture2D>("Menus/roz3");
+            menuOptionButtonTexture[SmallResolutionButton] = Content.Load<Texture2D>("Menus/roz4");
+            menuOptionButtonTexture[InvertAxisXButtonIndex] = Content.Load<Texture2D>("Menus/aX");
+            menuOptionButtonTexture[InvertAxisYButtonIndex] = Content.Load<Texture2D>("Menus/aY");
 
             backButtonTexture = Content.Load<Texture2D>("Menus/inneBack");
 
@@ -235,14 +252,6 @@ namespace PBLGame
 
         protected override void Update(GameTime gameTime)
         {
-            //resolutionChange
-            if (inputManager.Keyboard[Keys.P])
-            {
-                resolution.SetResolution(1920, 1080);
-                screenRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, graphics.GraphicsDevice.Viewport.Width,
-                                                   graphics.GraphicsDevice.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
-                CalcButtonSize();
-            }
 
             Resources.CameraVector3 = camera.Position;
 
@@ -255,31 +264,22 @@ namespace PBLGame
                 case GameState.MainMenu:
                     lastGameState = actualGameState;
                     OnLevelLoad(actualGameState);
-                    MouseState mouse_state = Mouse.GetState();
-                    mouseX = mouse_state.X;
-                    mouseY = mouse_state.Y;
                     prevMousePressed = mousePressed;
-                    mousePressed = mouse_state.LeftButton == ButtonState.Pressed;
+                    mousePressed = inputManager.Mouse[SupportedMouseButtons.Left].IsDown;
                     UpdateMainMenuButtons();
                     break;
 
                 case GameState.Options:
                     OnLevelLoad(actualGameState);
-                    mouse_state = Mouse.GetState();
-                    mouseX = mouse_state.X;
-                    mouseY = mouse_state.Y;
                     prevMousePressed = mousePressed;
-                    mousePressed = mouse_state.LeftButton == ButtonState.Pressed;
+                    mousePressed = inputManager.Mouse[SupportedMouseButtons.Left].IsDown;
                     UpdateOptionsButtons();
                     break;
 
                 case GameState.Credits:
                     OnLevelLoad(actualGameState);
-                    mouse_state = Mouse.GetState();
-                    mouseX = mouse_state.X;
-                    mouseY = mouse_state.Y;
                     prevMousePressed = mousePressed;
-                    mousePressed = mouse_state.LeftButton == ButtonState.Pressed;
+                    mousePressed = inputManager.Mouse[SupportedMouseButtons.Left].IsDown;
                     UpdateCreditsButton();
            
                     break;
@@ -594,7 +594,7 @@ namespace PBLGame
         private void CalcButtonSize()
         {
             int BUTTON_HEIGHT = Window.ClientBounds.Height / 9;
-            int BUTTON_WIDTH = Window.ClientBounds.Width / 4;
+            int BUTTON_WIDTH = Window.ClientBounds.Width / 5;
             int x = Window.ClientBounds.Width / 2 - BUTTON_WIDTH / 2;
             int y = (Window.ClientBounds.Height / 2 - NumberOfMenuButtons / 2 * BUTTON_HEIGHT - (NumberOfMenuButtons % 2) * BUTTON_HEIGHT / 2) + BUTTON_HEIGHT;
             for (int i = 0; i < NumberOfMenuButtons; i++)
@@ -604,14 +604,35 @@ namespace PBLGame
                 menuButtonRectangle[i] = new Rectangle(x, y, BUTTON_WIDTH, BUTTON_HEIGHT);
                 y += BUTTON_HEIGHT + 20;
             }
-            y = (Window.ClientBounds.Height / 2 - NumberOfOptionButtons / 2 * BUTTON_HEIGHT - (NumberOfOptionButtons % 2) * BUTTON_HEIGHT / 2) + BUTTON_HEIGHT;
-            for (int i = 0; i < NumberOfOptionButtons; i++)
+            x = (Window.ClientBounds.Width / 2 - 4 / 2 * BUTTON_WIDTH - (4 % 2) * BUTTON_WIDTH / 2);
+            y = 2* BUTTON_HEIGHT;
+            for (int i = 0; i < 4; i++)
             {
                 menuOptionButtonState[i] = BState.UP;
                 menuOptionButtonColor[i] = Color.White;
                 menuOptionButtonRectangle[i] = new Rectangle(x, y, BUTTON_WIDTH, BUTTON_HEIGHT);
-                y += BUTTON_HEIGHT + 20;
+                x += BUTTON_WIDTH + 20;
             }
+            y += BUTTON_HEIGHT + 20;
+            menuOptionButtonState[FullscreenButtonIndex] = BState.UP;
+            menuOptionButtonColor[FullscreenButtonIndex] = Color.White;
+            x = Window.ClientBounds.Width / 2 - BUTTON_WIDTH / 2;
+            menuOptionButtonRectangle[FullscreenButtonIndex] = new Rectangle(x, y, BUTTON_WIDTH, BUTTON_HEIGHT);
+            y = (Window.ClientBounds.Height / 2)  + BUTTON_HEIGHT;
+            for (int i = 5; i < 7; i++)
+            {
+                menuOptionButtonState[i] = BState.UP;
+                menuOptionButtonColor[i] = Color.White;
+                menuOptionButtonRectangle[i] = new Rectangle(menuOptionButtonRectangle[i-5].X, y, BUTTON_WIDTH, BUTTON_HEIGHT);
+            }
+            y = (Window.ClientBounds.Height) - 2 * BUTTON_HEIGHT;
+            for (int i = 7; i < 9; i++)
+            {
+                menuOptionButtonState[i] = BState.UP;
+                menuOptionButtonColor[i] = Color.White;
+                menuOptionButtonRectangle[i] = new Rectangle(menuOptionButtonRectangle[i - 5].X, y, BUTTON_WIDTH, BUTTON_HEIGHT);
+            }
+            y = (Window.ClientBounds.Height / 2 - NumberOfMenuButtons / 2 * BUTTON_HEIGHT - (NumberOfMenuButtons % 2) * BUTTON_HEIGHT / 2) + BUTTON_HEIGHT;
             backButtonState = BState.UP;
             backButtonColor = Color.White;
             backButtonRectangle = menuButtonRectangle[NumberOfMenuButtons - 1];
@@ -653,12 +674,12 @@ namespace PBLGame
         {
             for (int i = 0; i < NumberOfMenuButtons; i++)
             {
-                if (HitImageAlpha(menuButtonRectangle[i], menuButtonTexture[i], mouseX, mouseY))
+                if (HitImageAlpha(menuButtonRectangle[i], menuButtonTexture[i], (int)inputManager.Mouse.Position.X, (int)inputManager.Mouse.Position.Y))
                 {
                     if (mousePressed)
                     {
                         menuButtonState[i] = BState.DOWN;
-                        menuButtonColor[i] = Color.DarkKhaki;
+                        menuButtonColor[i] = Color.DarkOliveGreen;
                     }
                     else if (!mousePressed && prevMousePressed)
                     {
@@ -670,7 +691,7 @@ namespace PBLGame
                     else
                     {
                         menuButtonState[i] = BState.HOVER;
-                        menuButtonColor[i] = Color.LightYellow;
+                        menuButtonColor[i] = Color.DarkKhaki;
                     }
                 }
                 else
@@ -690,12 +711,12 @@ namespace PBLGame
         {
             for (int i = 0; i < NumberOfOptionButtons; i++)
             {
-                if (HitImageAlpha(menuOptionButtonRectangle[i], menuOptionButtonTexture[i], mouseX, mouseY))
+                if (HitImageAlpha(menuOptionButtonRectangle[i], menuOptionButtonTexture[i], (int)inputManager.Mouse.Position.X, (int)inputManager.Mouse.Position.Y))
                 {
                     if (mousePressed)
                     {
                         menuOptionButtonState[i] = BState.DOWN;
-                        menuOptionButtonColor[i] = Color.DarkKhaki;
+                        menuOptionButtonColor[i] = Color.DarkOliveGreen;
                     }
                     else if (!mousePressed && prevMousePressed)
                     {
@@ -707,7 +728,7 @@ namespace PBLGame
                     else
                     {
                         menuOptionButtonState[i] = BState.HOVER;
-                        menuOptionButtonColor[i] = Color.LightYellow;
+                        menuOptionButtonColor[i] = Color.DarkKhaki;
                     }
                 }
                 else
@@ -725,12 +746,12 @@ namespace PBLGame
 
         void UpdateCreditsButton()
         {
-            if (HitImageAlpha(backButtonRectangle, backButtonTexture, mouseX, mouseY))
+            if (HitImageAlpha(backButtonRectangle, backButtonTexture, (int)inputManager.Mouse.Position.X, (int)inputManager.Mouse.Position.Y))
             {
                 if (mousePressed)
                 {
                     backButtonState = BState.DOWN;
-                    backButtonColor = Color.DarkKhaki;
+                    backButtonColor = Color.DarkOliveGreen;
                 }
                 else if (!mousePressed && prevMousePressed)
                 {
@@ -742,7 +763,7 @@ namespace PBLGame
                 else
                 {
                     backButtonState = BState.HOVER;
-                    backButtonColor = Color.LightYellow;
+                    backButtonColor = Color.DarkKhaki;
                 }
             }
             else
@@ -793,9 +814,40 @@ namespace PBLGame
         {
             switch (i)
             {
+                case BiggestResolutionButtonIndex:
+                    resolution.SetResolution(1920, 1080);
+                    screenRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, graphics.GraphicsDevice.Viewport.Width,
+                                                graphics.GraphicsDevice.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
+                    CalcButtonSize();
+                    break;
+                case BigResolutionButtonIndex:
+                    resolution.SetResolution(1280, 720);
+                    screenRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, graphics.GraphicsDevice.Viewport.Width,
+                                                graphics.GraphicsDevice.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
+                    CalcButtonSize();
+                    break;
+                case MediumResolutionButton:
+                    resolution.SetResolution(1024, 768);
+                    screenRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, graphics.GraphicsDevice.Viewport.Width,
+                                                graphics.GraphicsDevice.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
+                    CalcButtonSize();
+                    break;
+                case SmallResolutionButton:
+                    resolution.SetResolution(800, 600);
+                    screenRenderTarget = new RenderTarget2D(graphics.GraphicsDevice, graphics.GraphicsDevice.Viewport.Width,
+                                                graphics.GraphicsDevice.Viewport.Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
+                    CalcButtonSize();
+                    break;
                 case FullscreenButtonIndex:
                     fullscreen = !fullscreen;
                     resolution.SetFullscreen(fullscreen);
+                    CalcButtonSize();
+                    break;
+                case InvertAxisXButtonIndex:
+                    mouseXAxis *= -1;
+                    break;
+                case InvertAxisYButtonIndex:
+                    mouseYAxis *= -1;
                     break;
                 case BackButtonIndex:
                     actualGameState = lastGameState;
