@@ -101,7 +101,7 @@ namespace PBLGame
 
         #region HUD
         private float textDisplayTime = 3f;
-        private string actualDialogueText = "";
+        private string[] actualDialogueText;
         private Texture2D barsFront;
         private Texture2D barsBack;
         private Texture2D hpTexture;
@@ -145,8 +145,8 @@ namespace PBLGame
             nativResolution = new Vector2(1280, 720);
             graphics.PreferredBackBufferHeight = (int)nativResolution.Y;
             graphics.PreferredBackBufferWidth = (int)nativResolution.X;
-            //actualGameState = GameState.LevelOne;
-            actualGameState = GameState.MainMenu;
+            actualGameState = GameState.LevelOne;
+            //actualGameState = GameState.MainMenu;
             lastGameState = GameState.MainMenu;
             root = new GameObject();
         }
@@ -158,6 +158,7 @@ namespace PBLGame
             GameServices.AddService<GraphicsDevice>(GraphicsDevice);
             GameServices.AddService<GraphicsDeviceManager>(graphics);
             GameServices.AddService<Resolution>(resolution);
+            resolution.SetFullscreen(true);
             GameServices.AddService<ContentLoader>(new ContentLoader(this));
             GameServices.AddService<ShroomGame>(this);
         }
@@ -215,6 +216,9 @@ namespace PBLGame
             icons[3] = Content.Load<Texture2D>("hud/ikonaStopSzara");
             icons[4] = Content.Load<Texture2D>("hud/ikonaCofnijSzara");
             icons[5] = Content.Load<Texture2D>("hud/ikonaTepSzara");
+
+            actualDialogueText = new string[3];
+            actualDialogueText[0] = ""; 
 
             refractiveObject = new GameObject();
             root.AddChildNode(refractiveObject);
@@ -572,15 +576,24 @@ namespace PBLGame
         void DrawText(GameTime gameTime)
         {
             textDisplayTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (textDisplayTime < 0f || actualDialogueText == "")
+            if (textDisplayTime < 0f || actualDialogueText[0] == "")
             {
-                actualDialogueText = DialogueString.GetActualDialogueString();
-                textDisplayTime = 3f;
+                actualDialogueText[0] = DialogueString.GetActualDialogueString();
+                actualDialogueText[1] = DialogueString.GetActualDialogueString();
+                actualDialogueText[2] = DialogueString.GetActualDialogueString();
+                textDisplayTime = 6f;
+
             }
             spriteBatch.Begin();
-            spriteBatch.DrawString(dialoguesFont, actualDialogueText,
-                new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 50f),
-                Color.Snow, 0.0f, dialoguesFont.MeasureString(actualDialogueText) / 2, 1.0f, SpriteEffects.None, 0.5f);
+            spriteBatch.DrawString(dialoguesFont, actualDialogueText[0],
+                new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 80f),
+                Color.Snow, 0.0f, dialoguesFont.MeasureString(actualDialogueText[0]) / 2, 1.0f, SpriteEffects.None, 0.5f);
+            spriteBatch.DrawString(dialoguesFont, actualDialogueText[1],
+               new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 50f),
+               Color.Snow, 0.0f, dialoguesFont.MeasureString(actualDialogueText[1]) / 2, 1.0f, SpriteEffects.None, 0.5f);
+            spriteBatch.DrawString(dialoguesFont, actualDialogueText[2],
+               new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 20f),
+               Color.Snow, 0.0f, dialoguesFont.MeasureString(actualDialogueText[2]) / 2, 1.0f, SpriteEffects.None, 0.5f);
             spriteBatch.End();
         }
 
@@ -597,33 +610,33 @@ namespace PBLGame
                 {
                     if (player.GetComponent<Player>().GetTimeEnergy() > 1)
                     {
-                        spriteBatch.Draw(icons[0], new Rectangle(graphics.GraphicsDevice.Viewport.Width - 380, graphics.GraphicsDevice.Viewport.Height - 100, 103, 63), Color.White);
+                        spriteBatch.Draw(icons[0], new Rectangle(graphics.GraphicsDevice.Viewport.Width - 380, graphics.GraphicsDevice.Viewport.Height - 90, 103, 63), Color.White);
                     }
                     else
                     {
-                        spriteBatch.Draw(icons[3], new Rectangle(graphics.GraphicsDevice.Viewport.Width - 380, graphics.GraphicsDevice.Viewport.Height - 100, 103, 63), Color.White);
+                        spriteBatch.Draw(icons[3], new Rectangle(graphics.GraphicsDevice.Viewport.Width - 380, graphics.GraphicsDevice.Viewport.Height - 90, 103, 63), Color.White);
                     }
                 }
                 if (player.GetComponent<Player>().canUseE)
                 {
                     if (player.GetComponent<Player>().GetTimeEnergy() >= 5)
                     {
-                        spriteBatch.Draw(icons[1], new Rectangle(graphics.GraphicsDevice.Viewport.Width - 260, graphics.GraphicsDevice.Viewport.Height - 100, 103, 63), Color.White);
+                        spriteBatch.Draw(icons[1], new Rectangle(graphics.GraphicsDevice.Viewport.Width - 260, graphics.GraphicsDevice.Viewport.Height - 90, 103, 63), Color.White);
                     }
                     else
                     {
-                        spriteBatch.Draw(icons[4], new Rectangle(graphics.GraphicsDevice.Viewport.Width - 260, graphics.GraphicsDevice.Viewport.Height - 100, 103, 63), Color.White);
+                        spriteBatch.Draw(icons[4], new Rectangle(graphics.GraphicsDevice.Viewport.Width - 260, graphics.GraphicsDevice.Viewport.Height - 90, 103, 63), Color.White);
                     }
                 }
                 if (player.GetComponent<Player>().canUseR)
                 {
                     if (player.GetComponent<Player>().GetTimeEnergy() >= 3)
                     {
-                        spriteBatch.Draw(icons[2], new Rectangle(graphics.GraphicsDevice.Viewport.Width - 140, graphics.GraphicsDevice.Viewport.Height - 100, 103, 63), Color.White);
+                        spriteBatch.Draw(icons[2], new Rectangle(graphics.GraphicsDevice.Viewport.Width - 140, graphics.GraphicsDevice.Viewport.Height - 90, 103, 63), Color.White);
                     }
                     else
                     {
-                        spriteBatch.Draw(icons[5], new Rectangle(graphics.GraphicsDevice.Viewport.Width - 140, graphics.GraphicsDevice.Viewport.Height - 100, 103, 63), Color.White);
+                        spriteBatch.Draw(icons[5], new Rectangle(graphics.GraphicsDevice.Viewport.Width - 140, graphics.GraphicsDevice.Viewport.Height - 90, 103, 63), Color.White);
                     }
                 }
                 spriteBatch.End();

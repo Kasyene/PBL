@@ -538,6 +538,8 @@ namespace PBLGame.Misc
 
         public void LoadLevel1()
         {
+            new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 6f);
+            new DialogueString("I not have too much time, I need to find Borowikus quickly, there is no time to waste.");
             GameObject mapRoot = new GameObject();
             ResetMap();
 
@@ -735,7 +737,6 @@ namespace PBLGame.Misc
             GameObject enemy2 = LoadMeleeEnemy();
             enemy2.Position = new Vector3(150f, 40f, -350f);
 
-            new DialogueString("I not have too much time, I need to find Borowikus quickly, there is no time to waste");
         }
 
         public void LoadTutorial()
