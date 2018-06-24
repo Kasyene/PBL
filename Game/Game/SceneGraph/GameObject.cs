@@ -412,25 +412,26 @@ namespace PBLGame.SceneGraph
                         if (collider.Component.Equals(a.Component))
                         {
                             duplikat = true;
+                            a.isReadyToBeDisposed = true;
                         }
                     }
 
                     if (!duplikat)
                     {
                         colliders.Add(a);
+                        if (this.parent != null)
+                        {
+                            if (this.parent.CheckIfPawn())
+                            {
+                                this.parent.colliders.Add(a);
+                            }
+                        }
                     }
                     else
                     {
                         duplikat = false;
                     }
 
-                    if (this.parent != null)
-                    {
-                        if (this.parent.CheckIfPawn())
-                        {
-                            this.parent.colliders.Add(a);
-                        }
-                    }
                     break;
                 }
             }

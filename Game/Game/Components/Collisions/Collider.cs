@@ -68,18 +68,13 @@ namespace PBLGame.SceneGraph
 
             if (boundingBox.Intersects(other.boundingBox))
             {
-
-                if (this.owner.tag == "player"  && other.owner.tag == "tutTrigger")
-                {
-
-                }
-                if (other.isTrigger && !other.isCollider) //e.g. player hits trigger
+                if (this.isCollider && other.isTrigger && !other.isCollider) //e.g. player hits trigger
                 {
                     other.owner.GetComponent<Trigger>().OnTrigger(this.owner.Parent);
                     return false;
                 }
 
-                if (this.isTrigger && !this.isCollider) //e.g. trigger hits wall
+                if (this.isTrigger && !this.isCollider && other.isCollider) //e.g. trigger hits wall
                 {
                     if (this.owner.tag == "cameraCollision")
                     {
@@ -101,7 +96,11 @@ namespace PBLGame.SceneGraph
                     return false;
                 }
 
-                return true;
+                if (this.isCollider && other.isCollider)
+                {
+                    return true;
+                }
+                
             }
 
             return false;
@@ -184,8 +183,8 @@ namespace PBLGame.SceneGraph
             {
                 if (col != this)
                 {
-                    if (IsCollision(col) && col.owner.tag == "Ground" &&
-                        (col.boundingBox.Max.Y - this.boundingBox.Min.Y) < 5)
+                    if (col.owner.tag == "Ground" &&
+                        (col.boundingBox.Max.Y - this.boundingBox.Min.Y) < 5 && IsCollision(col))
                     {
                         this.owner.Parent.isGrounded = true;
                         return;
