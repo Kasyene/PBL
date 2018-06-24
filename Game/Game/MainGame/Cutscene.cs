@@ -11,12 +11,14 @@ namespace Game.MainGame
     {
         public Texture2D texture;
         public float time;
+        public string text;
         static Queue<Cutscene> cutsceneQueue = new Queue<Cutscene>();
 
-        public Cutscene(Texture2D _texture, float _time)
+        public Cutscene(Texture2D _texture, float _time, string _text = null)
         {
             texture = _texture;
             time = _time;
+            text = _text;
             cutsceneQueue.Enqueue(this);
         }
 

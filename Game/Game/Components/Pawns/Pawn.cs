@@ -45,7 +45,7 @@ namespace PBLGame.MainGame
 
         public override void Update(GameTime time)
         {
-            if (Timer.gameTime.TotalGameTime.TotalSeconds - ShroomGame.loadLevelTime > 3)
+            if (Timer.gameTime.TotalGameTime.TotalSeconds - ShroomGame.loadLevelTime > 4)
             {
                 CheckCollider();
                 if (!parentGameObject.isGrounded)

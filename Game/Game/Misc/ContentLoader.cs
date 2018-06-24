@@ -538,8 +538,7 @@ namespace PBLGame.Misc
 
         public void LoadLevel1()
         {
-            new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 6f);
-            new DialogueString("I not have too much time, I need to find Borowikus quickly, there is no time to waste.");
+            new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 6f, "I not have too much time, I need to find Borowikus quickly, there is no time to waste.");
             GameObject mapRoot = new GameObject();
             ResetMap();
 

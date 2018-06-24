@@ -492,6 +492,7 @@ namespace PBLGame
                 {
                     actualCutsceneTexture = cutscene.texture;
                     cutsceneDisplayTime = cutscene.time;
+                    new DialogueString(cutscene.text);
                 }
                 else
                 {
