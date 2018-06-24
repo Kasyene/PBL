@@ -895,13 +895,16 @@ namespace PBLGame.Misc
             ShroomGame.pointLights.Add(new Lights.PointLight(new Vector3(-20.0f, 150.0f, -1900.0f), new Vector3(2.8f, 0.0002f, 0.00004f)));
 
             LoadPlayer(game.player, game.cameraCollision);
+            GameObject borowikus = LoadBorowikus();
             if(game.levelOneCompleted)
             {
                 game.player.Position = new Vector3(-20f, 100f, -700f);
+                borowikus.Position = new Vector3(50f, 40f, -1800f);
             }
             else
             {
                 game.player.Position = new Vector3(-20f, 100f, -1600f);
+                borowikus.Position = new Vector3(130f, 200f, 30f);
             }
             if (!game.tutorialCompleted)
             {
@@ -910,7 +913,7 @@ namespace PBLGame.Misc
                 game.player.GetComponent<Player>().canUseQ = false;
             }
             GameObject king = LoadKing();
-            king.Position = new Vector3(0f, 40f, -1850f);
+            king.Position = new Vector3(0f, 40f, -1900f);
 
         }
 
