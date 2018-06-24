@@ -106,7 +106,7 @@ namespace PBLGame
         private Texture2D barsBack;
         private Texture2D hpTexture;
         private Texture2D timeTexture;
-        private Texture2D icons;
+        private Texture2D[] icons;
         #endregion
 
         private Texture2D actualCutsceneTexture;
@@ -208,7 +208,14 @@ namespace PBLGame
             timeTexture = Content.Load<Texture2D>("hud/paskiCzas");
             barsFront = Content.Load<Texture2D>("hud/paskiPrzod");
             barsBack = Content.Load<Texture2D>("hud/paskiTyl");
-            icons = Content.Load<Texture2D>("hud/ikonki");
+            icons = new Texture2D[9];
+            icons[0] = Content.Load<Texture2D>("hud/ikonaStop");
+            icons[1] = Content.Load<Texture2D>("hud/ikonaCofnij");
+            icons[2] = Content.Load<Texture2D>("hud/ikonaTep");
+            icons[3] = Content.Load<Texture2D>("hud/ikonaStopSzara");
+            icons[4] = Content.Load<Texture2D>("hud/ikonaCofnijSzara");
+            icons[5] = Content.Load<Texture2D>("hud/ikonaTepSzara");
+
             refractiveObject = new GameObject();
             root.AddChildNode(refractiveObject);
 
@@ -586,7 +593,39 @@ namespace PBLGame
                 spriteBatch.Draw(hpTexture, new Rectangle(20 + (player.GetComponent<Player>().MaxHp - player.GetComponent<Player>().Hp), graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().Hp * 15, 80), Color.White);
                 spriteBatch.Draw(timeTexture, new Rectangle(20 + (10 - player.GetComponent<Player>().GetTimeEnergy()), graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().GetTimeEnergy() * 30, 80), Color.White);
                 spriteBatch.Draw(barsFront, new Rectangle(20, graphics.GraphicsDevice.Viewport.Height - 100, player.GetComponent<Player>().MaxHp * 15, 80), Color.White);
-                spriteBatch.Draw(icons, new Rectangle(graphics.GraphicsDevice.Viewport.Width - 380, graphics.GraphicsDevice.Viewport.Height - 120, 400, 120), Color.White);
+                if (player.GetComponent<Player>().canUseQ)
+                {
+                    if (player.GetComponent<Player>().GetTimeEnergy() > 1)
+                    {
+                        spriteBatch.Draw(icons[0], new Rectangle(graphics.GraphicsDevice.Viewport.Width - 380, graphics.GraphicsDevice.Viewport.Height - 100, 103, 63), Color.White);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(icons[3], new Rectangle(graphics.GraphicsDevice.Viewport.Width - 380, graphics.GraphicsDevice.Viewport.Height - 100, 103, 63), Color.White);
+                    }
+                }
+                if (player.GetComponent<Player>().canUseE)
+                {
+                    if (player.GetComponent<Player>().GetTimeEnergy() >= 5)
+                    {
+                        spriteBatch.Draw(icons[1], new Rectangle(graphics.GraphicsDevice.Viewport.Width - 260, graphics.GraphicsDevice.Viewport.Height - 100, 103, 63), Color.White);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(icons[4], new Rectangle(graphics.GraphicsDevice.Viewport.Width - 260, graphics.GraphicsDevice.Viewport.Height - 100, 103, 63), Color.White);
+                    }
+                }
+                if (player.GetComponent<Player>().canUseR)
+                {
+                    if (player.GetComponent<Player>().GetTimeEnergy() >= 3)
+                    {
+                        spriteBatch.Draw(icons[2], new Rectangle(graphics.GraphicsDevice.Viewport.Width - 140, graphics.GraphicsDevice.Viewport.Height - 100, 103, 63), Color.White);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(icons[5], new Rectangle(graphics.GraphicsDevice.Viewport.Width - 140, graphics.GraphicsDevice.Viewport.Height - 100, 103, 63), Color.White);
+                    }
+                }
                 spriteBatch.End();
             }
         }
