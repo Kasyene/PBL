@@ -33,11 +33,12 @@ namespace Game.Components.MapElements
 
         public override void Update(GameTime gameTime)
         {
+            System.Diagnostics.Debug.WriteLine(parent.Position);
             if (!stay)
             {
                 if (direction)
                 {
-                    parent.PositionX -= moveStep * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    parent.PositionX -= Math.Abs(moveStep * (float)gameTime.ElapsedGameTime.TotalSeconds);
                     if (parent.PositionX < targetPosition.X)
                     {
                         stay = true;
@@ -46,7 +47,7 @@ namespace Game.Components.MapElements
                 }
                 else
                 {
-                    parent.PositionX += moveStep * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    parent.PositionX += Math.Abs(moveStep * (float)gameTime.ElapsedGameTime.TotalSeconds);
                     if (parent.PositionX > startPosition.X)
                     {
                         stay = true;

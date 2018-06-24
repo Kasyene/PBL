@@ -762,6 +762,9 @@ namespace PBLGame.Misc
             plat1.name = platforma1.Meshes[0].Name;
             ModelComponent modelPlat1 = new ModelComponent(platforma1, standardEffect, hierarchiaStrefa1Tex, hierarchiaStrefa1Normal);
             plat1.AddComponent(modelPlat1);
+            PlatformComponent plat1Comp = new PlatformComponent(plat1, plat1.Position - new Vector3(150f, 0f, 0f), 1f, 1f);
+            plat1.AddComponent(plat1Comp);
+            game.updateComponents.Add(plat1Comp);
             mapRoot.AddChildNode(plat1);
 
             GameObject tutTrigger = new GameObject("tutTrigger");
