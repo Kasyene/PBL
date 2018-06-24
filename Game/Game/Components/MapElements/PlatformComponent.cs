@@ -33,7 +33,6 @@ namespace Game.Components.MapElements
 
         public override void Update(GameTime gameTime)
         {
-            System.Diagnostics.Debug.WriteLine(parent.Position);
             if (!stay)
             {
                 if (direction)
