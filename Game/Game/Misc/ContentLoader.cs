@@ -830,6 +830,7 @@ namespace PBLGame.Misc
             door3.AddComponent(door3ModelComp);
             DoorComponent door3Comp = new DoorComponent(door3, MathHelper.PiOver2, new Vector3(-45f, 0f, -45f));
             door3.AddComponent(door3Comp);
+            game.door1 = door3Comp;
             game.updateComponents.Add(door3Comp);
             mapRoot.AddChildNode(door3);
 
@@ -844,6 +845,7 @@ namespace PBLGame.Misc
             door4.AddComponent(door4ModelComp);
             DoorComponent door4Comp = new DoorComponent(door4, -MathHelper.PiOver2, new Vector3(45f, 0f, -45f));
             door4.AddComponent(door4Comp);
+            game.door2 = door4Comp;
             game.updateComponents.Add(door4Comp);
             mapRoot.AddChildNode(door4);
 

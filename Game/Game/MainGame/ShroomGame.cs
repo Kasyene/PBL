@@ -13,6 +13,7 @@ using Game.MainGame;
 using PBLGame.Misc;
 using System;
 using PBLGame.Input.Devices;
+using Game.Components.MapElements;
 
 namespace PBLGame
 {
@@ -90,6 +91,9 @@ namespace PBLGame
         public bool usedQ = false;
         public bool usedE = false;
         public bool usedR = false;
+
+        public DoorComponent door1;
+        public DoorComponent door2;
         #endregion
 
         GraphicsDeviceManager graphics;
@@ -156,8 +160,8 @@ namespace PBLGame
             nativResolution = new Vector2(1280, 720);
             graphics.PreferredBackBufferHeight = (int)nativResolution.Y;
             graphics.PreferredBackBufferWidth = (int)nativResolution.X;
-            actualGameState = GameState.LevelOne;
-            //actualGameState = GameState.MainMenu;
+            //actualGameState = GameState.LevelOne;
+            actualGameState = GameState.MainMenu;
             lastGameState = GameState.MainMenu;
             root = new GameObject();
         }

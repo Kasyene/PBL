@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Game.Components.MapElements
 {
-    class DoorComponent : Component
+    public class DoorComponent : Component
     {
         GameObject parent;
         float startRotation;

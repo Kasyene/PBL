@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using PBLGame;
 using PBLGame.MainGame;
 using PBLGame.SceneGraph;
 
@@ -6,9 +7,12 @@ namespace Game.Components.Pawns.Enemies
 {
     class BorowikusEnemy : Enemy
     {
+        public bool running = false;
+
         public BorowikusEnemy(GameObject parent) : base(parent)
         {
             ObjectSide = Side.Enemy;
+            enemySpeed = 0.2f;
         }
 
         public override void Dispose()
@@ -19,6 +23,7 @@ namespace Game.Components.Pawns.Enemies
         public override void ReceiveHit()
         {
             base.ReceiveHit();
+            running = true;
         }
 
         public override void Update(GameTime time)
@@ -33,12 +38,33 @@ namespace Game.Components.Pawns.Enemies
 
         protected override void EnemyBehaviour()
         {
-            base.EnemyBehaviour();
+            if (parentGameObject.PositionZ < -1200)
+            {
+                running = false;
+                GameServices.GetService<ShroomGame>().tutorialCompleted = true;
+                GameServices.GetService<GameObject>().GetComponent<Player>().canUseQ = true;
+                GameServices.GetService<GameObject>().GetComponent<Player>().canUseR = true;
+                GameServices.GetService<ShroomGame>().door1.closed = true;
+                GameServices.GetService<ShroomGame>().door2.closed = true;
+            }
+            if (!running)
+            {
+                Vector3 playerPosition = GameServices.GetService<GameObject>().Position;
+                LookAtTarget(playerPosition, parentGameObject.Position);
+                distance = Vector3.Distance(playerPosition, this.parentGameObject.Position);
+                heightDifference = System.Math.Abs(playerPosition.Y - this.parentGameObject.Position.Y);
+            }
+            else
+            {
+                if(parentGameObject.PositionZ > -450) LookAtTarget(new Vector3(-30f, 0f, -500f),parentGameObject.Position);
+                else LookAtTarget(new Vector3(0f, 0f, -1500f), parentGameObject.Position);
+                Movement();
+            }
         }
 
         protected override void Movement()
         {
-            base.Movement();
+            Move(new Vector3(0f, 0f, enemySpeed));
         }
     }
 }
