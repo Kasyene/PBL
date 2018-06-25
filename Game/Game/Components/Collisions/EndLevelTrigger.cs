@@ -34,11 +34,17 @@ namespace Game.Components.Collisions
         {
             if (triggered?.tag == "player")
             {
-                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.1"), 4f, "Narrator: At the end of the secret mission, while collecting enemy data our brave hero felt into an ambush.",
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.1"), 6f, "Narrator: At the end of the secret mission, while collecting enemy data our brave hero felt into an ambush.",
                 "Narrator: He was surrounded and outnumbered by enemies.",
                 "Player: Is this my end?");
-                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.2"), 3f);
-                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.3"), 3f);
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.2"), 5f, "Narrator: Opponents started to push our hero against the wall. Then a miracle happened.",
+                    "Narrator: Borowikus was following path of our hero without permission of the crown.");
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.2"), 5f, "Narrator: When he saw how bad is the situation, he came to the rescue without much hesitation.",
+                    "Borowikus: I won't let you die here!");
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.3"), 5f, "Narrator: With help of Borowikus this hopeless situation turned into much more fair fight.",
+                    "Narrator: After couple of minutes of fierce fight the result was clear.");
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.3"), 5f, "Narrator: Borowikus and our hero stood victorious on fallen enemies. The mission came to and end.",
+                    "Player: Thanks for the rescue.");
                 game.levelOneCompleted = true;
                 game.areCollidersAndTriggersSet = false;
                 ShroomGame.actualGameState = GameState.LevelTutorial;

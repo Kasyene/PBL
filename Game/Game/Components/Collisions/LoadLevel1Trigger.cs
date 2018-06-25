@@ -36,7 +36,10 @@ namespace Game.Components.Collisions
             if (triggered?.tag == "player" && game.tutorialCompleted)
             {
                 System.Diagnostics.Debug.WriteLine("Triggered by player!!!");
-                new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 6f);
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 5f, "Narrator: After weird fight with Borowikus our hero has discovered that the door to the throne room is closed.",
+                "Narrator: Then while he was seeking for possiblity to break into the throne room, his attention was taken by something out of order.");
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 5f, "Player: It is new drawing created by our Vincent van Shroom, but I remember this scene differently.",
+                "Narrator: Our brave hero was swallowed by his memories about origins of the drawing.");
                 game.areCollidersAndTriggersSet = false;
                 ShroomGame.actualGameState = GameState.LevelOne;
                 base.OnTrigger(null);
