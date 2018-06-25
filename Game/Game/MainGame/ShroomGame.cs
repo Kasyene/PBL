@@ -109,6 +109,7 @@ namespace PBLGame
         private Texture2D[] icons;
         #endregion
 
+        Cutscene cutscene;
         private Texture2D actualCutsceneTexture;
         private float cutsceneDisplayTime;
 
@@ -487,12 +488,14 @@ namespace PBLGame
             cutsceneDisplayTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (cutsceneDisplayTime < 0f || actualCutsceneTexture == null)
             {
-                Cutscene cutscene = Cutscene.GetActualCutscene();
+                cutscene = Cutscene.GetActualCutscene();
                 if(cutscene != null)
                 {
                     actualCutsceneTexture = cutscene.texture;
                     cutsceneDisplayTime = cutscene.time;
-                    new DialogueString(cutscene.text);
+                    new DialogueString(cutscene.text[0]);
+                    new DialogueString(cutscene.text[1]);
+                    new DialogueString(cutscene.text[2]);
                 }
                 else
                 {
@@ -582,19 +585,28 @@ namespace PBLGame
                 actualDialogueText[0] = DialogueString.GetActualDialogueString();
                 actualDialogueText[1] = DialogueString.GetActualDialogueString();
                 actualDialogueText[2] = DialogueString.GetActualDialogueString();
-                textDisplayTime = 6f;
-
+                if(cutscene !=null)
+                {
+                    textDisplayTime = cutscene.time;
+                }
+                else
+                {
+                    textDisplayTime = 6f;
+                }
             }
             spriteBatch.Begin();
             spriteBatch.DrawString(dialoguesFont, actualDialogueText[0],
-                new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 80f),
-                Color.Snow, 0.0f, dialoguesFont.MeasureString(actualDialogueText[0]) / 2, 1.0f, SpriteEffects.None, 0.5f);
+                new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 70f),
+                Color.Snow, 0.0f, dialoguesFont.MeasureString(actualDialogueText[0]) / 2, 
+                graphics.GraphicsDevice.Viewport.Width / nativResolution.X, SpriteEffects.None, 0.5f);
             spriteBatch.DrawString(dialoguesFont, actualDialogueText[1],
-               new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 50f),
-               Color.Snow, 0.0f, dialoguesFont.MeasureString(actualDialogueText[1]) / 2, 1.0f, SpriteEffects.None, 0.5f);
+               new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 40f),
+               Color.Snow, 0.0f, dialoguesFont.MeasureString(actualDialogueText[1]) / 2, 
+               graphics.GraphicsDevice.Viewport.Width / nativResolution.X, SpriteEffects.None, 0.5f);
             spriteBatch.DrawString(dialoguesFont, actualDialogueText[2],
-               new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 20f),
-               Color.Snow, 0.0f, dialoguesFont.MeasureString(actualDialogueText[2]) / 2, 1.0f, SpriteEffects.None, 0.5f);
+               new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 10f),
+               Color.Snow, 0.0f, dialoguesFont.MeasureString(actualDialogueText[2]) / 2, 
+               graphics.GraphicsDevice.Viewport.Width / nativResolution.X, SpriteEffects.None, 0.5f);
             spriteBatch.End();
         }
 
@@ -841,9 +853,15 @@ namespace PBLGame
             switch (i)
             {
                 case StartButtonIndex:
-                    //new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 3f);
-                    //new Cutscene(Content.Load<Texture2D>("Cutscene/1.1"), 2f);
-                    //new Cutscene(Content.Load<Texture2D>("Cutscene/1.2"), 2f);
+                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 5f, "Player: My dear King, I am ready for your orders.", 
+                        "King: Loyal knight, a conspiracy against the crown was detected in our Shroom Kingdom",
+                        "Player: How is this possible ? Who would dare to stand against You my King?");
+                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.1"), 5f, "King: Nobody suspected that. The traitor turned out to be one of the knights, Borowikus",
+                        "Player: Borowikus? It is not possible, he has been loyal to the crown for years.", 
+                        "King: We have all kinds of convincing evidence against him. We have to end it right now.");
+                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.2"), 5f, "Player: What is your command, Lord?",
+                        "King: Go after him and kill! Kill the traitor. Bring his hat to me as a proof",
+                        "Player: Your wish is my command. As you command, Lord");
                     actualGameState = GameState.LevelTutorial;
                     System.Diagnostics.Debug.WriteLine("START");
                     break;

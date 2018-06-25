@@ -34,7 +34,9 @@ namespace Game.Components.Collisions
         {
             if (triggered?.tag == "player")
             {
-                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.1"), 4f);
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.1"), 4f, "Narrator: At the end of the secret mission, while collecting enemy data our brave hero felt into an ambush.",
+                "Narrator: He was surrounded and outnumbered by enemies.",
+                "Player: Is this my end?");
                 new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.2"), 3f);
                 new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.3"), 3f);
                 game.levelOneCompleted = true;

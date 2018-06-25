@@ -9,11 +9,11 @@ namespace PBLGame.MainGame
 {
     public class DialogueString
     {
-        private float sizeLimit = 45f;
+        private float sizeLimit = 65f;
         static Queue<string> dialoguesQueue = new Queue<string>();
         public DialogueString(string text)
         {
-            string[] words = text.Split(' ');
+            /*string[] words = text.Split(' ');
             float linewidth = 0f;
             string dialogue = "";
             foreach (string word in words)
@@ -30,7 +30,8 @@ namespace PBLGame.MainGame
                     linewidth = dialogue.Length;
                 }
             }
-            dialoguesQueue.Enqueue(dialogue);
+            dialoguesQueue.Enqueue(dialogue);*/
+            dialoguesQueue.Enqueue(text);
         }
 
         public static string GetActualDialogueString()
