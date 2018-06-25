@@ -91,6 +91,7 @@ namespace PBLGame
         public bool usedQ = false;
         public bool usedE = false;
         public bool usedR = false;
+        public bool cutsceneLoaded = false;
 
         public DoorComponent door1;
         public DoorComponent door2;
