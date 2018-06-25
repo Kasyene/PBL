@@ -68,7 +68,7 @@ namespace PBLGame.Input.Devices
                 this._lastPosition = new Vector2(GameServices.GetService<GraphicsDevice>().Viewport.Width / 2,
                     GameServices.GetService<GraphicsDevice>().Viewport.Height / 2);
                 this._currentPosition = new Vector2(this._state.X, this._state.Y);
-                if(ShroomGame.actualGameState != GameState.MainMenu && ShroomGame.actualGameState != GameState.Options && ShroomGame.actualGameState != GameState.Credits)
+                if(ShroomGame.actualGameState != GameState.Dead && ShroomGame.actualGameState != GameState.MainMenu && ShroomGame.actualGameState != GameState.Options && ShroomGame.actualGameState != GameState.Credits)
                 {
                     Mouse.SetPosition(GameServices.GetService<GraphicsDevice>().Viewport.Width / 2,
                    GameServices.GetService<GraphicsDevice>().Viewport.Height / 2);

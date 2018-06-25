@@ -21,6 +21,7 @@ namespace PBLGame
         MainMenu,
         Options,
         Credits,
+        Dead,
         LevelTutorial,
         LevelOne
     }
@@ -53,6 +54,14 @@ namespace PBLGame
           BackButtonIndex = 7,
           ExitOptionButtonIndex = 8;
 
+        const int NumberOfDeadButtons = 2,
+          RestartButtonIndex = 0,
+          ExitDeadButtonindex = 1;
+
+        Color[] deadButtonColor = new Color[NumberOfDeadButtons];
+        Rectangle[] deadButtonRectangle = new Rectangle[NumberOfDeadButtons];
+        BState[] deadButtonState = new BState[NumberOfDeadButtons];
+        Texture2D[] deadButtonTexture = new Texture2D[NumberOfDeadButtons];
         Color[] menuButtonColor = new Color[NumberOfMenuButtons];
         Rectangle[] menuButtonRectangle = new Rectangle[NumberOfMenuButtons];
         BState[] menuButtonState = new BState[NumberOfMenuButtons];
@@ -60,6 +69,7 @@ namespace PBLGame
         Texture2D menuTexture;
         Texture2D optionsTexture;
         Texture2D creditsTexture;
+        Texture2D deadTexture;
         Color[] menuOptionButtonColor = new Color[NumberOfOptionButtons];
         Rectangle[] menuOptionButtonRectangle = new Rectangle[NumberOfOptionButtons];
         BState[] menuOptionButtonState = new BState[NumberOfOptionButtons];
@@ -146,8 +156,8 @@ namespace PBLGame
             nativResolution = new Vector2(1280, 720);
             graphics.PreferredBackBufferHeight = (int)nativResolution.Y;
             graphics.PreferredBackBufferWidth = (int)nativResolution.X;
-            //actualGameState = GameState.LevelOne;
-            actualGameState = GameState.MainMenu;
+            actualGameState = GameState.LevelOne;
+            //actualGameState = GameState.MainMenu;
             lastGameState = GameState.MainMenu;
             root = new GameObject();
         }
@@ -186,6 +196,10 @@ namespace PBLGame
             menuTexture = Content.Load<Texture2D>("Menus/menuTlo");
             optionsTexture = Content.Load<Texture2D>("Menus/opcjeTlo");
             creditsTexture = Content.Load<Texture2D>("Menus/autorzy");
+            deadTexture = Content.Load<Texture2D>("Menus/menuTlo");
+
+            deadButtonTexture[RestartButtonIndex] = Content.Load<Texture2D>("Menus/menuStart");
+            deadButtonTexture[ExitDeadButtonindex] = Content.Load<Texture2D>("Menus/menuExit");
 
             menuButtonTexture[StartButtonIndex] = Content.Load<Texture2D>("Menus/menuStart");
             menuButtonTexture[OptionsButtonIndex] = Content.Load<Texture2D>("Menus/menuOptions");
@@ -254,6 +268,8 @@ namespace PBLGame
                     break;
                 case GameState.LevelTutorial:
                     break;
+                case GameState.Dead:
+                    break;
                 case GameState.LevelOne:
                     musicManager.PlaySong("5823");
                     musicManager.IsRepeating = true;
@@ -292,8 +308,14 @@ namespace PBLGame
                     OnLevelLoad(actualGameState);
                     prevMousePressed = mousePressed;
                     mousePressed = inputManager.Mouse[SupportedMouseButtons.Left].IsDown;
-                    UpdateCreditsButton();
-           
+                    UpdateCreditsButton();   
+                    break;
+
+                case GameState.Dead:
+                    OnLevelLoad(actualGameState);
+                    prevMousePressed = mousePressed;
+                    mousePressed = inputManager.Mouse[SupportedMouseButtons.Left].IsDown;
+                    UpdateDeadButtons();
                     break;
 
                 case GameState.LevelTutorial:
@@ -402,6 +424,10 @@ namespace PBLGame
                     DrawMenu();
                     IsMouseVisible = true;
                     break;
+                case GameState.Dead:
+                    DrawDead();
+                    IsMouseVisible = true;
+                    break;
 
                 case GameState.LevelTutorial:
                 case GameState.LevelOne:
@@ -447,6 +473,18 @@ namespace PBLGame
             spriteBatch.Begin();
             spriteBatch.Draw(creditsTexture, new Rectangle(new Point(0, 0), new Point(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight)), Color.White);
             spriteBatch.Draw(backButtonTexture, backButtonRectangle, backButtonColor);
+            spriteBatch.End();
+        }
+
+        private void DrawDead()
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin();
+            spriteBatch.Draw(deadTexture, new Rectangle(new Point(0, 0), new Point(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight)), Color.White);
+            for (int i = 0; i < NumberOfDeadButtons; i++)
+            {
+                spriteBatch.Draw(deadButtonTexture[i], deadButtonRectangle[i], deadButtonColor[i]);
+            }
             spriteBatch.End();
         }
 
@@ -669,6 +707,14 @@ namespace PBLGame
                 menuButtonRectangle[i] = new Rectangle(x, y, BUTTON_WIDTH, BUTTON_HEIGHT);
                 y += BUTTON_HEIGHT + 20;
             }
+            y = (Window.ClientBounds.Height / 2 - NumberOfDeadButtons / 2 * BUTTON_HEIGHT - (NumberOfDeadButtons % 2) * BUTTON_HEIGHT / 2) + BUTTON_HEIGHT;
+            for (int i = 0; i < NumberOfDeadButtons; i++)
+            {
+                deadButtonState[i] = BState.UP;
+                deadButtonColor[i] = Color.White;
+                deadButtonRectangle[i] = new Rectangle(x, y, BUTTON_WIDTH, BUTTON_HEIGHT);
+                y += BUTTON_HEIGHT + 20;
+            }
             x = (Window.ClientBounds.Width / 2 - 4 / 2 * BUTTON_WIDTH - (4 % 2) * BUTTON_WIDTH / 2);
             y = 2* BUTTON_HEIGHT;
             for (int i = 0; i < 4; i++)
@@ -840,6 +886,57 @@ namespace PBLGame
             if (backButtonState == BState.JUST_RELEASED)
             {
                 BackButtonAction();
+            }
+        }
+
+        void UpdateDeadButtons()
+        {
+            for (int i = 0; i < NumberOfDeadButtons; i++)
+            {
+                if (HitImageAlpha(deadButtonRectangle[i], deadButtonTexture[i], (int)inputManager.Mouse.Position.X, (int)inputManager.Mouse.Position.Y))
+                {
+                    if (mousePressed)
+                    {
+                        deadButtonState[i] = BState.DOWN;
+                        deadButtonColor[i] = Color.DarkOliveGreen;
+                    }
+                    else if (!mousePressed && prevMousePressed)
+                    {
+                        if (deadButtonState[i] == BState.DOWN)
+                        {
+                            deadButtonState[i] = BState.JUST_RELEASED;
+                        }
+                    }
+                    else
+                    {
+                        deadButtonState[i] = BState.HOVER;
+                        deadButtonColor[i] = Color.DarkKhaki;
+                    }
+                }
+                else
+                {
+                    deadButtonState[i] = BState.UP;
+                    deadButtonColor[i] = Color.White;
+                }
+
+                if (deadButtonState[i] == BState.JUST_RELEASED)
+                {
+                    DeadButtonActions(i);
+                }
+            }
+        }
+
+        private void DeadButtonActions(int i)
+        {
+            switch (i)
+            {
+                case RestartButtonIndex:
+                    areCollidersAndTriggersSet = false;
+                    actualGameState = lastGameState;
+                    break;
+                case ExitDeadButtonindex:
+                    Exit();
+                    break;
             }
         }
 

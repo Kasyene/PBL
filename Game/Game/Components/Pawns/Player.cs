@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using Game.Components.Collisions;
@@ -63,6 +64,7 @@ namespace PBLGame.MainGame
         public override void Update(GameTime time)
         {
             base.Update(time);
+            CheckIfDead();
             SaveLastPosition(time);
             TimeEnergyManagement(time);
             SpecialTimeAbilities();
@@ -76,6 +78,14 @@ namespace PBLGame.MainGame
                 playerHat.GetComponent<AnimationManager>().SetPlaybackMultiplier(-1);
                 playerLeg.GetComponent<AnimationManager>().SetPlaybackMultiplier(-1);
                 playerHat.hatAnimationCollision = false;
+            }
+        }
+
+        private void CheckIfDead()
+        {
+            if(Hp <= 0)
+            {
+                ShroomGame.actualGameState = GameState.Dead;
             }
         }
 

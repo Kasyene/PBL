@@ -531,14 +531,16 @@ namespace PBLGame.Misc
                 if (gameObj.tag != tag && otagowaneNazwy.Any(s => gameObj.name.Contains(s)))
                 {
                     gameObj.tag = tag;
-                    //Debug.WriteLine(gameObj.tag);
                 }
             }
         }
 
         public void LoadLevel1()
         {
-            new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 6f, "I not have too much time, I need to find Borowikus quickly, there is no time to waste.");
+            new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 5f, "Narrator: After weird fight with Borowikus our hero has discovered that the door to the throne room is closed.",
+                "Narrator: Then while he was seeking for possiblity to break into the throne room, his attention was taken by something out of order.");
+            new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 5f, "Player: It is new drawing created by our Vincent van Shroom, but I remember this scene differently.",
+                "Narrator: Our brave hero was swallowed by his memories about origins of the drawing.");
             GameObject mapRoot = new GameObject();
             ResetMap();
 
