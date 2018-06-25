@@ -39,23 +39,24 @@ namespace Game.Components.Coliisions
             {
                 if(game.usedE == false && game.player.GetComponent<Player>().canUseE == false)
                 {
-                    new DialogueString("Try to jump.");
+                    new DialogueString("Try to jump with space-bar.");
                     new DialogueString("Don't worry.");
-                    new DialogueString("If u fall use 'E' to back in time");
+                    new DialogueString("If u fall use 'E' to go back in the time.");
                     game.player.GetComponent<Player>().canUseE = true;
                 }
 
                 if (game.usedE == true && game.usedR == false && game.player.GetComponent<Player>().canUseR == false)
                 {
-                    new DialogueString("Try to throw hat.");
-                    new DialogueString("Then use 'R' to teleport");
+                    new DialogueString("Try to throw the hat with mouse-right.");
+                    new DialogueString("Then use 'R' to teleport to your hat.");
                     double time = Timer.gameTime.TotalGameTime.Seconds;
                     game.player.GetComponent<Player>().canUseR = true;
                 }
 
                 if (game.usedR == true && game.usedQ == false && game.player.GetComponent<Player>().canUseQ == false && Timer.gameTime.TotalGameTime.Seconds - time > 2)
                 {
-                    new DialogueString("Use Q to stop time");
+                    new DialogueString("Use Q to stop the time.");
+                    new DialogueString("It will affect enemies and your surrounding");
                     game.player.GetComponent<Player>().canUseQ = true;
                 }
 
