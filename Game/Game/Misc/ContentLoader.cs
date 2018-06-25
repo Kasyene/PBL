@@ -537,10 +537,14 @@ namespace PBLGame.Misc
 
         public void LoadLevel1()
         {
-            new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 5f, "Narrator: After weird fight with Borowikus our hero has discovered that the door to the throne room is closed.",
-                "Narrator: Then while he was seeking for possiblity to break into the throne room, his attention was taken by something out of order.");
-            new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 5f, "Player: It is new drawing created by our Vincent van Shroom, but I remember this scene differently.",
-                "Narrator: Our brave hero was swallowed by his memories about origins of the drawing.");
+            if (!game.cutsceneLoaded)
+            {
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 5f, "Narrator: After weird fight with Borowikus our hero has discovered that the door to the throne room is closed.",
+                    "Narrator: Then while he was seeking for possiblity to break into the throne room, his attention was taken by something out of order.");
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 5f, "Player: It is new drawing created by our Vincent van Shroom, but I remember this scene differently.",
+                    "Narrator: Our brave hero was swallowed by his memories about origins of the drawing.");
+            }
+            game.cutsceneLoaded = false;
             GameObject mapRoot = new GameObject();
             ResetMap();
 
@@ -886,7 +890,6 @@ namespace PBLGame.Misc
 
             Model refr = game.Content.Load<Model>("LevelTut/zamekStrefa4Rzezby");
             refr.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
-            //  Debug.WriteLine("Position of new model " + position + " Rotation " + quat);
             game.refractiveObject.Position = position;
             game.refractiveObject.Scale = scale;
             game.DrawRefraction();
@@ -905,12 +908,12 @@ namespace PBLGame.Misc
             GameObject borowikus = LoadBorowikus();
             if(game.levelOneCompleted)
             {
-                game.player.Position = new Vector3(-20f, 100f, -700f);
+                game.player.Position = new Vector3(-20f, 100f, -600f);
                 borowikus.Position = new Vector3(50f, 40f, -1800f);
             }
             else
             {
-                game.player.Position = new Vector3(-20f, 100f, -1600f);
+                game.player.Position = new Vector3(-20f, 100f, -1500f);
                 borowikus.Position = new Vector3(130f, 200f, 30f);
             }
             if (!game.tutorialCompleted)

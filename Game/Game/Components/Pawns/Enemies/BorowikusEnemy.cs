@@ -38,7 +38,7 @@ namespace Game.Components.Pawns.Enemies
 
         protected override void EnemyBehaviour()
         {
-            if (parentGameObject.PositionZ < -1200)
+            if (parentGameObject.PositionZ < -1200 && !GameServices.GetService<ShroomGame>().levelOneCompleted)
             {
                 running = false;
                 GameServices.GetService<ShroomGame>().tutorialCompleted = true;
