@@ -52,7 +52,7 @@ namespace PBLGame.MainGame
             playerLeg = parentGameObject.FindChildNodeByTag("Leg");
             lastPositions = new List<Vector3>();
             lastHPs = new List<int>();
-            for (int x = 0; x < 8; x++)
+            for (int x = 0; x < 12; x++)
             {
                 lastPositions.Add(this.parentGameObject.Position);
                 lastHPs.Add(Hp);
@@ -231,7 +231,7 @@ namespace PBLGame.MainGame
                 timeEnergy -= 1;
                 previousTimeEnergyUpdate = 0.0d;
             }
-            if (previousTimeEnergyUpdate >= 2.0d && !timeStop && timeEnergy < 10)
+            if (previousTimeEnergyUpdate >= 1.3d && !timeStop && timeEnergy < 10)
             {
                 timeEnergy += 1;
                 previousTimeEnergyUpdate = 0.0d;
