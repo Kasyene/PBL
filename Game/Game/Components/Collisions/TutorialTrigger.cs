@@ -49,7 +49,7 @@ namespace Game.Components.Coliisions
                 {
                     new DialogueString("Try to throw the hat with mouse-right.");
                     new DialogueString("Then use 'R' to teleport to your hat.");
-                    double time = Timer.gameTime.TotalGameTime.Seconds;
+                    time = Timer.gameTime.TotalGameTime.Seconds;
                     game.player.GetComponent<Player>().canUseR = true;
                 }
 

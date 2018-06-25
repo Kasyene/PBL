@@ -245,10 +245,7 @@ namespace PBLGame.SceneGraph
 
         public Vector3 GetWorldPosition()
         {
-            Vector3 pos;
-            Quaternion rot;
-            Vector3 scl;
-            WorldTransformations.Decompose(out scl, out rot, out pos);
+            WorldTransformations.Decompose(out Vector3 scl, out Quaternion rot, out Vector3 pos);
             return pos;
         }
 
@@ -537,18 +534,6 @@ namespace PBLGame.SceneGraph
             {
                 throw new System.Exception("GameObj doesn't have any Components");
             }
-        }
-
-        public virtual ModelMesh GetMeshWithMeshNameEqualTo(string name)
-        {
-            foreach (var mesh in this.GetModelComponent().model.Meshes)
-            {
-                if (mesh.Name == name)
-                {
-                    return mesh;
-                }
-            }
-            throw new System.Exception("There is no mesh with such name");
         }
 
         public void SetAsTrigger(Trigger triggerType)
