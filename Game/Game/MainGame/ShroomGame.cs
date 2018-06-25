@@ -196,9 +196,9 @@ namespace PBLGame
             menuTexture = Content.Load<Texture2D>("Menus/menuTlo");
             optionsTexture = Content.Load<Texture2D>("Menus/opcjeTlo");
             creditsTexture = Content.Load<Texture2D>("Menus/autorzy");
-            deadTexture = Content.Load<Texture2D>("Menus/menuTlo");
+            deadTexture = Content.Load<Texture2D>("Menus/youDied");
 
-            deadButtonTexture[RestartButtonIndex] = Content.Load<Texture2D>("Menus/menuStart");
+            deadButtonTexture[RestartButtonIndex] = Content.Load<Texture2D>("Menus/restart");
             deadButtonTexture[ExitDeadButtonindex] = Content.Load<Texture2D>("Menus/menuExit");
 
             menuButtonTexture[StartButtonIndex] = Content.Load<Texture2D>("Menus/menuStart");
@@ -707,7 +707,7 @@ namespace PBLGame
                 menuButtonRectangle[i] = new Rectangle(x, y, BUTTON_WIDTH, BUTTON_HEIGHT);
                 y += BUTTON_HEIGHT + 20;
             }
-            y = (Window.ClientBounds.Height / 2 - NumberOfDeadButtons / 2 * BUTTON_HEIGHT - (NumberOfDeadButtons % 2) * BUTTON_HEIGHT / 2) + BUTTON_HEIGHT;
+            y = (2*Window.ClientBounds.Height / 3 - NumberOfDeadButtons / 2 * BUTTON_HEIGHT - (NumberOfDeadButtons % 2) * BUTTON_HEIGHT / 2) + BUTTON_HEIGHT;
             for (int i = 0; i < NumberOfDeadButtons; i++)
             {
                 deadButtonState[i] = BState.UP;
