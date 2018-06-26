@@ -286,7 +286,7 @@ namespace PBLGame
 
         protected override void Update(GameTime gameTime)
         {
-            if (cutsceneDisplayTime > 0.2f)
+            if (cutsceneDisplayTime > 0.0f)
             {
                 playerShouldNotMove = true;
             }
@@ -542,7 +542,7 @@ namespace PBLGame
                 cutscene = Cutscene.GetActualCutscene();
                 if(cutscene != null)
                 {
-                    //actualCutsceneTexture = cutscene.texture;
+                    actualCutsceneTexture = cutscene.texture;
                     cutsceneDisplayTime = cutscene.time;
                     new DialogueString(cutscene.text[0]);
                     new DialogueString(cutscene.text[1]);
