@@ -51,11 +51,23 @@ namespace PBLGame.Misc
         ModelAnimatedComponent meleeGotHit;
         ModelAnimatedComponent meleeDeath;
 
-        ModelAnimatedComponent kingIdle;
-        ModelAnimatedComponent kingWalk;
-        ModelAnimatedComponent kingGotHit;
-        ModelAnimatedComponent kingDeath;
-        ModelAnimatedComponent kingDeathIdle;
+        ModelAnimatedComponent kingHatIdle;
+        ModelAnimatedComponent kingHatWalk;
+        ModelAnimatedComponent kingHatDeath;
+        ModelAnimatedComponent kingHatGotHit;
+        ModelAnimatedComponent kingHatSlash;
+        ModelAnimatedComponent kingHatSpin;
+        ModelAnimatedComponent kingHatBaczek;
+        ModelAnimatedComponent kingHatWbicie;
+
+        ModelAnimatedComponent kingLegIdle;
+        ModelAnimatedComponent kingLegWalk;
+        ModelAnimatedComponent kingLegDeath;
+        ModelAnimatedComponent kingLegGotHit;
+        ModelAnimatedComponent kingLegSlash;
+        ModelAnimatedComponent kingLegSpin;
+        ModelAnimatedComponent kingLegBaczek;
+        ModelAnimatedComponent kingLegWbicie;
 
         ModelAnimatedComponent rangedHatIdle;
         ModelAnimatedComponent rangedHatWalk;
@@ -89,8 +101,8 @@ namespace PBLGame.Misc
             playerNormal = game.Content.Load<Texture2D>("models/player/borowikNormal");
             borowikusTex = game.Content.Load<Texture2D>("models/player/borowikusTex");
             borowikusNormal = game.Content.Load<Texture2D>("models/player/borowikusNormal");
-            kingTex = game.Content.Load<Texture2D>("models/enemies/krol/krolTex");
-            kingNormal = game.Content.Load<Texture2D>("models/enemies/krol/krolNormal");
+            kingTex = game.Content.Load<Texture2D>("models/enemies/nowyKrol/krolTex");
+            kingNormal = game.Content.Load<Texture2D>("models/enemies/nowyKrol/krolNormal");
             rangedEnemyTex = game.Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyTex");
             rangedEnemyNormal = game.Content.Load<Texture2D>("models/enemies/muchomorRzucajacy/muchomorRzucajacyNormal");
             meleeEnemyTex = game.Content.Load<Texture2D>("models/enemies/muchomorStadny/muchomorStadnyTex");
@@ -101,11 +113,23 @@ namespace PBLGame.Misc
             heartModel = game.Content.Load<Model>("apteczka");
             bulletModel = game.Content.Load<Model>("models/enemies/muchomorRzucajacy/Kulka");
 
-            kingIdle = new ModelAnimatedComponent("models/enemies/krol/krolIdle",game.Content,animatedEffect,kingTex,kingNormal);
-            kingWalk = new ModelAnimatedComponent("models/enemies/krol/krolChod", game.Content, animatedEffect, kingTex, kingNormal);
-            kingGotHit = new ModelAnimatedComponent("models/enemies/krol/krolOberwal", game.Content, animatedEffect, kingTex, kingNormal);
-            kingDeath = new ModelAnimatedComponent("models/enemies/krol/krolUmarl", game.Content, animatedEffect, kingTex, kingNormal);
-            kingDeathIdle = new ModelAnimatedComponent("models/enemies/krol/krolUmarlIdle", game.Content, animatedEffect, kingTex, kingNormal); 
+            kingHatIdle = new ModelAnimatedComponent("models/enemies/nowyKrol/krolIdleKapelusz", game.Content, animatedEffect, kingTex, kingNormal);
+            kingHatWalk = new ModelAnimatedComponent("models/enemies/nowyKrol/krolChodKapelusz", game.Content, animatedEffect, kingTex, kingNormal);
+            kingHatDeath = new ModelAnimatedComponent("models/enemies/nowyKrol/krolUmarlKapelusz", game.Content, animatedEffect, kingTex, kingNormal);
+            kingHatGotHit = new ModelAnimatedComponent("models/enemies/nowyKrol/krolOberwalKapelusz", game.Content, animatedEffect, kingTex, kingNormal);
+            kingHatSlash = new ModelAnimatedComponent("models/enemies/nowyKrol/krolSlasheKapelusz", game.Content, animatedEffect, kingTex, kingNormal);
+            kingHatSpin = new ModelAnimatedComponent("models/enemies/nowyKrol/krolSpinKapelusz", game.Content, animatedEffect, kingTex, kingNormal);
+            kingHatBaczek = new ModelAnimatedComponent("models/enemies/nowyKrol/krolBaczekKapelusz", game.Content, animatedEffect, kingTex, kingNormal);
+            kingHatWbicie = new ModelAnimatedComponent("models/enemies/nowyKrol/krolWbicieKapelusz", game.Content, animatedEffect, kingTex, kingNormal);
+
+            kingLegIdle = new ModelAnimatedComponent("models/enemies/nowyKrol/krolIdleNozka", game.Content, animatedEffect, kingTex, kingNormal);
+            kingLegWalk = new ModelAnimatedComponent("models/enemies/nowyKrol/krolChodNozka", game.Content, animatedEffect, kingTex, kingNormal);
+            kingLegDeath = new ModelAnimatedComponent("models/enemies/nowyKrol/krolUmarlNozka", game.Content, animatedEffect, kingTex, kingNormal);
+            kingLegGotHit = new ModelAnimatedComponent("models/enemies/nowyKrol/krolOberwalNozka", game.Content, animatedEffect, kingTex, kingNormal);
+            kingLegSlash = new ModelAnimatedComponent("models/enemies/nowyKrol/krolSlasheNozka", game.Content, animatedEffect, kingTex, kingNormal);
+            kingLegSpin = new ModelAnimatedComponent("models/enemies/nowyKrol/krolSpinNozka", game.Content, animatedEffect, kingTex, kingNormal);
+            kingLegBaczek = new ModelAnimatedComponent("models/enemies/nowyKrol/krolBaczekNozka", game.Content, animatedEffect, kingTex, kingNormal);
+            kingLegWbicie = new ModelAnimatedComponent("models/enemies/nowyKrol/krolWbicieNozka", game.Content, animatedEffect, kingTex, kingNormal);
 
             meleeIdle = new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyIdle", game.Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal);
             meleeWalk = new ModelAnimatedComponent("models/enemies/muchomorStadny/muchomorStadnyChod", game.Content, animatedEffect, meleeEnemyTex, meleeEnemyNormal);
@@ -292,44 +316,65 @@ namespace PBLGame.Misc
         public GameObject LoadKing()
         {
             GameObject king = new GameObject("king");
-            GameObject kingModel = new GameObject("king");
+            GameObject kingHat = new GameObject("Hat");
+            GameObject kingLeg = new GameObject("Leg");
 
-            triggers.Add(kingModel);
+            triggers.Add(kingHat);
+
             // Load anim models
-            king.AddChildNode(kingModel);
+            king.AddChildNode(kingLeg);
+            king.AddChildNode(kingHat);
 
-            kingModel.AddComponent(new ModelAnimatedComponent("models/enemies/krol/krolIdle", game.Content, animatedEffect, kingTex, kingNormal));
-            kingModel.AddComponent(new AnimationManager(kingModel));
+            // models without anims have problems i guess ; /
+            kingLeg.AddComponent(new ModelAnimatedComponent("models/enemies/nowyKrol/krolChodKapelusz", game.Content, animatedEffect, kingTex, kingNormal));
+            kingLeg.AddComponent(new AnimationManager(kingLeg));
+            kingHat.AddComponent(new ModelAnimatedComponent("models/enemies/nowyKrol/krolChodNozka", game.Content, animatedEffect, kingTex, kingNormal));
+            kingHat.AddComponent(new AnimationManager(kingHat));
+
+            // ENABLE DYNAMIC COLLISION ON ENEMY HAT
+            kingHat.GetComponent<ModelAnimatedComponent>().ColliderDynamicUpdateEnable();
 
             // IDLE
-            kingModel.GetComponent<AnimationManager>().AddAnimation(kingIdle.AnimationClips[0], "idle");
+            kingLeg.GetComponent<AnimationManager>().AddAnimation(kingLegIdle.AnimationClips[0], "idle");
+            kingHat.GetComponent<AnimationManager>().AddAnimation(kingHatIdle.AnimationClips[0], "idle");
 
             // WALK
-            kingModel.GetComponent<AnimationManager>().AddAnimation(kingWalk.AnimationClips[0], "walk");
+            kingLeg.GetComponent<AnimationManager>().AddAnimation(kingLegWalk.AnimationClips[0], "walk");
+            kingHat.GetComponent<AnimationManager>().AddAnimation(kingHatWalk.AnimationClips[0], "walk");
 
-            // DAMAGED
-            kingModel.GetComponent<AnimationManager>().AddAnimation(kingIdle.AnimationClips[0], "gotHit");
+            // GOTHIT
+            kingLeg.GetComponent<AnimationManager>().AddAnimation(kingLegGotHit.AnimationClips[0], "gotHit");
+            kingHat.GetComponent<AnimationManager>().AddAnimation(kingHatGotHit.AnimationClips[0], "gotHit");
 
             // DEATH
-            kingModel.GetComponent<AnimationManager>().AddAnimation(kingDeath.AnimationClips[0], "death");
+            kingLeg.GetComponent<AnimationManager>().AddAnimation(kingLegDeath.AnimationClips[0], "death");
+            kingHat.GetComponent<AnimationManager>().AddAnimation(kingHatDeath.AnimationClips[0], "death");
 
-            // DEATH IDLE
-            kingModel.GetComponent<AnimationManager>().AddAnimation(kingDeathIdle.AnimationClips[0], "deathIdle");
+            // ATTACK
+            kingLeg.GetComponent<AnimationManager>().AddAnimation(kingLegSlash.AnimationClips[0], "attack");
+            kingHat.GetComponent<AnimationManager>().AddAnimation(kingHatSlash.AnimationClips[0], "attack");
 
-            kingModel.GetComponent<AnimationManager>().PlayAnimation("idle");
+            // SPIN
+            kingLeg.GetComponent<AnimationManager>().AddAnimation(kingLegSpin.AnimationClips[0], "spin");
+            kingHat.GetComponent<AnimationManager>().AddAnimation(kingHatSpin.AnimationClips[0], "spin");
+
+            // BACZEK
+            kingLeg.GetComponent<AnimationManager>().AddAnimation(kingLegBaczek.AnimationClips[0], "baczek");
+            kingHat.GetComponent<AnimationManager>().AddAnimation(kingHatBaczek.AnimationClips[0], "baczek");
+
+            // WBICIE
+            kingLeg.GetComponent<AnimationManager>().AddAnimation(kingLegWbicie.AnimationClips[0], "wbicie");
+            kingHat.GetComponent<AnimationManager>().AddAnimation(kingHatWbicie.AnimationClips[0], "wbicie");
 
             // TODO: CHANGE TO KING CLASS
+            kingLeg.GetComponent<AnimationManager>().PlayAnimation("idle");
+            kingHat.GetComponent<AnimationManager>().PlayAnimation("idle");
             king.AddComponent(new BossEnemy(king));
             king.GetComponent<BossEnemy>().ObjectSide = Side.Enemy;
 
-            //heart
-            //king.GetComponent<MeleeEnemy>().standardEffect = standardEffect;
-            //king.GetComponent<MeleeEnemy>().heartTex = heartTexture;
-            //king.GetComponent<MeleeEnemy>().heartModel = heartModel;
 
             game.root.AddChildNode(king);
             game.enemyList.Add(king);
-
             return king;
         }
 
@@ -337,9 +382,7 @@ namespace PBLGame.Misc
         {
             GameObject rangedEnemy = new GameObject("rangedEnemy");
             GameObject rangedEnemyHat = new GameObject("Hat");
-            GameObject rangedEnemyHatWalk = new GameObject("Hat");
             GameObject rangedEnemyLeg = new GameObject("Leg");
-            GameObject rangedEnemyLegWalk = new GameObject("Leg");
 
             triggers.Add(rangedEnemyHat);
 
