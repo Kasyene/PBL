@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Game.Components.Collisions;
+using Game.Misc.Time;
 using Microsoft.Xna.Framework.Graphics;
 using PBLGame.MainGame;
 using PBLGame.Misc.Anim;
@@ -51,6 +52,24 @@ namespace PBLGame.SceneGraph
         public static void ClearColliders()
         {
             collidersList = new List<Collider>();
+        }
+
+        public bool IsCameraCollisionForAllColliders(Vector3 move)
+        {
+            foreach (var other in collidersList)
+            {
+                if (other.owner.tag == "Wall" || other.owner.tag == "Ground")
+                {
+                    BoundingBox movedBoundingBox = new BoundingBox(boundingBox.Min + move, boundingBox.Max + move);
+                    bool pies = true;
+                    if (movedBoundingBox.Intersects(other.boundingBox))
+                    {
+                        Debug.WriteLine("should not scroll out" + Timer.gameTime.TotalGameTime.TotalSeconds);
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         public bool IsCollision(Collider other)

@@ -4,6 +4,7 @@ using Game.Misc.Time;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using PBLGame.Input;
+using PBLGame.MainGame;
 
 namespace PBLGame.SceneGraph
 {
@@ -13,6 +14,7 @@ namespace PBLGame.SceneGraph
         public float minZoom = -250f;
         public float maxZoom = -50f;
         public float playerZoom = -150.0f;
+        public float autoOutZoomSpeed = -0.35f;
         public bool zoomChangedByCollision = false;
         public bool zoomCanReturnToPlayerZoom = false;
         public bool playerUsedScroll = false;
@@ -92,28 +94,37 @@ namespace PBLGame.SceneGraph
 
         public override void Update()
         {
-            base.Update();
-            float rotY = RotationY - ShroomGame.mouseYAxis * inputManager.Mouse.PositionsDelta.Y * 0.00166f; //6x slower than 0.01
-            float posZ = PositionZ + inputManager.Mouse.ScrollValue * 0.1f; ;
-            if (posZ > minZoom && posZ <  maxZoom)
-            {
-                PositionZ = posZ;
-            }
+            base.Update();        
             if (Math.Abs(inputManager.Mouse.ScrollValue) > 0.0f)
             {
+                if (GameServices.GetService<GameObject>().FindChildNodeByTag("cameraCollision").colliders[0]
+                    .IsCameraCollisionForAllColliders(new Vector3(0.0f, 0.0f, inputManager.Mouse.ScrollValue * 0.1f))== false)
+                {
+                    float posZ = PositionZ + inputManager.Mouse.ScrollValue * 0.1f; ;
+                    if (posZ > minZoom && posZ < maxZoom)
+                    {
+                        PositionZ = posZ;
+                    }
+                }
                 playerZoom = PositionZ;
-            }
-            if (rotY < maxYRotation && rotY > minYRotation)
-            {
-                RotationY = rotY;
             }
 
             if (zoomCanReturnToPlayerZoom)
             {
                 if (PositionZ > playerZoom)
                 {
-                    PositionZ -= 0.35f;
+                    if (GameServices.GetService<GameObject>().FindChildNodeByTag("cameraCollision").colliders[0]
+                        .IsCameraCollisionForAllColliders(new Vector3(0.0f, 0.0f, autoOutZoomSpeed))== false)
+                    {
+                        PositionZ += autoOutZoomSpeed;
+                    }                  
                 }
+            }
+
+            float rotY = RotationY - ShroomGame.mouseYAxis * inputManager.Mouse.PositionsDelta.Y * 0.00166f; //6x slower than 0.01
+            if (rotY < maxYRotation && rotY > minYRotation)
+            {
+                RotationY = rotY;
             }
         }
 
