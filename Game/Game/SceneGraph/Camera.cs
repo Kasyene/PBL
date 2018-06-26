@@ -110,7 +110,6 @@ namespace PBLGame.SceneGraph
 
             if (zoomCanReturnToPlayerZoom)
             {
-                Debug.WriteLine("woofWoof " + Timer.gameTime.TotalGameTime.TotalSeconds);
                 if (PositionZ > playerZoom)
                 {
                     PositionZ -= 0.35f;
