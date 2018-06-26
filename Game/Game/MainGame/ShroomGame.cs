@@ -92,6 +92,7 @@ namespace PBLGame
         public bool usedE = false;
         public bool usedR = false;
         public bool cutsceneLoaded = false;
+        public bool playerShouldNotMove = false;
 
         public DoorComponent door1;
         public DoorComponent door2;
@@ -285,7 +286,14 @@ namespace PBLGame
 
         protected override void Update(GameTime gameTime)
         {
-
+            if (cutsceneDisplayTime > 0.2f)
+            {
+                playerShouldNotMove = true;
+            }
+            else
+            {
+                playerShouldNotMove = false;
+            }
             Resources.CameraVector3 = camera.Position;
 
             // Our Timer Class
@@ -534,7 +542,7 @@ namespace PBLGame
                 cutscene = Cutscene.GetActualCutscene();
                 if(cutscene != null)
                 {
-                    actualCutsceneTexture = cutscene.texture;
+                    //actualCutsceneTexture = cutscene.texture;
                     cutsceneDisplayTime = cutscene.time;
                     new DialogueString(cutscene.text[0]);
                     new DialogueString(cutscene.text[1]);

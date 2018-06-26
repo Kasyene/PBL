@@ -67,10 +67,12 @@ namespace PBLGame.MainGame
             CheckIfDead();
             SaveLastPosition(time);
             TimeEnergyManagement(time);
-            SpecialTimeAbilities();
-            PlayerAttacks();
-            PlayerMovement();
-
+            if (!GameServices.GetService<ShroomGame>().playerShouldNotMove)
+            {
+                SpecialTimeAbilities();
+                PlayerAttacks();
+                PlayerMovement();
+            }
             // ANIMATION REVERSING - TEST
 
             if (playerHat.hatAnimationCollision)
