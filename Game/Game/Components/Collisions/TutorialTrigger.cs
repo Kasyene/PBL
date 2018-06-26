@@ -24,7 +24,6 @@ namespace Game.Components.Coliisions
         Vector3 minimumPosition;
         Vector3 maximumPosition;
         ShroomGame game;
-        double time;
 
         public TutorialTrigger(GameObject owner, Vector3 minPos, Vector3 maxPos, ShroomGame game) : base(owner)
         {
@@ -49,11 +48,10 @@ namespace Game.Components.Coliisions
                 {
                     new DialogueString("Try to throw the hat with mouse-right.");
                     new DialogueString("Then use 'R' to teleport to your hat.");
-                    time = Timer.gameTime.TotalGameTime.Seconds;
                     game.player.GetComponent<Player>().canUseR = true;
                 }
 
-                if (game.usedR == true && game.usedQ == false && game.player.GetComponent<Player>().canUseQ == false && Timer.gameTime.TotalGameTime.Seconds - time > 2)
+                if (game.usedR == true && game.usedQ == false && game.player.GetComponent<Player>().canUseQ == false)
                 {
                     new DialogueString("Use Q to stop the time.");
                     new DialogueString("It will affect enemies and your surrounding");

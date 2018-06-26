@@ -245,7 +245,10 @@ namespace PBLGame.SceneGraph
 
         public Vector3 GetWorldPosition()
         {
-            WorldTransformations.Decompose(out Vector3 scl, out Quaternion rot, out Vector3 pos);
+            Vector3 pos;
+            Quaternion rot;
+            Vector3 scl;
+            WorldTransformations.Decompose(out scl, out rot, out pos);
             return pos;
         }
 
