@@ -13,6 +13,7 @@ namespace Game.Components.Pawns.Enemies
         {
             ObjectSide = Side.Enemy;
             enemySpeed = 0.2f;
+            this.Hp = 99999;
         }
 
         public override void Dispose()

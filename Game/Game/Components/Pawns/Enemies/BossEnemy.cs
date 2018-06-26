@@ -7,6 +7,7 @@ namespace Game.Components.Pawns.Enemies
     {
         public BossEnemy(GameObject parent) : base(parent)
         {
+            this.Hp = 99999;
         }
 
         public override void ReceiveHit()
