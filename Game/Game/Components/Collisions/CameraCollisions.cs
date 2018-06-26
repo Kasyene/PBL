@@ -13,6 +13,8 @@ namespace Game.Components.Collisions
 {
     class CameraCollisions : Trigger
     {
+        public double timePassedFromLastOnTrigger = 0.0d;
+        public double timeHelper = 0.0d;
         short[] bBoxIndices =
         {
             0, 1, 1, 2, 2, 3, 3, 0, // Front edges
@@ -53,10 +55,28 @@ namespace Game.Components.Collisions
 
         public override void OnTrigger(GameObject triggered)
         {
+            GameServices.GetService<Camera>().zoomChangedByCollision = true;
+            GameServices.GetService<Camera>().zoomCanReturnToPlayerZoom = false;
+            timePassedFromLastOnTrigger = 0.0d;
             if (triggered.tag == "Wall" || triggered.tag == "Ground")
             {
                 GameServices.GetService<Camera>().Scroll(1.0f);
             }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (GameServices.GetService<Camera>().zoomChangedByCollision)
+            {
+                timePassedFromLastOnTrigger += gameTime.TotalGameTime.TotalMilliseconds - timeHelper; 
+            }
+            timeHelper = gameTime.TotalGameTime.TotalMilliseconds;
+            if (timePassedFromLastOnTrigger > 1500.0d)
+            {
+                GameServices.GetService<Camera>().zoomChangedByCollision = false;
+                GameServices.GetService<Camera>().zoomCanReturnToPlayerZoom = true;
+            }
+            base.Update(gameTime);
         }
 
         public void DrawBoundingBox(GameObject parent, Matrix localTransformations, Matrix worldTransformations,
