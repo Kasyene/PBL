@@ -39,27 +39,31 @@ namespace Game.Components.Pawns.Enemies
 
         protected override void EnemyBehaviour()
         {
-            if (parentGameObject.PositionZ < -1200 && !GameServices.GetService<ShroomGame>().levelOneCompleted)
+            if (!GameServices.GetService<ShroomGame>().levelOneCompleted)
             {
-                running = false;
-                GameServices.GetService<ShroomGame>().tutorialCompleted = true;
-                GameServices.GetService<GameObject>().GetComponent<Player>().canUseQ = true;
-                GameServices.GetService<GameObject>().GetComponent<Player>().canUseR = true;
-                GameServices.GetService<ShroomGame>().door1.closed = true;
-                GameServices.GetService<ShroomGame>().door2.closed = true;
-            }
-            if (!running)
-            {
-                Vector3 playerPosition = GameServices.GetService<GameObject>().Position;
-                LookAtTarget(playerPosition, parentGameObject.Position);
-                distance = Vector3.Distance(playerPosition, this.parentGameObject.Position);
-                heightDifference = System.Math.Abs(playerPosition.Y - this.parentGameObject.Position.Y);
-            }
-            else
-            {
-                if(parentGameObject.PositionZ > -450) LookAtTarget(new Vector3(-30f, 0f, -500f),parentGameObject.Position);
-                else LookAtTarget(new Vector3(0f, 0f, -1500f), parentGameObject.Position);
-                Movement();
+                if (parentGameObject.PositionZ < -1200 && !GameServices.GetService<ShroomGame>().levelOneCompleted)
+                {
+                    running = false;
+                    GameServices.GetService<ShroomGame>().tutorialCompleted = true;
+                    GameServices.GetService<GameObject>().GetComponent<Player>().canUseQ = true;
+                    GameServices.GetService<GameObject>().GetComponent<Player>().canUseR = true;
+                    GameServices.GetService<ShroomGame>().door1.closed = true;
+                    GameServices.GetService<ShroomGame>().door2.closed = true;
+                }
+                if (!running)
+                {
+                    Vector3 playerPosition = GameServices.GetService<GameObject>().Position;
+                    LookAtTarget(playerPosition, parentGameObject.Position);
+                    distance = Vector3.Distance(playerPosition, this.parentGameObject.Position);
+                    heightDifference = System.Math.Abs(playerPosition.Y - this.parentGameObject.Position.Y);
+                }
+                else
+                {
+                    if (parentGameObject.PositionZ > -450) LookAtTarget(new Vector3(-30f, 0f, -500f), parentGameObject.Position);
+                    else LookAtTarget(new Vector3(0f, 0f, -1500f), parentGameObject.Position);
+                    GameServices.GetService<ShroomGame>().cutsceneDisplayTime = 0.5f;
+                    Movement();
+                }
             }
         }
 

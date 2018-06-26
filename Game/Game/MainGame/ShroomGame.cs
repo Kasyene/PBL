@@ -127,7 +127,7 @@ namespace PBLGame
 
         Cutscene cutscene;
         private Texture2D actualCutsceneTexture;
-        private float cutsceneDisplayTime;
+        public float cutsceneDisplayTime;
 
         public GameObject root;
 
