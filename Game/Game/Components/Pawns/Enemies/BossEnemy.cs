@@ -1,10 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
+using PBLGame.MainGame;
 using PBLGame.SceneGraph;
 
 namespace Game.Components.Pawns.Enemies
 {
     class BossEnemy : Enemy
     {
+        private int tutorialHits = 0;
+        public bool tutorial = true;
         public BossEnemy(GameObject parent) : base(parent)
         {
             this.Hp = 99999;
@@ -12,6 +15,27 @@ namespace Game.Components.Pawns.Enemies
 
         public override void ReceiveHit()
         {
+            if (tutorial)
+            {
+                if (tutorialHits == 10)
+                {
+                    new DialogueString("King: Stop wasting your time on playing games with me");
+                }
+                if (tutorialHits == 20)
+                {
+                    new DialogueString("King: There is no more time to waste");
+                    new DialogueString("King: You have to find Borowikus quickly!");
+                }
+                if (tutorialHits == 100)
+                {
+                    new DialogueString("King: You're unreal Beta-tester but you wont kill me");
+                }
+                if (tutorialHits == 200)
+                {
+                    new DialogueString("King: Game would have been already over by this time");
+                }
+            }
+            tutorialHits++;
             base.ReceiveHit();
         }
 
