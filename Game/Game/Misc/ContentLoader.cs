@@ -774,6 +774,7 @@ namespace PBLGame.Misc
 
             LoadPlayer(game.player, game.cameraCollision);
             game.player.Position = new Vector3(0f, 60f, 0f);
+            game.player.RotationZ = MathHelper.Pi - MathHelper.PiOver4;
 
             GameObject enemyRanged1 = LoadRangedEnemy();
             enemyRanged1.Position = new Vector3(400f, 40f, -600f);
@@ -790,7 +791,6 @@ namespace PBLGame.Misc
             enemy4.Position = new Vector3(200f, 40f, -1750f);
             GameObject enemy5 = LoadMeleeEnemy();
             enemy5.Position = new Vector3(400f, 40f, -1850f);
-
         }
 
         public void LoadTutorial()
@@ -958,11 +958,13 @@ namespace PBLGame.Misc
             if(game.levelOneCompleted)
             {
                 game.player.Position = new Vector3(-20f, 100f, -600f);
+                game.player.RotationZ = MathHelper.Pi;
                 borowikus.Position = new Vector3(50f, 40f, -1800f);
             }
             else
             {
                 game.player.Position = new Vector3(-20f, 100f, -1500f);
+                game.player.RotationZ = MathHelper.Pi;
                 borowikus.Position = new Vector3(130f, 200f, 30f);
             }
             if (!game.tutorialCompleted)
