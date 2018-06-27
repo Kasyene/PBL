@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Game.Components.Collisions;
 using Microsoft.Xna.Framework;
 using PBLGame;
@@ -16,6 +17,11 @@ namespace Game.Components.Pawns.Enemies
         private GameObject enemyHat;
         private GameObject enemyLeg;
         private bool finalFight = GameServices.GetService<ShroomGame>().levelOneCompleted;
+        private float meleeAttackRange = 80f;
+        private float spinAttackRange = 70f;
+        private float jumpAttackRange = 90f;
+        private float throwAttackRange = 130f;
+        private Random r = new Random();
         public BossEnemy(GameObject parent) : base(parent)
         {
             if (finalFight)
@@ -27,11 +33,11 @@ namespace Game.Components.Pawns.Enemies
             {
                 Hp = 99999;
             }
-            attackDelay = 3.0d;
+            attackDelay = 3.5d;
             parentGameObject = parent;
-            enemySpeed = 0.07f;
+            enemySpeed = 0.06f;
             wakeUpDistance = 500f;
-            range = 80f;
+            range = 35;
             enemyHat = parentGameObject.FindChildNodeByTag("Hat");
             enemyLeg = parentGameObject.FindChildNodeByTag("Leg");
         }
@@ -61,9 +67,8 @@ namespace Game.Components.Pawns.Enemies
             }
 
             base.ReceiveHit();
-            enemyHat.GetComponent<AnimationManager>().PlayAnimation("gotHit", true);
-            enemyLeg.GetComponent<AnimationManager>().PlayAnimation("gotHit", true);
-            Debug.WriteLine("hp = " + Hp);
+            //enemyHat.GetComponent<AnimationManager>().PlayAnimation("gotHit", true);
+            //enemyLeg.GetComponent<AnimationManager>().PlayAnimation("gotHit", true);
         }
 
         public override void Update(GameTime time)
@@ -105,8 +110,11 @@ namespace Game.Components.Pawns.Enemies
             {
                 enemyHat.GetComponent<AnimationManager>().PlayAnimation("slash");
                 enemyLeg.GetComponent<AnimationManager>().PlayAnimation("slash");
+                enemyHat.GetComponent<AnimationManager>().PlayAnimation("slashL");
+                enemyLeg.GetComponent<AnimationManager>().PlayAnimation("slashL");
+                enemyHat.GetComponent<AnimationManager>().PlayAnimation("slashR");
+                enemyLeg.GetComponent<AnimationManager>().PlayAnimation("slashR");
             }
-            Debug.WriteLine("MELEEATAK");
         }
 
         private void ThrowAttack()
@@ -123,6 +131,8 @@ namespace Game.Components.Pawns.Enemies
             lastAttack = 0.0d;
             if (enemyHat.GetComponent<AnimationManager>().isReady)
             {
+                enemyHat.GetComponent<AnimationManager>().PlayAnimation("baczek");
+                enemyLeg.GetComponent<AnimationManager>().PlayAnimation("baczek");
                 enemyHat.GetComponent<AnimationManager>().PlayAnimation("baczek");
                 enemyLeg.GetComponent<AnimationManager>().PlayAnimation("baczek");
             }
@@ -143,19 +153,59 @@ namespace Game.Components.Pawns.Enemies
             base.EnemyBehaviour();
             if (distance < wakeUpDistance && heightDifference < 70.0f)
             {
-                if (distance < range)
+                int randomAttackNumber = r.Next(0, 3);
+                switch (randomAttackNumber)
                 {
-                    if (lastAttack >= attackDelay)
-                    {
-                        JumpAttack();
-                    }
+                    case 0:
+                        if (distance < meleeAttackRange)
+                        {
+                            if (lastAttack >= attackDelay)
+                            {
+                                MeleeAttack();
+                            }
+                        }
+
+                        break;
+                    case 1:
+                        if (distance < throwAttackRange)
+                        {
+                            if (lastAttack >= attackDelay)
+                            {
+                                ThrowAttack();
+                            }
+                        }
+
+                        break;
+                    case 2:
+                        if (distance < spinAttackRange)
+                        {
+                            if (lastAttack >= attackDelay)
+                            {
+                                SpinAttack();
+                            }
+                        }
+
+                        break;
+                    case 3:
+                        if (distance < jumpAttackRange)
+                        {
+                            if (lastAttack >= attackDelay)
+                            {
+                                JumpAttack();
+                            }
+                        }
+
+                        break;
                 }
-                else
+                if (distance > range)
                 {
-                    Movement();
+                    Move(new Vector3(0f, 0f, enemySpeed));
                 }
             }
+
+
         }
+    
 
         protected override void Movement()
         {
