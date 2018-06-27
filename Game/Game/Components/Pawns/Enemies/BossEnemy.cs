@@ -35,7 +35,7 @@ namespace Game.Components.Pawns.Enemies
             {
                 Hp = 99999;
             }
-            attackDelay = 3.5d;
+            attackDelay = 3.0d;
             parentGameObject = parent;
             enemySpeed = 0.055f;
             wakeUpDistance = 500f;

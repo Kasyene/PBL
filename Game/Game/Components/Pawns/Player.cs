@@ -273,7 +273,7 @@ namespace PBLGame.MainGame
                 TimeEnergy -= 1;
                 previousTimeEnergyUpdate = 0.0d;
             }
-            if (previousTimeEnergyUpdate >= 1.3d && !timeStop && TimeEnergy < 10)
+            if (previousTimeEnergyUpdate >= 1.66d && !timeStop && TimeEnergy < 10)
             {
                 TimeEnergy += 1;
                 previousTimeEnergyUpdate = 0.0d;
