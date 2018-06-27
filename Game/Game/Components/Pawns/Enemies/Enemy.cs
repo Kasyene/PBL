@@ -72,7 +72,7 @@ namespace Game.Components
             }
         }
 
-        protected void RollForHpPickUp()
+        protected virtual void RollForHpPickUp()
         {
             Random rnd = new Random();
             int a = rnd.Next(0, 6);

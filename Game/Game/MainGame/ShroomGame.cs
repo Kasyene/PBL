@@ -97,6 +97,7 @@ namespace PBLGame
         public bool playerShouldNotMove = false;
         public bool bossFight = false;
         public bool gameComplete = false;
+        public float endTimer = 0.0f;
 
         public DoorComponent door1;
         public DoorComponent door2;
@@ -300,6 +301,7 @@ namespace PBLGame
 
         protected override void Update(GameTime gameTime)
         {
+            endTimer -= 0.1f;
             if (cutsceneDisplayTime > -0.1f)
             {
                 playerShouldNotMove = true;
@@ -309,13 +311,12 @@ namespace PBLGame
                 playerShouldNotMove = false;
             }
 
-            if (gameComplete && cutsceneDisplayTime < 0)
+            if (gameComplete && cutsceneDisplayTime < 0.0f && cutscene == null && endTimer < 0f)
             {
                 gameComplete = false;
                 levelOneCompleted = false;
                 tutorialCompleted = false;
                 roomEntranceCutscene = false;
-                areCollidersAndTriggersSet = false;
                 actualGameState = GameState.MainMenu;
             }
 
@@ -1026,6 +1027,7 @@ namespace PBLGame
             switch (i)
             {
                 case StartButtonIndex:
+                    areCollidersAndTriggersSet = false;
                     new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 5f, "Player: Your Majesty, I am ready for your orders.",
                         "King: Loyal knight, the secret service of our Kingdom has revealed a conspiracy against the Crown!",
                         "Player: How is this possible? Who would dare to stand against You my King?");

@@ -157,9 +157,14 @@ namespace Game.Components.Pawns.Enemies
             Move(new Vector3(0f, 0f, enemySpeed));
         }
 
+        protected override void RollForHpPickUp()
+        {
+            
+        }
+
         protected override void Die()
         {
-            GameServices.GetService<ShroomGame>().bossFight = false;
+            GameServices.GetService<ShroomGame>().endTimer = 3f;
             new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3.1"), 5f, "Narrator: The hero rushed into a battle against the King.",
             "Narrator: A fierce fight broke out.",
             "Narrator: After many swings of their hats there was only one shroom standing.");
@@ -169,6 +174,7 @@ namespace Game.Components.Pawns.Enemies
             new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3.3"), 5f, "Crowd: The King is dead, long live the King!",
             "Narrator: But wait! Who was the new Monarch? Was it Borovikus or our hero?",
             "Narrator: This question will be left without an answer. It is a matter for another story.");
+            GameServices.GetService<ShroomGame>().bossFight = false;
             GameServices.GetService<ShroomGame>().gameComplete = true;
             //isDead = true;
         }
