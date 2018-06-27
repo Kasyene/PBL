@@ -62,7 +62,7 @@ namespace PBLGame.SceneGraph
             Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
             Vector3 max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
 
-            foreach (ModelMesh mesh in model.Meshes)
+            foreach (ModelMesh mesh in model?.Meshes)
             {
                 foreach (ModelMeshPart meshPart in mesh.MeshParts)
                 {

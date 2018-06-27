@@ -28,7 +28,7 @@ namespace Game.Components.Pawns.Enemies
             parentGameObject = parent;
             enemySpeed = 0.07f;
             wakeUpDistance = 500f;
-            range = 40f;
+            range = 80f;
             enemyHat = parentGameObject.FindChildNodeByTag("Hat");
             enemyLeg = parentGameObject.FindChildNodeByTag("Leg");
         }
@@ -78,6 +78,11 @@ namespace Game.Components.Pawns.Enemies
 
         protected override void Attack()
         {
+            base.Attack();
+        }
+
+        private void MeleeAttack()
+        {
             lastAttack = 0.0d;
             isAttacking = true;
             enemyHat.GetComponent<HitTrigger>().ClearBoxList();
@@ -98,7 +103,7 @@ namespace Game.Components.Pawns.Enemies
                 {
                     if (lastAttack >= attackDelay)
                     {
-                        Attack();
+                        MeleeAttack();
                     }
                 }
                 else
