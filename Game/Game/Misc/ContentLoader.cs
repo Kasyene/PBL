@@ -55,6 +55,8 @@ namespace PBLGame.Misc
         ModelAnimatedComponent kingHatWalk;
         ModelAnimatedComponent kingHatDeath;
         ModelAnimatedComponent kingHatGotHit;
+        ModelAnimatedComponent kingHatSlashR;
+        ModelAnimatedComponent kingHatSlashL;
         ModelAnimatedComponent kingHatSlash;
         ModelAnimatedComponent kingHatSpin;
         ModelAnimatedComponent kingHatBaczek;
@@ -64,6 +66,8 @@ namespace PBLGame.Misc
         ModelAnimatedComponent kingLegWalk;
         ModelAnimatedComponent kingLegDeath;
         ModelAnimatedComponent kingLegGotHit;
+        ModelAnimatedComponent kingLegSlashR;
+        ModelAnimatedComponent kingLegSlashL;
         ModelAnimatedComponent kingLegSlash;
         ModelAnimatedComponent kingLegSpin;
         ModelAnimatedComponent kingLegBaczek;
@@ -117,7 +121,9 @@ namespace PBLGame.Misc
             kingHatWalk = new ModelAnimatedComponent("models/enemies/nowyKrol/krolChodKapelusz", game.Content, animatedEffect, kingTex, kingNormal);
             kingHatDeath = new ModelAnimatedComponent("models/enemies/nowyKrol/krolUmarlKapelusz", game.Content, animatedEffect, kingTex, kingNormal);
             kingHatGotHit = new ModelAnimatedComponent("models/enemies/nowyKrol/krolOberwalKapelusz", game.Content, animatedEffect, kingTex, kingNormal);
-            kingHatSlash = new ModelAnimatedComponent("models/enemies/nowyKrol/krolSlasheKapelusz", game.Content, animatedEffect, kingTex, kingNormal);
+            kingHatSlashR = new ModelAnimatedComponent("models/enemies/nowyKrol/krolSlashPrawoKapelusz", game.Content, animatedEffect, kingTex, kingNormal);
+            kingHatSlashL = new ModelAnimatedComponent("models/enemies/nowyKrol/krolSlashLewoKapelusz", game.Content, animatedEffect, kingTex, kingNormal);
+            kingHatSlash = new ModelAnimatedComponent("models/enemies/nowyKrol/krolSlashPrzodKapelusz", game.Content, animatedEffect, kingTex, kingNormal);
             kingHatSpin = new ModelAnimatedComponent("models/enemies/nowyKrol/krolSpinKapelusz", game.Content, animatedEffect, kingTex, kingNormal);
             kingHatBaczek = new ModelAnimatedComponent("models/enemies/nowyKrol/krolBaczekKapelusz", game.Content, animatedEffect, kingTex, kingNormal);
             kingHatWbicie = new ModelAnimatedComponent("models/enemies/nowyKrol/krolWbicieKapelusz", game.Content, animatedEffect, kingTex, kingNormal);
@@ -126,7 +132,9 @@ namespace PBLGame.Misc
             kingLegWalk = new ModelAnimatedComponent("models/enemies/nowyKrol/krolChodNozka", game.Content, animatedEffect, kingTex, kingNormal);
             kingLegDeath = new ModelAnimatedComponent("models/enemies/nowyKrol/krolUmarlNozka", game.Content, animatedEffect, kingTex, kingNormal);
             kingLegGotHit = new ModelAnimatedComponent("models/enemies/nowyKrol/krolOberwalNozka", game.Content, animatedEffect, kingTex, kingNormal);
-            kingLegSlash = new ModelAnimatedComponent("models/enemies/nowyKrol/krolSlasheNozka", game.Content, animatedEffect, kingTex, kingNormal);
+            kingLegSlash = new ModelAnimatedComponent("models/enemies/nowyKrol/krolSlashPrzodNozka", game.Content, animatedEffect, kingTex, kingNormal);
+            kingLegSlashR = new ModelAnimatedComponent("models/enemies/nowyKrol/krolSlashPrawoNozka", game.Content, animatedEffect, kingTex, kingNormal);
+            kingLegSlashL = new ModelAnimatedComponent("models/enemies/nowyKrol/krolSlashLewoNozka", game.Content, animatedEffect, kingTex, kingNormal);
             kingLegSpin = new ModelAnimatedComponent("models/enemies/nowyKrol/krolSpinNozka", game.Content, animatedEffect, kingTex, kingNormal);
             kingLegBaczek = new ModelAnimatedComponent("models/enemies/nowyKrol/krolBaczekNozka", game.Content, animatedEffect, kingTex, kingNormal);
             kingLegWbicie = new ModelAnimatedComponent("models/enemies/nowyKrol/krolWbicieNozka", game.Content, animatedEffect, kingTex, kingNormal);
@@ -150,7 +158,7 @@ namespace PBLGame.Misc
 
         public void SetAsColliderAndTrigger()
         {
-            foreach(GameObject obj in triggers)
+            foreach (GameObject obj in triggers)
             {
                 obj.SetAsColliderAndTrigger(new HitTrigger(obj));
             }
@@ -351,9 +359,17 @@ namespace PBLGame.Misc
             kingLeg.GetComponent<AnimationManager>().AddAnimation(kingLegDeath.AnimationClips[0], "death");
             kingHat.GetComponent<AnimationManager>().AddAnimation(kingHatDeath.AnimationClips[0], "death");
 
-            // ATTACK
-            kingLeg.GetComponent<AnimationManager>().AddAnimation(kingLegSlash.AnimationClips[0], "attack");
-            kingHat.GetComponent<AnimationManager>().AddAnimation(kingHatSlash.AnimationClips[0], "attack");
+            // SLASH PRZOD
+            kingLeg.GetComponent<AnimationManager>().AddAnimation(kingLegSlash.AnimationClips[0], "slash");
+            kingHat.GetComponent<AnimationManager>().AddAnimation(kingHatSlash.AnimationClips[0], "slash");
+
+            // SLASH LEWO
+            kingLeg.GetComponent<AnimationManager>().AddAnimation(kingLegSlashL.AnimationClips[0], "slashL");
+            kingHat.GetComponent<AnimationManager>().AddAnimation(kingHatSlashL.AnimationClips[0], "slashL");
+
+            // SLASH PRAWO
+            kingLeg.GetComponent<AnimationManager>().AddAnimation(kingLegSlashR.AnimationClips[0], "slashR");
+            kingHat.GetComponent<AnimationManager>().AddAnimation(kingHatSlashR.AnimationClips[0], "slashR");
 
             // SPIN
             kingLeg.GetComponent<AnimationManager>().AddAnimation(kingLegSpin.AnimationClips[0], "spin");
@@ -788,7 +804,7 @@ namespace PBLGame.Misc
 
             GameObject enemyRanged2 = LoadRangedEnemy();
             enemyRanged2.Position = new Vector3(100f, 40f, -1750f);
-            GameObject enemy4= LoadMeleeEnemy();
+            GameObject enemy4 = LoadMeleeEnemy();
             enemy4.Position = new Vector3(200f, 40f, -1750f);
             GameObject enemy5 = LoadMeleeEnemy();
             enemy5.Position = new Vector3(400f, 40f, -1850f);
@@ -852,7 +868,7 @@ namespace PBLGame.Misc
             door1.name = door1Model.Meshes[0].Name;
             ModelComponent door1ModelComp = new ModelComponent(door1Model, standardEffect, hierarchiaStrefa2Tex, hierarchiaStrefa2Normal);
             door1.AddComponent(door1ModelComp);
-            DoorComponent door1Comp = new DoorComponent(door1, MathHelper.PiOver2, new Vector3(-25f,0f,-25f));
+            DoorComponent door1Comp = new DoorComponent(door1, MathHelper.PiOver2, new Vector3(-25f, 0f, -25f));
             if (game.levelOneCompleted) door1Comp.closed = true;
             door1.AddComponent(door1Comp);
             game.updateComponents.Add(door1Comp);
@@ -910,7 +926,7 @@ namespace PBLGame.Misc
             list.Add(door4);
             AssignTagsForMapElements(doorList);
 
-            if(!game.levelOneCompleted)
+            if (!game.levelOneCompleted)
             {
                 GameObject level1Trigger = new GameObject("level1Trigger");
                 LoadLevel1Trigger triggerLevel = new LoadLevel1Trigger(level1Trigger, new Vector3(-120f, 10f, -900f), new Vector3(-60f, 100f, -550f), game);
