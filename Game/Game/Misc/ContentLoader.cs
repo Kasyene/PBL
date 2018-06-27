@@ -326,9 +326,9 @@ namespace PBLGame.Misc
             king.AddChildNode(kingHat);
 
             // models without anims have problems i guess ; /
-            kingLeg.AddComponent(new ModelAnimatedComponent("models/enemies/nowyKrol/krolChodKapelusz", game.Content, animatedEffect, kingTex, kingNormal));
+            kingLeg.AddComponent(new ModelAnimatedComponent("models/enemies/nowyKrol/krolChodNozka", game.Content, animatedEffect, kingTex, kingNormal));
             kingLeg.AddComponent(new AnimationManager(kingLeg));
-            kingHat.AddComponent(new ModelAnimatedComponent("models/enemies/nowyKrol/krolChodNozka", game.Content, animatedEffect, kingTex, kingNormal));
+            kingHat.AddComponent(new ModelAnimatedComponent("models/enemies/nowyKrol/krolChodKapelusz", game.Content, animatedEffect, kingTex, kingNormal));
             kingHat.AddComponent(new AnimationManager(kingHat));
 
             // ENABLE DYNAMIC COLLISION ON ENEMY HAT
