@@ -143,6 +143,18 @@ namespace PBLGame.Misc.Anim
             }
         }
 
+        private void playDefaultAudio()
+        {
+            switch (defaultKey)
+            {
+                case "walk":
+                    audioComponent.PlaySound2D("walk");
+                    break;
+                default:
+                    break;
+            }
+        }
+
         public override void Update(GameTime gameTime)
         {
             if (animationPlayer != null && !isStoped)
@@ -174,6 +186,7 @@ namespace PBLGame.Misc.Anim
                     {
                        currentKey = null;
                        animationPlayer = parent.GetComponent<ModelAnimatedComponent>().PlayClip(animationClipDefault);
+                        playDefaultAudio();
                     }
                 }
 

@@ -137,6 +137,7 @@ namespace Game.Components.Audio
             soundEffects.Add("woosh", contentManager.Load<SoundEffect>("audio/sfx/woosh"));
             soundEffects.Add("timeSlow", contentManager.Load<SoundEffect>("audio/sfx/time_slow"));
             soundEffects.Add("timeSpeed", contentManager.Load<SoundEffect>("audio/sfx/time_speed"));
+            soundEffects.Add("walk", contentManager.Load<SoundEffect>("audio/sfx/walk"));
 
 
             base.LoadContent(contentManager);

@@ -3719,3 +3719,9 @@
 /processorParam:Quality=Best
 /build:audio/sfx/damage.wav
 
+#begin audio/sfx/walk.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/walk.wav
+
