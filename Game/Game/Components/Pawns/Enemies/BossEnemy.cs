@@ -18,6 +18,7 @@ namespace Game.Components.Pawns.Enemies
         {
             if (finalFight)
             {
+                MaxHp = 100;
                 Hp = 100;
             }
             else

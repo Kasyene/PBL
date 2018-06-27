@@ -14,6 +14,7 @@ using PBLGame.Misc;
 using System;
 using PBLGame.Input.Devices;
 using Game.Components.MapElements;
+using Game.Components.Pawns.Enemies;
 
 namespace PBLGame
 {
@@ -94,9 +95,11 @@ namespace PBLGame
         public bool cutsceneLoaded = false;
         public bool roomEntranceCutscene = false;
         public bool playerShouldNotMove = false;
+        public bool bossFight = true;
 
         public DoorComponent door1;
         public DoorComponent door2;
+        public GameObject boss;
         #endregion
 
         GraphicsDeviceManager graphics;
@@ -124,6 +127,10 @@ namespace PBLGame
         private Texture2D hpTexture;
         private Texture2D timeTexture;
         private Texture2D[] icons;
+
+        private Texture2D bossBarFront;
+        private Texture2D bossBarBack;
+        private Texture2D bossHpTexture;
         #endregion
 
         Cutscene cutscene;
@@ -239,6 +246,10 @@ namespace PBLGame
             icons[3] = Content.Load<Texture2D>("hud/ikonaStopSzara");
             icons[4] = Content.Load<Texture2D>("hud/ikonaCofnijSzara");
             icons[5] = Content.Load<Texture2D>("hud/ikonaTepSzara");
+
+            bossBarFront = Content.Load<Texture2D>("hud/pasekKrolaPrzod");
+            bossBarBack = Content.Load<Texture2D>("hud/pasekKrolaTyl");
+            bossHpTexture = Content.Load<Texture2D>("hud/pasekKrolaZycie");
 
             actualDialogueText = new string[3];
             actualDialogueText[0] = ""; 
@@ -579,6 +590,7 @@ namespace PBLGame
             {
                 DrawOutline();
                 DrawHUDBars();
+                DrawBossHP();
             }
             else
             {
@@ -687,6 +699,18 @@ namespace PBLGame
                Color.Snow, 0.0f, dialoguesFont.MeasureString(actualDialogueText[2]) / 2, 
                graphics.GraphicsDevice.Viewport.Width / nativResolution.X, SpriteEffects.None, 0.5f);
             spriteBatch.End();
+        }
+
+        void DrawBossHP()
+        {
+            if(bossFight && boss != null)
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(bossBarBack, new Rectangle((graphics.GraphicsDevice.Viewport.Width / 2) - (boss.GetComponent<BossEnemy>().MaxHp * 8)/2 , 10, boss.GetComponent<BossEnemy>().MaxHp * 8, 80), Color.White);
+                spriteBatch.Draw(bossHpTexture, new Rectangle(((graphics.GraphicsDevice.Viewport.Width / 2) - (boss.GetComponent<BossEnemy>().MaxHp * 8) / 2) + (100 - boss.GetComponent<BossEnemy>().Hp), 10, boss.GetComponent<BossEnemy>().Hp * 8, 80), Color.White);
+                spriteBatch.Draw(bossBarFront, new Rectangle((graphics.GraphicsDevice.Viewport.Width / 2) - (boss.GetComponent<BossEnemy>().MaxHp * 8) / 2, 10, boss.GetComponent<BossEnemy>().MaxHp * 8, 80), Color.White);
+                spriteBatch.End();
+            }
         }
 
         void DrawHUDBars()
