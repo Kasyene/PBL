@@ -599,9 +599,9 @@ namespace PBLGame.Misc
         {
             if (!game.cutsceneLoaded)
             {
-                new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 5f, "Narrator: After the weird fight with Borovikus our hero found the throne room door locked.",
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 12f, "Narrator: After the weird fight with Borovikus our hero found the throne room door locked.",
                     "Narrator: While he was looking for a way to break in, his attention was drawn by something unusual.");
-                new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 5f, "Player: Is it the newest painting by Michelshroomgelo? I know this scene, but I remember it differently...",
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 12f, "Player: Is it the newest painting by Michelshroomgelo? I know this scene, but I remember it differently...",
                     "Narrator: Our brave hero were lost in memories of scene depicted on the painting.");
             }
             game.cutsceneLoaded = false;
@@ -813,6 +813,12 @@ namespace PBLGame.Misc
         public void LoadTutorial()
         {
             ResetMap();
+            if(game.roomEntranceCutscene)
+            {
+                new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3,0"), 12f, "Narrator: When our hero came to his senses, he found the door to the throne room wide open.",
+                "Narrator: He noticed that King pushed weakened Borovikus to defense.");
+                new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3,0"), 12f, "King: Finally you are here! Help me, kill the traitor!",                "Narrator: But our hero had already figured out who the real traitor was.");
+            }
             GameObject mapRoot = new GameObject();
             Model hierarchiaStrefa1 = game.Content.Load<Model>("LevelTut/zamekStrefa1");
             Texture2D hierarchiaStrefa1Tex = game.Content.Load<Texture2D>("LevelTut/zamekStrefa1Tex");

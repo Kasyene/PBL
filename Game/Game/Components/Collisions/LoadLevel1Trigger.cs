@@ -37,9 +37,9 @@ namespace Game.Components.Collisions
             if (triggered?.tag == "player" && game.tutorialCompleted)
             {
                 ShroomGame.loadLevelTime = Timer.gameTime.TotalGameTime.TotalSeconds;
-                new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 5f, "Narrator: After the weird fight with Borovikus our hero found the throne room door locked.",
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"),12f, "Narrator: After the weird fight with Borovikus our hero found the throne room door locked.",
                     "Narrator: While he was looking for a way to break in, his attention was drawn by something unusual.");
-                new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 5f, "Player: Is it the newest painting by Michelshroomgelo? I know this scene, but I remember it differently...",
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 12f, "Player: Is it the newest painting by Michelshroomgelo? I know this scene, but I remember it differently...",
                     "Narrator: Our brave hero were lost in memories of scene depicted on the painting.");
                 game.areCollidersAndTriggersSet = false;
                 game.cutsceneLoaded = true;

@@ -451,7 +451,7 @@ namespace PBLGame
 
             if (inputManager.Keyboard[Keys.Space].WasPressed && cutsceneDisplayTime > 0.0f)
             {
-                if (Timer.gameTime.TotalGameTime.TotalSeconds - loadLevelTime > 8)
+                if (Timer.gameTime.TotalGameTime.TotalSeconds - loadLevelTime > 6)
                 {
                     cutsceneDisplayTime = 0.0f;
                     textDisplayTime = 0.0f;
@@ -608,7 +608,7 @@ namespace PBLGame
             {
                 spriteBatch.Begin(0, BlendState.Opaque, null, null, null);
                 spriteBatch.Draw(actualCutsceneTexture, new Rectangle(new Point(0, 0), new Point(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight)), Color.White);
-                if (Timer.gameTime.TotalGameTime.TotalSeconds - loadLevelTime > 8)
+                if (Timer.gameTime.TotalGameTime.TotalSeconds - loadLevelTime > 6)
                 {
                     spriteBatch.DrawString(dialoguesFont, "Press space to skip",
                     new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, 50f),
@@ -1029,13 +1029,13 @@ namespace PBLGame
                 case StartButtonIndex:
                     loadLevelTime = Timer.gameTime.TotalGameTime.TotalSeconds;
                     areCollidersAndTriggersSet = false;
-                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 5f, "Player: Your Majesty, I am ready for your orders.",
+                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 18f, "Player: Your Majesty, I am ready for your orders.",
                         "King: Loyal knight, the secret service of our Kingdom has revealed a conspiracy against the Crown!",
                         "Player: How is this possible? Who would dare to stand against You my King?");
-                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.1"), 5f, "King: Nobody suspected that. The traitor turned out to be one of the knights, Borovikus",
+                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.1"), 18f, "King: Nobody suspected that. The traitor turned out to be one of the knights, Borovikus",
                         "Player: Borovikus? It is not possible, he was always the most loyal one!",
                         "King: The evidence is irrefutable. Borovikus is plotting with the enemy. You must stop him!");
-                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.2"), 5f, "Player: What is your command, Lord?",
+                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.2"), 18f, "Player: What is your command, Lord?",
                         "King: Go after him and kill! Kill the traitor. Bring his hat to me as a proof.",
                         "Player: Yes Sir. Your wish is my command.");
                     actualGameState = GameState.LevelTutorial;
