@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using PBLGame;
 using PBLGame.MainGame;
 using PBLGame.SceneGraph;
@@ -10,16 +11,24 @@ namespace Game.Components.Pawns.Enemies
         private int tutorialHits = 0;
         private GameObject enemyHat;
         private GameObject enemyLeg;
+        private bool finalFight = GameServices.GetService<ShroomGame>().levelOneCompleted;
         public BossEnemy(GameObject parent) : base(parent)
         {
-            this.Hp = 99999;
+            if (finalFight)
+            {
+                Hp = 100;
+            }
+            else
+            {
+                Hp = 99999;
+            }        
             enemyHat = parentGameObject.FindChildNodeByTag("Hat");
             enemyLeg = parentGameObject.FindChildNodeByTag("Leg");
         }
 
         public override void ReceiveHit()
         {
-            if (!GameServices.GetService<ShroomGame>().levelOneCompleted)
+            if (!finalFight)
             {
                 tutorialHits++;
                 if (tutorialHits == 10)
@@ -42,6 +51,7 @@ namespace Game.Components.Pawns.Enemies
             }
 
             base.ReceiveHit();
+            Debug.WriteLine("hp = " + Hp);
         }
 
         public override void Update(GameTime time)
