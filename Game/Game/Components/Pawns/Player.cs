@@ -384,7 +384,7 @@ namespace PBLGame.MainGame
 
         private void ThroneRoomEntranceCutscene()
         {
-            if (ShroomGame.actualGameState == GameState.LevelTutorial && parentGameObject.PositionZ < -1100f && GameServices.GetService<ShroomGame>().levelOneCompleted && !GameServices.GetService<ShroomGame>().roomEntranceCutscene)
+            if (ShroomGame.actualGameState == GameState.LevelTutorial && parentGameObject.PositionZ < -1050f && parentGameObject.PositionZ > -1200f && GameServices.GetService<ShroomGame>().levelOneCompleted && !GameServices.GetService<ShroomGame>().roomEntranceCutscene)
             {
                 GameServices.GetService<ShroomGame>().roomEntranceCutscene = true;
                 GameServices.GetService<ShroomGame>().bossFight = true;
