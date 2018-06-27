@@ -140,7 +140,7 @@ namespace Game.Components.Audio
             soundEffects.Add("walk", contentManager.Load<SoundEffect>("audio/sfx/walk"));
             soundEffects.Add("lever", contentManager.Load<SoundEffect>("audio/sfx/lever"));
             soundEffects.Add("bridge", contentManager.Load<SoundEffect>("audio/sfx/bridge"));
-
+            soundEffects.Add("laughter", contentManager.Load<SoundEffect>("audio/sfx/laughter"));
             base.LoadContent(contentManager);
         }
 
