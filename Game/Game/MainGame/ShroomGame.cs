@@ -87,8 +87,8 @@ namespace PBLGame
         #endregion
 
         #region GameProgress
-        public bool levelOneCompleted = true;
-        public bool tutorialCompleted = true;
+        public bool levelOneCompleted = false;
+        public bool tutorialCompleted = false;
         public bool usedQ = false;
         public bool usedE = false;
         public bool usedR = false;
@@ -173,8 +173,8 @@ namespace PBLGame
             graphics.PreferredBackBufferHeight = (int)nativResolution.Y;
             graphics.PreferredBackBufferWidth = (int)nativResolution.X;
             //actualGameState = GameState.LevelOne;
-            //actualGameState = GameState.MainMenu;
-            actualGameState = GameState.LevelTutorial;
+            actualGameState = GameState.MainMenu;
+            //actualGameState = GameState.LevelTutorial;
             lastGameState = GameState.MainMenu;
             root = new GameObject();
         }
@@ -284,14 +284,33 @@ namespace PBLGame
             switch (gameState)
             {
                 case GameState.MainMenu:
+                    if (musicManager.currentKey != "menu")
+                    {
+                        musicManager.StopSong();
+                        musicManager.PlaySong("menu");
+                        musicManager.IsRepeating = true;
+                    }   
                     break;
                 case GameState.Options:
                     break;
                 case GameState.LevelTutorial:
+                    if (bossFight)
+                    {
+                        musicManager.StopSong();
+                        musicManager.PlaySong("fight");
+                        musicManager.IsRepeating = true;
+                    }
+                    else
+                    {
+                        musicManager.StopSong();
+                        musicManager.PlaySong("5823");
+                        musicManager.IsRepeating = true;
+                    }
                     break;
                 case GameState.Dead:
                     break;
                 case GameState.LevelOne:
+                    musicManager.StopSong();
                     musicManager.PlaySong("5823");
                     musicManager.IsRepeating = true;
                     break;

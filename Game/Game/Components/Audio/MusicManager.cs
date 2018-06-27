@@ -14,7 +14,7 @@ namespace Game.Components.Audio
 
         public MusicManager()
         {
-            Volume = 0.07f;
+            Volume = 0.15f;
             LoadContent(Resources.Content);
         }
 
