@@ -9,6 +9,7 @@ namespace Game.Components.MapElements
     class LeverComponent : Component
     {
         GameObject parent;
+        public bool start = true;
         public bool direction = false;
         float startRotation;
         float endRotation = MathHelper.PiOver2;
@@ -33,7 +34,7 @@ namespace Game.Components.MapElements
         {
             if (direction)
             {
-                if (!playedSound)
+                if (!playedSound && !start)
                 {
                     audioComponent?.PlaySound("lever");
                     playedSound = true;
@@ -51,7 +52,7 @@ namespace Game.Components.MapElements
                 if(parent.RotationZ >= startRotation)
                 {
                     parent.RotationZ -= 6 * stepSize * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    if (!playedSound)
+                    if (!playedSound && !start)
                     {
                         audioComponent?.PlaySound("lever");
                         playedSound = true;
@@ -61,6 +62,7 @@ namespace Game.Components.MapElements
                 {
                     playedSound = false;
                 }
+                start = false;
             }
         }
     }
