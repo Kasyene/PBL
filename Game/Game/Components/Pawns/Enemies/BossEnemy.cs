@@ -21,7 +21,7 @@ namespace Game.Components.Pawns.Enemies
             if (finalFight)
             {
                 MaxHp = 100;
-                Hp = 2;
+                Hp = 100;
             }
             else
             {
@@ -76,7 +76,7 @@ namespace Game.Components.Pawns.Enemies
                     enemyHat.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
                     enemyLeg.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
                 }
-                if (enemyHat.GetComponent<AnimationManager>().isCurrentAnimation("slash"))
+                if (enemyHat.GetComponent<AnimationManager>().isCurrentAnimation("slash") || enemyHat.GetComponent<AnimationManager>().isCurrentAnimation("slashL") || enemyHat.GetComponent<AnimationManager>().isCurrentAnimation("slashR") || enemyHat.GetComponent<AnimationManager>().isCurrentAnimation("spin") || enemyHat.GetComponent<AnimationManager>().isCurrentAnimation("baczek") || enemyHat.GetComponent<AnimationManager>().isCurrentAnimation("wbicie"))
                 {
                     isAttacking = true;
                 }
@@ -101,13 +101,31 @@ namespace Game.Components.Pawns.Enemies
         private void MeleeAttack()
         {
             lastAttack = 0.0d;
-            enemyHat.GetComponent<HitTrigger>().ClearBoxList();
             if (enemyHat.GetComponent<AnimationManager>().isReady)
             {
                 enemyHat.GetComponent<AnimationManager>().PlayAnimation("slash");
                 enemyLeg.GetComponent<AnimationManager>().PlayAnimation("slash");
             }
             Debug.WriteLine("MELEEATAK");
+        }
+
+        private void ThrowAttack()
+        {
+            lastAttack = 0.0d;
+            if (enemyHat.GetComponent<AnimationManager>().isReady)
+            {
+                enemyHat.GetComponent<AnimationManager>().PlayAnimation("spin");
+                enemyLeg.GetComponent<AnimationManager>().PlayAnimation("spin");
+            }
+        }
+        private void SpinAttack()
+        {
+            lastAttack = 0.0d;
+            if (enemyHat.GetComponent<AnimationManager>().isReady)
+            {
+                enemyHat.GetComponent<AnimationManager>().PlayAnimation("baczek");
+                enemyLeg.GetComponent<AnimationManager>().PlayAnimation("baczek");
+            }
         }
 
         protected override void EnemyBehaviour()
@@ -119,7 +137,7 @@ namespace Game.Components.Pawns.Enemies
                 {
                     if (lastAttack >= attackDelay)
                     {
-                        MeleeAttack();
+                        SpinAttack();
                     }
                 }
                 else
@@ -152,7 +170,7 @@ namespace Game.Components.Pawns.Enemies
             "Narrator: But wait! Who was the new Monarch? Was it Borovikus or our hero?",
             "Narrator: This question will be left without an answer. It is a matter for another story.");
             GameServices.GetService<ShroomGame>().gameComplete = true;
-            isDead = true;
+            //isDead = true;
         }
     }
 }
