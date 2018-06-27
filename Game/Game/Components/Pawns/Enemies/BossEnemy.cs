@@ -175,13 +175,13 @@ namespace Game.Components.Pawns.Enemies
         protected override void Die()
         {
             GameServices.GetService<ShroomGame>().endTimer = 3f;
-            new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3.1"), 5f, "Narrator: The hero rushed into a battle against the King.",
+            new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3.1"), 18f, "Narrator: The hero rushed into a battle against the King.",
             "Narrator: A fierce fight broke out.",
             "Narrator: After many swings of their hats there was only one shroom standing.");
-            new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3.2"), 5f, "Borovikus: Thank you my friend. Praise the sun that you understood I am not the enemy of the Kingdom.",
+            new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3.2"), 18f, "Borovikus: Thank you my friend. Praise the sun that you understood I am not the enemy of the Kingdom.",
             "Narrator: What next? The crown was laying between the two exhausted shroom knights.",
             "Narrator: It was glowing with a bright light. It was a sign that the Kingdom needed a new King.");
-            new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3.3"), 5f, "Crowd: The King is dead, long live the King!",
+            new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3.3"), 18f, "Crowd: The King is dead, long live the King!",
             "Narrator: But wait! Who was the new Monarch? Was it Borovikus or our hero?",
             "Narrator: This question will be left without an answer. It is a matter for another story.");
             GameServices.GetService<ShroomGame>().bossFight = false;

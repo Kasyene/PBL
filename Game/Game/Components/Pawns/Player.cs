@@ -388,8 +388,8 @@ namespace PBLGame.MainGame
             {
                 GameServices.GetService<ShroomGame>().roomEntranceCutscene = true;
                 GameServices.GetService<ShroomGame>().bossFight = true;
-                new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3,0"), 5f, "Narrator: When our hero came to his senses, he found the door to the throne room wide open.",                "Narrator: He noticed that King pushed weakened Borovikus to defense.");
-                new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3,0"), 5f, "King: Finally you are here! Help me, kill the traitor!",                "Narrator: But our hero had already figured out who the real traitor was.");
+                new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3,0"), 12f, "Narrator: When our hero came to his senses, he found the door to the throne room wide open.",                "Narrator: He noticed that King pushed weakened Borovikus to defense.");
+                new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3,0"), 12f, "King: Finally you are here! Help me, kill the traitor!",                "Narrator: But our hero had already figured out who the real traitor was.");
             } 
         }
     }
