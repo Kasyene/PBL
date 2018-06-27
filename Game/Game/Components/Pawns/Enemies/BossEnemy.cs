@@ -186,7 +186,7 @@ namespace Game.Components.Pawns.Enemies
             "Narrator: This question will be left without an answer. It is a matter for another story.");
             GameServices.GetService<ShroomGame>().bossFight = false;
             GameServices.GetService<ShroomGame>().gameComplete = true;
-            //isDead = true;
+            isDead = true;
         }
     }
 }

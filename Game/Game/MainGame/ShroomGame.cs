@@ -1027,6 +1027,7 @@ namespace PBLGame
             switch (i)
             {
                 case StartButtonIndex:
+                    loadLevelTime = Timer.gameTime.TotalGameTime.TotalSeconds;
                     areCollidersAndTriggersSet = false;
                     new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 5f, "Player: Your Majesty, I am ready for your orders.",
                         "King: Loyal knight, the secret service of our Kingdom has revealed a conspiracy against the Crown!",
