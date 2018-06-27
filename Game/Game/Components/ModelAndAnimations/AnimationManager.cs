@@ -20,7 +20,7 @@ namespace PBLGame.Misc.Anim
         public float EstimatedTime { get; private set; }
         public int AnimID { get; private set; }
         private int previousAnimID = -1;
-
+        private int tempCount = 0;
         public bool isReady { get; set; }
 
         public string defaultKey {get; private set; }
@@ -124,6 +124,7 @@ namespace PBLGame.Misc.Anim
 
         private void playAudio()
         {
+            tempCount = (tempCount + 1) % 2; 
             switch (animQueue.Peek())
             {
                 case "slash":
@@ -137,6 +138,20 @@ namespace PBLGame.Misc.Anim
                     break;
                 case "throw":
                     audioComponent.PlaySound2D("attack4");
+                    break;
+                case "spin":
+                    audioComponent.PlaySound2D("attack5");
+                    break;
+                case "wbicie":
+                    audioComponent.PlaySound("attack4");
+                    break;
+                case "baczek":
+                    if (tempCount == 0)
+                    {
+                        audioComponent.Volume = audioComponent.Volume * 0.5f;
+                        audioComponent.PlaySound2D("woosh");
+                        audioComponent.Volume = audioComponent.Volume * 2f;
+                    }
                     break;
                 default:
                     break;
