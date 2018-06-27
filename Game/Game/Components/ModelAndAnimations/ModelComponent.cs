@@ -61,23 +61,25 @@ namespace PBLGame.SceneGraph
         {
             Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
             Vector3 max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
-
-            foreach (ModelMesh mesh in model?.Meshes)
+            if (model != null)
             {
-                foreach (ModelMeshPart meshPart in mesh.MeshParts)
+                foreach (ModelMesh mesh in model?.Meshes)
                 {
-                    int vertexStride = meshPart.VertexBuffer.VertexDeclaration.VertexStride;
-                    int vertexBufferSize = meshPart.NumVertices * vertexStride;
-
-                    float[] vertexData = new float[vertexBufferSize / sizeof(float)];
-                    meshPart.VertexBuffer.GetData<float>(vertexData);
-                
-                    for (int i = 0; i < vertexBufferSize / sizeof(float); i += vertexStride / sizeof(float))
+                    foreach (ModelMeshPart meshPart in mesh.MeshParts)
                     {
-                        Vector3 currPosition = new Vector3(vertexData[i], vertexData[i + 1], vertexData[i + 2]);
-                        currPosition = Vector3.Transform(currPosition, worldTransformations);
-                        min = Vector3.Min(min, currPosition);
-                        max = Vector3.Max(max, currPosition);
+                        int vertexStride = meshPart.VertexBuffer.VertexDeclaration.VertexStride;
+                        int vertexBufferSize = meshPart.NumVertices * vertexStride;
+
+                        float[] vertexData = new float[vertexBufferSize / sizeof(float)];
+                        meshPart.VertexBuffer.GetData<float>(vertexData);
+
+                        for (int i = 0; i < vertexBufferSize / sizeof(float); i += vertexStride / sizeof(float))
+                        {
+                            Vector3 currPosition = new Vector3(vertexData[i], vertexData[i + 1], vertexData[i + 2]);
+                            currPosition = Vector3.Transform(currPosition, worldTransformations);
+                            min = Vector3.Min(min, currPosition);
+                            max = Vector3.Max(max, currPosition);
+                        }
                     }
                 }
             }
