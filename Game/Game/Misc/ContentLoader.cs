@@ -776,7 +776,7 @@ namespace PBLGame.Misc
             game.player.Position = new Vector3(0f, 60f, 0f);
             game.player.RotationZ = MathHelper.Pi - MathHelper.PiOver4;
 
-            /*GameObject enemyRanged1 = LoadRangedEnemy();
+            GameObject enemyRanged1 = LoadRangedEnemy();
             enemyRanged1.Position = new Vector3(400f, 40f, -600f);
             GameObject enemy1 = LoadMeleeEnemy();
             enemy1.Position = new Vector3(0f, 40f, -600f);
@@ -790,7 +790,7 @@ namespace PBLGame.Misc
             GameObject enemy4= LoadMeleeEnemy();
             enemy4.Position = new Vector3(200f, 40f, -1750f);
             GameObject enemy5 = LoadMeleeEnemy();
-            enemy5.Position = new Vector3(400f, 40f, -1850f);*/
+            enemy5.Position = new Vector3(400f, 40f, -1850f);
         }
 
         public void LoadTutorial()

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Game.MainGame;
 using PBLGame;
+using Game.Misc.Time;
 
 namespace Game.Components.Collisions
 {
@@ -34,6 +35,7 @@ namespace Game.Components.Collisions
         {
             if (triggered?.tag == "player")
             {
+                ShroomGame.loadLevelTime = Timer.gameTime.TotalGameTime.TotalSeconds;
                 new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.1"), 6f, "Narrator: At the end of the secret mission, while collecting enemy data our hero felt into an ambush.",
                     "Narrator: He was surrounded and outnumbered by enemies.",
                     "Player: I will not go down easily!");
