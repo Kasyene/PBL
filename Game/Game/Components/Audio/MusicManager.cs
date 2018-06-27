@@ -96,6 +96,8 @@ namespace Game.Components.Audio
         public override void LoadContent(ContentManager contentManager)
         {
             songs.Add("5823", contentManager.Load<Song>("audio/music/5823"));
+            songs.Add("fight", contentManager.Load<Song>("audio/music/ShroomFightMaster"));
+            songs.Add("menu", contentManager.Load<Song>("audio/music/ShroomMenu"));
             base.LoadContent(contentManager);
         }
 

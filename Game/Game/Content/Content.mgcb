@@ -3905,3 +3905,15 @@
 /processorParam:TextureFormat=Compressed
 /build:models/enemies/nowyKrol/krolSlashLewoKapelusz.FBX
 
+#begin audio/music/ShroomFightMaster.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:audio/music/ShroomFightMaster.mp3
+
+#begin audio/music/ShroomMenu.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:audio/music/ShroomMenu.mp3
+
