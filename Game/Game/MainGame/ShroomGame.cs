@@ -162,9 +162,9 @@ namespace PBLGame
             nativResolution = new Vector2(1280, 720);
             graphics.PreferredBackBufferHeight = (int)nativResolution.Y;
             graphics.PreferredBackBufferWidth = (int)nativResolution.X;
-            //actualGameState = GameState.LevelOne;
+            actualGameState = GameState.LevelOne;
             //actualGameState = GameState.MainMenu;
-            actualGameState = GameState.LevelTutorial;
+            //actualGameState = GameState.LevelTutorial;
             lastGameState = GameState.MainMenu;
             root = new GameObject();
         }

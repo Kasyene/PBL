@@ -3725,3 +3725,9 @@
 /processorParam:Quality=Best
 /build:audio/sfx/walk.wav
 
+#begin audio/sfx/lever.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/lever.wav
+
