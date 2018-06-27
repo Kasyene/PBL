@@ -211,17 +211,14 @@ namespace PBLGame.MainGame
                     case 0:
                         playerHat.GetComponent<AnimationManager>().PlayAnimation("slash");
                         playerLeg.GetComponent<AnimationManager>().PlayAnimation("slash");
-                        audioComponent.PlaySound2D("attack1");
                         break;
                     case 1:
                         playerHat.GetComponent<AnimationManager>().PlayAnimation("slashL");
                         playerLeg.GetComponent<AnimationManager>().PlayAnimation("slashL");
-                        audioComponent.PlaySound2D("attack2");
                         break;
                     case 2:
                         playerHat.GetComponent<AnimationManager>().PlayAnimation("slashR");
                         playerLeg.GetComponent<AnimationManager>().PlayAnimation("slashR");
-                        audioComponent.PlaySound2D("attack3");
                         break;
                     default:
                         break;
@@ -237,7 +234,6 @@ namespace PBLGame.MainGame
                 isAttacking = true;
                 playerHat.GetComponent<AnimationManager>().PlayAnimation("throw");
                 playerLeg.GetComponent<AnimationManager>().PlayAnimation("throw");
-                audioComponent.PlaySound2D("attack4");
             }
         }
 

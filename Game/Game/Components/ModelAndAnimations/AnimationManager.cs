@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AnimationAux;
+using Game.Components.Audio;
 using Microsoft.Xna.Framework;
 using PBLGame.SceneGraph;
 using Component = PBLGame.SceneGraph.Component;
@@ -33,6 +34,8 @@ namespace PBLGame.Misc.Anim
 
         private AnimationClip animationClip;
         private AnimationClip animationClipDefault;
+
+        private AudioComponent audioComponent;
 
         private Dictionary<string, AnimationClip> animationClips = new Dictionary<string, AnimationClip>();
 
@@ -119,6 +122,27 @@ namespace PBLGame.Misc.Anim
             multiplierQueue.Enqueue(multiplier);
         }
 
+        private void playAudio()
+        {
+            switch (animQueue.Peek())
+            {
+                case "slash":
+                    audioComponent.PlaySound2D("attack1");
+                    break;
+                case "slashR":
+                    audioComponent.PlaySound2D("attack2");
+                    break;
+                case "slashL":
+                    audioComponent.PlaySound2D("attack3");
+                    break;
+                case "throw":
+                    audioComponent.PlaySound2D("attack4");
+                    break;
+                default:
+                    break;
+            }
+        }
+
         public override void Update(GameTime gameTime)
         {
             if (animationPlayer != null && !isStoped)
@@ -140,6 +164,7 @@ namespace PBLGame.Misc.Anim
 
                     if (animQueue.Count > 0)
                     {
+                       playAudio();
                        currentKey = animQueue.Dequeue();
                        animationClip = animationClips[currentKey];
                        
@@ -165,6 +190,7 @@ namespace PBLGame.Misc.Anim
         public AnimationManager(GameObject _parent)
         {
             parent = _parent;
+            audioComponent = new AudioComponent(parent);
         }
 
         AnimationManager(Dictionary<string, AnimationClip> _animationClips)
