@@ -316,6 +316,7 @@ namespace PBLGame.Misc
         public GameObject LoadKing()
         {
             GameObject king = new GameObject("king");
+            game.boss = king;
             GameObject kingHat = new GameObject("Hat");
             GameObject kingLeg = new GameObject("Leg");
 
