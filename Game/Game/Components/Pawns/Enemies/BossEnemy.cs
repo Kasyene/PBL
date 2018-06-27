@@ -154,7 +154,7 @@ namespace Game.Components.Pawns.Enemies
             if (distance < wakeUpDistance && heightDifference < 70.0f)
             {
                 int randomAttackNumber = r.Next(0, 3);
-                switch (2)
+                switch (randomAttackNumber)
                 {
                     case 0:
                         if (distance < meleeAttackRange)
