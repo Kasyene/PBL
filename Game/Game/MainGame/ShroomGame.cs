@@ -611,7 +611,7 @@ namespace PBLGame
                 if (Timer.gameTime.TotalGameTime.TotalSeconds - loadLevelTime > 8)
                 {
                     spriteBatch.DrawString(dialoguesFont, "Press space to skip",
-                    new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, + 70f),
+                    new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, 50f),
                     Color.Snow, 0.0f, dialoguesFont.MeasureString("Press space to skip") / 2,
                     graphics.GraphicsDevice.Viewport.Width / nativResolution.X, SpriteEffects.None, 0.5f);
                 }
