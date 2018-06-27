@@ -96,6 +96,7 @@ namespace PBLGame
         public bool roomEntranceCutscene = false;
         public bool playerShouldNotMove = false;
         public bool bossFight = false;
+        public bool gameComplete = false;
 
         public DoorComponent door1;
         public DoorComponent door2;
@@ -306,6 +307,16 @@ namespace PBLGame
             else
             {
                 playerShouldNotMove = false;
+            }
+
+            if (gameComplete && cutsceneDisplayTime < 0)
+            {
+                gameComplete = false;
+                levelOneCompleted = false;
+                tutorialCompleted = false;
+                roomEntranceCutscene = false;
+                areCollidersAndTriggersSet = false;
+                actualGameState = GameState.MainMenu;
             }
 
             Resources.CameraVector3 = camera.Position;

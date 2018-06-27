@@ -21,7 +21,7 @@ namespace Game.Components.Pawns.Enemies
             if (finalFight)
             {
                 MaxHp = 100;
-                Hp = 1;
+                Hp = 2;
             }
             else
             {
@@ -138,7 +138,8 @@ namespace Game.Components.Pawns.Enemies
             new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3.3"), 5f, "Crowd: The King is dead, long live the King!",
             "Narrator: But wait! Who was the new Monarch? Was it Borovikus or our hero?",
             "Narrator: This question will be left without an answer. It is a matter for another story.");
-            base.Die();
+            GameServices.GetService<ShroomGame>().gameComplete = true;
+            isDead = true;
         }
     }
 }
