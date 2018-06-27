@@ -859,7 +859,7 @@ namespace PBLGame.Misc
             CreateHierarchyOfLevel(strefa2List, mapRoot);
             AssignTagsForMapElements(strefa2List);
 
-            GameObject door1 = new GameObject();
+            GameObject door1 = new GameObject("Wall");
             Model door1Model = game.Content.Load<Model>("LevelTut/zamekStrefa2Drzwi1");
             door1Model.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
             door1.Position = position;
@@ -874,7 +874,7 @@ namespace PBLGame.Misc
             game.updateComponents.Add(door1Comp);
             mapRoot.AddChildNode(door1);
 
-            GameObject door2 = new GameObject();
+            GameObject door2 = new GameObject("Wall");
             Model door2Model = game.Content.Load<Model>("LevelTut/zamekStrefa2Drzwi2");
             door2Model.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
             door2.Position = position;
@@ -889,7 +889,7 @@ namespace PBLGame.Misc
             game.updateComponents.Add(door2Comp);
             mapRoot.AddChildNode(door2);
 
-            GameObject door3 = new GameObject();
+            GameObject door3 = new GameObject("Wall");
             Model door3Model = game.Content.Load<Model>("LevelTut/zamekStrefa2Drzwi3");
             door3Model.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
             door3.Position = position;
@@ -904,7 +904,7 @@ namespace PBLGame.Misc
             game.updateComponents.Add(door3Comp);
             mapRoot.AddChildNode(door3);
 
-            GameObject door4 = new GameObject();
+            GameObject door4 = new GameObject("Wall");
             Model door4Model = game.Content.Load<Model>("LevelTut/zamekStrefa2Drzwi4");
             door4Model.Meshes[0].ParentBone.Transform.Decompose(out scale, out quat, out position);
             door4.Position = position;
