@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Game.Components.Collisions;
 using Microsoft.Xna.Framework;
 using PBLGame;
 using PBLGame.MainGame;
@@ -28,6 +29,7 @@ namespace Game.Components.Pawns.Enemies
             parentGameObject = parent;
             enemySpeed = 0.07f;
             wakeUpDistance = 500f;
+            range = 40f;
             enemyHat = parentGameObject.FindChildNodeByTag("Hat");
             enemyLeg = parentGameObject.FindChildNodeByTag("Leg");
         }
@@ -77,17 +79,44 @@ namespace Game.Components.Pawns.Enemies
 
         protected override void Attack()
         {
-            base.Attack();
+            lastAttack = 0.0d;
+            isAttacking = true;
+            enemyHat.GetComponent<HitTrigger>().ClearBoxList();
+            if (enemyHat.GetComponent<AnimationManager>().isReady)
+            {
+                enemyHat.GetComponent<AnimationManager>().PlayAnimation("attack");
+                enemyLeg.GetComponent<AnimationManager>().PlayAnimation("attack");
+            }
+            Debug.WriteLine("MELEEATAK");
         }
 
         protected override void EnemyBehaviour()
         {
             base.EnemyBehaviour();
+            if (distance < wakeUpDistance && heightDifference < 70.0f)
+            {
+                if (distance < range)
+                {
+                    if (lastAttack >= attackDelay)
+                    {
+                        Attack();
+                    }
+                }
+                else
+                {
+                    Movement();
+                }
+            }
         }
 
         protected override void Movement()
         {
-            base.Movement();
+            if (enemyHat.GetComponent<AnimationManager>().defaultKey != "walk")
+            {
+                enemyHat.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
+                enemyLeg.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
+            }
+            Move(new Vector3(0f, 0f, enemySpeed));
         }
     }
 }

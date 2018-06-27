@@ -3773,3 +3773,15 @@
 /processorParam:TextureFormat=Color
 /build:hud/pasekKrolaZycie.png
 
+#begin audio/sfx/bridge.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/bridge.wav
+
+#begin audio/sfx/lever.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/lever.wav
+
