@@ -30,19 +30,12 @@ namespace PBLGame.SceneGraph
             RotationY = minYRotation;
             //colliders.Add(new Collider(new BoundingBox(), null, this));
             TransformationsOrder = TransformationOrder.ScalePositionRotation;
-            
         }
 
         public Matrix ViewMatrix
         {
-            set
-            {
-                viewMatrix = value;
-            }
-            get
-            {
-                return viewMatrix;
-            }
+            set { viewMatrix = value; }
+            get { return viewMatrix; }
         }
 
         public Matrix CalcViewMatrix()
@@ -57,6 +50,7 @@ namespace PBLGame.SceneGraph
             {
                 lookAtVector = Vector3.Zero;
             }
+
             Vector3 cameraUpVector = Vector3.UnitY;
 
             return Matrix.CreateLookAt(WorldTransformations.Translation, lookAtVector, cameraUpVector);
@@ -85,7 +79,8 @@ namespace PBLGame.SceneGraph
 
         public Vector3 GetViewVector()
         {
-            Vector3 viewVector = Vector3.Transform(cameraTarget.GetWorldPosition() - GetWorldPosition(), Matrix.CreateRotationY(0));
+            Vector3 viewVector = Vector3.Transform(cameraTarget.GetWorldPosition() - GetWorldPosition(),
+                Matrix.CreateRotationY(0));
             viewVector.Normalize();
             return viewVector;
         }
@@ -93,16 +88,20 @@ namespace PBLGame.SceneGraph
         public override void Update()
         {
             base.Update();
-            float rotY = RotationY - ShroomGame.mouseYAxis * inputManager.Mouse.PositionsDelta.Y * 0.00166f; //6x slower than 0.01
-            float posZ = PositionZ + inputManager.Mouse.ScrollValue * 0.1f; ;
-            if (posZ > minZoom && posZ <  maxZoom)
+            float rotY =
+                RotationY - ShroomGame.mouseYAxis * inputManager.Mouse.PositionsDelta.Y *
+                0.00166f; //6x slower than 0.01
+            float posZ = PositionZ + inputManager.Mouse.ScrollValue * 0.1f;
+            if (posZ > minZoom && posZ < maxZoom)
             {
                 PositionZ = posZ;
             }
+
             if (Math.Abs(inputManager.Mouse.ScrollValue) > 0.0f)
             {
                 playerZoom = PositionZ;
             }
+
             if (rotY < maxYRotation && rotY > minYRotation)
             {
                 RotationY = rotY;
@@ -119,7 +118,7 @@ namespace PBLGame.SceneGraph
 
         public void Scroll(float direction)
         {
-            if (PositionZ > minZoom && PositionZ < maxZoom)
+            if (PositionZ >= minZoom && PositionZ < maxZoom)
             {
                 PositionZ += direction * 2.0f;
             }
@@ -131,8 +130,6 @@ namespace PBLGame.SceneGraph
                     RotationY += 0.5f;
                 }
             }
-
-
         }
     }
 }
