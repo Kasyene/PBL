@@ -8,9 +8,13 @@ namespace Game.Components.Pawns.Enemies
     {
         private int tutorialHits = 0;
         public bool tutorial = true;
+        private GameObject enemyHat;
+        private GameObject enemyLeg;
         public BossEnemy(GameObject parent) : base(parent)
         {
             this.Hp = 99999;
+            enemyHat = parentGameObject.FindChildNodeByTag("Hat");
+            enemyLeg = parentGameObject.FindChildNodeByTag("Leg");
         }
 
         public override void ReceiveHit()
