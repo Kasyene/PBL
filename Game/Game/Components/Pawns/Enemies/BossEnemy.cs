@@ -17,11 +17,12 @@ namespace Game.Components.Pawns.Enemies
         private GameObject enemyHat;
         private GameObject enemyLeg;
         private bool finalFight = GameServices.GetService<ShroomGame>().levelOneCompleted;
-        private float meleeAttackRange = 80f;
-        private float spinAttackRange = 70f;
-        private float jumpAttackRange = 90f;
-        private float throwAttackRange = 130f;
+        private float meleeAttackRange = 90f;
+        private float spinAttackRange = 80f;
+        private float jumpAttackRange = 80f;
+        private float throwAttackRange = 135f;
         private Random r = new Random();
+        private String lastAttackName = "";
         public BossEnemy(GameObject parent) : base(parent)
         {
             if (finalFight)
@@ -35,7 +36,7 @@ namespace Game.Components.Pawns.Enemies
             }
             attackDelay = 3.5d;
             parentGameObject = parent;
-            enemySpeed = 0.06f;
+            enemySpeed = 0.08f;
             wakeUpDistance = 500f;
             range = 35;
             enemyHat = parentGameObject.FindChildNodeByTag("Hat");
@@ -114,6 +115,7 @@ namespace Game.Components.Pawns.Enemies
                 enemyLeg.GetComponent<AnimationManager>().PlayAnimation("slashL");
                 enemyHat.GetComponent<AnimationManager>().PlayAnimation("slashR");
                 enemyLeg.GetComponent<AnimationManager>().PlayAnimation("slashR");
+                lastAttackName = "MeleeAttack";
             }
         }
 
@@ -124,6 +126,7 @@ namespace Game.Components.Pawns.Enemies
             {
                 enemyHat.GetComponent<AnimationManager>().PlayAnimation("spin");
                 enemyLeg.GetComponent<AnimationManager>().PlayAnimation("spin");
+                lastAttackName = "ThrowAttack";
             }
         }
         private void SpinAttack()
@@ -135,6 +138,7 @@ namespace Game.Components.Pawns.Enemies
                 enemyLeg.GetComponent<AnimationManager>().PlayAnimation("baczek");
                 enemyHat.GetComponent<AnimationManager>().PlayAnimation("baczek");
                 enemyLeg.GetComponent<AnimationManager>().PlayAnimation("baczek");
+                lastAttackName = "SpinAttack";
             }
         }
 
@@ -145,65 +149,68 @@ namespace Game.Components.Pawns.Enemies
             {
                 enemyHat.GetComponent<AnimationManager>().PlayAnimation("wbicie");
                 enemyLeg.GetComponent<AnimationManager>().PlayAnimation("wbicie");
+                lastAttackName = "JumpAttack";
             }
         }
 
         protected override void EnemyBehaviour()
         {
             base.EnemyBehaviour();
-            if (distance < wakeUpDistance && heightDifference < 70.0f)
+            if (finalFight)
             {
-                int randomAttackNumber = r.Next(0, 3);
-                switch (randomAttackNumber)
+                if (distance < wakeUpDistance && heightDifference < 70.0f)
                 {
-                    case 0:
-                        if (distance < meleeAttackRange)
-                        {
-                            if (lastAttack >= attackDelay)
+                    int randomAttackNumber = r.Next(0, 3);
+                    switch (randomAttackNumber)
+                    {
+                        case 0:
+                            if (distance < meleeAttackRange && lastAttackName != "MeleeAttack")
                             {
-                                MeleeAttack();
+                                if (lastAttack >= attackDelay)
+                                {
+                                    MeleeAttack();
+                                }
                             }
-                        }
 
-                        break;
-                    case 1:
-                        if (distance < throwAttackRange)
-                        {
-                            if (lastAttack >= attackDelay)
+                            break;
+                        case 1:
+                            if (distance < throwAttackRange && lastAttackName != "ThrowAttack")
                             {
-                                ThrowAttack();
+                                if (lastAttack >= attackDelay)
+                                {
+                                    ThrowAttack();
+                                }
                             }
-                        }
 
-                        break;
-                    case 2:
-                        if (distance < spinAttackRange)
-                        {
-                            if (lastAttack >= attackDelay)
+                            break;
+                        case 2:
+                            if (distance < spinAttackRange && lastAttackName != "SpinAttack")
                             {
-                                SpinAttack();
+                                if (lastAttack >= attackDelay)
+                                {
+                                    SpinAttack();
+                                }
                             }
-                        }
 
-                        break;
-                    case 3:
-                        if (distance < jumpAttackRange)
-                        {
-                            if (lastAttack >= attackDelay)
+                            break;
+                        case 3:
+                            if (distance < jumpAttackRange && lastAttackName != "JumpAttack")
                             {
-                                JumpAttack();
+                                if (lastAttack >= attackDelay)
+                                {
+                                    JumpAttack();
+                                }
                             }
-                        }
 
-                        break;
-                }
-                if (distance > range)
-                {
-                    Move(new Vector3(0f, 0f, enemySpeed));
+                            break;
+                    }
+
+                    if (distance > range)
+                    {
+                        Move(new Vector3(0f, 0f, enemySpeed));
+                    }
                 }
             }
-
-
         }
     
 
