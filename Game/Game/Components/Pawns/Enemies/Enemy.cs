@@ -105,7 +105,7 @@ namespace Game.Components
             // to override
         }
 
-        protected void Die()
+        protected virtual void Die()
         {
             isDead = true;
             audioComponent?.PlaySound("roblox");

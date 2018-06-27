@@ -5,6 +5,8 @@ using PBLGame;
 using PBLGame.MainGame;
 using PBLGame.Misc.Anim;
 using PBLGame.SceneGraph;
+using Game.MainGame;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Game.Components.Pawns.Enemies
 {
@@ -19,7 +21,7 @@ namespace Game.Components.Pawns.Enemies
             if (finalFight)
             {
                 MaxHp = 100;
-                Hp = 100;
+                Hp = 1;
             }
             else
             {
@@ -122,6 +124,21 @@ namespace Game.Components.Pawns.Enemies
                 enemyLeg.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
             }
             Move(new Vector3(0f, 0f, enemySpeed));
+        }
+
+        protected override void Die()
+        {
+            GameServices.GetService<ShroomGame>().bossFight = false;
+            new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3.1"), 5f, "Narrator: The hero rushed into a battle against the King.",
+            "Narrator: A fierce fight broke out.",
+            "Narrator: After many swings of their hats there was only one shroom standing.");
+            new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3.2"), 5f, "Borovikus: Thank you my friend. Praise the sun that you understood I am not the enemy of the Kingdom.",
+            "Narrator: What next? The crown was laying between the two exhausted shroom knights.",
+            "Narrator: It was glowing with a bright light. It was a sign that the Kingdom needed a new King.");
+            new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3.3"), 5f, "Crowd: The King is dead, long live the King!",
+            "Narrator: But wait! Who was the new Monarch? Was it Borovikus or our hero?",
+            "Narrator: This question will be left without an answer. It is a matter for another story.");
+            base.Die();
         }
     }
 }
