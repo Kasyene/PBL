@@ -34,8 +34,6 @@ namespace Game.Components.Collisions
                     opponentsHit.Add(whoHaveIHit);
                     whoHaveIHit.GetComponent<Pawn>().Hp -= owner.Parent.GetComponent<Pawn>().getDamage();
                     whoHaveIHit.GetComponent<Pawn>().ReceiveHit();
-                    //TODO change isattacking after this instance of animation is finished in owner
-                    owner.Parent.GetComponent<Pawn>().isAttacking = false;
                 }
             }
         }

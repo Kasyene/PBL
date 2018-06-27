@@ -89,7 +89,22 @@ namespace PBLGame.MainGame
                 PlayerAttacks();
                 PlayerMovement();
             }
-            // ANIMATION REVERSING - TEST
+            
+            if (playerHat.GetComponent<AnimationManager>().isCurrentAnimation("slash") || playerHat.GetComponent<AnimationManager>().isCurrentAnimation("slashL")
+                || playerHat.GetComponent<AnimationManager>().isCurrentAnimation("slashR") || playerHat.GetComponent<AnimationManager>().isCurrentAnimation("throw"))
+            {
+                isAttacking = true;
+            } else
+            {
+                isAttacking = false;
+            }
+
+
+            if (isAttacking && previousAttackAnimationId != playerHat.GetComponent<AnimationManager>().AnimID)
+            {
+                previousAttackAnimationId = playerHat.GetComponent<AnimationManager>().AnimID;
+                playerHat.GetComponent<HitTrigger>().ClearBoxList();
+            }
 
             if (playerHat.hatAnimationCollision)
             {
@@ -208,8 +223,6 @@ namespace PBLGame.MainGame
         {
             if (inputManager.Mouse[SupportedMouseButtons.Left].WasPressed && playerHat.GetComponent<AnimationManager>().isReady)
             {
-                playerHat.GetComponent<HitTrigger>().ClearBoxList();
-                isAttacking = true;
                 switch (count)
                 {
                     case 0:
@@ -234,8 +247,6 @@ namespace PBLGame.MainGame
             if (inputManager.Mouse[SupportedMouseButtons.Right].WasPressed && playerHat.GetComponent<AnimationManager>().isReady)
             {
                 playerPositionYBeforeThrow = this.parentGameObject.Position.Y;
-                playerHat.GetComponent<HitTrigger>().ClearBoxList();
-                isAttacking = true;
                 playerHat.GetComponent<AnimationManager>().PlayAnimation("throw");
                 playerLeg.GetComponent<AnimationManager>().PlayAnimation("throw");
             }

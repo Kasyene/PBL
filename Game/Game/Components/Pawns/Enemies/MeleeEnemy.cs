@@ -17,6 +17,7 @@ namespace Game.Components.Enemies
         private GameObject enemyModel;
         public MeleeEnemy(GameObject parent) : base(parent)
         {
+            Hp = 10;
             attackDelay = 1.0d;
             parentGameObject = parent;
             enemySpeed = 0.05f;
@@ -63,6 +64,21 @@ namespace Game.Components.Enemies
                     enemyModel.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
                 }
 
+                if (enemyModel.GetComponent<AnimationManager>().isCurrentAnimation("attack"))
+                {
+                    isAttacking = true;
+                }
+                else
+                {
+                    isAttacking = false;
+                }
+
+                if (isAttacking && previousAttackAnimationId != enemyModel.GetComponent<AnimationManager>().AnimID)
+                {
+                    previousAttackAnimationId = enemyModel.GetComponent<AnimationManager>().AnimID;
+                    enemyModel.GetComponent<HitTrigger>().ClearBoxList();
+                }
+
             }
 
         }
@@ -76,8 +92,6 @@ namespace Game.Components.Enemies
         protected override void Attack()
         {
             lastAttack = 0.0d;
-            isAttacking = true;
-            enemyModel.GetComponent<HitTrigger>().ClearBoxList();
             if (enemyModel.GetComponent<AnimationManager>().isReady)
             {
                 enemyModel.GetComponent<AnimationManager>().PlayAnimation("attack");

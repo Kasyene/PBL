@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Game.Components.Collisions;
 using Game.Misc.Time;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using PBLGame.Misc.Anim;
 using PBLGame.SceneGraph;
 using Game = Microsoft.Xna.Framework.Game;
 
@@ -27,6 +29,7 @@ namespace PBLGame.MainGame
         public float AccelerationDueToGravity = 0.0f;
         protected GameObject parentGameObject;
         protected Vector3 lastPosition;
+        protected int previousAttackAnimationId;
         public int Hp { get; internal set; } = 10;
         public int MaxHp { get; internal set; } = 10;
         public Side ObjectSide;
