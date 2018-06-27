@@ -46,7 +46,7 @@ namespace Game.Components.Collisions
                 new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.3"), 5f, "Narrator: With the help of Borovikus this hopeless situation turned into a fair fight.",
                     "Narrator: A few moments later the result of the fight was clear.");
                 new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.3"), 5f, "Narrator: The brave knights stood victorious on fallen enemies. The mission came to an end.",
-                    "Borovikus: You’re welcome.");
+                    "Borovikus: You're welcome.");
                 game.levelOneCompleted = true;
                 game.areCollidersAndTriggersSet = false;
                 ShroomGame.actualGameState = GameState.LevelTutorial;
