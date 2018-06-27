@@ -139,6 +139,7 @@ namespace Game.Components.Audio
             soundEffects.Add("timeSpeed", contentManager.Load<SoundEffect>("audio/sfx/time_speed"));
             soundEffects.Add("walk", contentManager.Load<SoundEffect>("audio/sfx/walk"));
             soundEffects.Add("lever", contentManager.Load<SoundEffect>("audio/sfx/lever"));
+            soundEffects.Add("bridge", contentManager.Load<SoundEffect>("audio/sfx/bridge"));
 
             base.LoadContent(contentManager);
         }
