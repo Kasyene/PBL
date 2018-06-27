@@ -414,6 +414,15 @@ namespace PBLGame
                     break;
             }
 
+            if (inputManager.Keyboard[Keys.Add])
+            {
+                if (gammaValue < 2.5f) gammaValue += 0.01f;
+            }
+            if (inputManager.Keyboard[Keys.Subtract])
+            {
+                if (gammaValue > 0.5f) gammaValue -= 0.01f;
+            }
+
             if (inputManager.Keyboard[Keys.Escape])
             {
                 actualGameState = GameState.Options;
