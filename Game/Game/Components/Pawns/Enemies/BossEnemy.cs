@@ -17,10 +17,11 @@ namespace Game.Components.Pawns.Enemies
         private GameObject enemyHat;
         private GameObject enemyLeg;
         private bool finalFight = GameServices.GetService<ShroomGame>().levelOneCompleted;
-        private float meleeAttackRange = 90f;
-        private float spinAttackRange = 80f;
-        private float jumpAttackRange = 80f;
-        private float throwAttackRange = 135f;
+        private float meleeAttackRange = 110f;
+        private float spinAttackRange = 70f;
+        private float jumpAttackRange = 110f;
+        private float throwAttackRange = 150f;
+        private float throwAttackTooCloseRange = 90f;
         private Random r = new Random();
         private String lastAttackName = "";
         public BossEnemy(GameObject parent) : base(parent)
@@ -36,7 +37,7 @@ namespace Game.Components.Pawns.Enemies
             }
             attackDelay = 3.5d;
             parentGameObject = parent;
-            enemySpeed = 0.08f;
+            enemySpeed = 0.055f;
             wakeUpDistance = 500f;
             range = 35;
             enemyHat = parentGameObject.FindChildNodeByTag("Hat");
@@ -160,7 +161,7 @@ namespace Game.Components.Pawns.Enemies
             {
                 if (distance < wakeUpDistance && heightDifference < 70.0f)
                 {
-                    int randomAttackNumber = r.Next(0, 3);
+                    int randomAttackNumber = r.Next(0, 4);
                     switch (randomAttackNumber)
                     {
                         case 0:
@@ -174,7 +175,7 @@ namespace Game.Components.Pawns.Enemies
 
                             break;
                         case 1:
-                            if (distance < throwAttackRange && lastAttackName != "ThrowAttack")
+                            if (distance < throwAttackRange && lastAttackName != "ThrowAttack" && distance > throwAttackTooCloseRange)
                             {
                                 if (lastAttack >= attackDelay)
                                 {
