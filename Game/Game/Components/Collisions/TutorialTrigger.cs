@@ -38,7 +38,7 @@ namespace Game.Components.Coliisions
             {
                 if(game.usedE == false && game.player.GetComponent<Player>().canUseE == false)
                 {
-                    new DialogueString("Press ‘space’ to jump.");
+                    new DialogueString("Press 'space' to jump.");
                     new DialogueString("Don't worry.");
                     new DialogueString("If you fall use 'E' to go back in time.");
                     game.player.GetComponent<Player>().canUseE = true;
@@ -53,7 +53,7 @@ namespace Game.Components.Coliisions
 
                 if (game.usedR == true && game.usedQ == false && game.player.GetComponent<Player>().canUseQ == false)
                 {
-                    new DialogueString("Press ‘Q’ to stop the time.");
+                    new DialogueString("Press 'Q' to stop the time.");
                     new DialogueString("It will affect enemies and your surrounding.");
                     game.player.GetComponent<Player>().canUseQ = true;
                 }

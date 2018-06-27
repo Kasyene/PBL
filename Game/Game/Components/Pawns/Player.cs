@@ -41,6 +41,19 @@ namespace PBLGame.MainGame
         public bool canUseE = true;
         public bool canUseR = true;
 
+        public int TimeEnergy
+        {
+            get
+            {
+                return timeEnergy;
+            }
+
+            set
+            {
+                timeEnergy = value;
+            }
+        }
+
         public Player(GameObject parent) : base()
         {
             MaxHp = 20;
@@ -224,7 +237,7 @@ namespace PBLGame.MainGame
 
         public int GetTimeEnergy()
         {
-            return timeEnergy;
+            return TimeEnergy;
         }
 
         private void TimeEnergyManagement(GameTime time)
@@ -232,7 +245,7 @@ namespace PBLGame.MainGame
             previousTimeEnergyUpdate += (time.ElapsedGameTime.TotalMilliseconds / 1000.0d);
 
             // when timeEnergy ends
-            if (timeEnergy == 0)
+            if (TimeEnergy == 0)
             {
                 timeStop = false;
             }
@@ -240,12 +253,12 @@ namespace PBLGame.MainGame
             // timeEnergy management
             if (previousTimeEnergyUpdate >= 1.0d && timeStop)
             {
-                timeEnergy -= 1;
+                TimeEnergy -= 1;
                 previousTimeEnergyUpdate = 0.0d;
             }
-            if (previousTimeEnergyUpdate >= 1.3d && !timeStop && timeEnergy < 10)
+            if (previousTimeEnergyUpdate >= 1.3d && !timeStop && TimeEnergy < 10)
             {
-                timeEnergy += 1;
+                TimeEnergy += 1;
                 previousTimeEnergyUpdate = 0.0d;
             }
 
@@ -268,11 +281,11 @@ namespace PBLGame.MainGame
                 if (inputManager.Keyboard[Keys.Q].WasPressed)
                 {
                     GameServices.GetService<ShroomGame>().usedQ = true;
-                    if (timeStop || timeEnergy == 0)
+                    if (timeStop || TimeEnergy == 0)
                     {
                         timeStop = false;
                     }
-                    else if (!timeStop && timeEnergy > 1)
+                    else if (!timeStop && TimeEnergy > 1)
                     {
                         timeStop = true;
                     }
@@ -281,7 +294,7 @@ namespace PBLGame.MainGame
 
             if (canUseE)
             {
-                if (inputManager.Keyboard[Keys.E].WasPressed && timeEnergy >= 5 && !eWasPressed)
+                if (inputManager.Keyboard[Keys.E].WasPressed && TimeEnergy >= 5 && !eWasPressed)
                 {
                     GameServices.GetService<ShroomGame>().usedE = true;
                     eWasPressed = true;
@@ -290,7 +303,7 @@ namespace PBLGame.MainGame
             }
             if (canUseR)
             {
-                if (inputManager.Keyboard[Keys.R].WasPressed && timeEnergy >= 3 && !rWasPressed && playerHat.GetComponent<AnimationManager>().isCurrentAnimation("throw"))
+                if (inputManager.Keyboard[Keys.R].WasPressed && TimeEnergy >= 3 && !rWasPressed && playerHat.GetComponent<AnimationManager>().isCurrentAnimation("throw"))
                 {
                     GameServices.GetService<ShroomGame>().usedR = true;
                     rWasPressed = true;
@@ -302,7 +315,7 @@ namespace PBLGame.MainGame
             {
                 timeSkillDoneTime = Timer.gameTime.TotalGameTime.TotalMilliseconds;
                 eWasPressed = false;
-                timeEnergy -= 5;
+                TimeEnergy -= 5;
                 this.parentGameObject.Position = lastPositions[lastPositions.Count / 2];
                 Hp = lastHPs[lastHPs.Count / 2];
                 ReLocateIndicies(lastPositions);
@@ -313,7 +326,7 @@ namespace PBLGame.MainGame
             {
                 timeSkillDoneTime = Timer.gameTime.TotalGameTime.TotalMilliseconds;
                 rWasPressed = false;
-                timeEnergy -= 3;
+                TimeEnergy -= 3;
                 this.parentGameObject.Position = new Vector3((this.playerHat.GetBoundingBox().Min.X + this.playerHat.GetBoundingBox().Max.X) / 2.0f, playerPositionYBeforeThrow, (this.playerHat.GetBoundingBox().Min.Z + this.playerHat.GetBoundingBox().Max.Z) / 2.0f);
                 playerHat.GetComponent<AnimationManager>().AnimationBreak();
                 playerLeg.GetComponent<AnimationManager>().AnimationBreak();

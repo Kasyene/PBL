@@ -964,7 +964,7 @@ namespace PBLGame.Misc
             else
             {
                 game.player.Position = new Vector3(-20f, 100f, -1500f);
-                game.player.RotationZ = MathHelper.Pi;
+                game.player.RotationZ = MathHelper.TwoPi;
                 borowikus.Position = new Vector3(130f, 200f, 30f);
             }
             if (!game.tutorialCompleted)

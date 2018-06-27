@@ -162,8 +162,8 @@ namespace PBLGame
             nativResolution = new Vector2(1280, 720);
             graphics.PreferredBackBufferHeight = (int)nativResolution.Y;
             graphics.PreferredBackBufferWidth = (int)nativResolution.X;
-            actualGameState = GameState.LevelOne;
-            //actualGameState = GameState.MainMenu;
+            //actualGameState = GameState.LevelOne;
+            actualGameState = GameState.MainMenu;
             lastGameState = GameState.MainMenu;
             root = new GameObject();
         }
@@ -286,7 +286,7 @@ namespace PBLGame
 
         protected override void Update(GameTime gameTime)
         {
-            if (cutsceneDisplayTime > 0.0f)
+            if (cutsceneDisplayTime > -0.1f)
             {
                 playerShouldNotMove = true;
             }
@@ -582,6 +582,13 @@ namespace PBLGame
             {
                 spriteBatch.Begin(0, BlendState.Opaque, null, null, null);
                 spriteBatch.Draw(actualCutsceneTexture, new Rectangle(new Point(0, 0), new Point(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight)), Color.White);
+                if (Timer.gameTime.TotalGameTime.TotalSeconds - loadLevelTime > 8)
+                {
+                    spriteBatch.DrawString(dialoguesFont, "Press space to skip",
+                    new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, + 70f),
+                    Color.Snow, 0.0f, dialoguesFont.MeasureString("Press space to skip") / 2,
+                    graphics.GraphicsDevice.Viewport.Width / nativResolution.X, SpriteEffects.None, 0.5f);
+                }
                 spriteBatch.End();
             }
         }

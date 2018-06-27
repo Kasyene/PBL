@@ -61,7 +61,7 @@ namespace Game.Components.Pawns.Enemies
                 {
                     if (parentGameObject.PositionZ > -450) LookAtTarget(new Vector3(-30f, 0f, -500f), parentGameObject.Position);
                     else LookAtTarget(new Vector3(0f, 0f, -1500f), parentGameObject.Position);
-                    GameServices.GetService<ShroomGame>().cutsceneDisplayTime = 0.5f;
+                    GameServices.GetService<GameObject>().GetComponent<Player>().TimeEnergy = 0;
                     Movement();
                 }
             }
