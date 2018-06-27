@@ -117,7 +117,7 @@ namespace PBLGame.SceneGraph
                 {
                     if (IsCollision(col))
                     {
-                        if ((this.isCollider && this.isTrigger))
+                        if (this.isCollider && this.isTrigger)
                         {
                             if (this.owner.tag == "meleeEnemy" && col.owner.tag == "meleeEnemy")
                             {
@@ -128,9 +128,22 @@ namespace PBLGame.SceneGraph
                             {
                                 this.owner.GetComponent<HitTrigger>().OnTrigger(col.owner.Parent);
                             }
-                            else
+                            else //gotta give some love to MeleeEnemy
                             {
-                                this.penetrationDepth += PenetrationDepth(this.boundingBox, col.boundingBox);
+                                Vector3 tempPenetrationDepth = PenetrationDepth(this.boundingBox, col.boundingBox);
+                                if (this.owner.tag == "meleeEnemy" && col.owner.tag == "Ground")
+                                {
+                                    if (Math.Abs(this.boundingBox.Min.Y - col.boundingBox.Max.Y) < 5)
+                                    {
+                                        tempPenetrationDepth.X = 0.0f;
+                                        tempPenetrationDepth.Z = 0.0f;
+                                        tempPenetrationDepth.Y = 0.0f;
+                                    }
+
+                                    this.owner.Parent.Translate(-tempPenetrationDepth);
+                                }
+                                tempPenetrationDepth.Y = 0.0f;
+                                this.penetrationDepth += tempPenetrationDepth;
                                 collided.Add(col.owner);
                             }
                         }
