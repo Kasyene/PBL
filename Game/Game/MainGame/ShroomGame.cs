@@ -294,6 +294,7 @@ namespace PBLGame
             {
                 playerShouldNotMove = false;
             }
+
             Resources.CameraVector3 = camera.Position;
 
             // Our Timer Class
@@ -421,6 +422,15 @@ namespace PBLGame
             if (inputManager.Keyboard[Keys.Subtract])
             {
                 if (gammaValue > 0.5f) gammaValue -= 0.01f;
+            }
+
+            if (inputManager.Keyboard[Keys.Space].WasPressed && cutsceneDisplayTime > 0.0f)
+            {
+                if (Timer.gameTime.TotalGameTime.TotalSeconds - loadLevelTime > 8)
+                {
+                    cutsceneDisplayTime = 0.0f;
+                    textDisplayTime = 0.0f;
+                }
             }
 
             if (inputManager.Keyboard[Keys.Escape])
