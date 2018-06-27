@@ -20,7 +20,7 @@ namespace Game.Components.Enemies
             attackDelay = 1.0d;
             parentGameObject = parent;
             enemySpeed = 0.05f;
-            wakeUpDistance = 150f;
+            wakeUpDistance = 350f;
             range = 35f;
             enemyModel = parentGameObject.FindChildNodeByTag("meleeEnemy");
         }

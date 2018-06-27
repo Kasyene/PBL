@@ -28,7 +28,7 @@ namespace Game.Components.Pawns.Enemies
             attackDelay = 2.0d;
             parentGameObject = parent;
             enemySpeed = 0.07f;
-            wakeUpDistance = 400f;
+            wakeUpDistance = 500f;
             range = 250f;
             enemyHat = parentGameObject.FindChildNodeByTag("Hat");
             enemyLeg = parentGameObject.FindChildNodeByTag("Leg");

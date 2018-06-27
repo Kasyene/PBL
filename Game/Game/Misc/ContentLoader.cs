@@ -776,14 +776,20 @@ namespace PBLGame.Misc
             game.player.Position = new Vector3(0f, 60f, 0f);
 
             GameObject enemyRanged1 = LoadRangedEnemy();
-            enemyRanged1.Position = new Vector3(-20f, 40f, -550f);
+            enemyRanged1.Position = new Vector3(400f, 40f, -600f);
+            GameObject enemy1 = LoadMeleeEnemy();
+            enemy1.Position = new Vector3(0f, 40f, -600f);
+            GameObject enemy2 = LoadMeleeEnemy();
+            enemy2.Position = new Vector3(200f, 40f, -600f);
+            GameObject enemy3 = LoadMeleeEnemy();
+            enemy3.Position = new Vector3(600f, 40f, -550f);
+
             GameObject enemyRanged2 = LoadRangedEnemy();
             enemyRanged2.Position = new Vector3(100f, 40f, -1750f);
-
-            GameObject enemy1 = LoadMeleeEnemy();
-            enemy1.Position = new Vector3(100f, 40f, -350f);
-            GameObject enemy2 = LoadMeleeEnemy();
-            enemy2.Position = new Vector3(150f, 40f, -350f);
+            GameObject enemy4= LoadMeleeEnemy();
+            enemy4.Position = new Vector3(200f, 40f, -1750f);
+            GameObject enemy5 = LoadMeleeEnemy();
+            enemy5.Position = new Vector3(400f, 40f, -1850f);
 
         }
 
@@ -811,7 +817,7 @@ namespace PBLGame.Misc
             plat1.name = platforma1.Meshes[0].Name;
             ModelComponent modelPlat1 = new ModelComponent(platforma1, standardEffect, hierarchiaStrefa1Tex, hierarchiaStrefa1Normal);
             plat1.AddComponent(modelPlat1);
-            PlatformComponent plat1Comp = new PlatformComponent(plat1, plat1.Position - new Vector3(150f, 0f, 0f), 1f, 1f);
+            PlatformComponent plat1Comp = new PlatformComponent(plat1, plat1.Position - new Vector3(150f, 0f, 0f), 0.1f, 1f);
             plat1.AddComponent(plat1Comp);
             game.updateComponents.Add(plat1Comp);
             mapRoot.AddChildNode(plat1);
