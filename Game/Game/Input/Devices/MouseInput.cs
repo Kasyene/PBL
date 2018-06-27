@@ -71,7 +71,7 @@ namespace PBLGame.Input.Devices
                 if(ShroomGame.actualGameState != GameState.Dead && ShroomGame.actualGameState != GameState.MainMenu && ShroomGame.actualGameState != GameState.Options && ShroomGame.actualGameState != GameState.Credits)
                 {
                     Mouse.SetPosition(GameServices.GetService<GraphicsDevice>().Viewport.Width / 2,
-                   GameServices.GetService<GraphicsDevice>().Viewport.Height / 2);
+                    GameServices.GetService<GraphicsDevice>().Viewport.Height / 2);
                 }
                 this.ScrollTotal = this._state.ScrollWheelValue;
                 this.ScrollValue = this._state.ScrollWheelValue - this._lastState.ScrollWheelValue;

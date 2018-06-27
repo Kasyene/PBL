@@ -1058,6 +1058,11 @@ namespace PBLGame
                     mouseYAxis *= -1;
                     break;
                 case BackButtonIndex:
+                    if (lastGameState != GameState.MainMenu)
+                    {
+                        Mouse.SetPosition(GameServices.GetService<GraphicsDevice>().Viewport.Width / 2,
+                        GameServices.GetService<GraphicsDevice>().Viewport.Height / 2);
+                    }
                     actualGameState = lastGameState;
                     break;
                 case ExitOptionButtonIndex:
