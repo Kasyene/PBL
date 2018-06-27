@@ -81,6 +81,7 @@ namespace Game.Components.Enemies
             if (enemyModel.GetComponent<AnimationManager>().isReady)
             {
                 enemyModel.GetComponent<AnimationManager>().PlayAnimation("attack");
+                audioComponent.PlaySound("attack5");
             }
             Debug.WriteLine("MELEEATAK");
         }

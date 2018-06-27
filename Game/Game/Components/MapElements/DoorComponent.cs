@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Game.Components.Audio;
 
 namespace Game.Components.MapElements
 {
@@ -16,6 +16,8 @@ namespace Game.Components.MapElements
         float openRotation;
         Vector3 openPosition;
         public bool closed = false;
+        public bool playedsound = false;
+        protected AudioComponent audioComponent;
 
         public DoorComponent(GameObject _parent, float targetRotation, Vector3 openPosition)
         {
@@ -26,6 +28,8 @@ namespace Game.Components.MapElements
             startPosition = parent.Position;
             this.openRotation = targetRotation;
             this.openPosition = parent.Position + openPosition;
+            parent.AddComponent(new AudioComponent(parent));
+            audioComponent = parent.GetComponent<AudioComponent>();
         }
 
         public override void Update(GameTime gameTime)
@@ -34,6 +38,11 @@ namespace Game.Components.MapElements
             {
                 parent.RotationZ = startRotation;
                 parent.Position = startPosition;
+                if (!playedsound)
+                {
+                    playedsound = true;
+                    audioComponent?.PlaySound("doors");
+                }
             }
             else
             {

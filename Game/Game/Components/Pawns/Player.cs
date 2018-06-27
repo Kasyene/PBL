@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Collections.Generic;
+using Game.Components.Audio;
 using Game.Components.Collisions;
 using Game.Misc.Time;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PBLGame.Input;
 using PBLGame.Input.Devices;
@@ -28,6 +25,8 @@ namespace PBLGame.MainGame
         private List<int> lastHPs;
         GameObject playerHat;
         GameObject playerLeg;
+
+        private AudioComponent audioComponent;
 
         private bool eWasPressed = false;
         private bool rWasPressed = false;
@@ -72,6 +71,8 @@ namespace PBLGame.MainGame
                 lastHPs.Add(Hp);
 
             }
+            parent.AddComponent(new AudioComponent(parent));
+            audioComponent = parent.GetComponent<AudioComponent>();
         }
 
         public override void Update(GameTime time)
@@ -137,6 +138,7 @@ namespace PBLGame.MainGame
             {
                 if (!isJumping)
                 {
+                    audioComponent?.PlaySound2D("jump");
                     isJumping = true;
                     playerLeg.GetComponent<AnimationManager>().SetPlaybackMultiplier(0.9f);
                     playerHat.GetComponent<AnimationManager>().SetPlaybackMultiplier(0.9f);
@@ -209,14 +211,17 @@ namespace PBLGame.MainGame
                     case 0:
                         playerHat.GetComponent<AnimationManager>().PlayAnimation("slash");
                         playerLeg.GetComponent<AnimationManager>().PlayAnimation("slash");
+                        audioComponent.PlaySound2D("attack1");
                         break;
                     case 1:
                         playerHat.GetComponent<AnimationManager>().PlayAnimation("slashL");
                         playerLeg.GetComponent<AnimationManager>().PlayAnimation("slashL");
+                        audioComponent.PlaySound2D("attack2");
                         break;
                     case 2:
                         playerHat.GetComponent<AnimationManager>().PlayAnimation("slashR");
                         playerLeg.GetComponent<AnimationManager>().PlayAnimation("slashR");
+                        audioComponent.PlaySound2D("attack3");
                         break;
                     default:
                         break;
@@ -232,6 +237,7 @@ namespace PBLGame.MainGame
                 isAttacking = true;
                 playerHat.GetComponent<AnimationManager>().PlayAnimation("throw");
                 playerLeg.GetComponent<AnimationManager>().PlayAnimation("throw");
+                audioComponent.PlaySound2D("attack4");
             }
         }
 
@@ -283,10 +289,12 @@ namespace PBLGame.MainGame
                     GameServices.GetService<ShroomGame>().usedQ = true;
                     if (timeStop || TimeEnergy == 0)
                     {
+                        audioComponent?.PlaySound2D("timeSpeed");
                         timeStop = false;
                     }
                     else if (!timeStop && TimeEnergy > 1)
                     {
+                        audioComponent?.PlaySound2D("timeSlow");
                         timeStop = true;
                     }
                 }
@@ -308,6 +316,7 @@ namespace PBLGame.MainGame
                     GameServices.GetService<ShroomGame>().usedR = true;
                     rWasPressed = true;
                     timeOfPress = Timer.gameTime.TotalGameTime.TotalMilliseconds;
+                    audioComponent?.PlaySound2D("teleport");
                 }
             }
 
@@ -354,6 +363,12 @@ namespace PBLGame.MainGame
             {
                 list[list.Count / 2 + x] = list[x];
             }
+        }
+
+        public override void ReceiveHit()
+        {
+            base.ReceiveHit();
+            audioComponent.PlaySound2D("damage");
         }
     }
 }

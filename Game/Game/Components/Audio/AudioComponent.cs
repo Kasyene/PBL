@@ -122,6 +122,23 @@ namespace Game.Components.Audio
             // TEST SOUND
             soundEffects.Add("roblox", contentManager.Load<SoundEffect>("audio/sfx/roblox_mono"));
             soundEffects.Add("hit", contentManager.Load<SoundEffect>("audio/sfx/hit_mono"));
+            soundEffects.Add("attack1", contentManager.Load<SoundEffect>("audio/sfx/attack1"));
+            soundEffects.Add("attack2", contentManager.Load<SoundEffect>("audio/sfx/attack2"));
+            soundEffects.Add("attack3", contentManager.Load<SoundEffect>("audio/sfx/attack3"));
+            soundEffects.Add("attack4", contentManager.Load<SoundEffect>("audio/sfx/attack4"));
+            soundEffects.Add("attack5", contentManager.Load<SoundEffect>("audio/sfx/attack5"));
+            soundEffects.Add("damage", contentManager.Load<SoundEffect>("audio/sfx/damage"));
+            soundEffects.Add("jump", contentManager.Load<SoundEffect>("audio/sfx/jump"));
+            soundEffects.Add("jumpSlow", contentManager.Load<SoundEffect>("audio/sfx/jump_slow"));
+            soundEffects.Add("doors", contentManager.Load<SoundEffect>("audio/sfx/doors"));
+            soundEffects.Add("cut", contentManager.Load<SoundEffect>("audio/sfx/cut"));
+            soundEffects.Add("shoot", contentManager.Load<SoundEffect>("audio/sfx/shoot"));
+            soundEffects.Add("teleport", contentManager.Load<SoundEffect>("audio/sfx/teleport"));
+            soundEffects.Add("woosh", contentManager.Load<SoundEffect>("audio/sfx/woosh"));
+            soundEffects.Add("timeSlow", contentManager.Load<SoundEffect>("audio/sfx/time_slow"));
+            soundEffects.Add("timeSpeed", contentManager.Load<SoundEffect>("audio/sfx/time_speed"));
+
+
             base.LoadContent(contentManager);
         }
 

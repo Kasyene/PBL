@@ -108,6 +108,7 @@ namespace Game.Components.Pawns.Enemies
                 enemyLeg.GetComponent<AnimationManager>().PlayAnimation("gotHit");
             }
             SpawnBullet();
+            audioComponent?.PlaySound("shoot");
             Debug.WriteLine("ATAK RANGED" + Hp);
         }
 

@@ -3683,3 +3683,39 @@
 /processorParam:Quality=Best
 /build:audio/sfx/woosh.wav
 
+#begin audio/sfx/attack1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/attack1.wav
+
+#begin audio/sfx/attack2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/attack2.wav
+
+#begin audio/sfx/attack3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/attack3.wav
+
+#begin audio/sfx/attack4.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/attack4.wav
+
+#begin audio/sfx/attack5.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/attack5.wav
+
+#begin audio/sfx/damage.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/damage.wav
+
