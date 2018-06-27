@@ -60,7 +60,7 @@ namespace PBLGame.MainGame
             previousTimeEnergyUpdate = 0d;
             parentGameObject = parent;
             inputManager = InputManager.Instance;
-            playerSpeed = 0.11f;
+            playerSpeed = 0.24f;
             playerHat = parentGameObject.FindChildNodeByTag("Hat");
             playerLeg = parentGameObject.FindChildNodeByTag("Leg");
             lastPositions = new List<Vector3>();

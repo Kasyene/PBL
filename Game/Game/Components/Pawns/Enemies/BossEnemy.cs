@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using PBLGame;
 using PBLGame.MainGame;
 using PBLGame.SceneGraph;
 
@@ -7,7 +8,6 @@ namespace Game.Components.Pawns.Enemies
     class BossEnemy : Enemy
     {
         private int tutorialHits = 0;
-        public bool tutorial = true;
         private GameObject enemyHat;
         private GameObject enemyLeg;
         public BossEnemy(GameObject parent) : base(parent)
@@ -19,8 +19,9 @@ namespace Game.Components.Pawns.Enemies
 
         public override void ReceiveHit()
         {
-            if (tutorial)
+            if (!GameServices.GetService<ShroomGame>().levelOneCompleted)
             {
+                tutorialHits++;
                 if (tutorialHits == 10)
                 {
                     new DialogueString("King: Stop wasting your time on playing games with me");
@@ -39,7 +40,7 @@ namespace Game.Components.Pawns.Enemies
                     new DialogueString("King: Game would have been already over by this time");
                 }
             }
-            tutorialHits++;
+
             base.ReceiveHit();
         }
 

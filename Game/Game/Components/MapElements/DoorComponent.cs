@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Game.Components.Audio;
+using PBLGame;
 
 namespace Game.Components.MapElements
 {
@@ -38,7 +39,7 @@ namespace Game.Components.MapElements
             {
                 parent.RotationZ = startRotation;
                 parent.Position = startPosition;
-                if (!playedsound)
+                if (!playedsound && !GameServices.GetService<ShroomGame>().levelOneCompleted)
                 {
                     playedsound = true;
                     audioComponent?.PlaySound("doors");

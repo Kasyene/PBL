@@ -955,17 +955,20 @@ namespace PBLGame.Misc
 
             LoadPlayer(game.player, game.cameraCollision);
             GameObject borowikus = LoadBorowikus();
-            if(game.levelOneCompleted)
+            GameObject king = LoadKing();
+            if (game.levelOneCompleted)
             {
                 game.player.Position = new Vector3(-20f, 100f, -600f);
                 game.player.RotationZ = MathHelper.Pi;
-                borowikus.Position = new Vector3(50f, 40f, -1800f);
+                borowikus.Position = new Vector3(150f, 40f, -2090f);
+                king.Position = new Vector3(0f, 40f, -1800f);
             }
             else
             {
                 game.player.Position = new Vector3(-20f, 100f, -1500f);
                 game.player.RotationZ = MathHelper.TwoPi;
                 borowikus.Position = new Vector3(130f, 200f, 30f);
+                king.Position = new Vector3(0f, 40f, -1900f);
             }
             if (!game.tutorialCompleted)
             {
@@ -973,8 +976,7 @@ namespace PBLGame.Misc
                 game.player.GetComponent<Player>().canUseR = false;
                 game.player.GetComponent<Player>().canUseQ = false;
             }
-            GameObject king = LoadKing();
-            king.Position = new Vector3(0f, 40f, -1900f);
+
 
         }
 

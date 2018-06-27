@@ -86,8 +86,8 @@ namespace PBLGame
         #endregion
 
         #region GameProgress
-        public bool levelOneCompleted = false;
-        public bool tutorialCompleted = false;
+        public bool levelOneCompleted = true;
+        public bool tutorialCompleted = true;
         public bool usedQ = false;
         public bool usedE = false;
         public bool usedR = false;
@@ -163,7 +163,8 @@ namespace PBLGame
             graphics.PreferredBackBufferHeight = (int)nativResolution.Y;
             graphics.PreferredBackBufferWidth = (int)nativResolution.X;
             //actualGameState = GameState.LevelOne;
-            actualGameState = GameState.MainMenu;
+            //actualGameState = GameState.MainMenu;
+            actualGameState = GameState.LevelTutorial;
             lastGameState = GameState.MainMenu;
             root = new GameObject();
         }
