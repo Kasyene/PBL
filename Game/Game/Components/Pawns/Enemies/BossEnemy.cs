@@ -128,6 +128,16 @@ namespace Game.Components.Pawns.Enemies
             }
         }
 
+        private void JumpAttack()
+        {
+            lastAttack = 0.0d;
+            if (enemyHat.GetComponent<AnimationManager>().isReady)
+            {
+                enemyHat.GetComponent<AnimationManager>().PlayAnimation("wbicie");
+                enemyLeg.GetComponent<AnimationManager>().PlayAnimation("wbicie");
+            }
+        }
+
         protected override void EnemyBehaviour()
         {
             base.EnemyBehaviour();
@@ -137,7 +147,7 @@ namespace Game.Components.Pawns.Enemies
                 {
                     if (lastAttack >= attackDelay)
                     {
-                        SpinAttack();
+                        JumpAttack();
                     }
                 }
                 else
