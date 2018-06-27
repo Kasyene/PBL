@@ -21,7 +21,7 @@ namespace Game.Components.Pawns.Enemies
             if (finalFight)
             {
                 MaxHp = 100;
-                Hp = 1;
+                Hp = 100;
             }
             else
             {
@@ -76,6 +76,20 @@ namespace Game.Components.Pawns.Enemies
                     enemyHat.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
                     enemyLeg.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
                 }
+                if (enemyHat.GetComponent<AnimationManager>().isCurrentAnimation("slash"))
+                {
+                    isAttacking = true;
+                }
+                else
+                {
+                    isAttacking = false;
+                }
+
+                if (isAttacking && previousAttackAnimationId != enemyHat.GetComponent<AnimationManager>().AnimID)
+                {
+                    previousAttackAnimationId = enemyHat.GetComponent<AnimationManager>().AnimID;
+                    enemyHat.GetComponent<HitTrigger>().ClearBoxList();
+                }
             }
         }
 
@@ -87,12 +101,11 @@ namespace Game.Components.Pawns.Enemies
         private void MeleeAttack()
         {
             lastAttack = 0.0d;
-            isAttacking = true;
             enemyHat.GetComponent<HitTrigger>().ClearBoxList();
             if (enemyHat.GetComponent<AnimationManager>().isReady)
             {
-                enemyHat.GetComponent<AnimationManager>().PlayAnimation("attack");
-                enemyLeg.GetComponent<AnimationManager>().PlayAnimation("attack");
+                enemyHat.GetComponent<AnimationManager>().PlayAnimation("slash");
+                enemyLeg.GetComponent<AnimationManager>().PlayAnimation("slash");
             }
             Debug.WriteLine("MELEEATAK");
         }
