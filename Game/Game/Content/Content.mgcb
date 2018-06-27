@@ -3629,3 +3629,57 @@
 /processorParam:TextureFormat=Compressed
 /build:models/enemies/nowyKrol/krolWbicieNozka.FBX
 
+#begin audio/sfx/cut.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/cut.wav
+
+#begin audio/sfx/doors.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/doors.wav
+
+#begin audio/sfx/jump.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/jump.wav
+
+#begin audio/sfx/jump_slow.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/jump_slow.wav
+
+#begin audio/sfx/shoot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/shoot.wav
+
+#begin audio/sfx/teleport.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/teleport.wav
+
+#begin audio/sfx/time_slow.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/time_slow.wav
+
+#begin audio/sfx/time_speed.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/time_speed.wav
+
+#begin audio/sfx/woosh.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/woosh.wav
+
