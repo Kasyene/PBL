@@ -972,15 +972,15 @@ namespace PBLGame
             switch (i)
             {
                 case StartButtonIndex:
-                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 5f, "Player: My dear King, I am ready for your orders.", 
-                        "King: Loyal knight, a conspiracy against the crown was detected in our Shroom Kingdom",
-                        "Player: How is this possible ? Who would dare to stand against You my King?");
-                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.1"), 5f, "King: Nobody suspected that. The traitor turned out to be one of the knights, Borowikus",
-                        "Player: Borowikus? It is not possible, he has been loyal to the crown for years.", 
-                        "King: We have all kinds of convincing evidence against him. We have to end it right now.");
+                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.3"), 5f, "Player: Your Majesty, I am ready for your orders.",
+                        "King: Loyal knight, the secret service of our Kingdom has revealed a conspiracy against the Crown!",
+                        "Player: How is this possible? Who would dare to stand against You my King?");
+                    new Cutscene(Content.Load<Texture2D>("Cutscene/1.1"), 5f, "King: Nobody suspected that. The traitor turned out to be one of the knights, Borovikus",
+                        "Player: Borovikus? It is not possible, he was always the most loyal one!",
+                        "King: The evidence is irrefutable. Borovikus is plotting with the enemy. You must stop him!");
                     new Cutscene(Content.Load<Texture2D>("Cutscene/1.2"), 5f, "Player: What is your command, Lord?",
-                        "King: Go after him and kill! Kill the traitor. Bring his hat to me as a proof",
-                        "Player: Your wish is my command. As you command, Lord");
+                        "King: Go after him and kill! Kill the traitor. Bring his hat to me as a proof.",
+                        "Player: Yes Sir. Your wish is my command.");
                     actualGameState = GameState.LevelTutorial;
                     System.Diagnostics.Debug.WriteLine("START");
                     break;

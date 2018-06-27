@@ -582,10 +582,10 @@ namespace PBLGame.Misc
         {
             if (!game.cutsceneLoaded)
             {
-                new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 5f, "Narrator: After weird fight with Borowikus our hero has discovered that the door to the throne room is closed.",
-                    "Narrator: Then while he was seeking for possiblity to break into the throne room, his attention was taken by something out of order.");
-                new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 5f, "Player: It is new drawing created by our Vincent van Shroom, but I remember this scene differently.",
-                    "Narrator: Our brave hero was swallowed by his memories about origins of the drawing.");
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 5f, "Narrator: After the weird fight with Borovikus our hero found the throne room door locked.",
+                    "Narrator: While he was looking for a way to break in, his attention was drawn by something unusual.");
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/1.4"), 5f, "Player: Is it the newest painting by Michelshroomgelo? I know this scene, but I remember it differently...",
+                    "Narrator: Our brave hero were lost in memories of scene depicted on the painting.");
             }
             game.cutsceneLoaded = false;
             GameObject mapRoot = new GameObject();

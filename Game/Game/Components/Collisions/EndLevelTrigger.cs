@@ -34,17 +34,19 @@ namespace Game.Components.Collisions
         {
             if (triggered?.tag == "player")
             {
-                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.1"), 6f, "Narrator: At the end of the secret mission, while collecting enemy data our brave hero felt into an ambush.",
-                "Narrator: He was surrounded and outnumbered by enemies.",
-                "Player: Is this my end?");
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.1"), 6f, "Narrator: At the end of the secret mission, while collecting enemy data our hero felt into an ambush.",
+                    "Narrator: He was surrounded and outnumbered by enemies.",
+                    "Player: I will not go down easily!");
                 new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.2"), 5f, "Narrator: Opponents started to push our hero against the wall. Then a miracle happened.",
-                    "Narrator: Borowikus was following path of our hero without permission of the crown.");
-                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.2"), 5f, "Narrator: When he saw how bad is the situation, he came to the rescue without much hesitation.",
-                    "Borowikus: I won't let you die here!");
-                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.3"), 5f, "Narrator: With help of Borowikus this hopeless situation turned into much more fair fight.",
-                    "Narrator: After couple of minutes of fierce fight the result was clear.");
-                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.3"), 5f, "Narrator: Borowikus and our hero stood victorious on fallen enemies. The mission came to and end.",
-                    "Player: Thanks for the rescue.");
+                    "Narrator: Borovikus was following our hero without a permission of the crown.",
+                    "Narrator: When he saw how bad the situation was, he came to the rescue without much hesitation.");
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.2"), 5f, "Borovikus: Hang on lad!",
+                    "Player: Borovikus, you were not supposed to be here!",
+                    "Borovikus: Screw the orders, I won't let you die here!");
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.3"), 5f, "Narrator: With the help of Borovikus this hopeless situation turned into a fair fight.",
+                    "Narrator: A few moments later the result of the fight was clear.");
+                new Cutscene(game.Content.Load<Texture2D>("Cutscene/2.3"), 5f, "Narrator: The brave knights stood victorious on fallen enemies. The mission came to an end.",
+                    "Borovikus: You’re welcome.");
                 game.levelOneCompleted = true;
                 game.areCollidersAndTriggersSet = false;
                 ShroomGame.actualGameState = GameState.LevelTutorial;
