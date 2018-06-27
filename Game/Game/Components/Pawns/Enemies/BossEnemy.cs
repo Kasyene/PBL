@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using PBLGame;
 using PBLGame.MainGame;
+using PBLGame.Misc.Anim;
 using PBLGame.SceneGraph;
 
 namespace Game.Components.Pawns.Enemies
@@ -21,7 +22,11 @@ namespace Game.Components.Pawns.Enemies
             else
             {
                 Hp = 99999;
-            }        
+            }
+            attackDelay = 3.0d;
+            parentGameObject = parent;
+            enemySpeed = 0.07f;
+            wakeUpDistance = 500f;
             enemyHat = parentGameObject.FindChildNodeByTag("Hat");
             enemyLeg = parentGameObject.FindChildNodeByTag("Leg");
         }
@@ -51,12 +56,22 @@ namespace Game.Components.Pawns.Enemies
             }
 
             base.ReceiveHit();
+            enemyHat.GetComponent<AnimationManager>().PlayAnimation("gotHit", true);
+            enemyLeg.GetComponent<AnimationManager>().PlayAnimation("gotHit", true);
             Debug.WriteLine("hp = " + Hp);
         }
 
         public override void Update(GameTime time)
         {
             base.Update(time);
+            if (!isDead)
+            {
+                if (!GameServices.GetService<GameObject>().GetComponent<Player>().timeStop)
+                {
+                    enemyHat.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
+                    enemyLeg.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
+                }
+            }
         }
 
         protected override void Attack()
