@@ -8,6 +8,8 @@ using PBLGame.Input;
 using PBLGame.Input.Devices;
 using PBLGame.Misc.Anim;
 using PBLGame.SceneGraph;
+using Game.MainGame;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace PBLGame.MainGame
 {
@@ -95,6 +97,8 @@ namespace PBLGame.MainGame
                 playerLeg.GetComponent<AnimationManager>().SetPlaybackMultiplier(-1);
                 playerHat.hatAnimationCollision = false;
             }
+
+            ThroneRoomEntranceCutscene();
         }
 
         private void CheckIfDead()
@@ -365,6 +369,16 @@ namespace PBLGame.MainGame
         {
             base.ReceiveHit();
             audioComponent.PlaySound2D("damage");
+        }
+
+        private void ThroneRoomEntranceCutscene()
+        {
+            if (ShroomGame.actualGameState == GameState.LevelTutorial && parentGameObject.PositionZ < -1100f && GameServices.GetService<ShroomGame>().levelOneCompleted && !GameServices.GetService<ShroomGame>().roomEntranceCutscene)
+            {
+                GameServices.GetService<ShroomGame>().roomEntranceCutscene = true;
+                new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3,0"), 5f, "Narrator: When our hero came to his senses, he found the door to the throne room wide open.",                "Narrator: He noticed that King pushed weakened Borovikus to defense.");
+                new Cutscene(GameServices.GetService<ShroomGame>().Content.Load<Texture2D>("Cutscene/3,0"), 5f, "King: Finally you are here! Help me, kill the traitor!",                "Narrator: But our hero had already figured out who the real traitor was.");
+            } 
         }
     }
 }

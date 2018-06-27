@@ -3725,6 +3725,24 @@
 /processorParam:Quality=Best
 /build:audio/sfx/walk.wav
 
+#begin Cutscene/3,0.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Cutscene/3,0.png
+
+#begin audio/sfx/bridge.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audio/sfx/bridge.wav
+
 #begin audio/sfx/lever.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
