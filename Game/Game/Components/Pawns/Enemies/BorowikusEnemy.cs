@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using PBLGame;
 using PBLGame.MainGame;
+using PBLGame.Misc.Anim;
 using PBLGame.SceneGraph;
 
 namespace Game.Components.Pawns.Enemies
@@ -8,12 +9,16 @@ namespace Game.Components.Pawns.Enemies
     class BorowikusEnemy : Enemy
     {
         public bool running = false;
+        private GameObject enemyHat;
+        private GameObject enemyLeg;
 
         public BorowikusEnemy(GameObject parent) : base(parent)
         {
             ObjectSide = Side.Enemy;
             enemySpeed = 0.2f;
             this.Hp = 99999;
+            enemyHat = parentGameObject.FindChildNodeByTag("Hat");
+            enemyLeg = parentGameObject.FindChildNodeByTag("Leg");
         }
 
         public override void Dispose()
@@ -56,6 +61,11 @@ namespace Game.Components.Pawns.Enemies
                     LookAtTarget(playerPosition, parentGameObject.Position);
                     distance = Vector3.Distance(playerPosition, this.parentGameObject.Position);
                     heightDifference = System.Math.Abs(playerPosition.Y - this.parentGameObject.Position.Y);
+                    if (enemyHat.GetComponent<AnimationManager>().defaultKey != "idle")
+                    {
+                        enemyHat.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
+                        enemyLeg.GetComponent<AnimationManager>().SetDefaultAnimation("idle");
+                    }
                 }
                 else
                 {
@@ -63,6 +73,11 @@ namespace Game.Components.Pawns.Enemies
                     else LookAtTarget(new Vector3(0f, 0f, -1500f), parentGameObject.Position);
                     GameServices.GetService<GameObject>().GetComponent<Player>().TimeEnergy = 0;
                     Movement();
+                    if (enemyHat.GetComponent<AnimationManager>().defaultKey != "walk")
+                    {
+                        enemyHat.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
+                        enemyLeg.GetComponent<AnimationManager>().SetDefaultAnimation("walk");
+                    }
                 }
             }
         }
