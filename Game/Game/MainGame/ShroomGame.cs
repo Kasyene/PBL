@@ -718,15 +718,15 @@ namespace PBLGame
             }
             spriteBatch.Begin();
             spriteBatch.DrawString(dialoguesFont, actualDialogueText[0],
-                new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 70f),
+                new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 80f),
                 Color.Snow, 0.0f, dialoguesFont.MeasureString(actualDialogueText[0]) / 2, 
                 graphics.GraphicsDevice.Viewport.Width / nativResolution.X, SpriteEffects.None, 0.5f);
             spriteBatch.DrawString(dialoguesFont, actualDialogueText[1],
-               new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 40f),
+               new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 50f),
                Color.Snow, 0.0f, dialoguesFont.MeasureString(actualDialogueText[1]) / 2, 
                graphics.GraphicsDevice.Viewport.Width / nativResolution.X, SpriteEffects.None, 0.5f);
             spriteBatch.DrawString(dialoguesFont, actualDialogueText[2],
-               new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 10f),
+               new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height - 20f),
                Color.Snow, 0.0f, dialoguesFont.MeasureString(actualDialogueText[2]) / 2, 
                graphics.GraphicsDevice.Viewport.Width / nativResolution.X, SpriteEffects.None, 0.5f);
             spriteBatch.End();
