@@ -118,9 +118,17 @@ namespace PBLGame.SceneGraph
 
         public void Scroll(float direction)
         {
-            if (PositionZ >= minZoom && PositionZ < maxZoom)
+            if (PositionZ >= minZoom && PositionZ <= maxZoom)
             {
                 PositionZ += direction * 2.0f;
+                if (PositionZ < minZoom)
+                {
+                    PositionZ = minZoom;
+                }
+                if (PositionZ > maxZoom)
+                {
+                    PositionZ = maxZoom;
+                }
             }
 
             if (PositionZ >= maxZoom)
