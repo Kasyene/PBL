@@ -150,7 +150,7 @@ namespace PBLGame
         public GameObject cameraCollision;
         public GameObject MusicGameObject;
 
-        private MusicManager musicManager => MusicGameObject.GetComponent<MusicManager>();
+        public MusicManager musicManager => MusicGameObject.GetComponent<MusicManager>();
 
         Effect outlineEffect;
         SpriteFont dialoguesFont;
@@ -294,11 +294,9 @@ namespace PBLGame
                 case GameState.Options:
                     break;
                 case GameState.LevelTutorial:
-                    if (bossFight || levelOneCompleted)
+                    if (bossFight)
                     {
-                        musicManager.StopSong();
-                        musicManager.PlaySong("fight");
-                        musicManager.IsRepeating = true;
+                        //moved to player class
                     }
                     else
                     {
