@@ -140,10 +140,10 @@ namespace PBLGame.Misc.Anim
                     audioComponent.PlaySound2D("attack4");
                     break;
                 case "spin":
-                    audioComponent.PlaySound2D("attack5");
+                    audioComponent.PlaySound2D("laughter");
                     break;
                 case "wbicie":
-                    audioComponent.PlaySound("attack4");
+                    audioComponent.PlaySound("attack5");
                     break;
                 case "baczek":
                     if (tempCount == 0)
