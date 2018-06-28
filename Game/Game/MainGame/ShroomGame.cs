@@ -186,7 +186,7 @@ namespace PBLGame
             GameServices.AddService<GraphicsDevice>(GraphicsDevice);
             GameServices.AddService<GraphicsDeviceManager>(graphics);
             GameServices.AddService<Resolution>(resolution);
-            resolution.SetFullscreen(false);
+            resolution.SetFullscreen(true);
             GameServices.AddService<ContentLoader>(new ContentLoader(this));
             GameServices.AddService<ShroomGame>(this);
         }
