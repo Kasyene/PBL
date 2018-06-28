@@ -808,6 +808,10 @@ namespace PBLGame.Misc
             enemy4.Position = new Vector3(200f, 40f, -1750f);
             GameObject enemy5 = LoadMeleeEnemy();
             enemy5.Position = new Vector3(400f, 40f, -1850f);
+
+
+            GameObject enemy6 = LoadMeleeEnemy();
+            enemy6.Position = new Vector3(600f, 40f, -1720f);
         }
 
         public void LoadTutorial()

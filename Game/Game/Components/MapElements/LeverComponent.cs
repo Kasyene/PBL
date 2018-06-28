@@ -40,7 +40,7 @@ namespace Game.Components.MapElements
                     playedSound = true;
                 }
 
-                parent.RotationZ += 6 * stepSize * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                parent.RotationZ += 8 * stepSize * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (parent.RotationZ > endRotation)
                 {
                     direction = false;
@@ -51,7 +51,7 @@ namespace Game.Components.MapElements
             {
                 if(parent.RotationZ >= startRotation)
                 {
-                    parent.RotationZ -= 6 * stepSize * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    parent.RotationZ -= 8 * stepSize * (float)gameTime.ElapsedGameTime.TotalSeconds;
                     if (!playedSound && !start)
                     {
                         audioComponent?.PlaySound("lever");
