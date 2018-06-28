@@ -21,7 +21,7 @@ namespace Game.Components.Pawns.Enemies
         private float spinAttackRange = 70f;
         private float jumpAttackRange = 110f;
         private float throwAttackRange = 150f;
-        private float throwAttackTooCloseRange = 90f;
+        private float throwAttackTooCloseRange = 70f;
         private Random r = new Random();
         private String lastAttackName = "";
         public BossEnemy(GameObject parent) : base(parent)
