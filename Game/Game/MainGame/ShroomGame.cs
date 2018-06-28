@@ -294,7 +294,7 @@ namespace PBLGame
                 case GameState.Options:
                     break;
                 case GameState.LevelTutorial:
-                    if (bossFight)
+                    if (bossFight || levelOneCompleted)
                     {
                         musicManager.StopSong();
                         musicManager.PlaySong("fight");
